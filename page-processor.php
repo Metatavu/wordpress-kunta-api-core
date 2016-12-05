@@ -41,6 +41,7 @@
         
         return $content;
       }
+
       public function processPageEditContent($content) {
         if ($GLOBALS['post']->post_type == 'page') {
           $localizedValues = \KuntaAPI\Core\QTranslateHelper::splitLocalizedString($content);
@@ -51,6 +52,9 @@
               foreach ($this->contentProcessors as $contentProccessor) {
                 $contentProccessor->process($lang, $dom, 'edit');
               }
+
+              $this->processAsides($dom);
+
               $processed[$lang] = $dom;
             } else {
               $processed[$lang] = $localizedContent;
@@ -59,6 +63,20 @@
           return \KuntaAPI\Core\QTranslateHelper::mergeLocalizedArray($processed);
         }
         return $content;
+      }
+      
+      private function processAsides($dom) {
+      	foreach ($dom->find('.kunta-api-aside') as $aside) {
+      	  $aside->class .= ' mceNonEditable';
+      	  $aside->contentEditable = 'false';
+      	  $aside->readonly = 'true';
+      	}
+      	
+      	foreach ($dom->find('.kunta-api-aside-contents') as $content) {
+      	  $content->class .= ' mceEditable';
+      	  $content->contentEditable = 'true';
+      	  $content->readonly = 'false';
+      	}
       }
       
     }
