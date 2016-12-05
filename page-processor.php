@@ -46,20 +46,27 @@
         if ($GLOBALS['post']->post_type == 'page') {
           $localizedValues = \KuntaAPI\Core\QTranslateHelper::splitLocalizedString($content);
           $processed = [];
+          $enabledLanguages = QTranslateHelper::getEnabledLanguages();
+          
           foreach ($localizedValues as $lang => $localizedContent) {
-            $dom = HtmlDomParser::str_get_html($localizedContent);
-            if($dom) {
-              foreach ($this->contentProcessors as $contentProccessor) {
-                $contentProccessor->process($lang, $dom, 'edit');
+          	if (in_array($lang, $enabledLanguages)) {
+              $dom = HtmlDomParser::str_get_html($localizedContent);
+              if($dom) {
+                foreach ($this->contentProcessors as $contentProccessor) {
+                  $contentProccessor->process($lang, $dom, 'edit');
+                }
+
+                $this->processAsides($dom);
+
+                $processed[$lang] = $dom;
+              } else {
+                $processed[$lang] = $localizedContent;
               }
-
-              $this->processAsides($dom);
-
-              $processed[$lang] = $dom;
-            } else {
+          	} else {
               $processed[$lang] = $localizedContent;
-            }
+          	}
           }
+
           return \KuntaAPI\Core\QTranslateHelper::mergeLocalizedArray($processed);
         }
         return $content;
