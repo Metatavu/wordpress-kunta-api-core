@@ -1,5 +1,5 @@
 {
-	"name" : "otavanopisto/wordpress-kunta-api-core",
+	"name" : "Metatavu/wordpress-kunta-api-core",
 	"description" : "Wordpress plugin core functionalities for Kunta API integrations",
 	"keywords" : [
 		"wordpress",
@@ -15,7 +15,7 @@
 	},
 	"repositories" : [{
 			"type" : "git",
-			"url" : "https://github.com/otavanopisto/kunta-api-php-client.git"
+			"url" : "https://github.com/Metatavu/kunta-api-php-client.git"
 		}
 	]
 }
