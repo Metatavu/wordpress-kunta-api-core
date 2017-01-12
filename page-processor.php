@@ -32,7 +32,7 @@
           $dom = HtmlDomParser::str_get_html($content);
           if($dom) {
             foreach ($this->contentProcessors as $contentProccessor) {
-              $contentProccessor->process(\KuntaAPI\Core\QTranslateHelper::getCurrentLanguage(), $dom, 'view');
+              $contentProccessor->process(\KuntaAPI\Core\LocaleHelper::getCurrentLanguage(), $dom, 'view');
             }
             
             return $dom;
@@ -71,7 +71,7 @@
       }
       
       private function processContent($content) {
-        $lang = \KuntaAPI\Core\QTranslateHelper::getCurrentLanguage();
+        $lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
         $dom = HtmlDomParser::str_get_html($content);
         
         if ($dom) {
