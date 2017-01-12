@@ -11,8 +11,9 @@
   if (!class_exists( 'KuntaAPI\Core\AbstractContentProcessor' ) ) {
     
     abstract class AbstractContentProcessor {
-      abstract public function process($lang, $dom, $mode);
+      abstract public function process($dom, $mode);
     }
+    
   }
   
 ?>
