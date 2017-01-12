@@ -15,12 +15,16 @@
   	public static function getCurrentLanguage() {
   	  return "fi";
   	}
+
+  	public static function getEnabledLanguages(){
+  		return ["fi"];
+  	}
     
     public static function getDefaultValue($localizedValues) {
       foreach ($localizedValues as $localizedValue) {
     	$language = $localizedValue->getLanguage();
     	$value = $localizedValue->getValue();
-    	if (this::getCurrentLanguage() == $language) {
+    	if (self::getCurrentLanguage() == $language) {
     	  return $value;
     	}
       }

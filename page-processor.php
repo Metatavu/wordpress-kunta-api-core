@@ -32,7 +32,7 @@
           $dom = HtmlDomParser::str_get_html($content);
           if($dom) {
             foreach ($this->contentProcessors as $contentProccessor) {
-              $contentProccessor->process(\KuntaAPI\Core\LocaleHelper::getCurrentLanguage(), $dom, 'view');
+              $contentProccessor->process($dom, 'view');
             }
             
             return $dom;
@@ -44,39 +44,18 @@
 
       public function processPageEditContent($content) {
         if ($GLOBALS['post']->post_type == 'page') {
-          $localizedContents = \KuntaAPI\Core\QTranslateHelper::splitLocalizedString($content);
-          if (count($localizedContents) > 0) {
-            return $this->processLocalizedContents($localizedContents);
-          } else {
-            return $this->processContent($content);
-          }
+          return $this->processContent($content);
         }
         
         return $content;
       }
       
-      private function processLocalizedContents($localizedContents) {
-        $processed = [];
-        $enabledLanguages = QTranslateHelper::getEnabledLanguages();
-        
-        foreach ($localizedContents as $lang => $localizedContent) {
-          if (in_array($lang, $enabledLanguages)) {
-            $processed[$lang] = $this->processContent($localizedContent);
-          } else {
-            $processed[$lang] = $localizedContent;
-          }
-        }
-        
-        return \KuntaAPI\Core\QTranslateHelper::mergeLocalizedArray($processed);
-      }
-      
       private function processContent($content) {
-        $lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
         $dom = HtmlDomParser::str_get_html($content);
         
         if ($dom) {
           foreach ($this->contentProcessors as $contentProccessor) {
-            $contentProccessor->process($lang, $dom, 'edit');
+            $contentProccessor->process($dom, 'edit');
           }
         
           $this->processAsides($dom);
