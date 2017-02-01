@@ -1,7 +1,7 @@
 <?php
   namespace KuntaAPI\Core;
   
-  require_once( __DIR__ . '/vendor/autoload.php');
+  require_once( __DIR__ . '/../vendor/autoload.php');
     
   if (!defined('ABSPATH')) { 
     exit;

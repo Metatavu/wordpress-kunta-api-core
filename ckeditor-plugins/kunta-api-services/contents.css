@@ -1,0 +1,11 @@
+article[data-type] {
+  opacity: 0.5;
+  cursor: default;
+  color: red;
+  background: rgba(255, 200, 200, 0.1);
+}
+
+article[data-type]:hover {
+  opacity: 0.75;
+  background: #fee;
+}}
