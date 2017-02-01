@@ -101,12 +101,12 @@
       
       private function updateServiceLocationChannel($parentPageId, $serviceId, $serviceLocationChannel) {
       	$serviceLocationChannelId = $serviceLocationChannel->getId();
-      	$defaultPageId = $this->mapper->getLocationChannelPageId($serviceLocationChannelId);
+      	$defaultPageId = $this->mapper->getLocationChannelPageId($serviceId, $serviceLocationChannelId);
       	if (!$defaultPageId) {
       	  $title = \KuntaAPI\Core\LocaleHelper::getDefaultValue($serviceLocationChannel->getNames());
       	  $content = $this->renderServiceLocationChannelPage(\KuntaAPI\Core\LocaleHelper::getCurrentLanguage(), $serviceId, $serviceLocationChannel);
       	  $pageId = $this->createPage($parentPageId, $title, $content);
-      	  $this->mapper->setLocationChannelPageId($serviceLocationChannelId, $pageId);
+      	  $this->mapper->setLocationChannelPageId($serviceId, $serviceLocationChannelId, $pageId);
       	}
       }
       

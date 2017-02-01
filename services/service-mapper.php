@@ -22,19 +22,24 @@
       	$this->setServiceOptionValue($mapping);
       }
       
-      public function getLocationChannelPageId($locationChannelId) {
+      public function getLocationChannelPageId($serviceId, $locationChannelId) {
       	$mapping = $this->getLocationChannelMapping();
-      	return $mapping[$locationChannelId];
+      	return $mapping["$serviceId|$locationChannelId"];
       }
       
-      public function setLocationChannelPageId($locationChannelId, $pageId) {
+      public function setLocationChannelPageId($serviceId, $locationChannelId, $pageId) {
       	$mapping = $this->getLocationChannelMapping();
-      	$mapping[$locationChannelId] = $pageId;
+      	$mapping["$serviceId|$locationChannelId"] = $pageId;
       	$this->setLocationChannelOptionValue($mapping);
       }
       
-      private function getServiceMapping() {
+      public function getServiceMapping() {
       	$value = $this->getServiceOptionValue();
+      	return empty($value) ? [] : $value;
+      }
+
+      public function getLocationChannelMapping() {
+      	$value = $this->getLocationChannelOptionValue();
       	return empty($value) ? [] : $value;
       }
       
@@ -44,11 +49,6 @@
       
       private function setServiceOptionValue($value) {
       	update_option('kunta-api-service-pages', $value);
-      }
-
-      private function getLocationChannelMapping() {
-      	$value = $this->getLocationChannelOptionValue();
-      	return empty($value) ? [] : $value;
       }
       
       private function getLocationChannelOptionValue() {
