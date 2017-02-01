@@ -15,7 +15,8 @@
   class CoreSettings {
     
     public static function getSettings() {
-      return array(
+      global $kuntaApiSettings;
+      $kuntaApiSettings = array(
         array(
           "type" => "url",
           "name" => "apiUrl",
@@ -47,6 +48,10 @@
           "title" => __('Organization identifier', KUNTA_API_CORE_I18N_DOMAIN)
         )
       );
+      
+      do_action('kunta_api_core_settings');
+      
+      return $kuntaApiSettings;
     }
 
     public static function getSetting($name) {
