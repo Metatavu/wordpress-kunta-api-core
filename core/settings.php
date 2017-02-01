@@ -115,7 +115,7 @@
       }
       
       echo '<div class="wrap">';
-      echo "<h2>" . __( "Email Media Import Settings", KUNTA_API_CORE_I18N_DOMAIN) . "</h2>";
+      echo "<h2>" . __( "Kunta API", KUNTA_API_CORE_I18N_DOMAIN) . "</h2>";
       echo '<form action="options.php" method="POST">';
       settings_fields(KUNTA_API_CORE_SETTINGS_GROUP);
       do_settings_sections(KUNTA_API_CORE_SETTINGS_PAGE);
