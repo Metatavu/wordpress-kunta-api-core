@@ -3,8 +3,8 @@
  * Created on Oct 21, 2016
  * Plugin Name: Kunta API Core
  * Description: Core functionalities for Kunta API integrations
- * Version: 0.2.0
- * Author: Antti Leppä / Metatavo Oy
+ * Version: 0.3.0
+ * Author: Antti Leppä / Metatavu Oy
  */
 
 defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
