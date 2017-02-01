@@ -48,8 +48,8 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
       return $this->dayMap[$text];
     }
     
-    public function serviceLocationPathFilter($text) {
-      $pageId = $this->mapper->getLocationChannelPageId($text);
+    public function serviceLocationPathFilter($serviceLocationChannelId, $serviceId) {
+      $pageId = $this->mapper->getLocationChannelPageId($serviceId, $serviceLocationChannelId);
       if (empty(!$pageId)) {
         return '/' . get_page_uri($pageId);
       }

@@ -48,7 +48,7 @@
           "title" => __('Organization identifier', KUNTA_API_CORE_I18N_DOMAIN)
         )
       );
-      
+
       do_action('kunta_api_core_settings');
       
       return $kuntaApiSettings;
@@ -111,11 +111,14 @@
     
     public function settingsPage() {
       if (!current_user_can('manage_options')) {
-      wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+        wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
       }
       
+      global $kuntaApiTools;
+      $kuntaApiTools = [];
+      
       echo '<div class="wrap">';
-      echo "<h2>" . __( "Email Media Import Settings", KUNTA_API_CORE_I18N_DOMAIN) . "</h2>";
+      echo "<h2>" . __( "Kunta API", KUNTA_API_CORE_I18N_DOMAIN) . "</h2>";
       echo '<form action="options.php" method="POST">';
       settings_fields(KUNTA_API_CORE_SETTINGS_GROUP);
       do_settings_sections(KUNTA_API_CORE_SETTINGS_PAGE);
@@ -123,8 +126,42 @@
       submit_button();
       echo "</form>";
       echo "</div>";
+      
+      echo '<div class="wrap">';
+      echo "<h2>" . __( "Tools", KUNTA_API_CORE_I18N_DOMAIN) . "</h2>";
+     
+      do_action('kunta_api_core_tools');
+      
+      foreach ($kuntaApiTools as $kuntaApiTool) {
+      	$name = $kuntaApiTool['name'];
+      	$title = $kuntaApiTool['title'];
+      	echo "<p><form action='admin-post.php' method='POST'>";
+      	echo "<input name='action' type='hidden' value='kunta_api_tool_action'>";
+      	echo "<input name='kunta_api_tool_action' type='hidden' value='$name'>";
+      	echo "<input id='submit' class='button button-primary' name='submit' value='$title' type='submit'>";
+      	echo "</form></p>";
+      }
+      
+      echo "</div>";
     }
   }
+  
+  add_action('admin_post_kunta_api_tool_action', function () {
+  	global $kuntaApiTools;
+  	
+  	do_action('kunta_api_core_tools');
+  	
+  	$toolName = $_POST['kunta_api_tool_action'];
+  	
+  	foreach ($kuntaApiTools as $kuntaApiTool) {
+  	  $name = $kuntaApiTool['name'];
+  	  if ($toolName == $name) {
+  	  	$kuntaApiTool['action']();
+  	  	wp_redirect(admin_url('options-general.php?page=kunta_api_core_settings'));
+  	  	break;
+  	  }
+  	}
+  });
   
   if (is_admin()) {
     $coreSettingsUI = new CoreSettingsUI();
