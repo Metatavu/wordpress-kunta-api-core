@@ -3,7 +3,7 @@
  * Created on Oct 21, 2016
  * Plugin Name: Kunta API Core
  * Description: Core functionalities for Kunta API integrations
- * Version: 0.3.0
+ * Version: 0.3.1
  * Author: Antti Leppä / Metatavu Oy
  */
 
@@ -25,5 +25,6 @@ require_once( __DIR__ . '/announcements/kunta-api-announcements.php');
 require_once( __DIR__ . '/tiles/kunta-api-tiles.php');
 require_once( __DIR__ . '/menus/kunta-api-menus.php');
 require_once( __DIR__ . '/banners/kunta-api-banners.php');
+require_once( __DIR__ . '/pages/pages.php');
 
 ?>
