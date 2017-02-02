@@ -3,7 +3,7 @@ namespace KuntaAPI\Menus\Rest;
 
 defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
 
-if (!class_exists( 'KuntaAPI\Menus\Rest\Menuss' ) ) {
+if (!class_exists( 'KuntaAPI\Menus\Rest\Menus' ) ) {
  
   class Menus {
     private $namespace;
