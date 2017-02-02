@@ -2,6 +2,7 @@
   namespace KuntaAPI\Pages;
   
   require_once( __DIR__ . '/../vendor/autoload.php');
+  require_once( __DIR__ . '/page-banner-image-loader.php');
     
   if (!defined('ABSPATH')) { 
     exit;
@@ -13,6 +14,7 @@
        
       public function __construct() {
       	wp_enqueue_script('page-banner-image', plugin_dir_url(__FILE__) . 'page-banner-image-widget.js');
+      	wp_enqueue_style('page-banner-image', plugin_dir_url(__FILE__) . 'page-banner-image-widget.css');
       	add_action('add_meta_boxes', [$this, 'addMetaBoxes']);
       	add_action('save_post', [$this, 'save'], 10, 1 );
       }
@@ -28,22 +30,30 @@
       	add_meta_box('kunta_api_banner_image', __( 'Banner Image', KUNTA_API_CORE_I18N_DOMAIN ), [$this, 'renderMetaBox'], 'page', 'side', 'low');
       }
       
-      public function renderMetaBox($post) {
-      	$imageId = get_post_meta( $post->ID, 'kunta_api_banner_image', true);
-      	$hasImage = $imageId && get_post($imageId);
-      	$content = $this->renderMetaBoxImage($hasImage, $imageId);
-      	$content .= $this->renderRemoveLink($hasImage);
-      	$content .= $this->renderSetLink($hasImage);
-      	$content .= $this->renderInput($hasImage, $imageId);
+      public function renderMetaBox($page) {
+      	$imageId = BannerImageLoader::getPageBannerImageId($page->ID);
+      	$parentImageId = BannerImageLoader::getParentBannerImageId($page->ID);
+      	
+      	$content = $this->renderMetaBoxImage($imageId);
+      	$content .= $this->renderParentMetaBoxImage($imageId, $parentImageId);
+      	$content .= $this->renderRemoveLink(!!$imageId);
+      	$content .= $this->renderSetLink(!!$imageId);
+      	$content .= $this->renderInput(!!$imageId, $imageId);
+      	
       	echo $content;
       }
       
-      private function renderMetaBoxImage($hasImage, $imageId) {
-      	if ($hasImage) {
-      	  return wp_get_attachment_image($imageId); 
+      private function renderMetaBoxImage($imageId) {
+      	$img = !!$imageId ? wp_get_attachment_image($imageId) : '<img style="max-width: 150px; border:0;display:none;" />';
+      	return sprintf('<div id="kunta_api_banner_container">%s</div>', $img);
+      }
+      
+      private function renderParentMetaBoxImage($imageId, $parentImageId) {
+      	if (!!$parentImageId) {
+      	  return sprintf('<div style="%s" id="kunta_api_parent_banner_container">%s</div>', !!$imageId ? 'display:none' : '', wp_get_attachment_image($parentImageId));
       	}
-      	
-      	return '<img style="max-width: 150px; border:0;display:none;" />';
+      	 
+      	return '';
       }
       
       private function renderRemoveLink($hasImage) {

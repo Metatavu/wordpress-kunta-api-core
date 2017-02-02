@@ -14,9 +14,14 @@
         window._fileFrame.on( 'select', function() {
           var attachment = window._fileFrame.state().get('selection').first().toJSON();
           $('#upload_kunta_api_banner').val(attachment.id);
-          $('#kunta_api_banner_image img').attr('src', attachment.url).show();
           $('#remove_kunta_api_banner').show();
           $('#set_kunta_api_banner').hide();
+          $('#kunta_api_parent_banner_container').hide();
+          $('#kunta_api_banner_container img').show();
+          $('#kunta_api_banner_container img').attr({
+            'src': attachment.url,
+            'srcset': attachment.url
+          });
         });
       }
       
@@ -26,9 +31,10 @@
     $('#kunta_api_banner_image').on( 'click', '#remove_kunta_api_banner', function(event) {
       event.preventDefault();
       $('#upload_kunta_api_banner').val('');
-      $('#kunta_api_banner_image img').hide();
-      $('#remove_kunta_api_banner').hide();
+      $('#kunta_api_banner_container img').hide();
       $('#set_kunta_api_banner').show();
+      $('#remove_kunta_api_banner').hide();
+      $('#kunta_api_parent_banner_container').show();
     });
     
   });
