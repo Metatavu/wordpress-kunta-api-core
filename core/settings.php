@@ -152,12 +152,19 @@
   	do_action('kunta_api_core_tools');
   	
   	$toolName = $_POST['kunta_api_tool_action'];
-  	
+  	if (empty($toolName)) {
+  	  $toolName = $_GET['kunta_api_tool_action'];
+  	}
+  	 
   	foreach ($kuntaApiTools as $kuntaApiTool) {
   	  $name = $kuntaApiTool['name'];
   	  if ($toolName == $name) {
-  	  	$kuntaApiTool['action']();
-  	  	wp_redirect(admin_url('options-general.php?page=kunta_api_core_settings'));
+  	  	$redirect = $kuntaApiTool['action']();
+  	  	if (empty($redirect)) {
+  	  	  $redirect = admin_url('options-general.php?page=kunta_api_core_settings');
+  	  	}
+  	  	
+  	  	wp_redirect($redirect);
   	  	break;
   	  }
   	}
