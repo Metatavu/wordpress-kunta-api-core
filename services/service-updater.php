@@ -14,17 +14,23 @@
       
       private $renderer;
       private $mapper;
+      private $serviceTrashBatch = 10;
       
       public function __construct() {
       	$this->renderer = new \KuntaAPI\Services\PageRenderer();
       	$this->mapper = new \KuntaAPI\Services\Mapper();
       	
       	add_action('kunta_api_service_updater_poll', array($this, 'poll'));
+      	add_action('kunta_api_check_removed_services', array($this, 'checkRemovedServices'));
       }
       
       public function startPolling() {
       	if (! wp_next_scheduled ( 'kunta_api_service_updater_poll' )) {
           wp_schedule_event(time(), 'Minutely', 'kunta_api_service_updater_poll');
+        }
+        
+        if (! wp_next_scheduled ( 'kunta_api_check_removed_services' )) {
+        	wp_schedule_event(time(), 'Minutely', 'kunta_api_check_removed_services');
         }
       }
       
@@ -53,6 +59,39 @@
         }
         
         update_option('kunta-api-sync-offset', $offset);
+      }
+      
+      public function checkRemovedServices() {
+        $offset = get_option('kunta-api-service-trash-offset');
+      	if (empty($offset)) {
+          $offset = 0;
+        }
+        
+        error_log("Checking removed services from $offset");
+        
+        $serviceMapping = array_slice($this->mapper->getServiceMapping(), $offset, $this->serviceTrashBatch, true);
+        
+        foreach ($serviceMapping as $serviceId => $pageId) {
+          error_log("Checking $serviceId");
+        	
+          try {
+            \KuntaAPI\Core\Api::getServicesApi()->findService($serviceId);
+          } catch (\KuntaAPI\ApiException $e) {
+          	if ($e->getCode() == 404) {
+          	  wp_trash_post($pageId);
+      	      $this->mapper->setServicePageId($serviceId, $pageId);
+      	      error_log("Service $serviceId has been removed, trashed associated page $pageId");
+      	    }
+          }
+        }
+        
+        if(count($serviceMapping) == 0) {
+          $offset = 0;
+        } else {
+          $offset += $this->serviceTrashBatch;
+        }
+        
+        update_option('kunta-api-service-trash-offset', $offset);
       }
       
       private function resolveLocationChannelParentPageId($path) {
