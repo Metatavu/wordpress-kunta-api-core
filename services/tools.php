@@ -14,7 +14,15 @@
  	    $mapper = new \KuntaAPI\Services\Mapper();
  	    $renderer = new \KuntaAPI\Services\PageRenderer();
  	    $lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
- 	    $serviceMapping = $mapper->getServiceMapping();
+
+ 	    $batchSize = 5;
+ 	    $offset = $_GET['offset'];
+ 	    if (empty($offset)) {
+ 	      $offset = 0;
+ 	    }
+ 	    
+ 	    error_log("Regenerating service pages from $offset");
+ 	    $serviceMapping = array_slice($mapper->getServiceMapping(), $offset, $batchSize, true);
  	    
  	    foreach ($serviceMapping as $serviceId => $pageId) {
  	      $service = \KuntaAPI\Services\Loader::findService($serviceId);
@@ -36,6 +44,12 @@
  	  		}
  	      }
  	    }
+
+ 	    if (count($serviceMapping) == 0) {
+ 	      return null;
+ 	    } else {
+ 	      return sprintf("admin-post.php?action=kunta_api_tool_action&kunta_api_tool_action=kunta_api_regenerate_service_pages&offset=%d", $offset + $batchSize);
+ 	    }
  	  }
     ];
  	
@@ -46,8 +60,16 @@
         $mapper = new \KuntaAPI\Services\Mapper();
  	    $renderer = new \KuntaAPI\Services\PageRenderer();
  	    $lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
- 	    $serviceLocationMapping = $mapper->getLocationChannelMapping();
- 	  
+ 	    
+ 	    $batchSize = 5;
+ 	    $offset = $_GET['offset'];
+ 	    if (empty($offset)) {
+ 	      $offset = 0;
+ 	    }
+ 	    
+ 	    error_log("Regenerating service location pages from $offset");
+ 	    $serviceLocationMapping = array_slice($mapper->getLocationChannelMapping(), $offset, $batchSize, true);
+ 	    
  	    foreach ($serviceLocationMapping as $id => $pageId) {
  	      $idParts = explode('|', $id);
  	      $serviceId = $idParts[0];
@@ -71,6 +93,12 @@
  	  		  error_log("Service location channel $serviceId / $serviceLocationId page $pageId regeneration failed");
  	  		}
  	  	  }
+ 	    }
+
+ 	    if (count($serviceLocationMapping) == 0) {
+ 	      return null;
+ 	    } else {
+ 	      return sprintf("admin-post.php?action=kunta_api_tool_action&kunta_api_tool_action=kunta_api_regenerate_service_location_pages&offset=%d", $offset + $batchSize);
  	    }
       }
  	];
