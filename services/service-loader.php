@@ -34,7 +34,10 @@
         }
         $services = [];
         foreach ($serviceList as $id) {
-          $services[] = static::findService($id);
+          $service = static::findService($id);
+          if (isset($service)) {
+            $services[] = $service;
+          }
         }
         return $services;
       }
