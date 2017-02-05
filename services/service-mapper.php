@@ -18,7 +18,12 @@
       
       public function setServicePageId($serviceId, $pageId) {
       	$mapping = $this->getServiceMapping();
-      	$mapping[$serviceId] = $pageId;
+      	if ($pageId) {
+      	  $mapping[$serviceId] = $pageId;
+        } else {
+          unset($mapping[$serviceId]);
+        }
+      	
       	$this->setServiceOptionValue($mapping);
       }
       
@@ -29,7 +34,13 @@
       
       public function setLocationChannelPageId($serviceId, $locationChannelId, $pageId) {
       	$mapping = $this->getLocationChannelMapping();
-      	$mapping["$serviceId|$locationChannelId"] = $pageId;
+      	$key = "$serviceId|$locationChannelId";
+      	if ($pageId) {
+          $mapping[$key] = $pageId;
+      	} else {
+      	  unset($mapping[$key]);
+      	}
+      	
       	$this->setLocationChannelOptionValue($mapping);
       }
       
