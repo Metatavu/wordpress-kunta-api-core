@@ -124,7 +124,7 @@
           } catch (\KuntaAPI\ApiException $e) {
           	if ($e->getCode() == 404) {
           	  wp_trash_post($pageId);
-      	      $this->mapper->setLocationChannelPageId($serviceId, null);
+      	      $this->mapper->setLocationChannelPageId($serviceId, $serviceLocationId, null);
       	      error_log("Service location $serviceId / $serviceLocationId has been removed, trashed associated page $pageId");
       	    }
           }
