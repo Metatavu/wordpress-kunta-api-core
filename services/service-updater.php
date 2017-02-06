@@ -77,7 +77,7 @@
         
         error_log("Checking removed services from $offset");
         
-        $serviceMapping = array_slice($this->mapper->getServiceMapping(), $offset, $this->serviceTrashBatch, true);
+        $serviceMapping = array_slice($this->mapper->getServicePageMapping(), $offset, $this->serviceTrashBatch, true);
         
         foreach ($serviceMapping as $serviceId => $pageId) {
           error_log("Checking service $serviceId");
@@ -110,23 +110,25 @@
         
         error_log("Checking removed service locations from $offset");
         
-        $serviceLocationMapping = array_slice($this->mapper->getLocationChannelMapping(), $offset, $this->serviceLocationTrashBatch, true);
+        $serviceLocationMapping = array_slice($this->mapper->getLocationChannelPageMapping(), $offset, $this->serviceLocationTrashBatch, true);
         
-        foreach ($serviceLocationMapping as $id => $pageId) {
-          $idParts = explode('|', $id);
-          $serviceId = $idParts[0];
-          $serviceLocationId = $idParts[1];
-        	
-          error_log("Checking service location $serviceId / $serviceLocationId");
-        	
-          try {
-            \KuntaAPI\Core\Api::getServicesApi()->findServiceServiceLocationChannel($serviceId, $serviceLocationId);
-          } catch (\KuntaAPI\ApiException $e) {
-          	if ($e->getCode() == 404) {
-          	  wp_trash_post($pageId);
-      	      $this->mapper->setLocationChannelPageId($serviceId, $serviceLocationId, null);
-      	      error_log("Service location $serviceId / $serviceLocationId has been removed, trashed associated page $pageId");
-      	    }
+        foreach ($serviceLocationMapping as $serviceLocationId => $pageId) {
+          $serviceIds = $this->mapper->getLocationChannelServiceIds($serviceLocationId);
+          foreach ($serviceIds as $serviceId) {
+            error_log("Checking service location $serviceId / $serviceLocationId");
+            try {
+              \KuntaAPI\Core\Api::getServicesApi()->findServiceServiceLocationChannel($serviceId, $serviceLocationId);
+            } catch (\KuntaAPI\ApiException $e) {
+          	  if ($e->getCode() == 404) {
+          	  	$this->mapper->removeLocationChannelServiceId($serviceLocationId, $serviceId);
+          	  	if (count($this->mapper->getLocationChannelServiceIds()) == 0) {
+          	  	  wp_trash_post($pageId);
+          	  	  $this->mapper->setLocationChannelPageId($serviceId, $serviceLocationId, null);
+          	  	  error_log("Service location $serviceId / $serviceLocationId has been removed, trashed associated page $pageId");
+          	  	}
+          	  	
+      	      }
+            }          	
           }
         }
         
@@ -187,12 +189,14 @@
       
       private function updateServiceLocationChannel($parentPageId, $serviceId, $serviceLocationChannel) {
       	$serviceLocationChannelId = $serviceLocationChannel->getId();
-      	$defaultPageId = $this->mapper->getLocationChannelPageId($serviceId, $serviceLocationChannelId);
+      	$defaultPageId = $this->mapper->getLocationChannelPageId($serviceLocationChannelId);
+      	$this->mapper->addLocationChannelServiceId($serviceLocationChannelId, $serviceId);
+      	
       	if (!$defaultPageId) {
       	  $title = \KuntaAPI\Core\LocaleHelper::getDefaultValue($serviceLocationChannel->getNames());
       	  $content = $this->renderServiceLocationChannelPage(\KuntaAPI\Core\LocaleHelper::getCurrentLanguage(), $serviceId, $serviceLocationChannel);
       	  $pageId = $this->createPage($parentPageId, $title, $content);
-      	  $this->mapper->setLocationChannelPageId($serviceId, $serviceLocationChannelId, $pageId);
+      	  $this->mapper->setLocationChannelPageId($serviceLocationChannelId, $pageId);
       	}
       }
       
