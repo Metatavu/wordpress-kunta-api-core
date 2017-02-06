@@ -22,7 +22,7 @@
  	    }
  	    
  	    error_log("Regenerating service pages from $offset");
- 	    $serviceMapping = array_slice($mapper->getServiceMapping(), $offset, $batchSize, true);
+ 	    $serviceMapping = array_slice($mapper->getServicePageMapping(), $offset, $batchSize, true);
  	    
  	    foreach ($serviceMapping as $serviceId => $pageId) {
  	      $service = \KuntaAPI\Services\Loader::findService($serviceId);
@@ -68,13 +68,10 @@
  	    }
  	    
  	    error_log("Regenerating service location pages from $offset");
- 	    $serviceLocationMapping = array_slice($mapper->getLocationChannelMapping(), $offset, $batchSize, true);
+ 	    $serviceLocationMapping = array_slice($mapper->getLocationChannelPageMapping(), $offset, $batchSize, true);
  	    
- 	    foreach ($serviceLocationMapping as $id => $pageId) {
- 	      $idParts = explode('|', $id);
- 	      $serviceId = $idParts[0];
- 	      $serviceLocationId = $idParts[1];
- 	      
+ 	    foreach ($serviceLocationMapping as $serviceLocationId => $pageId) {
+ 	      $serviceId = $this->mapper->getLocationChannnelServiceId($serviceLocationId);
  	      $serviceLocationChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceId, $serviceLocationId);
  	  	  if (!isset($serviceLocationChannel)) {
  	  		error_log("Service $serviceId location $serviceLocationId from page $pageId could not be loaded");
