@@ -71,7 +71,7 @@
  	    $serviceLocationMapping = array_slice($mapper->getLocationChannelPageMapping(), $offset, $batchSize, true);
  	    
  	    foreach ($serviceLocationMapping as $serviceLocationId => $pageId) {
- 	      $serviceId = $this->mapper->getLocationChannnelServiceId($serviceLocationId);
+ 	      $serviceId = $mapper->getLocationChannnelServiceId($serviceLocationId);
  	      $serviceLocationChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceId, $serviceLocationId);
  	  	  if (!isset($serviceLocationChannel)) {
  	  		error_log("Service $serviceId location $serviceLocationId from page $pageId could not be loaded");
