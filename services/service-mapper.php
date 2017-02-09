@@ -76,10 +76,10 @@
       	$mapping = $this->getLocationChannelServiceMapping();
       	
       	if (isset($mapping[$locationChannelId])) {
-  		  $mapping[$locationChannelId] = array_diff($mapping[$locationChannelId], [$serviceId]);
+  		    $mapping[$locationChannelId] = array_diff($mapping[$locationChannelId], [$serviceId]);
       	}
       	 
-      	$this->setLocationChannelPagesOptionValue($mapping);
+      	$this->setLocationChannelServicesOptionValue($mapping);
       }
       
       public function getServicePageMapping() {
