@@ -15,12 +15,7 @@
         register_rest_route('kunta-api', '/pagemappings', array(
           array(
               'methods'  => \WP_REST_Server::READABLE,
-              'callback' => array($this, 'getPageMappings'),
-              'args' => array(
-                  'slug' => array(
-                      'default' => null
-                  ),
-              ),
+              'callback' => array($this, 'getPageMappings')
           ),
           'schema' => array($this, 'getPageMappingSchema')
         ));
