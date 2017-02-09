@@ -26,5 +26,6 @@ require_once( __DIR__ . '/tiles/kunta-api-tiles.php');
 require_once( __DIR__ . '/menus/kunta-api-menus.php');
 require_once( __DIR__ . '/banners/banners.php');
 require_once( __DIR__ . '/pages/pages.php');
+require_once( __DIR__ . '/id-mappings/pages/page-mappings-rest.php');
 
 ?>
