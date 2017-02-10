@@ -22,7 +22,12 @@
       }
       
       public function getPageMappings() {
-        return get_option('kunta-api-id-mappings-pages');
+      	$option = get_option('kunta-api-id-mappings-pages');
+      	if (empty($option)) {
+      	  return null;	
+      	}
+      	
+        return json_decode($option);
       }
 
       public function getPageMappingSchema() {
