@@ -1,6 +1,4 @@
 /.settings/
 /.buildpath
 /.project
-/vendor/
-/composer.lock
 /.DS_Store
