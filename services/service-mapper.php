@@ -46,7 +46,8 @@
       
       public function getLocationChannelServiceIds($locationChannelId) {
       	$mapping = $this->getLocationChannelServiceMapping();
-      	return $mapping[$locationChannelId];
+      	$result = $mapping[$locationChannelId];
+      	return empty($result) ? [] : $result;
       }
       
       public function getLocationChannnelServiceId($locationChannelId) {
