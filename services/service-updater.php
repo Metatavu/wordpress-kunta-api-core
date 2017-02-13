@@ -121,7 +121,7 @@
             } catch (\KuntaAPI\ApiException $e) {
           	  if ($e->getCode() == 404) {
           	  	$this->mapper->removeLocationChannelServiceId($serviceLocationId, $serviceId);
-          	  	if (count($this->mapper->getLocationChannelServiceIds()) == 0) {
+          	  	if (count($this->mapper->getLocationChannelServiceIds($serviceLocationId)) == 0) {
           	  	  wp_trash_post($pageId);
           	  	  $this->mapper->setLocationChannelPageId($serviceId, $serviceLocationId, null);
           	  	  error_log("Service location $serviceId / $serviceLocationId has been removed, trashed associated page $pageId");
