@@ -28,7 +28,8 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
       return [
         new \Twig_SimpleFilter('localizedValue', array($this, 'localizedValueFilter')),
         new \Twig_SimpleFilter('shortDay', array($this, 'shortDayFilter')),
-        new \Twig_SimpleFilter('serviceLocationPath', array($this, 'serviceLocationPathFilter'))
+        new \Twig_SimpleFilter('serviceLocationPath', array($this, 'serviceLocationPathFilter')),
+        new \Twig_SimpleFilter('pagePath', array($this, 'pagePathFilter'))
       ];
     }
       
@@ -55,6 +56,26 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
       }
       
       return 'about:blank';
+    }
+    
+    public function pagePathFilter($page) {
+      $path = [];
+      
+      $currentPage = $page;
+      
+      while (true) {
+        if (empty($currentPage['parentId'])) {
+          break;
+        }
+        
+        $currentPage = \KuntaAPI\Pages\Loader::findOrganizationPage($currentPage['parentId']);
+        array_unshift($path, $currentPage['slug']);
+      }
+      
+      array_unshift($path, '');
+      $path[] = $page['slug'];
+        
+      return implode("/", $path);
     }
     
   }
