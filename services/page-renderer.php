@@ -4,7 +4,7 @@
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
   require_once( __DIR__ . '/../vendor/autoload.php');
-  require_once( __DIR__ . '/twig-extension.php');
+  require_once( __DIR__ . '/../core/twig-extension.php');
   
   if (!class_exists( 'KuntaAPI\Services\PageRenderer' ) ) {
     class PageRenderer {
