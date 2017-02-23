@@ -62,14 +62,17 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
       $path = [];
       
       $currentPage = $page;
+      $i = 0;
       
-      while (true) {
+      while ($i < 25) {
         if (empty($currentPage['parentId'])) {
           break;
         }
         
         $currentPage = \KuntaAPI\Pages\Loader::findOrganizationPage($currentPage['parentId']);
         array_unshift($path, $currentPage['slug']);
+        
+        $i++;
       }
       
       array_unshift($path, '');
