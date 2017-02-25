@@ -33,11 +33,19 @@
             $article->removeAttribute('data-type');
             $article->removeAttribute('data-component');
             $article->removeAttribute('data-lang');
+            $article->removeAttribute('data-sort-by');
+       	    $article->removeAttribute('data-sort-dir');
           }
           
           $childPages = \KuntaAPI\Pages\Loader::listOrganizationChildPages($pageId);
-          if (isset($childPages)) {          
-            $article->innertext = $renderer->renderPageChildrenComponent($component, $lang, $childPages);
+          if (isset($childPages)) {        
+            switch ($component) {
+              case 'page-list':
+          	$sortBy = $article->{'data-sort-by'};
+          	$sortDir = $article->{'data-sort-dir'};
+          	$article->innertext = $renderer->renderPageList($lang, $childPages, $sortBy, $sortDir);
+              break;
+            }	 
           }
         } 
       }
