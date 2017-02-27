@@ -31,6 +31,18 @@
     
       return null;
     }
+    
+    public static function getLocalizedValue($localizedItems, $lang, $type = null) {
+      if (is_array($localizedItems)) {
+        foreach ($localizedItems as $localizedItem) {
+    	  if (($localizedItem->getLanguage() == $lang) && (!$type || ($type == $localizedItem->getType()))) {
+    	    return $localizedItem->getValue();
+    	  }
+    	}
+      }
+    
+      return '';
+    }
   	
   }
   

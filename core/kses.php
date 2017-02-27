@@ -3,7 +3,7 @@
     global $allowedposttags, $allowedtags;
 
     $allowed = [
-      'article' => ['data-type', 'data-component', 'data-service-id', 'data-service-channel-id', 'data-lang']
+      'article' => ['data-type', 'data-component', 'data-service-id', 'data-service-channel-id', 'data-lang', 'data-sort-by', 'data-sort-dir']
     ];
     
     foreach ($allowed as $tag => $attrs) {
