@@ -16,19 +16,29 @@
         $this->twig->addExtension(new \KuntaAPI\Services\TwigExtension());
       }
       
-      public function renderPageChildrenComponent($component, $lang, $childPages) {
+      public function renderPageList($lang, $childPages, $sortBy, $sortDir) {
+        switch ($sortBy||'') {
+          case 'title':
+            $childPages = $this->sortPagesByTitle($childPages, $lang, $sortDir);
+          break;
+          default:
+            if ($sortDir == 'DESC') {
+              $childPages = array_reverse($childPages);
+            }
+          break;
+        }
+        
         $model = [
           'lang' => $lang,
           'childPages' => $childPages
         ];
         
-        switch ($component) {
-          case 'page-list':
-            return $this->twig->render("page-children-components/page-list.twig", $model);
-          default:
-            error_log("unknown component $component");
-            break;
-        }
+        return $this->twig->render("page-children-components/page-list.twig", $model);
+      }
+      
+      private function sortPagesByTitle($pages, $lang, $sortDir) {
+      	usort($pages, array(new PageTitleComparator($lang, $sortDir), "compare"));
+        return $pages;
       }
       
     }  
