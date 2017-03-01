@@ -29,7 +29,8 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
         new \Twig_SimpleFilter('localizedValue', array($this, 'localizedValueFilter')),
         new \Twig_SimpleFilter('shortDay', array($this, 'shortDayFilter')),
         new \Twig_SimpleFilter('serviceLocationPath', array($this, 'serviceLocationPathFilter')),
-        new \Twig_SimpleFilter('pagePath', array($this, 'pagePathFilter'))
+        new \Twig_SimpleFilter('pagePath', array($this, 'pagePathFilter')),
+        new \Twig_SimpleFilter('formatServiceHour', array($this, 'formatServiceHourFilter'))
       ];
     }
       
@@ -81,6 +82,9 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
       return implode("/", $path);
     }
     
+    public function formatServiceHourFilter($time) {
+      return implode(":", array_slice(explode(":", $time), 0, 2));
+    }
   }
 }
 ?>

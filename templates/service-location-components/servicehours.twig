@@ -27,7 +27,7 @@
               {{ serviceHour.days|first|shortDay }} - {{ serviceHour.days|last|shortDay }}
               {% endif %}
             </td>
-            <td>{% if serviceHour.opens and  serviceHour.closes %}{{ serviceHour.opens }} - {{ serviceHour.closes }}{% endif %}</td>
+            <td>{% if serviceHour.opens and  serviceHour.closes %}{{ serviceHour.opens|formatServiceHour }} - {{ serviceHour.closes|formatServiceHour }}{% endif %}</td>
             <td>{% if serviceHour.status == 'OPEN' %}Avoinna{% else %}Suljettu{% endif %}</td>
             {% if additionalInfo %}
               <td>{{ serviceHour.additionalInformation|localizedValue(lang)|nl2br }}</td>
