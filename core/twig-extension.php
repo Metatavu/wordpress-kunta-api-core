@@ -50,7 +50,7 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
     }
     
     public function serviceLocationPathFilter($serviceLocationChannelId, $serviceId) {
-      $pageId = $this->mapper->getLocationChannelPageId($serviceId, $serviceLocationChannelId);
+      $pageId = $this->mapper->getLocationChannelPageId($serviceLocationChannelId);
       if (empty(!$pageId)) {
         return '/' . get_page_uri($pageId);
       }
