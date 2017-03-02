@@ -18,6 +18,10 @@
       
       public function renderServiceChannelContent($serviceId, $serviceChannelId, $lang) {
         $webPageChannel = \KuntaAPI\Services\Loader::findWebPageServiceChannel($serviceId, $serviceChannelId);
+        if (empty($webPageChannel)) {
+          return '';
+        }
+        
         return $this->getRenderer()->renderWebPageChannel($serviceId, $webPageChannel, $lang);
       }
       

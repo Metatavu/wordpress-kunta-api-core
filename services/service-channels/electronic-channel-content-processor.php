@@ -18,6 +18,10 @@
       
       public function renderServiceChannelContent($serviceId, $serviceChannelId, $lang) {
         $electronicChannel = \KuntaAPI\Services\Loader::findElectronicServiceChannel($serviceId, $serviceChannelId);
+        if (empty($electronicChannel)) {
+          return '';	
+        }
+        
         return $this->getRenderer()->renderElectronicChannel($serviceId, $electronicChannel, $lang);
       }
       
