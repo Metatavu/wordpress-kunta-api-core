@@ -18,6 +18,10 @@
       
       public function renderServiceChannelContent($serviceId, $serviceChannelId, $lang) {
         $serviceChannel = \KuntaAPI\Services\Loader::findPrintableFormServiceChannel($serviceId, $serviceChannelId);
+        if (empty($serviceChannel)) {
+          return '';
+        }
+        
         return $this->getRenderer()->renderPrintableFormChannel($serviceId, $serviceChannel, $lang);
       }  
     }
