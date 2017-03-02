@@ -18,6 +18,10 @@
       
       public function renderServiceChannelContent($serviceId, $serviceChannelId, $lang) {
         $serviceChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceId, $serviceChannelId);
+        if (empty($serviceChannel)) {
+          return '';
+        }
+        
         return $this->getRenderer()->renderServiceLocationChannel($serviceId, $serviceChannel, $lang);
       }  
     }

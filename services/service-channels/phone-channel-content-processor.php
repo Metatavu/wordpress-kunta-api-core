@@ -18,6 +18,10 @@
       
       public function renderServiceChannelContent($serviceId, $serviceChannelId, $lang) {
         $phoneChannel = \KuntaAPI\Services\Loader::findPhoneServiceChannel($serviceId, $serviceChannelId);
+        if (empty($phoneChannel)) {
+          return '';
+        }
+        
         return $this->getRenderer()->renderPhoneChannel($serviceId, $phoneChannel, $lang);
       }  
     }
