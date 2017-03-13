@@ -30,7 +30,8 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
         new \Twig_SimpleFilter('shortDay', array($this, 'shortDayFilter')),
         new \Twig_SimpleFilter('serviceLocationPath', array($this, 'serviceLocationPathFilter')),
         new \Twig_SimpleFilter('pagePath', array($this, 'pagePathFilter')),
-        new \Twig_SimpleFilter('formatServiceHour', array($this, 'formatServiceHourFilter'))
+        new \Twig_SimpleFilter('formatServiceHour', array($this, 'formatServiceHourFilter')),
+        new \Twig_SimpleFilter('formatWeekDays', array($this, 'formatWeekDaysFilter'))
       ];
     }
       
@@ -45,7 +46,60 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
         
       return '';
     }
+
+    public function formatWeekDaysFilter($days, $returnMondayFirst) {
+      $sequences = [];
+      $booleanDays = [false, false, false, false, false, false, false];
       
+      if ($returnMondayFirst) {
+        $days = $this->daysToMondayFirst($days);
+      }
+      
+      foreach ($days as $day) {
+        $booleanDays[$day] = true;
+      }
+
+      $i = 0;
+      while ($i < 7) {
+        if ($booleanDays[$i] === true) {
+          if ($i < 6 && $booleanDays[$i] && $booleanDays[$i + 1]) {
+            $start = $i;
+
+            while ($i < 6 && $booleanDays[$i] && $booleanDays[$i + 1]) {
+              $i++;
+              $end = $i;
+            }
+
+            $sequences[] = [
+              'type' => 'range',
+              'from' => $returnMondayFirst ? $this->dayToSundayFirst($start) : $start,
+              'to' => $returnMondayFirst ? $this->dayToSundayFirst($end) : $end
+            ];
+
+          } else {
+            $sequences[] = [
+              'type' => 'single',
+              'index' => $returnMondayFirst ? $this->dayToSundayFirst($i) : $i
+            ];
+          }
+        }
+
+        $i++;
+      }
+      
+      $result = [];
+      
+      foreach ($sequences as $sequence) {
+        if ($sequence['type'] == 'single') {
+          $result[] = $this->dayMap[$sequence['index']];
+        } else {
+          $result[] = $this->dayMap[$sequence['from']] . ' - ' . $this->dayMap[$sequence['to']];
+        }
+      }
+      
+      return implode(",", $result);
+    }
+          
     public function shortDayFilter($text) {
       return $this->dayMap[$text];
     }
@@ -84,6 +138,29 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
     
     public function formatServiceHourFilter($time) {
       return implode(":", array_slice(explode(":", $time), 0, 2));
+    }
+    
+    private function dayToSundayFirst($mondayFirstIndex) {
+      return $mondayFirstIndex + 1 % 6;
+    }
+    
+    private function daysToMondayFirst($sundayFirstRange) {
+      $result = [];
+      $addSunday = false;
+
+      foreach ($sundayFirstRange as $sundayFirstIndex) {
+        if ($sundayFirstIndex == 0) {
+          $addSunday = true;
+        } else {
+          $result[] = $sundayFirstIndex - 1;
+        }
+      }
+
+      if ($addSunday) {
+        $result[] = 6;
+      }
+
+      return $result;
     }
   }
 }
