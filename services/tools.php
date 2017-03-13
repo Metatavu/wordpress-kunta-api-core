@@ -29,7 +29,7 @@
  	      if (!isset($service)) {
  	      	error_log("Service $serviceId from page $pageId could not be loaded");
  	      } else {
- 	      	$title = \KuntaAPI\Core\LocaleHelper::getDefaultValue($service->getNames());
+ 	      	$title = \KuntaAPI\Core\LocaleHelper::getLocalizedValue($localizedItems, $lang, "Name");
  	      	$content = $renderer->renderServicePage($lang, $service);
  	      	$result = wp_update_post([
  	      	  'ID' => $pageId,
@@ -76,8 +76,8 @@
  	  	  if (!isset($serviceLocationChannel)) {
  	  		error_log("Service $serviceId location $serviceLocationId from page $pageId could not be loaded");
  	  	  } else {
- 	  		$title = \KuntaAPI\Core\LocaleHelper::getDefaultValue($serviceLocationChannel->getNames());
- 	  		$content = $renderer->renderLocationChannelPage($lang, $serviceId, $serviceLocationChannel);
+ 	  	  	$title = \KuntaAPI\Core\LocaleHelper::getLocalizedValue($localizedItems, $lang, "Name");
+ 	  	  	$content = $renderer->renderLocationChannelPage($lang, $serviceId, $serviceLocationChannel);
  	  		$result = wp_update_post([
  	  		  'ID' => $pageId,
  	  	      'post_title' => $title,
