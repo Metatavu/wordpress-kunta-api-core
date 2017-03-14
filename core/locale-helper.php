@@ -20,18 +20,6 @@
   		return ["fi"];
   	}
     
-    public static function getDefaultValue($localizedValues) {
-      foreach ($localizedValues as $localizedValue) {
-    	$language = $localizedValue->getLanguage();
-    	$value = $localizedValue->getValue();
-    	if (self::getCurrentLanguage() == $language) {
-    	  return $value;
-    	}
-      }
-    
-      return null;
-    }
-    
     public static function getLocalizedValue($localizedItems, $lang, $type = null) {
       if (is_array($localizedItems)) {
         foreach ($localizedItems as $localizedItem) {
