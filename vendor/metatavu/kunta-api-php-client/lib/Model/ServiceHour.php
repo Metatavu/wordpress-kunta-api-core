@@ -67,12 +67,13 @@ class ServiceHour implements ArrayAccess
       */
     protected static $swaggerTypes = array(
         'type' => 'string',
+        'exceptionHourType' => 'string',
         'validFrom' => '\DateTime',
         'validTo' => '\DateTime',
+        'days' => 'int[]',
         'opens' => 'string',
         'closes' => 'string',
-        'days' => 'int[]',
-        'status' => 'string',
+        'timezone' => 'string',
         'additionalInformation' => '\KuntaAPI\Model\LocalizedValue[]'
     );
 
@@ -87,12 +88,13 @@ class ServiceHour implements ArrayAccess
      */
     protected static $attributeMap = array(
         'type' => 'type',
+        'exceptionHourType' => 'exceptionHourType',
         'validFrom' => 'validFrom',
         'validTo' => 'validTo',
+        'days' => 'days',
         'opens' => 'opens',
         'closes' => 'closes',
-        'days' => 'days',
-        'status' => 'status',
+        'timezone' => 'timezone',
         'additionalInformation' => 'additionalInformation'
     );
 
@@ -107,12 +109,13 @@ class ServiceHour implements ArrayAccess
      */
     protected static $setters = array(
         'type' => 'setType',
+        'exceptionHourType' => 'setExceptionHourType',
         'validFrom' => 'setValidFrom',
         'validTo' => 'setValidTo',
+        'days' => 'setDays',
         'opens' => 'setOpens',
         'closes' => 'setCloses',
-        'days' => 'setDays',
-        'status' => 'setStatus',
+        'timezone' => 'setTimezone',
         'additionalInformation' => 'setAdditionalInformation'
     );
 
@@ -127,12 +130,13 @@ class ServiceHour implements ArrayAccess
      */
     protected static $getters = array(
         'type' => 'getType',
+        'exceptionHourType' => 'getExceptionHourType',
         'validFrom' => 'getValidFrom',
         'validTo' => 'getValidTo',
+        'days' => 'getDays',
         'opens' => 'getOpens',
         'closes' => 'getCloses',
-        'days' => 'getDays',
-        'status' => 'getStatus',
+        'timezone' => 'getTimezone',
         'additionalInformation' => 'getAdditionalInformation'
     );
 
@@ -158,12 +162,13 @@ class ServiceHour implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
+        $this->container['exceptionHourType'] = isset($data['exceptionHourType']) ? $data['exceptionHourType'] : null;
         $this->container['validFrom'] = isset($data['validFrom']) ? $data['validFrom'] : null;
         $this->container['validTo'] = isset($data['validTo']) ? $data['validTo'] : null;
+        $this->container['days'] = isset($data['days']) ? $data['days'] : null;
         $this->container['opens'] = isset($data['opens']) ? $data['opens'] : null;
         $this->container['closes'] = isset($data['closes']) ? $data['closes'] : null;
-        $this->container['days'] = isset($data['days']) ? $data['days'] : null;
-        $this->container['status'] = isset($data['status']) ? $data['status'] : null;
+        $this->container['timezone'] = isset($data['timezone']) ? $data['timezone'] : null;
         $this->container['additionalInformation'] = isset($data['additionalInformation']) ? $data['additionalInformation'] : null;
     }
 
@@ -201,12 +206,33 @@ class ServiceHour implements ArrayAccess
 
     /**
      * Sets type
-     * @param string $type
+     * @param string $type Type of service hour (Standard, Exception or Special).
      * @return $this
      */
     public function setType($type)
     {
         $this->container['type'] = $type;
+
+        return $this;
+    }
+
+    /**
+     * Gets exceptionHourType
+     * @return string
+     */
+    public function getExceptionHourType()
+    {
+        return $this->container['exceptionHourType'];
+    }
+
+    /**
+     * Sets exceptionHourType
+     * @param string $exceptionHourType Type of service hour exception type. Valid values are: Open or Closed.
+     * @return $this
+     */
+    public function setExceptionHourType($exceptionHourType)
+    {
+        $this->container['exceptionHourType'] = $exceptionHourType;
 
         return $this;
     }
@@ -222,7 +248,7 @@ class ServiceHour implements ArrayAccess
 
     /**
      * Sets validFrom
-     * @param \DateTime $validFrom
+     * @param \DateTime $validFrom Date time where from this entry is valid.
      * @return $this
      */
     public function setValidFrom($validFrom)
@@ -243,12 +269,33 @@ class ServiceHour implements ArrayAccess
 
     /**
      * Sets validTo
-     * @param \DateTime $validTo
+     * @param \DateTime $validTo Date time to this entry is valid.
      * @return $this
      */
     public function setValidTo($validTo)
     {
         $this->container['validTo'] = $validTo;
+
+        return $this;
+    }
+
+    /**
+     * Gets days
+     * @return int[]
+     */
+    public function getDays()
+    {
+        return $this->container['days'];
+    }
+
+    /**
+     * Sets days
+     * @param int[] $days Array of week numbers indices where serice hour is active (0 == sunday)
+     * @return $this
+     */
+    public function setDays($days)
+    {
+        $this->container['days'] = $days;
 
         return $this;
     }
@@ -264,7 +311,7 @@ class ServiceHour implements ArrayAccess
 
     /**
      * Sets opens
-     * @param string $opens
+     * @param string $opens Opening time in format HH:mm for example 08:00.
      * @return $this
      */
     public function setOpens($opens)
@@ -285,7 +332,7 @@ class ServiceHour implements ArrayAccess
 
     /**
      * Sets closes
-     * @param string $closes
+     * @param string $closes Closing time in format HH:mm for example 19:00
      * @return $this
      */
     public function setCloses($closes)
@@ -296,43 +343,22 @@ class ServiceHour implements ArrayAccess
     }
 
     /**
-     * Gets days
-     * @return int[]
-     */
-    public function getDays()
-    {
-        return $this->container['days'];
-    }
-
-    /**
-     * Sets days
-     * @param int[] $days
-     * @return $this
-     */
-    public function setDays($days)
-    {
-        $this->container['days'] = $days;
-
-        return $this;
-    }
-
-    /**
-     * Gets status
+     * Gets timezone
      * @return string
      */
-    public function getStatus()
+    public function getTimezone()
     {
-        return $this->container['status'];
+        return $this->container['timezone'];
     }
 
     /**
-     * Sets status
-     * @param string $status
+     * Sets timezone
+     * @param string $timezone
      * @return $this
      */
-    public function setStatus($status)
+    public function setTimezone($timezone)
     {
-        $this->container['status'] = $status;
+        $this->container['timezone'] = $timezone;
 
         return $this;
     }

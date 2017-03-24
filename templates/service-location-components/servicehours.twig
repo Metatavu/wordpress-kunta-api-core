@@ -11,7 +11,6 @@
         <tr>
           <th>Päivä</th>
           <th>Aika</th>
-          <th>Avoinna</th>
           {% if additionalInfo %}
             <th>Lisätiedot</th>
           {% endif %}
@@ -19,20 +18,15 @@
       </thead>
       <tbody>
         {% for serviceHour in serviceLocationChannel.serviceHours %}
+          {% if serviceHour.type == 'Standard' %}
           <tr>
-            <td>
-              {% if serviceHour.days|first == serviceHour.days|last %}
-              {{ serviceHour.days|first|shortDay }}
-              {% else %}
-              {{ serviceHour.days|first|shortDay }} - {{ serviceHour.days|last|shortDay }}
-              {% endif %}
-            </td>
-            <td>{% if serviceHour.opens and  serviceHour.closes %}{{ serviceHour.opens }} - {{ serviceHour.closes }}{% endif %}</td>
-            <td>{% if serviceHour.status == 'OPEN' %}Avoinna{% else %}Suljettu{% endif %}</td>
+            <td>{{ serviceHour.days|formatWeekDays(true) }}</td>
+            <td>{% if serviceHour.opens and serviceHour.closes %}{{ serviceHour.opens|formatServiceHour }} - {{ serviceHour.closes|formatServiceHour }}{% endif %}</td>
             {% if additionalInfo %}
               <td>{{ serviceHour.additionalInformation|localizedValue(lang)|nl2br }}</td>
             {% endif %}
           </tr>
+          {% endif %}
         {% endfor %}
       </tbody>
     </table>

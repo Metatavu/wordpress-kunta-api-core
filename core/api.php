@@ -24,8 +24,8 @@
         return new \KuntaAPI\Api\BannersApi(self::getClient());
       }
       
-      public static function getElectronicChannelsApi() {
-        return new \KuntaAPI\Api\ElectronicChannelsApi(self::getClient());
+      public static function getElectronicServiceChannelsApi() {
+      	return new \KuntaAPI\Api\ElectronicServiceChannelsApi(self::getClient());
       }
       
       public static function getEventsApi() {
@@ -60,14 +60,14 @@
         return new \KuntaAPI\Api\PagesApi(self::getClient());
       }
       
-      public static function getPhoneChannelsApi() {
-        return new \KuntaAPI\Api\PhoneChannelsApi(self::getClient());
+      public static function getPhoneServiceChannelsApi() {
+        return new \KuntaAPI\Api\PhoneServiceChannelsApi(self::getClient());
       }
-  
-      public static function getPrintableFormChannelsApi() {
-        return new \KuntaAPI\Api\PrintableFormChannelsApi(self::getClient());
+
+      public static function getPrintableFormServiceChannelsApi() {
+        return new \KuntaAPI\Api\PrintableFormServiceChannelsApi(self::getClient());
       }
-  
+      
       public static function getServiceCategoriesApi() {
         return new \KuntaAPI\Api\ServiceCategoriesApi(self::getClient());
       }
@@ -79,11 +79,11 @@
       public static function getServiceDataApi() {
         return new \KuntaAPI\Api\ServiceDataApi(self::getClient());
       }
-  
-      public static function getServiceLocationChannelsApi() {
-        return new \KuntaAPI\Api\ServiceLocationChannelsApi(self::getClient());
+
+      public static function getServiceLocationServiceChannelsApi() {
+        return new \KuntaAPI\Api\ServiceLocationServiceChannelsApi(self::getClient());
       }
-  
+
       public static function getServicesApi() {
         return new \KuntaAPI\Api\ServicesApi(self::getClient());
       }
@@ -104,8 +104,8 @@
         return new \KuntaAPI\Api\TilesApi(self::getClient());
       }
       
-      public static function getWebPageChannelsApi() {
-        return new \KuntaAPI\Api\WebPageChannelsApi(self::getClient());
+      public static function getWebPageServiceChannelsApi() {
+        return new \KuntaAPI\Api\WebPageServiceChannelsApi(self::getClient());
       }
       
       private function getConfiguration() {

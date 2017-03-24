@@ -84,7 +84,12 @@ class Service implements ArrayAccess
         'requirements' => '\KuntaAPI\Model\LocalizedValue[]',
         'publishingStatus' => 'string',
         'chargeType' => 'string',
-        'additionalInformations' => '\KuntaAPI\Model\LocalizedValue[]'
+        'additionalInformations' => '\KuntaAPI\Model\LocalizedValue[]',
+        'electronicServiceChannelIds' => 'string[]',
+        'phoneServiceChannelIds' => 'string[]',
+        'printableFormServiceChannelIds' => 'string[]',
+        'serviceLocationServiceChannelIds' => 'string[]',
+        'webPageServiceChannelIds' => 'string[]'
     );
 
     public static function swaggerTypes()
@@ -115,7 +120,12 @@ class Service implements ArrayAccess
         'requirements' => 'requirements',
         'publishingStatus' => 'publishingStatus',
         'chargeType' => 'chargeType',
-        'additionalInformations' => 'additionalInformations'
+        'additionalInformations' => 'additionalInformations',
+        'electronicServiceChannelIds' => 'electronicServiceChannelIds',
+        'phoneServiceChannelIds' => 'phoneServiceChannelIds',
+        'printableFormServiceChannelIds' => 'printableFormServiceChannelIds',
+        'serviceLocationServiceChannelIds' => 'serviceLocationServiceChannelIds',
+        'webPageServiceChannelIds' => 'webPageServiceChannelIds'
     );
 
     public static function attributeMap()
@@ -146,7 +156,12 @@ class Service implements ArrayAccess
         'requirements' => 'setRequirements',
         'publishingStatus' => 'setPublishingStatus',
         'chargeType' => 'setChargeType',
-        'additionalInformations' => 'setAdditionalInformations'
+        'additionalInformations' => 'setAdditionalInformations',
+        'electronicServiceChannelIds' => 'setElectronicServiceChannelIds',
+        'phoneServiceChannelIds' => 'setPhoneServiceChannelIds',
+        'printableFormServiceChannelIds' => 'setPrintableFormServiceChannelIds',
+        'serviceLocationServiceChannelIds' => 'setServiceLocationServiceChannelIds',
+        'webPageServiceChannelIds' => 'setWebPageServiceChannelIds'
     );
 
     public static function setters()
@@ -177,7 +192,12 @@ class Service implements ArrayAccess
         'requirements' => 'getRequirements',
         'publishingStatus' => 'getPublishingStatus',
         'chargeType' => 'getChargeType',
-        'additionalInformations' => 'getAdditionalInformations'
+        'additionalInformations' => 'getAdditionalInformations',
+        'electronicServiceChannelIds' => 'getElectronicServiceChannelIds',
+        'phoneServiceChannelIds' => 'getPhoneServiceChannelIds',
+        'printableFormServiceChannelIds' => 'getPrintableFormServiceChannelIds',
+        'serviceLocationServiceChannelIds' => 'getServiceLocationServiceChannelIds',
+        'webPageServiceChannelIds' => 'getWebPageServiceChannelIds'
     );
 
     public static function getters()
@@ -220,6 +240,11 @@ class Service implements ArrayAccess
         $this->container['publishingStatus'] = isset($data['publishingStatus']) ? $data['publishingStatus'] : null;
         $this->container['chargeType'] = isset($data['chargeType']) ? $data['chargeType'] : null;
         $this->container['additionalInformations'] = isset($data['additionalInformations']) ? $data['additionalInformations'] : null;
+        $this->container['electronicServiceChannelIds'] = isset($data['electronicServiceChannelIds']) ? $data['electronicServiceChannelIds'] : null;
+        $this->container['phoneServiceChannelIds'] = isset($data['phoneServiceChannelIds']) ? $data['phoneServiceChannelIds'] : null;
+        $this->container['printableFormServiceChannelIds'] = isset($data['printableFormServiceChannelIds']) ? $data['printableFormServiceChannelIds'] : null;
+        $this->container['serviceLocationServiceChannelIds'] = isset($data['serviceLocationServiceChannelIds']) ? $data['serviceLocationServiceChannelIds'] : null;
+        $this->container['webPageServiceChannelIds'] = isset($data['webPageServiceChannelIds']) ? $data['webPageServiceChannelIds'] : null;
     }
 
     /**
@@ -640,6 +665,111 @@ class Service implements ArrayAccess
     public function setAdditionalInformations($additionalInformations)
     {
         $this->container['additionalInformations'] = $additionalInformations;
+
+        return $this;
+    }
+
+    /**
+     * Gets electronicServiceChannelIds
+     * @return string[]
+     */
+    public function getElectronicServiceChannelIds()
+    {
+        return $this->container['electronicServiceChannelIds'];
+    }
+
+    /**
+     * Sets electronicServiceChannelIds
+     * @param string[] $electronicServiceChannelIds
+     * @return $this
+     */
+    public function setElectronicServiceChannelIds($electronicServiceChannelIds)
+    {
+        $this->container['electronicServiceChannelIds'] = $electronicServiceChannelIds;
+
+        return $this;
+    }
+
+    /**
+     * Gets phoneServiceChannelIds
+     * @return string[]
+     */
+    public function getPhoneServiceChannelIds()
+    {
+        return $this->container['phoneServiceChannelIds'];
+    }
+
+    /**
+     * Sets phoneServiceChannelIds
+     * @param string[] $phoneServiceChannelIds
+     * @return $this
+     */
+    public function setPhoneServiceChannelIds($phoneServiceChannelIds)
+    {
+        $this->container['phoneServiceChannelIds'] = $phoneServiceChannelIds;
+
+        return $this;
+    }
+
+    /**
+     * Gets printableFormServiceChannelIds
+     * @return string[]
+     */
+    public function getPrintableFormServiceChannelIds()
+    {
+        return $this->container['printableFormServiceChannelIds'];
+    }
+
+    /**
+     * Sets printableFormServiceChannelIds
+     * @param string[] $printableFormServiceChannelIds
+     * @return $this
+     */
+    public function setPrintableFormServiceChannelIds($printableFormServiceChannelIds)
+    {
+        $this->container['printableFormServiceChannelIds'] = $printableFormServiceChannelIds;
+
+        return $this;
+    }
+
+    /**
+     * Gets serviceLocationServiceChannelIds
+     * @return string[]
+     */
+    public function getServiceLocationServiceChannelIds()
+    {
+        return $this->container['serviceLocationServiceChannelIds'];
+    }
+
+    /**
+     * Sets serviceLocationServiceChannelIds
+     * @param string[] $serviceLocationServiceChannelIds
+     * @return $this
+     */
+    public function setServiceLocationServiceChannelIds($serviceLocationServiceChannelIds)
+    {
+        $this->container['serviceLocationServiceChannelIds'] = $serviceLocationServiceChannelIds;
+
+        return $this;
+    }
+
+    /**
+     * Gets webPageServiceChannelIds
+     * @return string[]
+     */
+    public function getWebPageServiceChannelIds()
+    {
+        return $this->container['webPageServiceChannelIds'];
+    }
+
+    /**
+     * Sets webPageServiceChannelIds
+     * @param string[] $webPageServiceChannelIds
+     * @return $this
+     */
+    public function setWebPageServiceChannelIds($webPageServiceChannelIds)
+    {
+        $this->container['webPageServiceChannelIds'] = $webPageServiceChannelIds;
 
         return $this;
     }
