@@ -4,63 +4,12 @@ All URIs are relative to *https://demo.kuntaapi.fi/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**findOrganizationBannerImage**](NewsApi.md#findOrganizationBannerImage) | **GET** /organizations/{organizationId}/banners/{bannerId}/images/{imageId} | Returns a single organiztion banner image
 [**findOrganizationNewsArticle**](NewsApi.md#findOrganizationNewsArticle) | **GET** /organizations/{organizationId}/news/{newsArticleId} | Finds organizations news article
 [**findOrganizationNewsArticleImage**](NewsApi.md#findOrganizationNewsArticleImage) | **GET** /organizations/{organizationId}/news/{newsArticleId}/images/{imageId} | Returns an news article image
-[**getOrganizationBannerImageData**](NewsApi.md#getOrganizationBannerImageData) | **GET** /organizations/{organizationId}/banners/{bannerId}/images/{imageId}/data | Returns an organization banner image data
 [**getOrganizationNewsArticleImageData**](NewsApi.md#getOrganizationNewsArticleImageData) | **GET** /organizations/{organizationId}/news/{newsArticleId}/images/{imageId}/data | Returns a news article image data
 [**listOrganizationNews**](NewsApi.md#listOrganizationNews) | **GET** /organizations/{organizationId}/news | Lists organizations news
 [**listOrganizationNewsArticleImages**](NewsApi.md#listOrganizationNewsArticleImages) | **GET** /organizations/{organizationId}/news/{newsArticleId}/images | Returns list of news article images
 
-
-# **findOrganizationBannerImage**
-> \KuntaAPI\Model\Attachment findOrganizationBannerImage($organizationId, $bannerId, $imageId)
-
-Returns a single organiztion banner image
-
-Returns a single organiztion banner image
-
-### Example
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$api_instance = new KuntaAPI\Api\NewsApi();
-$organizationId = "organizationId_example"; // string | Organization id
-$bannerId = "bannerId_example"; // string | Banner Id
-$imageId = "imageId_example"; // string | Banner image id
-
-try {
-    $result = $api_instance->findOrganizationBannerImage($organizationId, $bannerId, $imageId);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling NewsApi->findOrganizationBannerImage: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **organizationId** | **string**| Organization id |
- **bannerId** | **string**| Banner Id |
- **imageId** | **string**| Banner image id |
-
-### Return type
-
-[**\KuntaAPI\Model\Attachment**](../Model/Attachment.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json;charset=utf-8
- - **Accept**: application/json;charset=utf-8
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **findOrganizationNewsArticle**
 > \KuntaAPI\Model\NewsArticle findOrganizationNewsArticle($organizationId, $newsArticleId)
@@ -155,57 +104,6 @@ No authorization required
 
  - **Content-Type**: application/json;charset=utf-8
  - **Accept**: application/json;charset=utf-8
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
-
-# **getOrganizationBannerImageData**
-> string getOrganizationBannerImageData($organizationId, $bannerId, $imageId, $size)
-
-Returns an organization banner image data
-
-Returns an organization banner image data
-
-### Example
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$api_instance = new KuntaAPI\Api\NewsApi();
-$organizationId = "organizationId_example"; // string | Organization id
-$bannerId = "bannerId_example"; // string | Banner id
-$imageId = "imageId_example"; // string | Banner image id
-$size = 56; // int | Maximum width or height of image
-
-try {
-    $result = $api_instance->getOrganizationBannerImageData($organizationId, $bannerId, $imageId, $size);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling NewsApi->getOrganizationBannerImageData: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **organizationId** | **string**| Organization id |
- **bannerId** | **string**| Banner id |
- **imageId** | **string**| Banner image id |
- **size** | **int**| Maximum width or height of image | [optional]
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json;charset=utf-8
- - **Accept**: application/octet-stream
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

@@ -103,125 +103,13 @@ class ElectronicChannelsApi
     }
 
     /**
-     * Operation createServiceElectronicChannel
-     *
-     * creates ElectronicChannel
-     *
-     * @param string $serviceId service id (required)
-     * @param \KuntaAPI\Model\ElectronicChannel $body Payload (required)
-     * @return \KuntaAPI\Model\ElectronicChannel
-     * @throws \KuntaAPI\ApiException on non-2xx response
-     */
-    public function createServiceElectronicChannel($serviceId, $body)
-    {
-        list($response) = $this->createServiceElectronicChannelWithHttpInfo($serviceId, $body);
-        return $response;
-    }
-
-    /**
-     * Operation createServiceElectronicChannelWithHttpInfo
-     *
-     * creates ElectronicChannel
-     *
-     * @param string $serviceId service id (required)
-     * @param \KuntaAPI\Model\ElectronicChannel $body Payload (required)
-     * @return Array of \KuntaAPI\Model\ElectronicChannel, HTTP status code, HTTP response headers (array of strings)
-     * @throws \KuntaAPI\ApiException on non-2xx response
-     */
-    public function createServiceElectronicChannelWithHttpInfo($serviceId, $body)
-    {
-        // verify the required parameter 'serviceId' is set
-        if ($serviceId === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $serviceId when calling createServiceElectronicChannel');
-        }
-        // verify the required parameter 'body' is set
-        if ($body === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling createServiceElectronicChannel');
-        }
-        // parse inputs
-        $resourcePath = "/services/{serviceId}/electronicChannels";
-        $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json;charset=utf-8'));
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
-
-        // path params
-        if ($serviceId !== null) {
-            $resourcePath = str_replace(
-                "{" . "serviceId" . "}",
-                $this->apiClient->getSerializer()->toPathValue($serviceId),
-                $resourcePath
-            );
-        }
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
-        // body params
-        $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
-        }
-
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KuntaAPI\Model\ElectronicChannel',
-                '/services/{serviceId}/electronicChannels'
-            );
-
-            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\ElectronicChannel', $httpHeader), $statusCode, $httpHeader);
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\ElectronicChannel', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\BadRequest', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 403:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\Forbidden', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 404:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\NotFound', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 500:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\InternalServerError', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-            }
-
-            throw $e;
-        }
-    }
-
-    /**
      * Operation findServiceElectronicChannel
      *
      * finds ElectronicChannel by electronicChannelId
      *
      * @param string $serviceId Service id (required)
      * @param string $electronicChannelId electronicChannel id (required)
-     * @return \KuntaAPI\Model\ElectronicChannel
+     * @return \KuntaAPI\Model\ElectronicServiceChannel
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
     public function findServiceElectronicChannel($serviceId, $electronicChannelId)
@@ -237,7 +125,7 @@ class ElectronicChannelsApi
      *
      * @param string $serviceId Service id (required)
      * @param string $electronicChannelId electronicChannel id (required)
-     * @return Array of \KuntaAPI\Model\ElectronicChannel, HTTP status code, HTTP response headers (array of strings)
+     * @return Array of \KuntaAPI\Model\ElectronicServiceChannel, HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
     public function findServiceElectronicChannelWithHttpInfo($serviceId, $electronicChannelId)
@@ -296,15 +184,15 @@ class ElectronicChannelsApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\KuntaAPI\Model\ElectronicChannel',
+                '\KuntaAPI\Model\ElectronicServiceChannel',
                 '/services/{serviceId}/electronicChannels/{electronicChannelId}'
             );
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\ElectronicChannel', $httpHeader), $statusCode, $httpHeader);
+            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\ElectronicServiceChannel', $httpHeader), $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\ElectronicChannel', $e->getResponseHeaders());
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\ElectronicServiceChannel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
@@ -337,7 +225,7 @@ class ElectronicChannelsApi
      * @param string $serviceId Service id (required)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
-     * @return \KuntaAPI\Model\ElectronicChannel[]
+     * @return \KuntaAPI\Model\ElectronicServiceChannel[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
     public function listServiceElectronicChannels($serviceId, $firstResult = null, $maxResults = null)
@@ -354,7 +242,7 @@ class ElectronicChannelsApi
      * @param string $serviceId Service id (required)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
-     * @return Array of \KuntaAPI\Model\ElectronicChannel[], HTTP status code, HTTP response headers (array of strings)
+     * @return Array of \KuntaAPI\Model\ElectronicServiceChannel[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
     public function listServiceElectronicChannelsWithHttpInfo($serviceId, $firstResult = null, $maxResults = null)
@@ -409,141 +297,15 @@ class ElectronicChannelsApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\KuntaAPI\Model\ElectronicChannel[]',
+                '\KuntaAPI\Model\ElectronicServiceChannel[]',
                 '/services/{serviceId}/electronicChannels'
             );
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\ElectronicChannel[]', $httpHeader), $statusCode, $httpHeader);
+            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\ElectronicServiceChannel[]', $httpHeader), $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\ElectronicChannel[]', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\BadRequest', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 403:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\Forbidden', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 404:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\NotFound', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 500:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\InternalServerError', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-            }
-
-            throw $e;
-        }
-    }
-
-    /**
-     * Operation updateServiceElectronicChannel
-     *
-     * Updates ElectronicChannel
-     *
-     * @param string $serviceId service id (required)
-     * @param string $electronicChannelId electronicChannel id (required)
-     * @param \KuntaAPI\Model\ElectronicChannel $body Payload (required)
-     * @return \KuntaAPI\Model\ElectronicChannel
-     * @throws \KuntaAPI\ApiException on non-2xx response
-     */
-    public function updateServiceElectronicChannel($serviceId, $electronicChannelId, $body)
-    {
-        list($response) = $this->updateServiceElectronicChannelWithHttpInfo($serviceId, $electronicChannelId, $body);
-        return $response;
-    }
-
-    /**
-     * Operation updateServiceElectronicChannelWithHttpInfo
-     *
-     * Updates ElectronicChannel
-     *
-     * @param string $serviceId service id (required)
-     * @param string $electronicChannelId electronicChannel id (required)
-     * @param \KuntaAPI\Model\ElectronicChannel $body Payload (required)
-     * @return Array of \KuntaAPI\Model\ElectronicChannel, HTTP status code, HTTP response headers (array of strings)
-     * @throws \KuntaAPI\ApiException on non-2xx response
-     */
-    public function updateServiceElectronicChannelWithHttpInfo($serviceId, $electronicChannelId, $body)
-    {
-        // verify the required parameter 'serviceId' is set
-        if ($serviceId === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $serviceId when calling updateServiceElectronicChannel');
-        }
-        // verify the required parameter 'electronicChannelId' is set
-        if ($electronicChannelId === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $electronicChannelId when calling updateServiceElectronicChannel');
-        }
-        // verify the required parameter 'body' is set
-        if ($body === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling updateServiceElectronicChannel');
-        }
-        // parse inputs
-        $resourcePath = "/services/{serviceId}/electronicChannels/{electronicChannelId}";
-        $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json;charset=utf-8'));
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
-
-        // path params
-        if ($serviceId !== null) {
-            $resourcePath = str_replace(
-                "{" . "serviceId" . "}",
-                $this->apiClient->getSerializer()->toPathValue($serviceId),
-                $resourcePath
-            );
-        }
-        // path params
-        if ($electronicChannelId !== null) {
-            $resourcePath = str_replace(
-                "{" . "electronicChannelId" . "}",
-                $this->apiClient->getSerializer()->toPathValue($electronicChannelId),
-                $resourcePath
-            );
-        }
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
-        // body params
-        $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
-        }
-
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KuntaAPI\Model\ElectronicChannel',
-                '/services/{serviceId}/electronicChannels/{electronicChannelId}'
-            );
-
-            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\ElectronicChannel', $httpHeader), $statusCode, $httpHeader);
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\ElectronicChannel', $e->getResponseHeaders());
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\ElectronicServiceChannel[]', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
