@@ -22,6 +22,11 @@ Name | Type | Description | Notes
 **publishingStatus** | **string** |  | [optional] 
 **chargeType** | **string** |  | [optional] 
 **additionalInformations** | [**\KuntaAPI\Model\LocalizedValue[]**](LocalizedValue.md) |  | [optional] 
+**electronicServiceChannelIds** | **string[]** |  | [optional] 
+**phoneServiceChannelIds** | **string[]** |  | [optional] 
+**printableFormServiceChannelIds** | **string[]** |  | [optional] 
+**serviceLocationServiceChannelIds** | **string[]** |  | [optional] 
+**webPageServiceChannelIds** | **string[]** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

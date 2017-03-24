@@ -103,125 +103,13 @@ class PrintableFormChannelsApi
     }
 
     /**
-     * Operation createServicePrintableFormChannel
-     *
-     * creates PrintableFormChannel
-     *
-     * @param string $serviceId service id (required)
-     * @param \KuntaAPI\Model\PrintableFormChannel $body Payload (required)
-     * @return \KuntaAPI\Model\PrintableFormChannel
-     * @throws \KuntaAPI\ApiException on non-2xx response
-     */
-    public function createServicePrintableFormChannel($serviceId, $body)
-    {
-        list($response) = $this->createServicePrintableFormChannelWithHttpInfo($serviceId, $body);
-        return $response;
-    }
-
-    /**
-     * Operation createServicePrintableFormChannelWithHttpInfo
-     *
-     * creates PrintableFormChannel
-     *
-     * @param string $serviceId service id (required)
-     * @param \KuntaAPI\Model\PrintableFormChannel $body Payload (required)
-     * @return Array of \KuntaAPI\Model\PrintableFormChannel, HTTP status code, HTTP response headers (array of strings)
-     * @throws \KuntaAPI\ApiException on non-2xx response
-     */
-    public function createServicePrintableFormChannelWithHttpInfo($serviceId, $body)
-    {
-        // verify the required parameter 'serviceId' is set
-        if ($serviceId === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $serviceId when calling createServicePrintableFormChannel');
-        }
-        // verify the required parameter 'body' is set
-        if ($body === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling createServicePrintableFormChannel');
-        }
-        // parse inputs
-        $resourcePath = "/services/{serviceId}/printableFormChannels";
-        $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json;charset=utf-8'));
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
-
-        // path params
-        if ($serviceId !== null) {
-            $resourcePath = str_replace(
-                "{" . "serviceId" . "}",
-                $this->apiClient->getSerializer()->toPathValue($serviceId),
-                $resourcePath
-            );
-        }
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
-        // body params
-        $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
-        }
-
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KuntaAPI\Model\PrintableFormChannel',
-                '/services/{serviceId}/printableFormChannels'
-            );
-
-            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\PrintableFormChannel', $httpHeader), $statusCode, $httpHeader);
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\PrintableFormChannel', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\BadRequest', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 403:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\Forbidden', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 404:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\NotFound', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 500:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\InternalServerError', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-            }
-
-            throw $e;
-        }
-    }
-
-    /**
      * Operation findServicePrintableFormChannel
      *
      * finds PrintableFormChannel by printableFormChannelId
      *
      * @param string $serviceId Service id (required)
      * @param string $printableFormChannelId printableFormChannel id (required)
-     * @return \KuntaAPI\Model\PrintableFormChannel
+     * @return \KuntaAPI\Model\PrintableFormServiceChannel
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
     public function findServicePrintableFormChannel($serviceId, $printableFormChannelId)
@@ -237,7 +125,7 @@ class PrintableFormChannelsApi
      *
      * @param string $serviceId Service id (required)
      * @param string $printableFormChannelId printableFormChannel id (required)
-     * @return Array of \KuntaAPI\Model\PrintableFormChannel, HTTP status code, HTTP response headers (array of strings)
+     * @return Array of \KuntaAPI\Model\PrintableFormServiceChannel, HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
     public function findServicePrintableFormChannelWithHttpInfo($serviceId, $printableFormChannelId)
@@ -296,15 +184,15 @@ class PrintableFormChannelsApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\KuntaAPI\Model\PrintableFormChannel',
+                '\KuntaAPI\Model\PrintableFormServiceChannel',
                 '/services/{serviceId}/printableFormChannels/{printableFormChannelId}'
             );
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\PrintableFormChannel', $httpHeader), $statusCode, $httpHeader);
+            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\PrintableFormServiceChannel', $httpHeader), $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\PrintableFormChannel', $e->getResponseHeaders());
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\PrintableFormServiceChannel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
@@ -337,7 +225,7 @@ class PrintableFormChannelsApi
      * @param string $serviceId Service id (required)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
-     * @return \KuntaAPI\Model\PrintableFormChannel[]
+     * @return \KuntaAPI\Model\PrintableFormServiceChannel[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
     public function listServicePrintableFormChannels($serviceId, $firstResult = null, $maxResults = null)
@@ -354,7 +242,7 @@ class PrintableFormChannelsApi
      * @param string $serviceId Service id (required)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
-     * @return Array of \KuntaAPI\Model\PrintableFormChannel[], HTTP status code, HTTP response headers (array of strings)
+     * @return Array of \KuntaAPI\Model\PrintableFormServiceChannel[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
     public function listServicePrintableFormChannelsWithHttpInfo($serviceId, $firstResult = null, $maxResults = null)
@@ -409,141 +297,15 @@ class PrintableFormChannelsApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\KuntaAPI\Model\PrintableFormChannel[]',
+                '\KuntaAPI\Model\PrintableFormServiceChannel[]',
                 '/services/{serviceId}/printableFormChannels'
             );
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\PrintableFormChannel[]', $httpHeader), $statusCode, $httpHeader);
+            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\PrintableFormServiceChannel[]', $httpHeader), $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\PrintableFormChannel[]', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\BadRequest', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 403:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\Forbidden', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 404:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\NotFound', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 500:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\InternalServerError', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-            }
-
-            throw $e;
-        }
-    }
-
-    /**
-     * Operation updatePrintableFormChannel
-     *
-     * Updates PrintableFormChannel
-     *
-     * @param string $serviceId service id (required)
-     * @param string $printableFormChannelId printableFormChannel id (required)
-     * @param \KuntaAPI\Model\PrintableFormChannel $body Payload (required)
-     * @return \KuntaAPI\Model\PrintableFormChannel
-     * @throws \KuntaAPI\ApiException on non-2xx response
-     */
-    public function updatePrintableFormChannel($serviceId, $printableFormChannelId, $body)
-    {
-        list($response) = $this->updatePrintableFormChannelWithHttpInfo($serviceId, $printableFormChannelId, $body);
-        return $response;
-    }
-
-    /**
-     * Operation updatePrintableFormChannelWithHttpInfo
-     *
-     * Updates PrintableFormChannel
-     *
-     * @param string $serviceId service id (required)
-     * @param string $printableFormChannelId printableFormChannel id (required)
-     * @param \KuntaAPI\Model\PrintableFormChannel $body Payload (required)
-     * @return Array of \KuntaAPI\Model\PrintableFormChannel, HTTP status code, HTTP response headers (array of strings)
-     * @throws \KuntaAPI\ApiException on non-2xx response
-     */
-    public function updatePrintableFormChannelWithHttpInfo($serviceId, $printableFormChannelId, $body)
-    {
-        // verify the required parameter 'serviceId' is set
-        if ($serviceId === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $serviceId when calling updatePrintableFormChannel');
-        }
-        // verify the required parameter 'printableFormChannelId' is set
-        if ($printableFormChannelId === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $printableFormChannelId when calling updatePrintableFormChannel');
-        }
-        // verify the required parameter 'body' is set
-        if ($body === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling updatePrintableFormChannel');
-        }
-        // parse inputs
-        $resourcePath = "/services/{serviceId}/printableFormChannels/{printableFormChannelId}";
-        $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json;charset=utf-8'));
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
-
-        // path params
-        if ($serviceId !== null) {
-            $resourcePath = str_replace(
-                "{" . "serviceId" . "}",
-                $this->apiClient->getSerializer()->toPathValue($serviceId),
-                $resourcePath
-            );
-        }
-        // path params
-        if ($printableFormChannelId !== null) {
-            $resourcePath = str_replace(
-                "{" . "printableFormChannelId" . "}",
-                $this->apiClient->getSerializer()->toPathValue($printableFormChannelId),
-                $resourcePath
-            );
-        }
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
-        // body params
-        $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
-        }
-
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KuntaAPI\Model\PrintableFormChannel',
-                '/services/{serviceId}/printableFormChannels/{printableFormChannelId}'
-            );
-
-            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\PrintableFormChannel', $httpHeader), $statusCode, $httpHeader);
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\PrintableFormChannel', $e->getResponseHeaders());
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\PrintableFormServiceChannel[]', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:

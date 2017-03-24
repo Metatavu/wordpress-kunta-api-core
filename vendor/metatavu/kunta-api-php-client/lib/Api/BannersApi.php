@@ -214,6 +214,262 @@ class BannersApi
     }
 
     /**
+     * Operation findOrganizationBannerImage
+     *
+     * Returns a single organiztion banner image
+     *
+     * @param string $organizationId Organization id (required)
+     * @param string $bannerId Banner Id (required)
+     * @param string $imageId Banner image id (required)
+     * @return \KuntaAPI\Model\Attachment
+     * @throws \KuntaAPI\ApiException on non-2xx response
+     */
+    public function findOrganizationBannerImage($organizationId, $bannerId, $imageId)
+    {
+        list($response) = $this->findOrganizationBannerImageWithHttpInfo($organizationId, $bannerId, $imageId);
+        return $response;
+    }
+
+    /**
+     * Operation findOrganizationBannerImageWithHttpInfo
+     *
+     * Returns a single organiztion banner image
+     *
+     * @param string $organizationId Organization id (required)
+     * @param string $bannerId Banner Id (required)
+     * @param string $imageId Banner image id (required)
+     * @return Array of \KuntaAPI\Model\Attachment, HTTP status code, HTTP response headers (array of strings)
+     * @throws \KuntaAPI\ApiException on non-2xx response
+     */
+    public function findOrganizationBannerImageWithHttpInfo($organizationId, $bannerId, $imageId)
+    {
+        // verify the required parameter 'organizationId' is set
+        if ($organizationId === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $organizationId when calling findOrganizationBannerImage');
+        }
+        // verify the required parameter 'bannerId' is set
+        if ($bannerId === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $bannerId when calling findOrganizationBannerImage');
+        }
+        // verify the required parameter 'imageId' is set
+        if ($imageId === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $imageId when calling findOrganizationBannerImage');
+        }
+        // parse inputs
+        $resourcePath = "/organizations/{organizationId}/banners/{bannerId}/images/{imageId}";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json;charset=utf-8'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
+
+        // path params
+        if ($organizationId !== null) {
+            $resourcePath = str_replace(
+                "{" . "organizationId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($organizationId),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($bannerId !== null) {
+            $resourcePath = str_replace(
+                "{" . "bannerId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($bannerId),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($imageId !== null) {
+            $resourcePath = str_replace(
+                "{" . "imageId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($imageId),
+                $resourcePath
+            );
+        }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath,
+                'GET',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                '\KuntaAPI\Model\Attachment',
+                '/organizations/{organizationId}/banners/{bannerId}/images/{imageId}'
+            );
+
+            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\Attachment', $httpHeader), $statusCode, $httpHeader);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\Attachment', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\BadRequest', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\Forbidden', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\InternalServerError', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getOrganizationBannerImageData
+     *
+     * Returns an organization banner image data
+     *
+     * @param string $organizationId Organization id (required)
+     * @param string $bannerId Banner id (required)
+     * @param string $imageId Banner image id (required)
+     * @param int $size Maximum width or height of image (optional)
+     * @return string
+     * @throws \KuntaAPI\ApiException on non-2xx response
+     */
+    public function getOrganizationBannerImageData($organizationId, $bannerId, $imageId, $size = null)
+    {
+        list($response) = $this->getOrganizationBannerImageDataWithHttpInfo($organizationId, $bannerId, $imageId, $size);
+        return $response;
+    }
+
+    /**
+     * Operation getOrganizationBannerImageDataWithHttpInfo
+     *
+     * Returns an organization banner image data
+     *
+     * @param string $organizationId Organization id (required)
+     * @param string $bannerId Banner id (required)
+     * @param string $imageId Banner image id (required)
+     * @param int $size Maximum width or height of image (optional)
+     * @return Array of string, HTTP status code, HTTP response headers (array of strings)
+     * @throws \KuntaAPI\ApiException on non-2xx response
+     */
+    public function getOrganizationBannerImageDataWithHttpInfo($organizationId, $bannerId, $imageId, $size = null)
+    {
+        // verify the required parameter 'organizationId' is set
+        if ($organizationId === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $organizationId when calling getOrganizationBannerImageData');
+        }
+        // verify the required parameter 'bannerId' is set
+        if ($bannerId === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $bannerId when calling getOrganizationBannerImageData');
+        }
+        // verify the required parameter 'imageId' is set
+        if ($imageId === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $imageId when calling getOrganizationBannerImageData');
+        }
+        // parse inputs
+        $resourcePath = "/organizations/{organizationId}/banners/{bannerId}/images/{imageId}/data";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/octet-stream'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
+
+        // query params
+        if ($size !== null) {
+            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+        }
+        // path params
+        if ($organizationId !== null) {
+            $resourcePath = str_replace(
+                "{" . "organizationId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($organizationId),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($bannerId !== null) {
+            $resourcePath = str_replace(
+                "{" . "bannerId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($bannerId),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($imageId !== null) {
+            $resourcePath = str_replace(
+                "{" . "imageId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($imageId),
+                $resourcePath
+            );
+        }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath,
+                'GET',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                'string',
+                '/organizations/{organizationId}/banners/{bannerId}/images/{imageId}/data'
+            );
+
+            return array($this->apiClient->getSerializer()->deserialize($response, 'string', $httpHeader), $statusCode, $httpHeader);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'string', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\BadRequest', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\Forbidden', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\InternalServerError', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
      * Operation listOrganizationBannerImages
      *
      * Returns a list of organization banner images
