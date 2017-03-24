@@ -18,13 +18,15 @@
       </thead>
       <tbody>
         {% for serviceHour in serviceLocationChannel.serviceHours %}
+          {% if serviceHour.type == 'Standard' %}
           <tr>
             <td>{{ serviceHour.days|formatWeekDays(true) }}</td>
-            <td>{% if serviceHour.opens and  serviceHour.closes %}{{ serviceHour.opens|formatServiceHour }} - {{ serviceHour.closes|formatServiceHour }}{% endif %}</td>
+            <td>{% if serviceHour.opens and serviceHour.closes %}{{ serviceHour.opens|formatServiceHour }} - {{ serviceHour.closes|formatServiceHour }}{% endif %}</td>
             {% if additionalInfo %}
               <td>{{ serviceHour.additionalInformation|localizedValue(lang)|nl2br }}</td>
             {% endif %}
           </tr>
+          {% endif %}
         {% endfor %}
       </tbody>
     </table>

@@ -20,6 +20,7 @@
       </thead>
       <tbody>
         {% for serviceHour in serviceHours %}
+          {% if serviceHour.type == 'Standard' %}
           <tr>
             <td>{{ serviceHour.days|formatWeekDays(true) }}</td>
             <td>{% if serviceHour.opens and serviceHour.closes %}{{ serviceHour.opens|formatServiceHour }} - {{ serviceHour.closes|formatServiceHour }}{% endif %}</td>
@@ -27,6 +28,7 @@
               <td>{{ serviceHour.additionalInformation|localizedValue(lang)|nl2br }}</td>
             {% endif %}
           </tr>
+          {% endif %}
         {% endfor %}
       </tbody>
     </table>
