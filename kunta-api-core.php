@@ -21,7 +21,7 @@ require_once( __DIR__ . '/core/page-processor.php');
 require_once( __DIR__ . '/services/kunta-api-services.php');
 require_once( __DIR__ . '/fragments/fragments.php');
 require_once( __DIR__ . '/announcements/announcements.php');
-require_once( __DIR__ . '/tiles/kunta-api-tiles.php');
+require_once( __DIR__ . '/tiles/tiles.php');
 require_once( __DIR__ . '/menus/kunta-api-menus.php');
 require_once( __DIR__ . '/banners/banners.php');
 require_once( __DIR__ . '/shortlinks/shortlinks.php');
