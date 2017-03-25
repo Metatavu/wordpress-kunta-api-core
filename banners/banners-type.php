@@ -34,4 +34,10 @@
     ));
   });
   
+  add_action('admin_menu', function () {
+  	if (!\KuntaAPI\Core\CoreSettings::getBooleanValue('bannersEnabled')) {
+  		remove_menu_page('edit.php?post_type=banner');
+  	}
+  });
+  
 ?>
