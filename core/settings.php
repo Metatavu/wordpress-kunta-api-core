@@ -14,40 +14,54 @@
       
   class CoreSettings {
     
+    public static function getSettingGroups() {
+      global $kuntaApiSettingGroups;
+      
+      $kuntaApiSettingGroups = [
+        [
+      	  'name' => 'api',
+      	  'title' => __('API Settings', KUNTA_API_CORE_I18N_DOMAIN)
+      	],
+      	[
+      	  'name' => 'types',
+      	  'title' => __('Enabled types', KUNTA_API_CORE_I18N_DOMAIN)
+      	]
+      ];
+
+      do_action('kunta_api_core_setting_groups');
+      
+      return $kuntaApiSettingGroups;
+    }
+    
     public static function getSettings() {
       global $kuntaApiSettings;
-      $kuntaApiSettings = array(
-        array(
+      
+      $kuntaApiSettings = [
+        [
           "type" => "url",
           "name" => "apiUrl",
-          "title" => __('URL', KUNTA_API_CORE_I18N_DOMAIN)
-        ), 
-        array(
+          "title" => __('URL', KUNTA_API_CORE_I18N_DOMAIN),
+          "group" => "api"
+        ], 
+        [
           "type" => "text",
           "name" => "apiUser",
-          "title" => __('Username', KUNTA_API_CORE_I18N_DOMAIN)
-        ), 
-        array(
+          "title" => __('Username', KUNTA_API_CORE_I18N_DOMAIN),
+          "group" => "api"
+        ], 
+        [
           "type" => "password",
           "name" => "apiPassword",
-          "title" => __('Password', KUNTA_API_CORE_I18N_DOMAIN)
-        ), 
-        array(
-          "type" => "text",
-          "name" => "businessCode",
-          "title" => __('Organization Business Code', KUNTA_API_CORE_I18N_DOMAIN)
-        ), 
-        array(
-          "type" => "text",
-          "name" => "businessName",
-          "title" => __('Organization Business Name', KUNTA_API_CORE_I18N_DOMAIN)
-        ), 
-        array(
+          "title" => __('Password', KUNTA_API_CORE_I18N_DOMAIN),
+          "group" => "api"
+        ], 
+        [
           "type" => "text",
           "name" => "organizationId",
-          "title" => __('Organization identifier', KUNTA_API_CORE_I18N_DOMAIN)
-        )
-      );
+          "title" => __('Organization identifier', KUNTA_API_CORE_I18N_DOMAIN),
+          "group" => "api"
+        ]
+      ];
 
       do_action('kunta_api_core_settings');
       
@@ -73,6 +87,10 @@
       return null;
     }
     
+    public static function getBooleanValue($name) {
+      return static::getValue($name) == '1';
+    }
+    
   }
   
   class CoreSettingsUI {
@@ -88,10 +106,13 @@
     
     public function adminInit() {
       register_setting(KUNTA_API_CORE_SETTINGS_GROUP, KUNTA_API_CORE_SETTINGS_PAGE);
-      add_settings_section('api', __('API Settings', KUNTA_API_CORE_I18N_DOMAIN), null, KUNTA_API_CORE_SETTINGS_PAGE);
+      
+      foreach (CoreSettings::getSettingGroups() as $group) {
+      	add_settings_section($group['name'], $group['title'], null, KUNTA_API_CORE_SETTINGS_PAGE);
+      }
 
       foreach (CoreSettings::getSettings() as $setting) {
-        $this->addOption('api', $setting['name'], $setting['title']);
+        $this->addOption($setting['group'], $setting['name'], $setting['title']);
       }
     }
     
@@ -104,9 +125,14 @@
       
       $settingType = $setting['type'];
       $settingName = $setting['name'];
-      $optionValue = CoreSettings::getValue($settingName);
       
-      echo "<input id='$settingName' name='" . KUNTA_API_CORE_SETTINGS_OPTION . "[$settingName]' size='42' type='$settingType' value='$optionValue' />";
+      if ($settingType == "checkbox") {
+      	$checked = CoreSettings::getBooleanValue($settingName) ? 'checked="checked"' : '';
+      	echo "<input id='$settingName' name='" . KUNTA_API_CORE_SETTINGS_OPTION . "[$settingName]' size='42' type='$settingType' value='1' $checked/>";
+      } else {
+      	$optionValue = CoreSettings::getValue($settingName);
+      	echo "<input id='$settingName' name='" . KUNTA_API_CORE_SETTINGS_OPTION . "[$settingName]' size='42' type='$settingType' value='$optionValue' />";
+      }
     }
     
     public function settingsPage() {
