@@ -29,6 +29,13 @@
       }
       
       public function poll() {
+        $synchronizeServices = \KuntaAPI\Core\CoreSettings::getBooleanValue('synchronizeServicesAsPages');
+        $synchronizeServiceLocations = \KuntaAPI\Core\CoreSettings::getBooleanValue('synchronizeServiceLocationChannelsAsPages');
+        
+        if (!$synchronizeServices && !$synchronizeServiceLocations) {
+          return;
+        }
+        
       	$locationChannelsPath = \KuntaAPI\Core\CoreSettings::getValue('locationChannelsPath');
       	
         $offset = get_option('kunta-api-sync-offset');
@@ -38,14 +45,18 @@
         
       	$services = Loader::listOrganizationServices($offset, 10);
       	foreach ($services as $service) {
-      	  if (!empty($locationChannelsPath)) {
-      	    $locationChanneldParentPageId = $this->resolveLocationChannelParentPageId($locationChannelsPath);
-      	  	$this->updateServiceLocationChannels($locationChanneldParentPageId, $service->getId());
-      	  } else {
-      	  	error_log("Location channel path not defined, skipped service location channel synchronization");
-      	  }
-      	  
-      	  $this->updateService($service);
+          if ($synchronizeServiceLocations) {
+      	    if (!empty($locationChannelsPath)) {
+      	      $locationChanneldParentPageId = $this->resolveLocationChannelParentPageId($locationChannelsPath);
+      	  	  $this->updateServiceLocationChannels($locationChanneldParentPageId, $service->getId());
+      	    } else {
+      	   	  error_log("Location channel path not defined, skipped service location channel synchronization");
+      	    }
+          }
+          
+          if ($synchronizeServices) {
+      	    $this->updateService($service);
+          }
       	}
       	
         if(count($services) == 0) {
