@@ -1,9 +1,9 @@
 <?php
-defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
+  defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
 
-add_action ('init', function () {
+  add_action ('init', function () {
 	
-  register_post_type ( 'fragment', [
+  register_post_type ('fragment', [
     'labels' => [
       'name'               => __( 'Fragments', 'kunta_api_core' ),
       'singular_name'      => __( 'Fragment', 'kunta_api_core' ),
@@ -26,6 +26,12 @@ add_action ('init', function () {
       'editor'
     ]
   ]);
+  
+  add_action('admin_menu', function () {
+  	if (!\KuntaAPI\Core\CoreSettings::getBooleanValue('fragmentsEnabled')) {
+  		remove_menu_page('edit.php?post_type=fragment');
+  	}
+  });
   
 });
 ?>

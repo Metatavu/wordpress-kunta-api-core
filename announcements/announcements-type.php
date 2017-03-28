@@ -1,8 +1,8 @@
 <?php
-defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
+  defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
 
-add_action ('init', function () {
-  register_post_type ( 'announcement', array (
+  add_action ('init', function () {
+    register_post_type ( 'announcement', array (
       'labels' => array (
           'name'               => __( 'Header Announcements', 'kunta_api_core' ),
           'singular_name'      => __( 'Header Announcement', 'kunta_api_core' ),
@@ -24,7 +24,13 @@ add_action ('init', function () {
           'title',
           'editor'
       )
-  ));
-});
+    ));
+  });
+  
+  add_action('admin_menu', function () {
+  	if (!\KuntaAPI\Core\CoreSettings::getBooleanValue('announcementsEnabled')) {
+  		remove_menu_page('edit.php?post_type=announcement');
+  	}
+  });
 
 ?>
