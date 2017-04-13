@@ -16,5 +16,6 @@ require_once( __DIR__ . '/service-channels/printable-form-channel-content-proces
 require_once( __DIR__ . '/service-channels/service-location-channel-content-processor.php');
 require_once( __DIR__ . '/service-channels/webpage-channel-content-processor.php');
 require_once( __DIR__ . '/service-locations/service-location-content-processor.php');
+require_once( __DIR__ . '/service-locations/service-shortcodes.php');
 
 ?>
