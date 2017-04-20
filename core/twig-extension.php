@@ -31,10 +31,86 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
         new \Twig_SimpleFilter('serviceLocationPath', array($this, 'serviceLocationPathFilter')),
         new \Twig_SimpleFilter('pagePath', array($this, 'pagePathFilter')),
         new \Twig_SimpleFilter('formatServiceHour', array($this, 'formatServiceHourFilter')),
-        new \Twig_SimpleFilter('formatWeekDays', array($this, 'formatWeekDaysFilter'))
+        new \Twig_SimpleFilter('formatWeekDays', array($this, 'formatWeekDaysFilter')),
+        new \Twig_SimpleFilter('phoneNumber', array($this, 'phoneNumberFilter')),
+        new \Twig_SimpleFilter('phoneChargeDescription', array($this, 'phoneChargeDescriptionFilter')),
+        new \Twig_SimpleFilter('dateTimeFormat', array($this, 'dateTimeFormatFilter')),
+        new \Twig_SimpleFilter('openingHoursFormat', array($this, 'openingHoursFormatFilter')),
+        new \Twig_SimpleFilter('serviceHourSort', array($this, 'serviceHourSortFilter'))
       ];
     }
+
+    public function serviceHourSortFilter($serviceHours) {
+      usort($serviceHours, function($a, $b) { 
+        if ($a['serviceHourType'] == 'Standard' && $b['serviceHourType'] == 'Special') {
+          return -1;
+        } else if ($a['serviceHourType'] == 'Special' && $b['serviceHourType'] == 'Exception') {
+          return -1;
+        }  else if ($a['serviceHourType'] == 'Standard' && $b['serviceHourType'] == 'Exception') {
+          return -1;
+        } else if ($a['serviceHourType'] == 'Standard' && $a['serviceHourType'] == 'Standard') {
+          if (!empty($a['additionalInformation']) && empty($b['additionalInformation'])) {
+            return 1;
+          } else if(empty($a['additionalInformation']) && !empty($b['additionalInformation'])) {
+            return -1;
+          } else {
+            return 0;
+          }
+        } else {
+          return 1;
+        }
+      });
       
+      return $serviceHours;
+    }
+    
+    public function openingHoursFormatFilter($dailyOpeningTime) {
+      if (!isset($dailyOpeningTime['dayFrom'])) {
+        return '';
+      }
+      
+      $result = $this->dayMap[$dailyOpeningTime['dayFrom']];
+      
+      if (isset($dailyOpeningTime['dayTo'])) {
+        $result = $result . ' - ' . $this->dayMap[$dailyOpeningTime['dayTo']];
+      }
+      
+      if (isset($dailyOpeningTime['from'])) {
+        $result = $result . ' ' . implode(':', array_slice(explode(':', $dailyOpeningTime['from']), 0, 2));
+      }
+      
+      if (isset($dailyOpeningTime['to'])) {
+        $result = $result . '-' . implode(':', array_slice(explode(':', $dailyOpeningTime['to']), 0, 2));
+      }
+      
+      return $result;
+    }
+    
+    public function dateTimeFormatFilter($datetime) {
+      return $datetime->format('d.m.Y');
+    }
+    
+    public function phoneNumberFilter($phone) {
+      $phonePrefix = $phone->getPrefixNumber();
+      $result = '';
+      if (isset($phonePrefix)) {
+        $result = $result . $phonePrefix;
+      }
+      $phoneNumber = $phone->getNumber();
+      if (isset($phoneNumber)) {
+        $result = $result . $phoneNumber;
+      }
+      
+      return $result;
+    }
+
+    public function phoneChargeDescriptionFilter($phone) {
+      $chargeDescription = $phone->getChargeDescription();
+      if (isset($chargeDescription)) {
+        return $chargeDescription;
+      }
+    }
+    
     public function localizedValueFilter($localizedItems, $lang, $type = null) {
       if (is_array($localizedItems)) {
         foreach ($localizedItems as $localizedItem) {

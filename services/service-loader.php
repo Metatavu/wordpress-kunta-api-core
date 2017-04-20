@@ -18,28 +18,7 @@
       
       public static function listOrganizationServices($firstResult, $maxResults) {
         $organizationId = \KuntaAPI\Core\CoreSettings::getValue('organizationId');
-        $organizationServices = [];
-        try {
-          $organizationServices = \KuntaAPI\Core\Api::getOrganizationServicesApi()->listOrganizationOrganizationServices($organizationId, $firstResult, $maxResults);
-        } catch (\KuntaAPI\ApiException $e) {
-          error_log("Organization services listing failed with following message: " . $e->getMessage());
-        }
-        
-        $serviceList = [];
-        foreach ($organizationServices as $organizationService) {
-          $serviceId = $organizationService->getServiceId();
-          if (!in_array($serviceId, $serviceList)) {
-            $serviceList[] = $serviceId;
-          }
-        }
-        $services = [];
-        foreach ($serviceList as $id) {
-          $service = static::findService($id);
-          if (isset($service)) {
-            $services[] = $service;
-          }
-        }
-        return $services;
+        return \KuntaAPI\Core\Api::getServicesApi()->listServices($organizationId, null, $firstResult, $maxResults);
       }
       
       public static function findElectronicServiceChannel($serviceId, $id) {
@@ -77,7 +56,7 @@
         return static::$printableFormChannels[$id];
       }
       
-      public static function findServiceLocationServiceChannel($serviceId, $id) {
+      public static function findServiceLocationServiceChannel($id) {
         if(!isset(static::$serviceLocationChannels[$id])) {
           try {
             static::$serviceLocationChannels[$id] = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi()->findServiceLocationServiceChannel($id);
@@ -96,7 +75,7 @@
           
           if (!empty($service)) {
             foreach ($service->getServiceLocationServiceChannelIds() as $channelId) {
-              $result[] = static::findServiceLocationServiceChannel($serviceId, $channelId);
+              $result[] = static::findServiceLocationServiceChannel($channelId);
             }
           }
           

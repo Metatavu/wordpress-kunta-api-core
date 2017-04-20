@@ -5,24 +5,6 @@
   var searching = false;
   var pending = false;
 
-  function loadPendingElements(context){
-    var tinyMceDom = tinymce.dom.DomQuery;
-    tinyMceDom('.mce-kunta-api-component-load-pending', context).each(function(index, element){
-      var component = tinyMceDom(element, context).attr('data-component-type');
-      var serviceId = tinyMceDom(element, context).attr('data-service-id');
-      $.post( ajaxurl, {
-        'action': 'kunta_api_render_service_component',
-        'serviceId': serviceId,
-        'lang': LOCALE,
-        'component': component,
-      }, function(response){
-        var newElement = tinyMceDom(response, context);
-        tinyMceDom(element, context).replaceWith(newElement);
-        tinyMceDom('article[data-type="kunta-api-service-component"]', context).addClass('mceNonEditable');
-      });
-    }); 
-  }
-
   function searchServices(query, callback) {
     $.post( ajaxurl, {
       'action': 'kunta_api_search_services',
@@ -97,6 +79,76 @@
             .attr('title', languages.join(',')))
     );
 
+    resultContainer.append(
+      $('<p>')
+        .append($('<input>')
+        .addClass('service-component-embed-input')
+        .attr({
+          'type':'checkbox',
+          'data-component-type': 'electronicServiceChannelIds',
+          'data-service-id': result.id
+        }))
+        .append(
+          $('<span>')
+            .text('Palvelun sähköiset palvelukanavat'))
+        );
+    
+    resultContainer.append(
+      $('<p>')
+        .append($('<input>')
+        .addClass('service-component-embed-input')
+        .attr({
+          'type':'checkbox',
+          'data-component-type': 'phoneServiceChannelIds',
+          'data-service-id': result.id
+        }))
+        .append(
+          $('<span>')
+            .text('Palvelun puhelinpalvelukanavat'))
+        );
+    
+    resultContainer.append(
+      $('<p>')
+        .append($('<input>')
+        .addClass('service-component-embed-input')
+        .attr({
+          'type':'checkbox',
+          'data-component-type': 'printableFormServiceChannelIds',
+          'data-service-id': result.id
+        }))
+        .append(
+          $('<span>')
+            .text('Palveluun liittyvät lomakkeet'))
+        );
+    
+    resultContainer.append(
+      $('<p>')
+        .append($('<input>')
+        .addClass('service-component-embed-input')
+        .attr({
+          'type':'checkbox',
+          'data-component-type': 'serviceLocationServiceChannelIds',
+          'data-service-id': result.id
+        }))
+        .append(
+          $('<span>')
+            .text('Palvelun toimipisteet'))
+        );
+
+    resultContainer.append(
+      $('<p>')
+        .append($('<input>')
+        .addClass('service-component-embed-input')
+        .attr({
+          'type':'checkbox',
+          'data-component-type': 'webPageServiceChannelIds',
+          'data-service-id': result.id
+        }))
+        .append(
+          $('<span>')
+            .text('Palvelun hyödylliset linkit'))
+        );
+
     $('.mce-kunta-api-search-results').append(resultContainer);
   }
   
@@ -140,14 +192,9 @@
             componentsToEmbed.each(function(){
               var component = $(this).attr('data-component-type');
               var serviceId = $(this).attr('data-service-id');
-              responseHtml += $('<article>')
-                .addClass('mce-kunta-api-component-load-pending mceNonEditable')
-                .attr({'data-component-type': component, 'data-service-id': serviceId})
-                .text('Ladataan...')
-                .prop('outerHTML');
+              responseHtml += '[kunta_api_service_component service-id="'+ serviceId +'" component="'+ component +'"]';
             });
             editor.insertContent(responseHtml);
-            loadPendingElements(editor.getDoc());
           }
         });
       }

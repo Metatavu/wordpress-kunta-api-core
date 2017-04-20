@@ -40,7 +40,7 @@
 
           $service = \KuntaAPI\Services\Loader::findService($serviceId);
           if (isset($service)) {          
-            $serviceLocationChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($service->getId(), $serviceChannelId);
+            $serviceLocationChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceChannelId);
             if (isset($serviceLocationChannel)) {
               $article->innertext = $renderer->renderComponent($lang, $service, $serviceLocationChannel, $component);
             }

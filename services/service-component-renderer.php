@@ -40,7 +40,7 @@
       	  'lang' => $lang,
       	  'service' => $service
       	];
-      	 
+        
         switch ($type) {
           case 'description':
             return $this->twig->render("service-components/service-description-parent.twig", $model);
