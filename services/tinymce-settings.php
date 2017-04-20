@@ -27,7 +27,7 @@
         "group" => "tinymce",
         "type" => "checkbox",
         "name" => "useServiceEmbedPluginTinymce",
-        "title" => __('Use service embed plugin', 'kunta_api_core')
+        "title" => __('Use embed plugin', 'kunta_api_core')
       ];
   });
 
