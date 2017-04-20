@@ -109,6 +109,56 @@
         ]
     },
     {
+        "name": "metatavu/kunta-api-php-client",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Metatavu/kunta-api-php-client.git",
+            "reference": "48ed38e0ff1675a6d7e127f1b96fac8fa68d8a9d"
+        },
+        "require": {
+            "ext-curl": "*",
+            "ext-json": "*",
+            "ext-mbstring": "*",
+            "php": ">=5.4"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.8",
+            "satooshi/php-coveralls": "~1.0",
+            "squizlabs/php_codesniffer": "~2.6"
+        },
+        "time": "2017-04-20 06:57:37",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "KuntaAPI\\": "lib/"
+            }
+        },
+        "autoload-dev": {
+            "psr-4": {
+                "KuntaAPI\\": "test/"
+            }
+        },
+        "license": [
+            "Apache v2"
+        ],
+        "authors": [
+            {
+                "name": "Swagger and contributors",
+                "homepage": "https://github.com/swagger-api/swagger-codegen"
+            }
+        ],
+        "homepage": "http://swagger.io",
+        "keywords": [
+            "api",
+            "php",
+            "sdk",
+            "swagger"
+        ]
+    },
+    {
         "name": "sunra/php-simple-html-dom-parser",
         "version": "v1.5.1",
         "version_normalized": "1.5.1.0",
@@ -215,56 +265,6 @@
         "homepage": "http://twig.sensiolabs.org",
         "keywords": [
             "templating"
-        ]
-    },
-    {
-        "name": "metatavu/kunta-api-php-client",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Metatavu/kunta-api-php-client.git",
-            "reference": "48ed38e0ff1675a6d7e127f1b96fac8fa68d8a9d"
-        },
-        "require": {
-            "ext-curl": "*",
-            "ext-json": "*",
-            "ext-mbstring": "*",
-            "php": ">=5.4"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.8",
-            "satooshi/php-coveralls": "~1.0",
-            "squizlabs/php_codesniffer": "~2.6"
-        },
-        "time": "2017-04-20 06:57:37",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "KuntaAPI\\": "lib/"
-            }
-        },
-        "autoload-dev": {
-            "psr-4": {
-                "KuntaAPI\\": "test/"
-            }
-        },
-        "license": [
-            "Apache v2"
-        ],
-        "authors": [
-            {
-                "name": "Swagger and contributors",
-                "homepage": "https://github.com/swagger-api/swagger-codegen"
-            }
-        ],
-        "homepage": "http://swagger.io",
-        "keywords": [
-            "api",
-            "php",
-            "sdk",
-            "swagger"
         ]
     }
 ]
