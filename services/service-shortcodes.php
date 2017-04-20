@@ -62,8 +62,8 @@
       private function renderElectronicServiceChannelIds($serviceId, $lang) {
         $renderer = new \KuntaAPI\Services\ServiceChannels\ServiceChannelRenderer();
         $serviceChannels = \KuntaAPI\Services\Loader::listElectronicServiceChannels($serviceId);
+        $result = '';
         if (!empty($serviceChannels)) {
-          $result = '';
           foreach ($serviceChannels as $serviceChannel) {
             $result = $result . $renderer->renderElectronicChannel($serviceId, $serviceChannel, $lang);
           }
@@ -88,8 +88,8 @@
       private function renderPrintableFormServiceChannelIds($serviceId, $lang) {
         $renderer = new \KuntaAPI\Services\ServiceChannels\ServiceChannelRenderer();
         $serviceChannels = \KuntaAPI\Services\Loader::listPrintableFormServiceChannels($serviceId);
+        $result = '';
         if (!empty($serviceChannels)) {
-          $result = '';
           foreach ($serviceChannels as $serviceChannel) {
             $result = $result . $renderer->renderPrintableFormChannel($serviceId, $serviceChannel, $lang);
           }
@@ -101,8 +101,8 @@
       private function renderLocationServiceChannelIds($serviceId, $lang) {
         $renderer = new \KuntaAPI\Services\ServiceChannels\ServiceChannelRenderer();
         $serviceChannels = \KuntaAPI\Services\Loader::listServiceLocationServiceChannels($serviceId);
+        $result = '';
         if (!empty($serviceChannels)) {
-          $result = '';
           foreach ($serviceChannels as $serviceChannel) {
             $result = $result . $renderer->renderServiceLocationChannel($serviceId, $serviceChannel, $lang);
           }
@@ -114,8 +114,8 @@
       private function renderWebPageServiceChannelIds($serviceId, $lang) {
         $renderer = new \KuntaAPI\Services\ServiceChannels\ServiceChannelRenderer();
         $serviceChannels = \KuntaAPI\Services\Loader::listWebPageServiceChannels($serviceId);
+        $result = '';
         if (!empty($serviceChannels)) {
-          $result = '';
           foreach ($serviceChannels as $serviceChannel) {
             $result = $result . $renderer->renderWebPageChannel($serviceId, $serviceChannel, $lang);
           }
