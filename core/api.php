@@ -111,6 +111,8 @@
       private function getConfiguration() {
        $result = \KuntaAPI\Configuration::getDefaultConfiguration();
        $result->setHost(\KuntaAPI\Core\CoreSettings::getValue("apiUrl"));
+       $result->setUsername(\KuntaAPI\Core\CoreSettings::getValue("apiUser"));
+       $result->setPassword(\KuntaAPI\Core\CoreSettings::getValue("apiPassword"));
        return $result;
       }
       
