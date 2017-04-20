@@ -4,7 +4,7 @@
   if (is_admin()) {
   	add_action('init', function() {
   	  add_filter('ckeditor_external_plugins', function ($plugins) {
-  	  	$plugins['kunta-api-services'] = plugin_dir_url(dirname(__FILE__, 1)) . 'ckeditor-plugins/kunta-api-services/plugin.js';
+  	  	$plugins['kunta-api-services'] = plugin_dir_url(dirname(__FILE__)) . 'ckeditor-plugins/kunta-api-services/plugin.js';
   	  	return $plugins;
   	  });
     });
