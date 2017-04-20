@@ -17,7 +17,7 @@
       }
       
       public function renderServiceChannelContent($serviceId, $serviceChannelId, $lang) {
-        $serviceChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceId, $serviceChannelId);
+        $serviceChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceChannelId);
         if (empty($serviceChannel)) {
           return '';
         }
