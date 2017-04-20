@@ -23,6 +23,10 @@ Finds organizations single news article
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
+
 $api_instance = new KuntaAPI\Api\NewsApi();
 $organizationId = "organizationId_example"; // string | Organization id
 $newsArticleId = "newsArticleId_example"; // string | News article id
@@ -49,7 +53,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -69,6 +73,10 @@ Returns an news article image
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\NewsApi();
 $organizationId = "organizationId_example"; // string | Organization id
@@ -98,7 +106,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -118,6 +126,10 @@ Returns a news article image data
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\NewsApi();
 $organizationId = "organizationId_example"; // string | Organization id
@@ -149,7 +161,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -159,7 +171,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **listOrganizationNews**
-> \KuntaAPI\Model\NewsArticle[] listOrganizationNews($organizationId, $slug, $publishedBefore, $publishedAfter, $firstResult, $maxResults)
+> \KuntaAPI\Model\NewsArticle[] listOrganizationNews($organizationId, $slug, $tag, $publishedBefore, $publishedAfter, $firstResult, $maxResults)
 
 Lists organizations news
 
@@ -170,16 +182,21 @@ Lists organizations news
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
+
 $api_instance = new KuntaAPI\Api\NewsApi();
 $organizationId = "organizationId_example"; // string | Organization id
 $slug = "slug_example"; // string | Filter with slug
+$tag = "tag_example"; // string | Filter by tag
 $publishedBefore = "publishedBefore_example"; // string | return only news published before the date
 $publishedAfter = "publishedAfter_example"; // string | return only news published after the date
 $firstResult = 56; // int | first index of results
 $maxResults = 56; // int | maximum number of results
 
 try {
-    $result = $api_instance->listOrganizationNews($organizationId, $slug, $publishedBefore, $publishedAfter, $firstResult, $maxResults);
+    $result = $api_instance->listOrganizationNews($organizationId, $slug, $tag, $publishedBefore, $publishedAfter, $firstResult, $maxResults);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling NewsApi->listOrganizationNews: ', $e->getMessage(), PHP_EOL;
@@ -193,6 +210,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **organizationId** | **string**| Organization id |
  **slug** | **string**| Filter with slug | [optional]
+ **tag** | **string**| Filter by tag | [optional]
  **publishedBefore** | **string**| return only news published before the date | [optional]
  **publishedAfter** | **string**| return only news published after the date | [optional]
  **firstResult** | **int**| first index of results | [optional]
@@ -204,7 +222,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -224,6 +242,10 @@ Returns list of news article images
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\NewsApi();
 $organizationId = "organizationId_example"; // string | Organization id
@@ -251,7 +273,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 

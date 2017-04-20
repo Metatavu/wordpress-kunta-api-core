@@ -1,1 +1,5 @@
-{{ serviceLocationChannel.phone }}
+{% if serviceLocationChannel.phoneNumbers %}
+{% for number in serviceLocationChannel.phoneNumbers %}
+<p>{{ number|phoneNumber }}</p>
+{% endfor %}
+{% endif %}

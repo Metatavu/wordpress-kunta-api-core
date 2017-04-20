@@ -14,24 +14,24 @@
   });
  
   add_action('kunta_api_core_settings', function () {
- 	  global $kuntaApiSettings;
+    global $kuntaApiSettings;
  	
- 	  $kuntaApiSettings[] = [
- 	    "group" => "services",
+    $kuntaApiSettings[] = [
+      "group" => "services",
       "type" => "checkbox",
       "name" => "synchronizeServicesAsPages",
       "title" => __('Synchronize services as pages', 'kunta_api_core')
     ];
  	
- 	  $kuntaApiSettings[] = [
- 	    "group" => "services",
+    $kuntaApiSettings[] = [
+      "group" => "services",
       "type" => "checkbox",
       "name" => "synchronizeServiceLocationChannelsAsPages",
       "title" => __('Synchronize service location channels as pages', 'kunta_api_core')
     ];
  	
- 	  $kuntaApiSettings[] = [
- 	    "group" => "services",
+    $kuntaApiSettings[] = [
+      "group" => "services",
       "type" => "text",
       "name" => "locationChannelsPath",
       "title" => __('Location channels path', 'kunta_api_core')

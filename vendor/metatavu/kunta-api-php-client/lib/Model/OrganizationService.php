@@ -47,6 +47,7 @@ use \ArrayAccess;
  * OrganizationService Class Doc Comment
  *
  * @category    Class */
+ // @description Organization service
 /** 
  * @package     KuntaAPI
  * @author      http://github.com/swagger-api/swagger-codegen
@@ -66,12 +67,11 @@ class OrganizationService implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = array(
-        'id' => 'string',
+        'additionalInformation' => '\KuntaAPI\Model\LocalizedValue[]',
         'serviceId' => 'string',
         'organizationId' => 'string',
         'roleType' => 'string',
         'provisionType' => 'string',
-        'additionalInformation' => '\KuntaAPI\Model\LocalizedValue[]',
         'webPages' => '\KuntaAPI\Model\WebPage[]'
     );
 
@@ -85,12 +85,11 @@ class OrganizationService implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
-        'id' => 'id',
+        'additionalInformation' => 'additionalInformation',
         'serviceId' => 'serviceId',
         'organizationId' => 'organizationId',
         'roleType' => 'roleType',
         'provisionType' => 'provisionType',
-        'additionalInformation' => 'additionalInformation',
         'webPages' => 'webPages'
     );
 
@@ -104,12 +103,11 @@ class OrganizationService implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
-        'id' => 'setId',
+        'additionalInformation' => 'setAdditionalInformation',
         'serviceId' => 'setServiceId',
         'organizationId' => 'setOrganizationId',
         'roleType' => 'setRoleType',
         'provisionType' => 'setProvisionType',
-        'additionalInformation' => 'setAdditionalInformation',
         'webPages' => 'setWebPages'
     );
 
@@ -123,12 +121,11 @@ class OrganizationService implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
-        'id' => 'getId',
+        'additionalInformation' => 'getAdditionalInformation',
         'serviceId' => 'getServiceId',
         'organizationId' => 'getOrganizationId',
         'roleType' => 'getRoleType',
         'provisionType' => 'getProvisionType',
-        'additionalInformation' => 'getAdditionalInformation',
         'webPages' => 'getWebPages'
     );
 
@@ -153,12 +150,11 @@ class OrganizationService implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['additionalInformation'] = isset($data['additionalInformation']) ? $data['additionalInformation'] : null;
         $this->container['serviceId'] = isset($data['serviceId']) ? $data['serviceId'] : null;
         $this->container['organizationId'] = isset($data['organizationId']) ? $data['organizationId'] : null;
         $this->container['roleType'] = isset($data['roleType']) ? $data['roleType'] : null;
         $this->container['provisionType'] = isset($data['provisionType']) ? $data['provisionType'] : null;
-        $this->container['additionalInformation'] = isset($data['additionalInformation']) ? $data['additionalInformation'] : null;
         $this->container['webPages'] = isset($data['webPages']) ? $data['webPages'] : null;
     }
 
@@ -186,22 +182,22 @@ class OrganizationService implements ArrayAccess
 
 
     /**
-     * Gets id
-     * @return string
+     * Gets additionalInformation
+     * @return \KuntaAPI\Model\LocalizedValue[]
      */
-    public function getId()
+    public function getAdditionalInformation()
     {
-        return $this->container['id'];
+        return $this->container['additionalInformation'];
     }
 
     /**
-     * Sets id
-     * @param string $id
+     * Sets additionalInformation
+     * @param \KuntaAPI\Model\LocalizedValue[] $additionalInformation Localized list of additional information.
      * @return $this
      */
-    public function setId($id)
+    public function setAdditionalInformation($additionalInformation)
     {
-        $this->container['id'] = $id;
+        $this->container['additionalInformation'] = $additionalInformation;
 
         return $this;
     }
@@ -217,7 +213,7 @@ class OrganizationService implements ArrayAccess
 
     /**
      * Sets serviceId
-     * @param string $serviceId
+     * @param string $serviceId Service identifier.
      * @return $this
      */
     public function setServiceId($serviceId)
@@ -238,7 +234,7 @@ class OrganizationService implements ArrayAccess
 
     /**
      * Sets organizationId
-     * @param string $organizationId
+     * @param string $organizationId Organization identifier (organization related to the service).
      * @return $this
      */
     public function setOrganizationId($organizationId)
@@ -259,7 +255,7 @@ class OrganizationService implements ArrayAccess
 
     /**
      * Sets roleType
-     * @param string $roleType
+     * @param string $roleType Role type, valid values Responsible or Producer.
      * @return $this
      */
     public function setRoleType($roleType)
@@ -280,33 +276,12 @@ class OrganizationService implements ArrayAccess
 
     /**
      * Sets provisionType
-     * @param string $provisionType
+     * @param string $provisionType Provision type, valid values SelfProduced, VoucherServices, PurchaseServices or Other. Required if RoleType value is Producer.
      * @return $this
      */
     public function setProvisionType($provisionType)
     {
         $this->container['provisionType'] = $provisionType;
-
-        return $this;
-    }
-
-    /**
-     * Gets additionalInformation
-     * @return \KuntaAPI\Model\LocalizedValue[]
-     */
-    public function getAdditionalInformation()
-    {
-        return $this->container['additionalInformation'];
-    }
-
-    /**
-     * Sets additionalInformation
-     * @param \KuntaAPI\Model\LocalizedValue[] $additionalInformation
-     * @return $this
-     */
-    public function setAdditionalInformation($additionalInformation)
-    {
-        $this->container['additionalInformation'] = $additionalInformation;
 
         return $this;
     }
@@ -322,7 +297,7 @@ class OrganizationService implements ArrayAccess
 
     /**
      * Sets webPages
-     * @param \KuntaAPI\Model\WebPage[] $webPages
+     * @param \KuntaAPI\Model\WebPage[] $webPages List of web pages.
      * @return $this
      */
     public function setWebPages($webPages)

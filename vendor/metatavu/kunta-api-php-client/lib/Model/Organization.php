@@ -47,6 +47,7 @@ use \ArrayAccess;
  * Organization Class Doc Comment
  *
  * @category    Class */
+ // @description Organization
 /** 
  * @package     KuntaAPI
  * @author      http://github.com/swagger-api/swagger-codegen
@@ -67,8 +68,20 @@ class Organization implements ArrayAccess
       */
     protected static $swaggerTypes = array(
         'id' => 'string',
+        'municipality' => '\KuntaAPI\Model\Municipality',
+        'organizationType' => 'string',
+        'businessCode' => 'string',
         'businessName' => 'string',
-        'businessCode' => 'string'
+        'names' => '\KuntaAPI\Model\LocalizedValue[]',
+        'displayNameType' => 'string',
+        'descriptions' => '\KuntaAPI\Model\LocalizedValue[]',
+        'emailAddresses' => '\KuntaAPI\Model\Email[]',
+        'phoneNumbers' => '\KuntaAPI\Model\Phone[]',
+        'webPages' => '\KuntaAPI\Model\WebPage[]',
+        'addresses' => '\KuntaAPI\Model\Address[]',
+        'publishingStatus' => 'string',
+        'parentOrganization' => 'string',
+        'services' => '\KuntaAPI\Model\OrganizationService[]'
     );
 
     public static function swaggerTypes()
@@ -82,8 +95,20 @@ class Organization implements ArrayAccess
      */
     protected static $attributeMap = array(
         'id' => 'id',
+        'municipality' => 'municipality',
+        'organizationType' => 'organizationType',
+        'businessCode' => 'businessCode',
         'businessName' => 'businessName',
-        'businessCode' => 'businessCode'
+        'names' => 'names',
+        'displayNameType' => 'displayNameType',
+        'descriptions' => 'descriptions',
+        'emailAddresses' => 'emailAddresses',
+        'phoneNumbers' => 'phoneNumbers',
+        'webPages' => 'webPages',
+        'addresses' => 'addresses',
+        'publishingStatus' => 'publishingStatus',
+        'parentOrganization' => 'parentOrganization',
+        'services' => 'services'
     );
 
     public static function attributeMap()
@@ -97,8 +122,20 @@ class Organization implements ArrayAccess
      */
     protected static $setters = array(
         'id' => 'setId',
+        'municipality' => 'setMunicipality',
+        'organizationType' => 'setOrganizationType',
+        'businessCode' => 'setBusinessCode',
         'businessName' => 'setBusinessName',
-        'businessCode' => 'setBusinessCode'
+        'names' => 'setNames',
+        'displayNameType' => 'setDisplayNameType',
+        'descriptions' => 'setDescriptions',
+        'emailAddresses' => 'setEmailAddresses',
+        'phoneNumbers' => 'setPhoneNumbers',
+        'webPages' => 'setWebPages',
+        'addresses' => 'setAddresses',
+        'publishingStatus' => 'setPublishingStatus',
+        'parentOrganization' => 'setParentOrganization',
+        'services' => 'setServices'
     );
 
     public static function setters()
@@ -112,8 +149,20 @@ class Organization implements ArrayAccess
      */
     protected static $getters = array(
         'id' => 'getId',
+        'municipality' => 'getMunicipality',
+        'organizationType' => 'getOrganizationType',
+        'businessCode' => 'getBusinessCode',
         'businessName' => 'getBusinessName',
-        'businessCode' => 'getBusinessCode'
+        'names' => 'getNames',
+        'displayNameType' => 'getDisplayNameType',
+        'descriptions' => 'getDescriptions',
+        'emailAddresses' => 'getEmailAddresses',
+        'phoneNumbers' => 'getPhoneNumbers',
+        'webPages' => 'getWebPages',
+        'addresses' => 'getAddresses',
+        'publishingStatus' => 'getPublishingStatus',
+        'parentOrganization' => 'getParentOrganization',
+        'services' => 'getServices'
     );
 
     public static function getters()
@@ -138,8 +187,20 @@ class Organization implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
-        $this->container['businessName'] = isset($data['businessName']) ? $data['businessName'] : null;
+        $this->container['municipality'] = isset($data['municipality']) ? $data['municipality'] : null;
+        $this->container['organizationType'] = isset($data['organizationType']) ? $data['organizationType'] : null;
         $this->container['businessCode'] = isset($data['businessCode']) ? $data['businessCode'] : null;
+        $this->container['businessName'] = isset($data['businessName']) ? $data['businessName'] : null;
+        $this->container['names'] = isset($data['names']) ? $data['names'] : null;
+        $this->container['displayNameType'] = isset($data['displayNameType']) ? $data['displayNameType'] : null;
+        $this->container['descriptions'] = isset($data['descriptions']) ? $data['descriptions'] : null;
+        $this->container['emailAddresses'] = isset($data['emailAddresses']) ? $data['emailAddresses'] : null;
+        $this->container['phoneNumbers'] = isset($data['phoneNumbers']) ? $data['phoneNumbers'] : null;
+        $this->container['webPages'] = isset($data['webPages']) ? $data['webPages'] : null;
+        $this->container['addresses'] = isset($data['addresses']) ? $data['addresses'] : null;
+        $this->container['publishingStatus'] = isset($data['publishingStatus']) ? $data['publishingStatus'] : null;
+        $this->container['parentOrganization'] = isset($data['parentOrganization']) ? $data['parentOrganization'] : null;
+        $this->container['services'] = isset($data['services']) ? $data['services'] : null;
     }
 
     /**
@@ -176,7 +237,7 @@ class Organization implements ArrayAccess
 
     /**
      * Sets id
-     * @param string $id Unique identifier a organization.
+     * @param string $id Entity identifier.
      * @return $this
      */
     public function setId($id)
@@ -187,22 +248,43 @@ class Organization implements ArrayAccess
     }
 
     /**
-     * Gets businessName
-     * @return string
+     * Gets municipality
+     * @return \KuntaAPI\Model\Municipality
      */
-    public function getBusinessName()
+    public function getMunicipality()
     {
-        return $this->container['businessName'];
+        return $this->container['municipality'];
     }
 
     /**
-     * Sets businessName
-     * @param string $businessName Primary name of organization
+     * Sets municipality
+     * @param \KuntaAPI\Model\Municipality $municipality Municipality including municipality code and a localized list of municipality names.
      * @return $this
      */
-    public function setBusinessName($businessName)
+    public function setMunicipality($municipality)
     {
-        $this->container['businessName'] = $businessName;
+        $this->container['municipality'] = $municipality;
+
+        return $this;
+    }
+
+    /**
+     * Gets organizationType
+     * @return string
+     */
+    public function getOrganizationType()
+    {
+        return $this->container['organizationType'];
+    }
+
+    /**
+     * Sets organizationType
+     * @param string $organizationType Organization type (State, Municipality, RegionalOrganization, Organization, Company).
+     * @return $this
+     */
+    public function setOrganizationType($organizationType)
+    {
+        $this->container['organizationType'] = $organizationType;
 
         return $this;
     }
@@ -218,12 +300,243 @@ class Organization implements ArrayAccess
 
     /**
      * Sets businessCode
-     * @param string $businessCode Business code code of organization
+     * @param string $businessCode Organization business code (Y-tunnus).
      * @return $this
      */
     public function setBusinessCode($businessCode)
     {
         $this->container['businessCode'] = $businessCode;
+
+        return $this;
+    }
+
+    /**
+     * Gets businessName
+     * @return string
+     */
+    public function getBusinessName()
+    {
+        return $this->container['businessName'];
+    }
+
+    /**
+     * Sets businessName
+     * @param string $businessName Organization business name (name used for business code).
+     * @return $this
+     */
+    public function setBusinessName($businessName)
+    {
+        $this->container['businessName'] = $businessName;
+
+        return $this;
+    }
+
+    /**
+     * Gets names
+     * @return \KuntaAPI\Model\LocalizedValue[]
+     */
+    public function getNames()
+    {
+        return $this->container['names'];
+    }
+
+    /**
+     * Sets names
+     * @param \KuntaAPI\Model\LocalizedValue[] $names List of organization names.
+     * @return $this
+     */
+    public function setNames($names)
+    {
+        $this->container['names'] = $names;
+
+        return $this;
+    }
+
+    /**
+     * Gets displayNameType
+     * @return string
+     */
+    public function getDisplayNameType()
+    {
+        return $this->container['displayNameType'];
+    }
+
+    /**
+     * Sets displayNameType
+     * @param string $displayNameType Display name type (Name or AlternateName). Which name type should be used as the display name for the organization (OrganizationNames list).
+     * @return $this
+     */
+    public function setDisplayNameType($displayNameType)
+    {
+        $this->container['displayNameType'] = $displayNameType;
+
+        return $this;
+    }
+
+    /**
+     * Gets descriptions
+     * @return \KuntaAPI\Model\LocalizedValue[]
+     */
+    public function getDescriptions()
+    {
+        return $this->container['descriptions'];
+    }
+
+    /**
+     * Sets descriptions
+     * @param \KuntaAPI\Model\LocalizedValue[] $descriptions List of organizations descriptions.
+     * @return $this
+     */
+    public function setDescriptions($descriptions)
+    {
+        $this->container['descriptions'] = $descriptions;
+
+        return $this;
+    }
+
+    /**
+     * Gets emailAddresses
+     * @return \KuntaAPI\Model\Email[]
+     */
+    public function getEmailAddresses()
+    {
+        return $this->container['emailAddresses'];
+    }
+
+    /**
+     * Sets emailAddresses
+     * @param \KuntaAPI\Model\Email[] $emailAddresses List of organizations email addresses.
+     * @return $this
+     */
+    public function setEmailAddresses($emailAddresses)
+    {
+        $this->container['emailAddresses'] = $emailAddresses;
+
+        return $this;
+    }
+
+    /**
+     * Gets phoneNumbers
+     * @return \KuntaAPI\Model\Phone[]
+     */
+    public function getPhoneNumbers()
+    {
+        return $this->container['phoneNumbers'];
+    }
+
+    /**
+     * Sets phoneNumbers
+     * @param \KuntaAPI\Model\Phone[] $phoneNumbers List of organizations phone numbers.
+     * @return $this
+     */
+    public function setPhoneNumbers($phoneNumbers)
+    {
+        $this->container['phoneNumbers'] = $phoneNumbers;
+
+        return $this;
+    }
+
+    /**
+     * Gets webPages
+     * @return \KuntaAPI\Model\WebPage[]
+     */
+    public function getWebPages()
+    {
+        return $this->container['webPages'];
+    }
+
+    /**
+     * Sets webPages
+     * @param \KuntaAPI\Model\WebPage[] $webPages List of organizations web pages.
+     * @return $this
+     */
+    public function setWebPages($webPages)
+    {
+        $this->container['webPages'] = $webPages;
+
+        return $this;
+    }
+
+    /**
+     * Gets addresses
+     * @return \KuntaAPI\Model\Address[]
+     */
+    public function getAddresses()
+    {
+        return $this->container['addresses'];
+    }
+
+    /**
+     * Sets addresses
+     * @param \KuntaAPI\Model\Address[] $addresses List of organizations addresses.
+     * @return $this
+     */
+    public function setAddresses($addresses)
+    {
+        $this->container['addresses'] = $addresses;
+
+        return $this;
+    }
+
+    /**
+     * Gets publishingStatus
+     * @return string
+     */
+    public function getPublishingStatus()
+    {
+        return $this->container['publishingStatus'];
+    }
+
+    /**
+     * Sets publishingStatus
+     * @param string $publishingStatus Publishing status (Draft, Published, Deleted, Modified and OldPublished).
+     * @return $this
+     */
+    public function setPublishingStatus($publishingStatus)
+    {
+        $this->container['publishingStatus'] = $publishingStatus;
+
+        return $this;
+    }
+
+    /**
+     * Gets parentOrganization
+     * @return string
+     */
+    public function getParentOrganization()
+    {
+        return $this->container['parentOrganization'];
+    }
+
+    /**
+     * Sets parentOrganization
+     * @param string $parentOrganization Organizations parent organization identifier if exists.
+     * @return $this
+     */
+    public function setParentOrganization($parentOrganization)
+    {
+        $this->container['parentOrganization'] = $parentOrganization;
+
+        return $this;
+    }
+
+    /**
+     * Gets services
+     * @return \KuntaAPI\Model\OrganizationService[]
+     */
+    public function getServices()
+    {
+        return $this->container['services'];
+    }
+
+    /**
+     * Sets services
+     * @param \KuntaAPI\Model\OrganizationService[] $services List of organizations services.
+     * @return $this
+     */
+    public function setServices($services)
+    {
+        $this->container['services'] = $services;
 
         return $this;
     }

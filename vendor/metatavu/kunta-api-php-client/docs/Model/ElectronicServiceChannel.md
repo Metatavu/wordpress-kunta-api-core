@@ -4,13 +4,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **string** |  | [optional] 
-**type** | **string** |  | [optional] 
 **organizationId** | **string** |  | [optional] 
 **names** | [**\KuntaAPI\Model\LocalizedValue[]**](LocalizedValue.md) |  | [optional] 
 **descriptions** | [**\KuntaAPI\Model\LocalizedValue[]**](LocalizedValue.md) |  | [optional] 
 **signatureQuantity** | **int** |  | [optional] 
 **requiresSignature** | **bool** |  | [optional] 
-**supportContacts** | [**\KuntaAPI\Model\SupportContact[]**](SupportContact.md) |  | [optional] 
+**supportPhones** | [**\KuntaAPI\Model\Phone[]**](Phone.md) | List of support phone numbers for the service channel. | [optional] 
+**supportEmails** | [**\KuntaAPI\Model\Email[]**](Email.md) | List of support email addresses for the service channel. | [optional] 
 **requiresAuthentication** | **bool** |  | [optional] 
 **urls** | [**\KuntaAPI\Model\LocalizedValue[]**](LocalizedValue.md) |  | [optional] 
 **languages** | **string[]** |  | [optional] 

@@ -77,14 +77,14 @@ class Service implements ArrayAccess
         'names' => '\KuntaAPI\Model\LocalizedValue[]',
         'descriptions' => '\KuntaAPI\Model\LocalizedValue[]',
         'languages' => 'string[]',
-        'keywords' => 'string[]',
+        'keywords' => '\KuntaAPI\Model\LocalizedValue[]',
+        'legislation' => '\KuntaAPI\Model\Law[]',
         'coverageType' => 'string',
-        'municipalities' => 'string[]',
-        'webPages' => '\KuntaAPI\Model\WebPage[]',
+        'municipalities' => '\KuntaAPI\Model\Municipality[]',
         'requirements' => '\KuntaAPI\Model\LocalizedValue[]',
         'publishingStatus' => 'string',
         'chargeType' => 'string',
-        'additionalInformations' => '\KuntaAPI\Model\LocalizedValue[]',
+        'organizations' => '\KuntaAPI\Model\ServiceOrganization[]',
         'electronicServiceChannelIds' => 'string[]',
         'phoneServiceChannelIds' => 'string[]',
         'printableFormServiceChannelIds' => 'string[]',
@@ -114,13 +114,13 @@ class Service implements ArrayAccess
         'descriptions' => 'descriptions',
         'languages' => 'languages',
         'keywords' => 'keywords',
+        'legislation' => 'legislation',
         'coverageType' => 'coverageType',
         'municipalities' => 'municipalities',
-        'webPages' => 'webPages',
         'requirements' => 'requirements',
         'publishingStatus' => 'publishingStatus',
         'chargeType' => 'chargeType',
-        'additionalInformations' => 'additionalInformations',
+        'organizations' => 'organizations',
         'electronicServiceChannelIds' => 'electronicServiceChannelIds',
         'phoneServiceChannelIds' => 'phoneServiceChannelIds',
         'printableFormServiceChannelIds' => 'printableFormServiceChannelIds',
@@ -150,13 +150,13 @@ class Service implements ArrayAccess
         'descriptions' => 'setDescriptions',
         'languages' => 'setLanguages',
         'keywords' => 'setKeywords',
+        'legislation' => 'setLegislation',
         'coverageType' => 'setCoverageType',
         'municipalities' => 'setMunicipalities',
-        'webPages' => 'setWebPages',
         'requirements' => 'setRequirements',
         'publishingStatus' => 'setPublishingStatus',
         'chargeType' => 'setChargeType',
-        'additionalInformations' => 'setAdditionalInformations',
+        'organizations' => 'setOrganizations',
         'electronicServiceChannelIds' => 'setElectronicServiceChannelIds',
         'phoneServiceChannelIds' => 'setPhoneServiceChannelIds',
         'printableFormServiceChannelIds' => 'setPrintableFormServiceChannelIds',
@@ -186,13 +186,13 @@ class Service implements ArrayAccess
         'descriptions' => 'getDescriptions',
         'languages' => 'getLanguages',
         'keywords' => 'getKeywords',
+        'legislation' => 'getLegislation',
         'coverageType' => 'getCoverageType',
         'municipalities' => 'getMunicipalities',
-        'webPages' => 'getWebPages',
         'requirements' => 'getRequirements',
         'publishingStatus' => 'getPublishingStatus',
         'chargeType' => 'getChargeType',
-        'additionalInformations' => 'getAdditionalInformations',
+        'organizations' => 'getOrganizations',
         'electronicServiceChannelIds' => 'getElectronicServiceChannelIds',
         'phoneServiceChannelIds' => 'getPhoneServiceChannelIds',
         'printableFormServiceChannelIds' => 'getPrintableFormServiceChannelIds',
@@ -233,13 +233,13 @@ class Service implements ArrayAccess
         $this->container['descriptions'] = isset($data['descriptions']) ? $data['descriptions'] : null;
         $this->container['languages'] = isset($data['languages']) ? $data['languages'] : null;
         $this->container['keywords'] = isset($data['keywords']) ? $data['keywords'] : null;
+        $this->container['legislation'] = isset($data['legislation']) ? $data['legislation'] : null;
         $this->container['coverageType'] = isset($data['coverageType']) ? $data['coverageType'] : null;
         $this->container['municipalities'] = isset($data['municipalities']) ? $data['municipalities'] : null;
-        $this->container['webPages'] = isset($data['webPages']) ? $data['webPages'] : null;
         $this->container['requirements'] = isset($data['requirements']) ? $data['requirements'] : null;
         $this->container['publishingStatus'] = isset($data['publishingStatus']) ? $data['publishingStatus'] : null;
         $this->container['chargeType'] = isset($data['chargeType']) ? $data['chargeType'] : null;
-        $this->container['additionalInformations'] = isset($data['additionalInformations']) ? $data['additionalInformations'] : null;
+        $this->container['organizations'] = isset($data['organizations']) ? $data['organizations'] : null;
         $this->container['electronicServiceChannelIds'] = isset($data['electronicServiceChannelIds']) ? $data['electronicServiceChannelIds'] : null;
         $this->container['phoneServiceChannelIds'] = isset($data['phoneServiceChannelIds']) ? $data['phoneServiceChannelIds'] : null;
         $this->container['printableFormServiceChannelIds'] = isset($data['printableFormServiceChannelIds']) ? $data['printableFormServiceChannelIds'] : null;
@@ -503,7 +503,7 @@ class Service implements ArrayAccess
 
     /**
      * Gets keywords
-     * @return string[]
+     * @return \KuntaAPI\Model\LocalizedValue[]
      */
     public function getKeywords()
     {
@@ -512,12 +512,33 @@ class Service implements ArrayAccess
 
     /**
      * Sets keywords
-     * @param string[] $keywords
+     * @param \KuntaAPI\Model\LocalizedValue[] $keywords List of localized service keywords.
      * @return $this
      */
     public function setKeywords($keywords)
     {
         $this->container['keywords'] = $keywords;
+
+        return $this;
+    }
+
+    /**
+     * Gets legislation
+     * @return \KuntaAPI\Model\Law[]
+     */
+    public function getLegislation()
+    {
+        return $this->container['legislation'];
+    }
+
+    /**
+     * Sets legislation
+     * @param \KuntaAPI\Model\Law[] $legislation List of laws related to the service.
+     * @return $this
+     */
+    public function setLegislation($legislation)
+    {
+        $this->container['legislation'] = $legislation;
 
         return $this;
     }
@@ -533,7 +554,7 @@ class Service implements ArrayAccess
 
     /**
      * Sets coverageType
-     * @param string $coverageType
+     * @param string $coverageType Service coverage type. Valid values are: Local or Nationwide.
      * @return $this
      */
     public function setCoverageType($coverageType)
@@ -545,7 +566,7 @@ class Service implements ArrayAccess
 
     /**
      * Gets municipalities
-     * @return string[]
+     * @return \KuntaAPI\Model\Municipality[]
      */
     public function getMunicipalities()
     {
@@ -554,33 +575,12 @@ class Service implements ArrayAccess
 
     /**
      * Sets municipalities
-     * @param string[] $municipalities
+     * @param \KuntaAPI\Model\Municipality[] $municipalities
      * @return $this
      */
     public function setMunicipalities($municipalities)
     {
         $this->container['municipalities'] = $municipalities;
-
-        return $this;
-    }
-
-    /**
-     * Gets webPages
-     * @return \KuntaAPI\Model\WebPage[]
-     */
-    public function getWebPages()
-    {
-        return $this->container['webPages'];
-    }
-
-    /**
-     * Sets webPages
-     * @param \KuntaAPI\Model\WebPage[] $webPages
-     * @return $this
-     */
-    public function setWebPages($webPages)
-    {
-        $this->container['webPages'] = $webPages;
 
         return $this;
     }
@@ -617,7 +617,7 @@ class Service implements ArrayAccess
 
     /**
      * Sets publishingStatus
-     * @param string $publishingStatus
+     * @param string $publishingStatus Publishing status. Possible values are: Draft, Published, Deleted, Modified or OldPublished.
      * @return $this
      */
     public function setPublishingStatus($publishingStatus)
@@ -649,22 +649,22 @@ class Service implements ArrayAccess
     }
 
     /**
-     * Gets additionalInformations
-     * @return \KuntaAPI\Model\LocalizedValue[]
+     * Gets organizations
+     * @return \KuntaAPI\Model\ServiceOrganization[]
      */
-    public function getAdditionalInformations()
+    public function getOrganizations()
     {
-        return $this->container['additionalInformations'];
+        return $this->container['organizations'];
     }
 
     /**
-     * Sets additionalInformations
-     * @param \KuntaAPI\Model\LocalizedValue[] $additionalInformations
+     * Sets organizations
+     * @param \KuntaAPI\Model\ServiceOrganization[] $organizations
      * @return $this
      */
-    public function setAdditionalInformations($additionalInformations)
+    public function setOrganizations($organizations)
     {
-        $this->container['additionalInformations'] = $additionalInformations;
+        $this->container['organizations'] = $organizations;
 
         return $this;
     }
