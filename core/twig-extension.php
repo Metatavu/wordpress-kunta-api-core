@@ -33,7 +33,6 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
         new \Twig_SimpleFilter('formatServiceHour', array($this, 'formatServiceHourFilter')),
         new \Twig_SimpleFilter('formatWeekDays', array($this, 'formatWeekDaysFilter')),
         new \Twig_SimpleFilter('phoneNumber', array($this, 'phoneNumberFilter')),
-        new \Twig_SimpleFilter('phoneChargeDescription', array($this, 'phoneChargeDescriptionFilter')),
         new \Twig_SimpleFilter('dateTimeFormat', array($this, 'dateTimeFormatFilter')),
         new \Twig_SimpleFilter('openingHoursFormat', array($this, 'openingHoursFormatFilter')),
         new \Twig_SimpleFilter('serviceHourSort', array($this, 'serviceHourSortFilter'))
@@ -102,13 +101,6 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
       }
       
       return $result;
-    }
-
-    public function phoneChargeDescriptionFilter($phone) {
-      $chargeDescription = $phone->getChargeDescription();
-      if (isset($chargeDescription)) {
-        return $chargeDescription;
-      }
     }
     
     public function localizedValueFilter($localizedItems, $lang, $type = null) {
