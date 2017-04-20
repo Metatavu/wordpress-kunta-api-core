@@ -9,12 +9,12 @@
         $useEmbedder = \KuntaAPI\Core\CoreSettings::getBooleanValue('useServiceEmbedPluginTinymce');
         
         if ($useEmbedder) {
-          $plugins['kunta_api_service_embed'] = plugin_dir_url(dirname(__FILE__, 1)) . 'tinymce-plugins/kunta-api-service-embed/plugin.js';
-          $plugins['kunta_api_service_location_embed'] = plugin_dir_url(dirname(__FILE__, 1)) . 'tinymce-plugins/kunta-api-service-location-channel-embed/plugin.js';
+          $plugins['kunta_api_service_embed'] = plugin_dir_url(dirname(__FILE__)) . 'tinymce-plugins/kunta-api-service-embed/plugin.js';
+          $plugins['kunta_api_service_location_embed'] = plugin_dir_url(dirname(__FILE__)) . 'tinymce-plugins/kunta-api-service-location-channel-embed/plugin.js';
         }
   	
         if ($useSidebar) {
-          $plugins['kunta_api_sidebar'] = plugin_dir_url(dirname(__FILE__, 1)) . 'tinymce-plugins/kunta-api-sidebar/plugin.js';
+          $plugins['kunta_api_sidebar'] = plugin_dir_url(dirname(__FILE__)) . 'tinymce-plugins/kunta-api-sidebar/plugin.js';
         }
         
         return $plugins;
@@ -36,11 +36,11 @@
         return $buttons;
       });
       
-      add_editor_style(plugin_dir_url(dirname(__FILE__, 1)) . 'tinymce-plugins/kunta-api-sidebar/editor.css');
+      add_editor_style(plugin_dir_url(dirname(__FILE__)) . 'tinymce-plugins/kunta-api-sidebar/editor.css');
       
-      wp_enqueue_style('kunta_api_service_embed', plugin_dir_url(dirname(__FILE__, 1)) . 'tinymce-plugins/kunta-api-service-embed/plugin.css' );
-      wp_enqueue_style('kunta_api_service_location_embed', plugin_dir_url(dirname(__FILE__, 1)) . 'tinymce-plugins/kunta-api-service-location-channel-embed/plugin.css' );
-      wp_enqueue_style('kunta_api_sidebar', plugin_dir_url(dirname(__FILE__, 1)) . 'tinymce-plugins/kunta-api-sidebar/plugin.css' );
+      wp_enqueue_style('kunta_api_service_embed', plugin_dir_url(dirname(__FILE__)) . 'tinymce-plugins/kunta-api-service-embed/plugin.css' );
+      wp_enqueue_style('kunta_api_service_location_embed', plugin_dir_url(dirname(__FILE__)) . 'tinymce-plugins/kunta-api-service-location-channel-embed/plugin.css' );
+      wp_enqueue_style('kunta_api_sidebar', plugin_dir_url(dirname(__FILE__)) . 'tinymce-plugins/kunta-api-sidebar/plugin.css' );
     });
   }
 ?>
