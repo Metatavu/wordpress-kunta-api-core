@@ -23,6 +23,10 @@ Returns organizations event by id
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
+
 $api_instance = new KuntaAPI\Api\EventsApi();
 $organizationId = "organizationId_example"; // string | Organization id
 $eventId = "eventId_example"; // string | Event id
@@ -49,7 +53,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -69,6 +73,10 @@ Returns an event image
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\EventsApi();
 $organizationId = "organizationId_example"; // string | Organization id
@@ -98,7 +106,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -118,6 +126,10 @@ Returns an event image data
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\EventsApi();
 $organizationId = "organizationId_example"; // string | Organization id
@@ -149,7 +161,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -169,6 +181,10 @@ Returns list of event images
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\EventsApi();
 $organizationId = "organizationId_example"; // string | Organization id
@@ -196,7 +212,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -216,6 +232,10 @@ Lists organizations events
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\EventsApi();
 $organizationId = "organizationId_example"; // string | Organization id
@@ -257,7 +277,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 

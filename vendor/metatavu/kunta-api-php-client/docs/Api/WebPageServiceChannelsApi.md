@@ -20,6 +20,10 @@ Finds a web page service channel by id
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
+
 $api_instance = new KuntaAPI\Api\WebPageServiceChannelsApi();
 $webPageServiceChannelId = "webPageServiceChannelId_example"; // string | webPageChannel id
 
@@ -44,7 +48,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -64,6 +68,10 @@ Lists web page service channels
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\WebPageServiceChannelsApi();
 $firstResult = 789; // int | First result
@@ -91,7 +99,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 

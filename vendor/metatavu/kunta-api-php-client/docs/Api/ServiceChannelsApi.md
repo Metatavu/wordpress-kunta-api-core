@@ -28,6 +28,10 @@ Finds an electronic service channel by id
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
+
 $api_instance = new KuntaAPI\Api\ServiceChannelsApi();
 $electronicServiceChannelId = "electronicServiceChannelId_example"; // string | electronicChannel id
 
@@ -52,7 +56,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -72,6 +76,10 @@ Finds a phone service channel by id
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\ServiceChannelsApi();
 $phoneServiceChannelId = "phoneServiceChannelId_example"; // string | Phone service channel id
@@ -97,7 +105,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -117,6 +125,10 @@ Finds a printable form service channel
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\ServiceChannelsApi();
 $printableFormServiceChannelId = "printableFormServiceChannelId_example"; // string | Printable form service channel id
@@ -142,7 +154,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -162,6 +174,10 @@ Finds a service location service by id
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\ServiceChannelsApi();
 $serviceLocationServiceChannelId = "serviceLocationServiceChannelId_example"; // string | serviceLocationChannel id
@@ -187,7 +203,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -207,6 +223,10 @@ Finds a web page service channel by id
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\ServiceChannelsApi();
 $webPageServiceChannelId = "webPageServiceChannelId_example"; // string | webPageChannel id
@@ -232,7 +252,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -252,6 +272,10 @@ Lists electronic service channels
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\ServiceChannelsApi();
 $firstResult = 789; // int | First result
@@ -279,7 +303,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -299,6 +323,10 @@ Lists phone service channels
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\ServiceChannelsApi();
 $firstResult = 789; // int | First result
@@ -326,7 +354,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -346,6 +374,10 @@ Lists printable form service channels
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\ServiceChannelsApi();
 $firstResult = 789; // int | First result
@@ -373,7 +405,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -393,6 +425,10 @@ Lists service location service channels
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\ServiceChannelsApi();
 $organizationId = "organizationId_example"; // string | Organization id
@@ -424,7 +460,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -444,6 +480,10 @@ Lists web page service channels
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\ServiceChannelsApi();
 $firstResult = 789; // int | First result
@@ -471,7 +511,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 

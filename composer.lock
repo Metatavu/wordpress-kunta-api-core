@@ -120,7 +120,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Metatavu/kunta-api-php-client.git",
-                "reference": "48ed38e0ff1675a6d7e127f1b96fac8fa68d8a9d"
+                "reference": "c566584b4288a26eb21109b3cd67a9424cac72b3"
             },
             "require": {
                 "ext-curl": "*",
@@ -160,7 +160,7 @@
                 "sdk",
                 "swagger"
             ],
-            "time": "2017-04-20 06:57:37"
+            "time": "2017-04-20 14:18:21"
         },
         {
             "name": "sunra/php-simple-html-dom-parser",

@@ -20,6 +20,10 @@ Finds single organization job
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
+
 $api_instance = new KuntaAPI\Api\JobsApi();
 $organizationId = "organizationId_example"; // string | Organization id
 $jobId = "jobId_example"; // string | job id
@@ -46,7 +50,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -66,6 +70,10 @@ Lists organizations jobs
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\JobsApi();
 $organizationId = "organizationId_example"; // string | Organization id
@@ -99,7 +107,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[basicAuth](../../README.md#basicAuth)
 
 ### HTTP request headers
 
