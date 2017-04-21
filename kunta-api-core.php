@@ -3,7 +3,7 @@
  * Created on Oct 21, 2016
  * Plugin Name: Kunta API Core
  * Description: Core functionalities for Kunta API integrations
- * Version: 0.4.2
+ * Version: 0.4.3
  * Author: Metatavu Oy
  */
 
