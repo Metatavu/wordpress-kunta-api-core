@@ -6,10 +6,14 @@
   var pending = false;
 
   function searchServices(query, callback) {
+    $('.mce-kunta-api-search-results').empty();
+    $('.mce-kunta-api-search-results').append($('<div>').addClass('mce-kunta-api-search-results-loader'));
+    $('.mce-kunta-api-search-info').text('Ladataan...');
     $.post( ajaxurl, {
       'action': 'kunta_api_search_services',
       'data': query
     }, function(response){
+      $('.mce-kunta-api-search-results-loader').remove();
       callback(JSON.parse(response));
     });
   }
@@ -154,6 +158,13 @@
   
   function handleResponse(response) {
     $('.mce-kunta-api-search-results').empty();
+    
+    if (response.length === 0) {
+      $('.mce-kunta-api-search-info').text('Hakusanalla ei löytynyt yhtään palvelua');
+    } else {
+      $('.mce-kunta-api-search-info').text('Kirjoita hakusana yllä olevaan hakukenttään');
+    }
+    
     for(var i = 0; i < response.length; i++) {
       appendResult(response[i]);
     }
@@ -184,7 +195,8 @@
                 pending = true;
               }
             }},
-            {type: 'container', classes: 'kunta-api-search-results', minHeight: 420}
+            {type: 'label', classes: 'kunta-api-search-info', text: "Kirjoita hakusana yllä olevaan hakukenttään"},
+            {type: 'container', classes: 'kunta-api-search-results', minHeight: 400}
           ],
           onsubmit: function(e) {
             var componentsToEmbed = $('.service-component-embed-input:checked');
