@@ -2,6 +2,19 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
+.mce-kunta-api-search-results .mce-kunta-api-search-results-loader {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  background: url(../images/loading.gif);
+  background-position: center, center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+}
+.mce-kunta-api-search-info {
+  text-align: center !important;
+}
 .mce-kunta-api-search-results .mce-kunta-api-search-result-row {
   margin-top:20px;
   margin-bottom:20px;

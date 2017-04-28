@@ -176,6 +176,10 @@ class NewsApi
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
+        // this endpoint requires HTTP basic authentication
+        if (strlen($this->apiClient->getConfig()->getUsername()) !== 0 or strlen($this->apiClient->getConfig()->getPassword()) !== 0) {
+            $headerParams['Authorization'] = 'Basic ' . base64_encode($this->apiClient->getConfig()->getUsername() . ":" . $this->apiClient->getConfig()->getPassword());
+        }
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
@@ -300,6 +304,10 @@ class NewsApi
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
+        }
+        // this endpoint requires HTTP basic authentication
+        if (strlen($this->apiClient->getConfig()->getUsername()) !== 0 or strlen($this->apiClient->getConfig()->getPassword()) !== 0) {
+            $headerParams['Authorization'] = 'Basic ' . base64_encode($this->apiClient->getConfig()->getUsername() . ":" . $this->apiClient->getConfig()->getPassword());
         }
         // make the API Call
         try {
@@ -432,6 +440,10 @@ class NewsApi
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
+        // this endpoint requires HTTP basic authentication
+        if (strlen($this->apiClient->getConfig()->getUsername()) !== 0 or strlen($this->apiClient->getConfig()->getPassword()) !== 0) {
+            $headerParams['Authorization'] = 'Basic ' . base64_encode($this->apiClient->getConfig()->getUsername() . ":" . $this->apiClient->getConfig()->getPassword());
+        }
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
@@ -476,6 +488,7 @@ class NewsApi
      *
      * @param string $organizationId Organization id (required)
      * @param string $slug Filter with slug (optional)
+     * @param string $tag Filter by tag (optional)
      * @param string $publishedBefore return only news published before the date (optional)
      * @param string $publishedAfter return only news published after the date (optional)
      * @param int $firstResult first index of results (optional)
@@ -483,9 +496,9 @@ class NewsApi
      * @return \KuntaAPI\Model\NewsArticle[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listOrganizationNews($organizationId, $slug = null, $publishedBefore = null, $publishedAfter = null, $firstResult = null, $maxResults = null)
+    public function listOrganizationNews($organizationId, $slug = null, $tag = null, $publishedBefore = null, $publishedAfter = null, $firstResult = null, $maxResults = null)
     {
-        list($response) = $this->listOrganizationNewsWithHttpInfo($organizationId, $slug, $publishedBefore, $publishedAfter, $firstResult, $maxResults);
+        list($response) = $this->listOrganizationNewsWithHttpInfo($organizationId, $slug, $tag, $publishedBefore, $publishedAfter, $firstResult, $maxResults);
         return $response;
     }
 
@@ -496,6 +509,7 @@ class NewsApi
      *
      * @param string $organizationId Organization id (required)
      * @param string $slug Filter with slug (optional)
+     * @param string $tag Filter by tag (optional)
      * @param string $publishedBefore return only news published before the date (optional)
      * @param string $publishedAfter return only news published after the date (optional)
      * @param int $firstResult first index of results (optional)
@@ -503,7 +517,7 @@ class NewsApi
      * @return Array of \KuntaAPI\Model\NewsArticle[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listOrganizationNewsWithHttpInfo($organizationId, $slug = null, $publishedBefore = null, $publishedAfter = null, $firstResult = null, $maxResults = null)
+    public function listOrganizationNewsWithHttpInfo($organizationId, $slug = null, $tag = null, $publishedBefore = null, $publishedAfter = null, $firstResult = null, $maxResults = null)
     {
         // verify the required parameter 'organizationId' is set
         if ($organizationId === null) {
@@ -524,6 +538,10 @@ class NewsApi
         // query params
         if ($slug !== null) {
             $queryParams['slug'] = $this->apiClient->getSerializer()->toQueryValue($slug);
+        }
+        // query params
+        if ($tag !== null) {
+            $queryParams['tag'] = $this->apiClient->getSerializer()->toQueryValue($tag);
         }
         // query params
         if ($publishedBefore !== null) {
@@ -558,6 +576,10 @@ class NewsApi
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
+        }
+        // this endpoint requires HTTP basic authentication
+        if (strlen($this->apiClient->getConfig()->getUsername()) !== 0 or strlen($this->apiClient->getConfig()->getPassword()) !== 0) {
+            $headerParams['Authorization'] = 'Basic ' . base64_encode($this->apiClient->getConfig()->getUsername() . ":" . $this->apiClient->getConfig()->getPassword());
         }
         // make the API Call
         try {
@@ -669,6 +691,10 @@ class NewsApi
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
+        }
+        // this endpoint requires HTTP basic authentication
+        if (strlen($this->apiClient->getConfig()->getUsername()) !== 0 or strlen($this->apiClient->getConfig()->getPassword()) !== 0) {
+            $headerParams['Authorization'] = 'Basic ' . base64_encode($this->apiClient->getConfig()->getUsername() . ":" . $this->apiClient->getConfig()->getPassword());
         }
         // make the API Call
         try {

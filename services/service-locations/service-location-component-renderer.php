@@ -16,6 +16,15 @@
         $this->twig = new \Twig_Environment(new \Twig_Loader_Filesystem( __DIR__ . '/../../templates'));
         $this->twig->addExtension(new \KuntaAPI\Services\TwigExtension());
       }
+
+      public function renderShortCodeComponent($lang, $serviceLocationChannel, $component) {
+        $model = [
+          'lang' => $lang,
+          'serviceLocationChannel' => $serviceLocationChannel
+        ];
+        
+        return $this->twig->render("service-location-components/$component.twig", $model);
+      }
       
       public function renderComponent($lang, $service, $serviceLocationChannel, $component) {
         $model = [

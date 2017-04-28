@@ -66,9 +66,8 @@ class OntologyItem implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = array(
-        'id' => 'string',
         'system' => 'string',
-        'name' => 'string',
+        'name' => '\KuntaAPI\Model\LocalizedValue[]',
         'code' => 'string',
         'ontologyType' => 'string',
         'uri' => 'string',
@@ -86,7 +85,6 @@ class OntologyItem implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
-        'id' => 'id',
         'system' => 'system',
         'name' => 'name',
         'code' => 'code',
@@ -106,7 +104,6 @@ class OntologyItem implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
-        'id' => 'setId',
         'system' => 'setSystem',
         'name' => 'setName',
         'code' => 'setCode',
@@ -126,7 +123,6 @@ class OntologyItem implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
-        'id' => 'getId',
         'system' => 'getSystem',
         'name' => 'getName',
         'code' => 'getCode',
@@ -157,7 +153,6 @@ class OntologyItem implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
         $this->container['system'] = isset($data['system']) ? $data['system'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['code'] = isset($data['code']) ? $data['code'] : null;
@@ -191,27 +186,6 @@ class OntologyItem implements ArrayAccess
 
 
     /**
-     * Gets id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->container['id'];
-    }
-
-    /**
-     * Sets id
-     * @param string $id
-     * @return $this
-     */
-    public function setId($id)
-    {
-        $this->container['id'] = $id;
-
-        return $this;
-    }
-
-    /**
      * Gets system
      * @return string
      */
@@ -234,7 +208,7 @@ class OntologyItem implements ArrayAccess
 
     /**
      * Gets name
-     * @return string
+     * @return \KuntaAPI\Model\LocalizedValue[]
      */
     public function getName()
     {
@@ -243,7 +217,7 @@ class OntologyItem implements ArrayAccess
 
     /**
      * Sets name
-     * @param string $name
+     * @param \KuntaAPI\Model\LocalizedValue[] $name
      * @return $this
      */
     public function setName($name)

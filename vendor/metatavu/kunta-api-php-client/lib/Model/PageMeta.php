@@ -66,7 +66,8 @@ class PageMeta implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = array(
-        'hideMenuChildren' => 'bool'
+        'hideMenuChildren' => 'bool',
+        'unmappedParentId' => 'string'
     );
 
     public static function swaggerTypes()
@@ -79,7 +80,8 @@ class PageMeta implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
-        'hideMenuChildren' => 'hideMenuChildren'
+        'hideMenuChildren' => 'hideMenuChildren',
+        'unmappedParentId' => 'unmappedParentId'
     );
 
     public static function attributeMap()
@@ -92,7 +94,8 @@ class PageMeta implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
-        'hideMenuChildren' => 'setHideMenuChildren'
+        'hideMenuChildren' => 'setHideMenuChildren',
+        'unmappedParentId' => 'setUnmappedParentId'
     );
 
     public static function setters()
@@ -105,7 +108,8 @@ class PageMeta implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
-        'hideMenuChildren' => 'getHideMenuChildren'
+        'hideMenuChildren' => 'getHideMenuChildren',
+        'unmappedParentId' => 'getUnmappedParentId'
     );
 
     public static function getters()
@@ -130,6 +134,7 @@ class PageMeta implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['hideMenuChildren'] = isset($data['hideMenuChildren']) ? $data['hideMenuChildren'] : null;
+        $this->container['unmappedParentId'] = isset($data['unmappedParentId']) ? $data['unmappedParentId'] : null;
     }
 
     /**
@@ -172,6 +177,27 @@ class PageMeta implements ArrayAccess
     public function setHideMenuChildren($hideMenuChildren)
     {
         $this->container['hideMenuChildren'] = $hideMenuChildren;
+
+        return $this;
+    }
+
+    /**
+     * Gets unmappedParentId
+     * @return string
+     */
+    public function getUnmappedParentId()
+    {
+        return $this->container['unmappedParentId'];
+    }
+
+    /**
+     * Sets unmappedParentId
+     * @param string $unmappedParentId
+     * @return $this
+     */
+    public function setUnmappedParentId($unmappedParentId)
+    {
+        $this->container['unmappedParentId'] = $unmappedParentId;
 
         return $this;
     }

@@ -67,18 +67,17 @@ class PrintableFormServiceChannel implements ArrayAccess
       */
     protected static $swaggerTypes = array(
         'id' => 'string',
-        'type' => 'string',
         'organizationId' => 'string',
         'names' => '\KuntaAPI\Model\LocalizedValue[]',
         'descriptions' => '\KuntaAPI\Model\LocalizedValue[]',
-        'formIdentifier' => 'string',
-        'formReceiver' => 'string',
-        'supportContacts' => '\KuntaAPI\Model\SupportContact[]',
+        'formIdentifier' => '\KuntaAPI\Model\LocalizedValue[]',
+        'formReceiver' => '\KuntaAPI\Model\LocalizedValue[]',
         'deliveryAddress' => '\KuntaAPI\Model\Address',
         'channelUrls' => '\KuntaAPI\Model\LocalizedValue[]',
-        'languages' => 'string[]',
-        'deliveryAddressDescriptions' => '\KuntaAPI\Model\LocalizedValue[]',
         'attachments' => '\KuntaAPI\Model\ServiceChannelAttachment[]',
+        'supportPhones' => '\KuntaAPI\Model\Phone[]',
+        'supportEmails' => '\KuntaAPI\Model\Email[]',
+        'languages' => 'string[]',
         'webPages' => '\KuntaAPI\Model\WebPage[]',
         'serviceHours' => '\KuntaAPI\Model\ServiceHour[]',
         'publishingStatus' => 'string'
@@ -95,18 +94,17 @@ class PrintableFormServiceChannel implements ArrayAccess
      */
     protected static $attributeMap = array(
         'id' => 'id',
-        'type' => 'type',
         'organizationId' => 'organizationId',
         'names' => 'names',
         'descriptions' => 'descriptions',
         'formIdentifier' => 'formIdentifier',
         'formReceiver' => 'formReceiver',
-        'supportContacts' => 'supportContacts',
         'deliveryAddress' => 'deliveryAddress',
         'channelUrls' => 'channelUrls',
-        'languages' => 'languages',
-        'deliveryAddressDescriptions' => 'deliveryAddressDescriptions',
         'attachments' => 'attachments',
+        'supportPhones' => 'supportPhones',
+        'supportEmails' => 'supportEmails',
+        'languages' => 'languages',
         'webPages' => 'webPages',
         'serviceHours' => 'serviceHours',
         'publishingStatus' => 'publishingStatus'
@@ -123,18 +121,17 @@ class PrintableFormServiceChannel implements ArrayAccess
      */
     protected static $setters = array(
         'id' => 'setId',
-        'type' => 'setType',
         'organizationId' => 'setOrganizationId',
         'names' => 'setNames',
         'descriptions' => 'setDescriptions',
         'formIdentifier' => 'setFormIdentifier',
         'formReceiver' => 'setFormReceiver',
-        'supportContacts' => 'setSupportContacts',
         'deliveryAddress' => 'setDeliveryAddress',
         'channelUrls' => 'setChannelUrls',
-        'languages' => 'setLanguages',
-        'deliveryAddressDescriptions' => 'setDeliveryAddressDescriptions',
         'attachments' => 'setAttachments',
+        'supportPhones' => 'setSupportPhones',
+        'supportEmails' => 'setSupportEmails',
+        'languages' => 'setLanguages',
         'webPages' => 'setWebPages',
         'serviceHours' => 'setServiceHours',
         'publishingStatus' => 'setPublishingStatus'
@@ -151,18 +148,17 @@ class PrintableFormServiceChannel implements ArrayAccess
      */
     protected static $getters = array(
         'id' => 'getId',
-        'type' => 'getType',
         'organizationId' => 'getOrganizationId',
         'names' => 'getNames',
         'descriptions' => 'getDescriptions',
         'formIdentifier' => 'getFormIdentifier',
         'formReceiver' => 'getFormReceiver',
-        'supportContacts' => 'getSupportContacts',
         'deliveryAddress' => 'getDeliveryAddress',
         'channelUrls' => 'getChannelUrls',
-        'languages' => 'getLanguages',
-        'deliveryAddressDescriptions' => 'getDeliveryAddressDescriptions',
         'attachments' => 'getAttachments',
+        'supportPhones' => 'getSupportPhones',
+        'supportEmails' => 'getSupportEmails',
+        'languages' => 'getLanguages',
         'webPages' => 'getWebPages',
         'serviceHours' => 'getServiceHours',
         'publishingStatus' => 'getPublishingStatus'
@@ -190,18 +186,17 @@ class PrintableFormServiceChannel implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
-        $this->container['type'] = isset($data['type']) ? $data['type'] : null;
         $this->container['organizationId'] = isset($data['organizationId']) ? $data['organizationId'] : null;
         $this->container['names'] = isset($data['names']) ? $data['names'] : null;
         $this->container['descriptions'] = isset($data['descriptions']) ? $data['descriptions'] : null;
         $this->container['formIdentifier'] = isset($data['formIdentifier']) ? $data['formIdentifier'] : null;
         $this->container['formReceiver'] = isset($data['formReceiver']) ? $data['formReceiver'] : null;
-        $this->container['supportContacts'] = isset($data['supportContacts']) ? $data['supportContacts'] : null;
         $this->container['deliveryAddress'] = isset($data['deliveryAddress']) ? $data['deliveryAddress'] : null;
         $this->container['channelUrls'] = isset($data['channelUrls']) ? $data['channelUrls'] : null;
-        $this->container['languages'] = isset($data['languages']) ? $data['languages'] : null;
-        $this->container['deliveryAddressDescriptions'] = isset($data['deliveryAddressDescriptions']) ? $data['deliveryAddressDescriptions'] : null;
         $this->container['attachments'] = isset($data['attachments']) ? $data['attachments'] : null;
+        $this->container['supportPhones'] = isset($data['supportPhones']) ? $data['supportPhones'] : null;
+        $this->container['supportEmails'] = isset($data['supportEmails']) ? $data['supportEmails'] : null;
+        $this->container['languages'] = isset($data['languages']) ? $data['languages'] : null;
         $this->container['webPages'] = isset($data['webPages']) ? $data['webPages'] : null;
         $this->container['serviceHours'] = isset($data['serviceHours']) ? $data['serviceHours'] : null;
         $this->container['publishingStatus'] = isset($data['publishingStatus']) ? $data['publishingStatus'] : null;
@@ -241,33 +236,12 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Sets id
-     * @param string $id
+     * @param string $id Identifier for the service channel.
      * @return $this
      */
     public function setId($id)
     {
         $this->container['id'] = $id;
-
-        return $this;
-    }
-
-    /**
-     * Gets type
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->container['type'];
-    }
-
-    /**
-     * Sets type
-     * @param string $type
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->container['type'] = $type;
 
         return $this;
     }
@@ -283,7 +257,7 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Sets organizationId
-     * @param string $organizationId
+     * @param string $organizationId Organization identifier responsible for the channel.
      * @return $this
      */
     public function setOrganizationId($organizationId)
@@ -304,7 +278,7 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Sets names
-     * @param \KuntaAPI\Model\LocalizedValue[] $names
+     * @param \KuntaAPI\Model\LocalizedValue[] $names Localized list of service channel names.
      * @return $this
      */
     public function setNames($names)
@@ -325,7 +299,7 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Sets descriptions
-     * @param \KuntaAPI\Model\LocalizedValue[] $descriptions
+     * @param \KuntaAPI\Model\LocalizedValue[] $descriptions List of localized service channel descriptions.
      * @return $this
      */
     public function setDescriptions($descriptions)
@@ -337,7 +311,7 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Gets formIdentifier
-     * @return string
+     * @return \KuntaAPI\Model\LocalizedValue[]
      */
     public function getFormIdentifier()
     {
@@ -346,7 +320,7 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Sets formIdentifier
-     * @param string $formIdentifier
+     * @param \KuntaAPI\Model\LocalizedValue[] $formIdentifier List of localized form identifier. One per language.
      * @return $this
      */
     public function setFormIdentifier($formIdentifier)
@@ -358,7 +332,7 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Gets formReceiver
-     * @return string
+     * @return \KuntaAPI\Model\LocalizedValue[]
      */
     public function getFormReceiver()
     {
@@ -367,33 +341,12 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Sets formReceiver
-     * @param string $formReceiver
+     * @param \KuntaAPI\Model\LocalizedValue[] $formReceiver List of localized form receiver. One per language.
      * @return $this
      */
     public function setFormReceiver($formReceiver)
     {
         $this->container['formReceiver'] = $formReceiver;
-
-        return $this;
-    }
-
-    /**
-     * Gets supportContacts
-     * @return \KuntaAPI\Model\SupportContact[]
-     */
-    public function getSupportContacts()
-    {
-        return $this->container['supportContacts'];
-    }
-
-    /**
-     * Sets supportContacts
-     * @param \KuntaAPI\Model\SupportContact[] $supportContacts
-     * @return $this
-     */
-    public function setSupportContacts($supportContacts)
-    {
-        $this->container['supportContacts'] = $supportContacts;
 
         return $this;
     }
@@ -409,7 +362,7 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Sets deliveryAddress
-     * @param \KuntaAPI\Model\Address $deliveryAddress
+     * @param \KuntaAPI\Model\Address $deliveryAddress Form delivery address.
      * @return $this
      */
     public function setDeliveryAddress($deliveryAddress)
@@ -430,54 +383,12 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Sets channelUrls
-     * @param \KuntaAPI\Model\LocalizedValue[] $channelUrls
+     * @param \KuntaAPI\Model\LocalizedValue[] $channelUrls List of localized channel urls.
      * @return $this
      */
     public function setChannelUrls($channelUrls)
     {
         $this->container['channelUrls'] = $channelUrls;
-
-        return $this;
-    }
-
-    /**
-     * Gets languages
-     * @return string[]
-     */
-    public function getLanguages()
-    {
-        return $this->container['languages'];
-    }
-
-    /**
-     * Sets languages
-     * @param string[] $languages
-     * @return $this
-     */
-    public function setLanguages($languages)
-    {
-        $this->container['languages'] = $languages;
-
-        return $this;
-    }
-
-    /**
-     * Gets deliveryAddressDescriptions
-     * @return \KuntaAPI\Model\LocalizedValue[]
-     */
-    public function getDeliveryAddressDescriptions()
-    {
-        return $this->container['deliveryAddressDescriptions'];
-    }
-
-    /**
-     * Sets deliveryAddressDescriptions
-     * @param \KuntaAPI\Model\LocalizedValue[] $deliveryAddressDescriptions
-     * @return $this
-     */
-    public function setDeliveryAddressDescriptions($deliveryAddressDescriptions)
-    {
-        $this->container['deliveryAddressDescriptions'] = $deliveryAddressDescriptions;
 
         return $this;
     }
@@ -493,12 +404,75 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Sets attachments
-     * @param \KuntaAPI\Model\ServiceChannelAttachment[] $attachments
+     * @param \KuntaAPI\Model\ServiceChannelAttachment[] $attachments List of attachments.
      * @return $this
      */
     public function setAttachments($attachments)
     {
         $this->container['attachments'] = $attachments;
+
+        return $this;
+    }
+
+    /**
+     * Gets supportPhones
+     * @return \KuntaAPI\Model\Phone[]
+     */
+    public function getSupportPhones()
+    {
+        return $this->container['supportPhones'];
+    }
+
+    /**
+     * Sets supportPhones
+     * @param \KuntaAPI\Model\Phone[] $supportPhones List of support phone numbers for the service channel.
+     * @return $this
+     */
+    public function setSupportPhones($supportPhones)
+    {
+        $this->container['supportPhones'] = $supportPhones;
+
+        return $this;
+    }
+
+    /**
+     * Gets supportEmails
+     * @return \KuntaAPI\Model\Email[]
+     */
+    public function getSupportEmails()
+    {
+        return $this->container['supportEmails'];
+    }
+
+    /**
+     * Sets supportEmails
+     * @param \KuntaAPI\Model\Email[] $supportEmails List of support email addresses for the service channel.
+     * @return $this
+     */
+    public function setSupportEmails($supportEmails)
+    {
+        $this->container['supportEmails'] = $supportEmails;
+
+        return $this;
+    }
+
+    /**
+     * Gets languages
+     * @return string[]
+     */
+    public function getLanguages()
+    {
+        return $this->container['languages'];
+    }
+
+    /**
+     * Sets languages
+     * @param string[] $languages List of languages the service channel is available in (two letter language code).
+     * @return $this
+     */
+    public function setLanguages($languages)
+    {
+        $this->container['languages'] = $languages;
 
         return $this;
     }
@@ -514,7 +488,7 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Sets webPages
-     * @param \KuntaAPI\Model\WebPage[] $webPages
+     * @param \KuntaAPI\Model\WebPage[] $webPages List of service channel web pages.
      * @return $this
      */
     public function setWebPages($webPages)
@@ -535,7 +509,7 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Sets serviceHours
-     * @param \KuntaAPI\Model\ServiceHour[] $serviceHours
+     * @param \KuntaAPI\Model\ServiceHour[] $serviceHours List of service channel service hours.
      * @return $this
      */
     public function setServiceHours($serviceHours)
@@ -556,7 +530,7 @@ class PrintableFormServiceChannel implements ArrayAccess
 
     /**
      * Sets publishingStatus
-     * @param string $publishingStatus
+     * @param string $publishingStatus Service channel publishing status. Values: Draft, Published, Deleted, Modified or OldPublished.
      * @return $this
      */
     public function setPublishingStatus($publishingStatus)

@@ -21,7 +21,7 @@
       {% endif %}
       
       {% if address.postOffice %}
-        <span>{{ address.postOffice }}</span>
+        <span>{{ address.postOffice|localizedValue(lang)|nl2br }}</span>
       {% endif %}
       
       {% if address.postalCode or address.postOffice %}
@@ -36,6 +36,9 @@
     {% if address.country == 'FI' %}
       <br/>
       SUOMI
+    {% endif %}
+    {% if address.additionalInformations %}
+      <p>{{ address.additionalInformations|localizedValue(lang)|nl2br }}</p>
     {% endif %}
   {% endspaceless %}
 {% endfor %}

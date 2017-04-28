@@ -71,7 +71,8 @@ class NewsArticle implements ArrayAccess
         'abstract' => 'string',
         'slug' => 'string',
         'contents' => 'string',
-        'published' => '\DateTime'
+        'published' => '\DateTime',
+        'tags' => 'string[]'
     );
 
     public static function swaggerTypes()
@@ -89,7 +90,8 @@ class NewsArticle implements ArrayAccess
         'abstract' => 'abstract',
         'slug' => 'slug',
         'contents' => 'contents',
-        'published' => 'published'
+        'published' => 'published',
+        'tags' => 'tags'
     );
 
     public static function attributeMap()
@@ -107,7 +109,8 @@ class NewsArticle implements ArrayAccess
         'abstract' => 'setAbstract',
         'slug' => 'setSlug',
         'contents' => 'setContents',
-        'published' => 'setPublished'
+        'published' => 'setPublished',
+        'tags' => 'setTags'
     );
 
     public static function setters()
@@ -125,7 +128,8 @@ class NewsArticle implements ArrayAccess
         'abstract' => 'getAbstract',
         'slug' => 'getSlug',
         'contents' => 'getContents',
-        'published' => 'getPublished'
+        'published' => 'getPublished',
+        'tags' => 'getTags'
     );
 
     public static function getters()
@@ -155,6 +159,7 @@ class NewsArticle implements ArrayAccess
         $this->container['slug'] = isset($data['slug']) ? $data['slug'] : null;
         $this->container['contents'] = isset($data['contents']) ? $data['contents'] : null;
         $this->container['published'] = isset($data['published']) ? $data['published'] : null;
+        $this->container['tags'] = isset($data['tags']) ? $data['tags'] : null;
     }
 
     /**
@@ -302,6 +307,27 @@ class NewsArticle implements ArrayAccess
     public function setPublished($published)
     {
         $this->container['published'] = $published;
+
+        return $this;
+    }
+
+    /**
+     * Gets tags
+     * @return string[]
+     */
+    public function getTags()
+    {
+        return $this->container['tags'];
+    }
+
+    /**
+     * Sets tags
+     * @param string[] $tags
+     * @return $this
+     */
+    public function setTags($tags)
+    {
+        $this->container['tags'] = $tags;
 
         return $this;
     }

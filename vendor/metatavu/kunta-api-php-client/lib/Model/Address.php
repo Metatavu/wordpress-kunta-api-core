@@ -66,14 +66,17 @@ class Address implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = array(
+        'latitude' => 'string',
+        'longitude' => 'string',
+        'coordinateState' => 'string',
         'type' => 'string',
         'postOfficeBox' => 'string',
         'postalCode' => 'string',
-        'postOffice' => 'string',
+        'postOffice' => '\KuntaAPI\Model\LocalizedValue[]',
         'streetAddress' => '\KuntaAPI\Model\LocalizedValue[]',
-        'municipality' => 'string',
+        'streetNumber' => 'string',
+        'municipality' => '\KuntaAPI\Model\Municipality',
         'country' => 'string',
-        'qualifier' => 'string',
         'additionalInformations' => '\KuntaAPI\Model\LocalizedValue[]'
     );
 
@@ -87,14 +90,17 @@ class Address implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
+        'latitude' => 'latitude',
+        'longitude' => 'longitude',
+        'coordinateState' => 'coordinateState',
         'type' => 'type',
         'postOfficeBox' => 'postOfficeBox',
         'postalCode' => 'postalCode',
         'postOffice' => 'postOffice',
         'streetAddress' => 'streetAddress',
+        'streetNumber' => 'streetNumber',
         'municipality' => 'municipality',
         'country' => 'country',
-        'qualifier' => 'qualifier',
         'additionalInformations' => 'additionalInformations'
     );
 
@@ -108,14 +114,17 @@ class Address implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
+        'latitude' => 'setLatitude',
+        'longitude' => 'setLongitude',
+        'coordinateState' => 'setCoordinateState',
         'type' => 'setType',
         'postOfficeBox' => 'setPostOfficeBox',
         'postalCode' => 'setPostalCode',
         'postOffice' => 'setPostOffice',
         'streetAddress' => 'setStreetAddress',
+        'streetNumber' => 'setStreetNumber',
         'municipality' => 'setMunicipality',
         'country' => 'setCountry',
-        'qualifier' => 'setQualifier',
         'additionalInformations' => 'setAdditionalInformations'
     );
 
@@ -129,14 +138,17 @@ class Address implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
+        'latitude' => 'getLatitude',
+        'longitude' => 'getLongitude',
+        'coordinateState' => 'getCoordinateState',
         'type' => 'getType',
         'postOfficeBox' => 'getPostOfficeBox',
         'postalCode' => 'getPostalCode',
         'postOffice' => 'getPostOffice',
         'streetAddress' => 'getStreetAddress',
+        'streetNumber' => 'getStreetNumber',
         'municipality' => 'getMunicipality',
         'country' => 'getCountry',
-        'qualifier' => 'getQualifier',
         'additionalInformations' => 'getAdditionalInformations'
     );
 
@@ -161,14 +173,17 @@ class Address implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['latitude'] = isset($data['latitude']) ? $data['latitude'] : null;
+        $this->container['longitude'] = isset($data['longitude']) ? $data['longitude'] : null;
+        $this->container['coordinateState'] = isset($data['coordinateState']) ? $data['coordinateState'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
         $this->container['postOfficeBox'] = isset($data['postOfficeBox']) ? $data['postOfficeBox'] : null;
         $this->container['postalCode'] = isset($data['postalCode']) ? $data['postalCode'] : null;
         $this->container['postOffice'] = isset($data['postOffice']) ? $data['postOffice'] : null;
         $this->container['streetAddress'] = isset($data['streetAddress']) ? $data['streetAddress'] : null;
+        $this->container['streetNumber'] = isset($data['streetNumber']) ? $data['streetNumber'] : null;
         $this->container['municipality'] = isset($data['municipality']) ? $data['municipality'] : null;
         $this->container['country'] = isset($data['country']) ? $data['country'] : null;
-        $this->container['qualifier'] = isset($data['qualifier']) ? $data['qualifier'] : null;
         $this->container['additionalInformations'] = isset($data['additionalInformations']) ? $data['additionalInformations'] : null;
     }
 
@@ -196,6 +211,69 @@ class Address implements ArrayAccess
 
 
     /**
+     * Gets latitude
+     * @return string
+     */
+    public function getLatitude()
+    {
+        return $this->container['latitude'];
+    }
+
+    /**
+     * Sets latitude
+     * @param string $latitude Service location latitude coordinate.
+     * @return $this
+     */
+    public function setLatitude($latitude)
+    {
+        $this->container['latitude'] = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Gets longitude
+     * @return string
+     */
+    public function getLongitude()
+    {
+        return $this->container['longitude'];
+    }
+
+    /**
+     * Sets longitude
+     * @param string $longitude Service location longitude coordinate.
+     * @return $this
+     */
+    public function setLongitude($longitude)
+    {
+        $this->container['longitude'] = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Gets coordinateState
+     * @return string
+     */
+    public function getCoordinateState()
+    {
+        return $this->container['coordinateState'];
+    }
+
+    /**
+     * Sets coordinateState
+     * @param string $coordinateState State of coordinates. Coordinates are fetched from a service provided by Maanmittauslaitos (WFS).  Possible values are: Loading, Ok, Failed, NotReceived, EmptyInputReceived, MultipleResultsReceived or WrongFormatReceived.
+     * @return $this
+     */
+    public function setCoordinateState($coordinateState)
+    {
+        $this->container['coordinateState'] = $coordinateState;
+
+        return $this;
+    }
+
+    /**
      * Gets type
      * @return string
      */
@@ -206,7 +284,7 @@ class Address implements ArrayAccess
 
     /**
      * Sets type
-     * @param string $type
+     * @param string $type Address type, Visiting or Postal.
      * @return $this
      */
     public function setType($type)
@@ -227,7 +305,7 @@ class Address implements ArrayAccess
 
     /**
      * Sets postOfficeBox
-     * @param string $postOfficeBox
+     * @param string $postOfficeBox Post office box like PL 310
      * @return $this
      */
     public function setPostOfficeBox($postOfficeBox)
@@ -248,7 +326,7 @@ class Address implements ArrayAccess
 
     /**
      * Sets postalCode
-     * @param string $postalCode
+     * @param string $postalCode Postal code, for example 00010.
      * @return $this
      */
     public function setPostalCode($postalCode)
@@ -260,7 +338,7 @@ class Address implements ArrayAccess
 
     /**
      * Gets postOffice
-     * @return string
+     * @return \KuntaAPI\Model\LocalizedValue[]
      */
     public function getPostOffice()
     {
@@ -269,7 +347,7 @@ class Address implements ArrayAccess
 
     /**
      * Sets postOffice
-     * @param string $postOffice
+     * @param \KuntaAPI\Model\LocalizedValue[] $postOffice List of localized Post offices, for example Helsinki, Helsingfors.
      * @return $this
      */
     public function setPostOffice($postOffice)
@@ -290,7 +368,7 @@ class Address implements ArrayAccess
 
     /**
      * Sets streetAddress
-     * @param \KuntaAPI\Model\LocalizedValue[] $streetAddress
+     * @param \KuntaAPI\Model\LocalizedValue[] $streetAddress List of localized street addresses.
      * @return $this
      */
     public function setStreetAddress($streetAddress)
@@ -301,8 +379,29 @@ class Address implements ArrayAccess
     }
 
     /**
-     * Gets municipality
+     * Gets streetNumber
      * @return string
+     */
+    public function getStreetNumber()
+    {
+        return $this->container['streetNumber'];
+    }
+
+    /**
+     * Sets streetNumber
+     * @param string $streetNumber Street number for street address.
+     * @return $this
+     */
+    public function setStreetNumber($streetNumber)
+    {
+        $this->container['streetNumber'] = $streetNumber;
+
+        return $this;
+    }
+
+    /**
+     * Gets municipality
+     * @return \KuntaAPI\Model\Municipality
      */
     public function getMunicipality()
     {
@@ -311,7 +410,7 @@ class Address implements ArrayAccess
 
     /**
      * Sets municipality
-     * @param string $municipality
+     * @param \KuntaAPI\Model\Municipality $municipality
      * @return $this
      */
     public function setMunicipality($municipality)
@@ -332,33 +431,12 @@ class Address implements ArrayAccess
 
     /**
      * Sets country
-     * @param string $country
+     * @param string $country Country code (ISO 3166-1 alpha-2), for example FI.
      * @return $this
      */
     public function setCountry($country)
     {
         $this->container['country'] = $country;
-
-        return $this;
-    }
-
-    /**
-     * Gets qualifier
-     * @return string
-     */
-    public function getQualifier()
-    {
-        return $this->container['qualifier'];
-    }
-
-    /**
-     * Sets qualifier
-     * @param string $qualifier
-     * @return $this
-     */
-    public function setQualifier($qualifier)
-    {
-        $this->container['qualifier'] = $qualifier;
 
         return $this;
     }
@@ -374,7 +452,7 @@ class Address implements ArrayAccess
 
     /**
      * Sets additionalInformations
-     * @param \KuntaAPI\Model\LocalizedValue[] $additionalInformations
+     * @param \KuntaAPI\Model\LocalizedValue[] $additionalInformations Localized list of additional information about the address.
      * @return $this
      */
     public function setAdditionalInformations($additionalInformations)

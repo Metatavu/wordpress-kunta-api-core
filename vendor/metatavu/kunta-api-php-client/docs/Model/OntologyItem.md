@@ -3,9 +3,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **string** |  | [optional] 
 **system** | **string** |  | [optional] 
-**name** | **string** |  | [optional] 
+**name** | [**\KuntaAPI\Model\LocalizedValue[]**](LocalizedValue.md) |  | [optional] 
 **code** | **string** |  | [optional] 
 **ontologyType** | **string** |  | [optional] 
 **uri** | **string** |  | [optional] 

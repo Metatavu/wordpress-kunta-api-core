@@ -73,7 +73,7 @@ add_action('kunta_api_core_tools', function () {
 
         foreach ($serviceLocationMapping as $serviceLocationId => $pageId) {
           $serviceId = $mapper->getLocationChannnelServiceId($serviceLocationId);
-          $serviceLocationChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceId, $serviceLocationId);
+          $serviceLocationChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceLocationId);
           if (!isset($serviceLocationChannel)) {
             error_log("Service $serviceId location $serviceLocationId from page $pageId could not be loaded");
           } else {
