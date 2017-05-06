@@ -1,7 +1,7 @@
 {% if serviceLocationChannel.serviceHours %}
     {% for serviceHour in serviceLocationChannel.serviceHours|serviceHourSort %}
       {% if serviceHour.serviceHourType == 'Standard' or serviceHour.serviceHourType == 'Special' %}
-        <div>
+        <div class="service-hour">
         {% if serviceHour.validFrom %}{{ serviceHour.validFrom|dateTimeFormat }}{% if serviceHour.validTo %} - {{ serviceHour.validTo|dateTimeFormat }}{% endif %}</br>{% endif %}
         {% if serviceHour.isClosed %}Suljettu{% endif %}
         {% if serviceHour.additionalInformation %}
@@ -23,7 +23,7 @@
         </div>
       {% endif %}
       {% if serviceHour.serviceHourType == 'Exception' %}
-        <div>
+        <div class="service-hour">
         <b>Poikkeavat palveluajat</b>
         {% if serviceHour.isClosed %}<p>Suljettu</p>{% endif %}
         {% if serviceHour.validForNow %}Voimassa toistaiseksi{% endif %}
