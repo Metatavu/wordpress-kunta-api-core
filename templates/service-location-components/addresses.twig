@@ -6,7 +6,7 @@
       <h3>Postiosoite</h3>
     {% endif %}
     {% if address.streetAddress %}
-      {{ address.streetAddress|localizedValue(lang)|nl2br }}
+      {{ address.streetAddress|localizedValue(lang)|nl2br }} {{ address.streetNumber }}
     {% endif %}
     {% if address.streetAddress and (address.postalCode or address.postOffice or address.postOfficeBox) %}
       <br/>
@@ -29,7 +29,7 @@
       {% endif %}
       
       {% if address.postOfficeBox %}
-        <span>{{ address.postOfficeBox }}</span>
+        <span>{{ address.postOfficeBox|localizedValue(lang) }}</span>
       {% endif %}
     {% endif %}
   
