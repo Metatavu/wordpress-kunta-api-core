@@ -101,7 +101,7 @@
             }
           }
           
-          return $result;
+          return static::sortServiceChannelsByName($result);
         } catch (\KuntaAPI\ApiException $e) {
           error_log("listServiceLocationServiceChannels failed with following message: " . $e->getMessage());
         }
@@ -123,7 +123,7 @@
             }
           }
           
-          return $result;
+          return static::sortServiceChannelsByName($result);
         } catch (\KuntaAPI\ApiException $e) {
           error_log("listElectronicServiceChannels failed with following message: " . $e->getMessage());
         }
@@ -145,7 +145,7 @@
             }
           }
           
-          return $result;
+          return static::sortServiceChannelsByName($result);
         } catch (\KuntaAPI\ApiException $e) {
           error_log("listPhoneServiceChannels failed with following message: " . $e->getMessage());
         }
@@ -167,7 +167,7 @@
             }
           }
           
-          return $result;
+          return static::sortServiceChannelsByName($result);
         } catch (\KuntaAPI\ApiException $e) {
           error_log("listPrintableFormServiceChannels failed with following message: " . $e->getMessage());
         }
@@ -189,7 +189,7 @@
             }
           }
           
-          return $result;
+          return static::sortServiceChannelsByName($result);
         } catch (\KuntaAPI\ApiException $e) {
           error_log("listWebPageServiceChannels failed with following message: " . $e->getMessage());
         }
@@ -246,6 +246,17 @@
         return static::$services[$id];
       }
 
+      private static function sortServiceChannelsByName($serviceChannels) {
+        usort($serviceChannels, function($serviceChannel1, $serviceChannel2) {
+          $currentLanguage = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
+          $name1 = \KuntaAPI\Core\LocaleHelper::getLocalizedValue($serviceChannel1->getNames(), $currentLanguage, "Name");
+          $name2 = \KuntaAPI\Core\LocaleHelper::getLocalizedValue($serviceChannel2->getNames(), $currentLanguage, "Name");
+          return strcasecmp($name1, $name2);
+        });
+        
+        return $serviceChannels;
+      }
+      
       private static function cacheServiceChannelsFromService($service) {
         foreach ($service['electronicChannels'] as $electronicChannel) {
           static::$electronicChannels[$electronicChannel->getId()] = $electronicChannel;
