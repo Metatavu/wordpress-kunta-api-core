@@ -18,7 +18,14 @@
       
       public static function listOrganizationServices($firstResult, $maxResults) {
         $organizationId = \KuntaAPI\Core\CoreSettings::getValue('organizationId');
-        return \KuntaAPI\Core\Api::getServicesApi()->listServices($organizationId, null, $firstResult, $maxResults);
+        
+        $result = [];
+        
+        foreach (\KuntaAPI\Core\Api::getServicesApi()->listServices($organizationId, null, $firstResult, $maxResults) as $service) {
+          $result[] = static::findService($service->getId());
+        }
+        
+        return $result;
       }
       
       public static function findElectronicServiceChannel($serviceId, $id) {
@@ -191,7 +198,7 @@
       }
       
       public static function findService($id) {
-        if(!isset(static::$services[$id])) {
+        if (!isset(static::$services[$id])) {
           try {
             static::$services[$id] = \KuntaAPI\Core\Api::getServicesApi()->findService($id);
             static::$services[$id]['electronicChannels'] = [];
@@ -203,7 +210,7 @@
             try {
               static::$services[$id]['electronicChannels'] = static::listElectronicServiceChannels($id);
             } catch (\KuntaAPI\ApiException $e) {
-        	  error_log("listServiceElectronicChannels failed with following message: " . $e->getMessage());
+        	    error_log("listServiceElectronicChannels failed with following message: " . $e->getMessage());
             }
             
             try {
@@ -232,9 +239,10 @@
             
             static::cacheServiceChannelsFromService(static::$services[$id]);
           } catch (\KuntaAPI\ApiException $e) {
-        	error_log("findService failed with following message: " . $e->getMessage());
+        	  error_log("findService failed with following message: " . $e->getMessage());
           }
         }
+        
         return static::$services[$id];
       }
 
