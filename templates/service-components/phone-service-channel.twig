@@ -1,7 +1,7 @@
-<h4>{{ phoneChannel.names|localizedValue(lang)|nl2br }}</h4>
+<h4>{{ phoneChannel.names|localizedValue(lang)|nl2p|raw }}</h4>
 {% for description in phoneChannel.descriptions %}
 {% endfor %}
-<p>{{ phoneChannel.descriptions|localizedValue(lang, 'Description')|nl2br }}</p>
+<p>{{ phoneChannel.descriptions|localizedValue(lang, 'Description')|nl2p|raw }}</p>
 {% if phoneChannel.phoneNumbers %}
 {% for number in phoneChannel.phoneNumbers %}
 <p>{{ number|phoneNumber }}<br/>
