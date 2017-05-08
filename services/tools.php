@@ -30,7 +30,7 @@ add_action('kunta_api_core_tools', function () {
           if (!isset($service)) {
             error_log("Service $serviceId from page $pageId could not be loaded");
           } else {
-            $title = \KuntaAPI\Core\LocaleHelper::getLocalizedValue($localizedItems, $lang, "Name");
+            $title = \KuntaAPI\Core\LocaleHelper::getLocalizedValue($service["names"], $lang, "Name");
             $content = $renderer->renderServicePage($lang, $service);
             $result = wp_update_post([
                 'ID' => $pageId,
