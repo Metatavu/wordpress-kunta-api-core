@@ -22,7 +22,7 @@
           'lang' => $lang,
           'serviceId' => $serviceId,
           'service' => $service,
-	      'electronicChannels' => $service['electronicChannels'],
+          'electronicChannels' => $service['electronicChannels'],
           'phoneChannels' => $service['phoneChannels'],
           'printableFormChannels' => $service['printableFormChannels'],
           'serviceLocationChannels' => $service['serviceLocationChannels'],

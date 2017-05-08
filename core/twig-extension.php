@@ -35,10 +35,25 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
         new \Twig_SimpleFilter('phoneNumber', array($this, 'phoneNumberFilter')),
         new \Twig_SimpleFilter('dateTimeFormat', array($this, 'dateTimeFormatFilter')),
         new \Twig_SimpleFilter('openingHoursFormat', array($this, 'openingHoursFormatFilter')),
-        new \Twig_SimpleFilter('serviceHourSort', array($this, 'serviceHourSortFilter'))
+        new \Twig_SimpleFilter('serviceHourSort', array($this, 'serviceHourSortFilter')),
+        new \Twig_SimpleFilter('nl2p', array($this, 'nl2p'))
       ];
     }
 
+    public function nl2p($text) {
+      $paragraphs = '';
+      
+      if (isset($text)) {
+        foreach (explode("\n", $text) as $line) {
+          if (trim($line)) {
+            $paragraphs .= '<p>' . $line . '</p>';
+          }
+        } 
+      }
+
+      return $paragraphs;
+    }
+    
     public function serviceHourSortFilter($serviceHours) {
       usort($serviceHours, function($a, $b) { 
         if ($a['serviceHourType'] == 'Standard' && $b['serviceHourType'] == 'Special') {

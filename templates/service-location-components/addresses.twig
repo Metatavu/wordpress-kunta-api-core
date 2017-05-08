@@ -6,7 +6,7 @@
       <h3>Postiosoite</h3>
     {% endif %}
     {% if address.streetAddress %}
-      {{ address.streetAddress|localizedValue(lang)|nl2br }} {{ address.streetNumber }}
+      {{ address.streetAddress|localizedValue(lang)|nl2p|raw }} {{ address.streetNumber }}
     {% endif %}
     {% if address.streetAddress and (address.postalCode or address.postOffice or address.postOfficeBox) %}
       <br/>
@@ -21,7 +21,7 @@
       {% endif %}
       
       {% if address.postOffice %}
-        <span>{{ address.postOffice|localizedValue(lang)|nl2br }}</span>
+        <span>{{ address.postOffice|localizedValue(lang)|nl2p|raw }}</span>
       {% endif %}
       
       {% if address.postalCode or address.postOffice %}
@@ -38,7 +38,7 @@
       SUOMI
     {% endif %}
     {% if address.additionalInformations %}
-      <p>{{ address.additionalInformations|localizedValue(lang)|nl2br }}</p>
+      <p>{{ address.additionalInformations|localizedValue(lang)|nl2p|raw }}</p>
     {% endif %}
   {% endspaceless %}
 {% endfor %}
