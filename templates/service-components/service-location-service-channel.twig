@@ -1,2 +1,2 @@
-<h4><a href="{{ serviceLocationChannel.id|serviceLocationPath(serviceId) }}">{{ serviceLocationChannel.names|localizedValue(lang)|nl2p }}</a></h4>
-<p>{{ serviceLocationChannel.descriptions|localizedValue(lang)|nl2p }}</p>
+<h4><a href="{{ serviceLocationChannel.id|serviceLocationPath(serviceId) }}">{{ serviceLocationChannel.names|localizedValue(lang)|nl2p|raw }}</a></h4>
+<p>{{ serviceLocationChannel.descriptions|localizedValue(lang)|nl2p|raw }}</p>
