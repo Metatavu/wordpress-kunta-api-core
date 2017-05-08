@@ -42,11 +42,13 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
 
     public function nl2p($text) {
       $paragraphs = '';
-
-      foreach (explode("\n", $text) as $line) {
-        if (trim($line)) {
-          $paragraphs .= '<p>' . $line . '</p>';
-        }
+      
+      if (isset($text)) {
+        foreach (explode("\n", $text) as $line) {
+          if (trim($line)) {
+            $paragraphs .= '<p>' . $line . '</p>';
+          }
+        } 
       }
 
       return $paragraphs;
