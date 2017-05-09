@@ -1,3 +1,8 @@
+{% spaceless %}
+{% if service.languages %}
+<h3>Kielet, joilla palvelu on saatavilla</h3>
 {% for language in service.languages %}
   <span>{{ language }}</span>
 {% endfor %}  
+{% endif %}
+{% endspaceless %}

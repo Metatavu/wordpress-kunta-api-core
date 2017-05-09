@@ -1,0 +1,12 @@
+{% if electronicChannels %}
+<h3>Verkkoasiointikanavat</h3>
+{% for electronicChannel in electronicChannels %}
+<h4><a href="{{ electronicChannel.urls|localizedValue(lang) }}">{{ electronicChannel.names|localizedValue(lang) }}</a></h4>
+{{ electronicChannel.descriptions|localizedValue(lang)|nl2p|raw }}
+{% if electronicChannel.requiresAuthentication %}
+<i>Palvelu vaatii sähköisen tunnistautumisen</i>
+{% else %}
+<i>Palvelu ei vaadi sähköistä tunnistautumista</i>
+{% endif %}
+{% endfor %}  
+{% endif %}

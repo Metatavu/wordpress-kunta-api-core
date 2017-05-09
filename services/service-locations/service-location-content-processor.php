@@ -13,6 +13,20 @@
     
     class ServiceLocationContentProcessor extends \KuntaAPI\Core\AbstractContentProcessor {
 
+      private static $EMPTY_COMPONENT_TEXTS = array(
+        'fi' => array(
+            'adresses' => '(TYHJÄ) Osoite tähän',
+            'description' => '(TYHJÄ) Kuvaus tähän',
+            'email'=> '(TYHJÄ) Sähköpostiosoite tähän',
+            'fax' => '(TYHJÄ) Faksi tähän',
+            'name' => '(TYHJÄ) Palvelupisteen nimi tähän',
+            'phone' => '(TYHJÄ) Puhelin numerot tähän',
+            'phone-charge-info' => '(TYHJÄ) Puhelimen maksullisuustiedot tähän',
+            'servicehours' => '(TYHJÄ) Palveluajat tähän',
+            'webpages' => '(TYHJÄ) Verkkosivut tähän'
+        )
+      );
+      
       public function process($dom, $mode) {
         $renderer = new ServiceLocationComponentRenderer();
         
@@ -42,7 +56,12 @@
           if (isset($service)) {          
             $serviceLocationChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceChannelId);
             if (isset($serviceLocationChannel)) {
-              $article->innertext = $renderer->renderComponent($lang, $service, $serviceLocationChannel, $component);
+              $content = $renderer->renderComponent($lang, $service, $serviceLocationChannel, $component);
+              if ($mode == 'edit' && empty($content)) {
+                $article->innertext = "<p>". self::$EMPTY_COMPONENT_TEXTS[$lang][$component] ."</p>";
+              } else {
+                $article->innertext = $content;
+              }
             }
           }
         } 
