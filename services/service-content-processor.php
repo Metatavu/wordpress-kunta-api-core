@@ -11,19 +11,6 @@
     
     class ServiceContentProcessor extends \KuntaAPI\Core\AbstractContentProcessor {
       
-     private static $EMPTY_COMPONENT_TEXTS = array(
-        'fi' => array(
-            'description' => '(TYHJÄ) Kuvaus tähän',
-            'userInstruction' => '(TYHJÄ) Toimintaohjeet tähän',
-            'languages'=> '(TYHJÄ) Kielet joilla palvelu on saatavilla',
-            'electronicServiceChannelIds' => '(TYHJÄ) Elektroniset palvelukanavat listataan tähän',
-            'phoneServiceChannelIds' => '(TYHJÄ) Puhelinpalvelukanavat listataan tähän',
-            'printableFormServiceChannelIds' => '(TYHJÄ) Lomakkeet listataan tähän',
-            'serviceLocationServiceChannelIds' => '(TYHJÄ) Palvelupisteet listataan tähän',
-            'webPageServiceChannelIds' => '(TYHJÄ) Verkkosivut listataan tähän'
-        )
-      );
-      
       public function process($dom, $mode) {
         
         foreach ($dom->find('*[data-type="kunta-api-service-component"]') as $article) {
@@ -49,7 +36,38 @@
           $renderer = new \KuntaAPI\Services\ServiceComponentRenderer();
           $content = $renderer->renderComponent($serviceId, $serviceComponent, $lang);
           if ($mode == 'edit' && empty($content)) {
-            $article->innertext = "<p>". self::$EMPTY_COMPONENT_TEXTS[$lang][$serviceComponent] ."</p>";
+            $text = '';
+            switch ($serviceComponent) {
+              case 'description':
+                $text = __( 'Placeholder for description (Currently empty, not visible on webpage)', 'kunta_api_core' );
+              break;
+              case 'userInstruction':
+                $text = __( 'Placeholder for user instruction (Currently empty, not visible on webpage)', 'kunta_api_core' );
+              break;
+              case 'languages':
+                $text = __( 'Placeholder for languages (Currently empty, not visible on webpage)', 'kunta_api_core' );
+              break;
+              case 'electronicServiceChannelIds':
+                $text = __( 'Placeholder for electronic service channels (Currently empty, not visible on webpage)', 'kunta_api_core' );
+              break;
+              case 'phoneServiceChannelIds':
+                $text = __( 'Placeholder for phone service channels (Currently empty, not visible on webpage)', 'kunta_api_core' );
+              break;
+              case 'printableFormServiceChannelIds':
+                $text = __( 'Placeholder for printable form service channels (Currently empty, not visible on webpage)', 'kunta_api_core' );
+              break;
+              case 'serviceLocationServiceChannelIds':
+                $text = __( 'Placeholder for service location channels (Currently empty, not visible on webpage)', 'kunta_api_core' );
+              break;
+              case 'webPageServiceChannelIds':
+                $text = __( 'Placeholder for webpage service channels (Currently empty, not visible on webpage)', 'kunta_api_core' );
+              break;
+              default:
+                $text = "unknown component type";
+              break;
+            }
+
+            $article->innertext = "<p>". $text ."</p>";
           } else {
             $article->innertext = $content;
           }
