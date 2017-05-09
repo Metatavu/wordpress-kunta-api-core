@@ -1,10 +1,11 @@
 <h2>Perustiedot</h2>
-{% include 'service-location-components/name-parent.twig' %}
-{% include 'service-location-components/description-parent.twig' %}
+<article data-type="kunta-api-service-location-component" data-component="name" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.id }}" data-lang="{{ lang }}">{% include 'service-location-components/name.twig' %}</article>
+<article data-type="kunta-api-service-location-component" data-component="description" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.id }}" data-lang="{{ lang }}">{% include 'service-location-components/description.twig' %}</article>
 <h2>Yhteystiedot</h2>
-{% include 'service-location-components/email-parent.twig' %}
-{% include 'service-location-components/fax-parent.twig' %}
-{% include 'service-location-components/phone-parent.twig' %}
-{% include 'service-location-components/phone-charge-info-parent.twig' %}
-{% include 'service-location-components/addresses-parent.twig' %}
-{% include 'service-location-components/servicehours-parent.twig' %}
+<article data-type="kunta-api-service-location-component" data-component="email" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.id }}" data-lang="{{ lang }}">{% include 'service-location-components/email.twig' %}</article>
+<article data-type="kunta-api-service-location-component" data-component="fax" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.id }}" data-lang="{{ lang }}">{% include 'service-location-components/fax.twig' %}</article>
+<article data-type="kunta-api-service-location-component" data-component="phone" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.id }}" data-lang="{{ lang }}">{% include 'service-location-components/phone.twig' %}</article>
+<article data-type="kunta-api-service-location-component" data-component="phone-charge-info" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.id }}" data-lang="{{ lang }}">{% include 'service-location-components/phone-charge-info.twig' %}</article>
+<article data-type="kunta-api-service-location-component" data-component="addresses" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.id }}" data-lang="{{ lang }}">{% include 'service-location-components/addresses.twig' %}</article>
+<article data-type="kunta-api-service-location-component" data-component="servicehours" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.id }}" data-lang="{{ lang }}">{% include 'service-location-components/servicehours.twig' %}</article>
+<article data-type="kunta-api-service-location-component" data-component="webpages" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.id }}" data-lang="{{ lang }}">{% include 'service-location-components/webpages.twig' %}</article>

@@ -1,0 +1,8 @@
+{% if printableFormChannels %}
+<h3>Lomakkeet</h3>
+{% for printableFormChannel in printableFormChannels %}
+<h4><a href="{{ printableFormChannel.channelUrls|localizedValue(lang) }}">{{ printableFormChannel.names|localizedValue(lang) }}</a></h4>
+{{ printableFormChannel.descriptions|localizedValue(lang)|nl2p|raw }}
+{{ printableFormChannel.phoneNumbers|localizedValue(lang)|nl2p|raw }}
+{% endfor %}  
+{% endif %}

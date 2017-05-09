@@ -1,3 +1,5 @@
+{% if serviceLocationChannel.phoneChargeDescriptions|localizedValue(lang) %}
+<h3>Puhelun hintatiedot</h3>
 {% if serviceLocationChannel.phoneNumbers %}
 {% for number in serviceLocationChannel.phoneNumbers %}
 <p><small>
@@ -9,4 +11,5 @@
 {% endif %}
 </small></p>
 {% endfor %}
+{% endif %}
 {% endif %}

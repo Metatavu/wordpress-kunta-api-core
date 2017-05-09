@@ -12,7 +12,7 @@
   if (!class_exists( 'KuntaAPI\Services\ServiceLocations\ServiceLocationContentProcessor' ) ) {
     
     class ServiceLocationContentProcessor extends \KuntaAPI\Core\AbstractContentProcessor {
-
+      
       public function process($dom, $mode) {
         $renderer = new ServiceLocationComponentRenderer();
         
@@ -42,7 +42,47 @@
           if (isset($service)) {          
             $serviceLocationChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceChannelId);
             if (isset($serviceLocationChannel)) {
-              $article->innertext = $renderer->renderComponent($lang, $service, $serviceLocationChannel, $component);
+              $content = $renderer->renderComponent($lang, $service, $serviceLocationChannel, $component);
+              if ($mode == 'edit' && empty($content)) {
+                
+                $text = '';
+                switch ($component) {
+                  case 'adresses':
+                    $text = __( 'Placeholder for adresses (Currently empty, not visible on webpage)', 'kunta_api_core' );
+                  break;
+                  case 'description':
+                    $text = __( 'Placeholder for description (Currently empty, not visible on webpage)', 'kunta_api_core' );
+                  break;
+                  case 'email':
+                    $text = __( 'Placeholder for email (Currently empty, not visible on webpage)', 'kunta_api_core' );
+                  break;
+                  case 'fax':
+                    $text = __( 'Placeholder for fax (Currently empty, not visible on webpage)', 'kunta_api_core' );
+                  break;
+                  case 'name':
+                    $text = __( 'Placeholder for service location name (Currently empty, not visible on webpage)', 'kunta_api_core' );
+                  break;
+                  case 'phone':
+                    $text = __( 'Placeholder for phonenumbers (Currently empty, not visible on webpage)', 'kunta_api_core' );
+                  break;
+                  case 'phone-charge-info':
+                    $text = __( 'Placeholder for phone charge info (Currently empty, not visible on webpage)', 'kunta_api_core' );
+                  break;
+                  case 'servicehours':
+                    $text = __( 'Placeholder for servicehours (Currently empty, not visible on webpage)', 'kunta_api_core' );
+                  break;
+                  case 'webpages':
+                    $text = __( 'Placeholder for service location webpages (Currently empty, not visible on webpage)', 'kunta_api_core' );
+                  break;
+                  default:
+                    $text = "unknown component type";
+                  break;
+                }
+                
+                $article->innertext = "<p>". $text ."</p>";
+              } else {
+                $article->innertext = $content;
+              }
             }
           }
         } 

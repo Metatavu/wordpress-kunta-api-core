@@ -37,17 +37,6 @@
         return $this->twig->render("service-location-components/$component.twig", $model);
       }
       
-      public function renderComponentParent($lang, $service, $serviceLocationChannel, $component) {
-        $model = [
-          'lang' => $lang,
-          'service' => $service,
-          'serviceId' => $service->getId(),
-          'serviceLocationChannel' => $serviceLocationChannel
-        ];
-      
-        return $this->twig->render("service-location-components/$component-parent.twig", $model);
-      }
-      
     }  
   }
 ?>
