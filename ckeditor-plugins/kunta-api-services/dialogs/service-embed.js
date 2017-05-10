@@ -1,11 +1,13 @@
+/* global CKEDITOR */
+
 (function() {
+  'use strict';
   
   var LOCALE = 'fi';
   
   var AjaxLoader = CKEDITOR.tools.createClass({
-    $: function() {
-      
-    },
+    
+    $: function() {},
    
     proto : {
       doPost: function (url, params, callback) {
@@ -275,18 +277,15 @@
         
         serviceContainer.append(serviceName);
         
-        if (description) {
-          serviceContainer.append(this._createCheckboxField(service.id, 'description', 'Kuvaus', description));
-        }
-        
-        if (userInstruction) {
-          serviceContainer.append(this._createCheckboxField(service.id, 'userInstruction', 'Toimintaohjeet', userInstruction));
-        }
-        
-        if (languages) {
-          serviceContainer.append(this._createCheckboxField(service.id, 'languages', 'Kielet, joilla palvelu on saatavilla', languages.join(',')));
-        }
-        
+        serviceContainer.append(this._createCheckboxField(service.id, 'description', 'Kuvaus', description));
+        serviceContainer.append(this._createCheckboxField(service.id, 'userInstruction', 'Toimintaohjeet', userInstruction));
+        serviceContainer.append(this._createCheckboxField(service.id, 'languages', 'Kielet, joilla palvelu on saatavilla', languages.join(',')));
+        serviceContainer.append(this._createCheckboxField(service.id, 'electronicServiceChannelIds', 'Sähköiset palvelukanavat', 'Palveluun liitetyt sähköiset palvelukanavat.'));
+        serviceContainer.append(this._createCheckboxField(service.id, 'phoneServiceChannelIds', 'Puhelinpalvelukanavat', 'Palveluun liitetyt puhelinpalvelukanavat.'));
+        serviceContainer.append(this._createCheckboxField(service.id, 'printableFormServiceChannelIds', 'Lomakkeet', 'Palveluun liitetyt lomakkeet.'));
+        serviceContainer.append(this._createCheckboxField(service.id, 'serviceLocationServiceChannelIds', 'Palvelupisteet', 'Palveluun liitetyt palvelupisteet.'));
+        serviceContainer.append(this._createCheckboxField(service.id, 'webPageServiceChannelIds', 'Verkkosivustot', 'Palveluun liitetyt verkkosivut'));
+
         return serviceContainer.getOuterHtml();
       },
       

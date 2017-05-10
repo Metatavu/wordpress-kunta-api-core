@@ -30,7 +30,7 @@
     }
 
     echo '<article data-lang="' . $lang . '" data-type="kunta-api-service-component" data-component="' . $serviceComponent . '" data-service-id="' . $serviceId . '">';
-    echo $renderer->renderComponent($serviceId, $serviceComponent, $lang);
+    echo $renderer->renderComponent($serviceId, $serviceComponent, $lang, "edit");
     echo '</article>';
     wp_die();
   } );
