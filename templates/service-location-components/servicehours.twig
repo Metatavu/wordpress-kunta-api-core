@@ -1,4 +1,6 @@
 {% if serviceLocationChannel.serviceHours %}
+<h3>Palveluajat</h3>
+{% if serviceLocationChannel.serviceHours %}
 {% spaceless %}
   {% for serviceHour in serviceLocationChannel.serviceHours|serviceHourSort %}
     {% if serviceHour.serviceHourType == 'Standard' or serviceHour.serviceHourType == 'Special' %}
@@ -37,4 +39,5 @@
     {% endif %}
   {% endfor %}
 {% endspaceless %}
+{% endif %}
 {% endif %}

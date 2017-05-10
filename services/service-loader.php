@@ -200,44 +200,7 @@
       public static function findService($id) {
         if (!isset(static::$services[$id])) {
           try {
-            static::$services[$id] = \KuntaAPI\Core\Api::getServicesApi()->findService($id);
-            static::$services[$id]['electronicChannels'] = [];
-            static::$services[$id]['phoneChannels'] = [];
-            static::$services[$id]['printableFormChannels'] = [];
-            static::$services[$id]['serviceLocationChannels'] = [];
-            static::$services[$id]['webPageChannels'] = [];
-            
-            try {
-              static::$services[$id]['electronicChannels'] = static::listElectronicServiceChannels($id);
-            } catch (\KuntaAPI\ApiException $e) {
-        	    error_log("listServiceElectronicChannels failed with following message: " . $e->getMessage());
-            }
-            
-            try {
-              static::$services[$id]['phoneChannels'] = static::listPhoneServiceChannels($id);
-            } catch (\KuntaAPI\ApiException $e) {
-              error_log("listServicePhoneChannels failed with following message: " . $e->getMessage());
-            }
-            
-            try {
-              static::$services[$id]['printableFormChannels'] = static::listPrintableFormServiceChannels($id);
-            } catch (\KuntaAPI\ApiException $e) {
-              error_log("listServicePrintableFormChannels failed with following message: " . $e->getMessage());
-            }
-            
-            try {
-              static::$services[$id]['serviceLocationChannels'] = static::listServiceLocationServiceChannels($id);
-            } catch (\KuntaAPI\ApiException $e) {
-              error_log("listServiceServiceLocationChannels failed with following message: " . $e->getMessage());
-            }
-            
-            try {
-              static::$services[$id]['webPageChannels'] = static::listWebPageServiceChannels($id);
-            } catch (\KuntaAPI\ApiException $e) {
-              error_log("listServiceWebPageChannels failed with following message: " . $e->getMessage());
-            }
-            
-            static::cacheServiceChannelsFromService(static::$services[$id]);
+            static::$services[$id] = \KuntaAPI\Core\Api::getServicesApi()->findService($id);      
           } catch (\KuntaAPI\ApiException $e) {
         	  error_log("findService failed with following message: " . $e->getMessage());
           }
@@ -255,24 +218,6 @@
         });
         
         return $serviceChannels;
-      }
-      
-      private static function cacheServiceChannelsFromService($service) {
-        foreach ($service['electronicChannels'] as $electronicChannel) {
-          static::$electronicChannels[$electronicChannel->getId()] = $electronicChannel;
-        }
-        foreach ($service['phoneChannels'] as $phoneChannel) {
-          static::$phoneChannels[$phoneChannel->getId()] = $phoneChannel;
-        }
-        foreach ($service['printableFormChannels'] as $printableFormChannel) {
-          static::$printableFormChannels[$printableFormChannel->getId()] = $printableFormChannel;
-        }
-        foreach ($service['serviceLocationChannels'] as $serviceLocationChannel) {
-          static::$serviceLocationChannels[$serviceLocationChannel->getId()] = $serviceLocationChannel;
-        }
-        foreach ($service['webPageChannels'] as $webPageChannel) {
-          static::$webPageChannels[$webPageChannel->getId()] = $webPageChannel;
-        }
       }
     }
     

@@ -1,3 +1,4 @@
+{% if serviceLocationChannel.addresses %}
 {% for address in serviceLocationChannel.addresses %}
   {% spaceless %}
     {% if address.type == "Visiting" %}
@@ -42,3 +43,4 @@
     {% endif %}
   {% endspaceless %}
 {% endfor %}
+{% endif %}
