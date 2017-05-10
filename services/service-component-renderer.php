@@ -18,33 +18,72 @@
         $this->twig->addExtension(new \KuntaAPI\Services\TwigExtension());
       }
       
-      public function renderComponent($serviceId, $serviceComponent, $lang) {
+      public function renderComponent($serviceId, $serviceComponent, $lang, $mode = 'view') {
         
         if (empty($lang)) {
           $lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
         }
         
+        $content = '';
         switch ($serviceComponent) {
           case 'description':
           case 'userInstruction':
           case 'languages':
-            return $this->renderServiceComponent($serviceId, $lang, $serviceComponent);
+            $content = $this->renderServiceComponent($serviceId, $lang, $serviceComponent);
+          break;
           case 'electronicServiceChannelIds':
-            return $this->renderElectronicServiceChannelIds($serviceId, $lang);
+            $content = $this->renderElectronicServiceChannelIds($serviceId, $lang);
+          break;
           case 'phoneServiceChannelIds':
-            return $this->renderPhoneServiceChannelIds($serviceId, $lang);
+            $content = $this->renderPhoneServiceChannelIds($serviceId, $lang);
+          break;
           case 'printableFormServiceChannelIds':
-            return $this->renderPrintableFormServiceChannelIds($serviceId, $lang);
+            $content = $this->renderPrintableFormServiceChannelIds($serviceId, $lang);
+          break;
           case 'serviceLocationServiceChannelIds':
-            return $this->renderLocationServiceChannelIds($serviceId, $lang);
+            $content = $this->renderLocationServiceChannelIds($serviceId, $lang);
+          break;
           case 'webPageServiceChannelIds':
-            return $this->renderWebPageServiceChannelIds($serviceId, $lang);
+            $content = $this->renderWebPageServiceChannelIds($serviceId, $lang);
+          break;
           default:
             error_log("unknown servicetype $serviceComponent");
-            break;
+          break;
         }
         
-        return '';
+        if ($mode == 'edit' && empty($content)) {
+          switch ($serviceComponent) {
+            case 'description':
+              $content = __( 'Placeholder for description (Currently empty, not visible on webpage)', 'kunta_api_core' );
+            break;
+            case 'userInstruction':
+              $content = __( 'Placeholder for user instruction (Currently empty, not visible on webpage)', 'kunta_api_core' );
+            break;
+            case 'languages':
+              $content = __( 'Placeholder for languages (Currently empty, not visible on webpage)', 'kunta_api_core' );
+            break;
+            case 'electronicServiceChannelIds':
+              $content = __( 'Placeholder for electronic service channels (Currently empty, not visible on webpage)', 'kunta_api_core' );
+            break;
+            case 'phoneServiceChannelIds':
+              $content = __( 'Placeholder for phone service channels (Currently empty, not visible on webpage)', 'kunta_api_core' );
+            break;
+            case 'printableFormServiceChannelIds':
+              $content = __( 'Placeholder for printable form service channels (Currently empty, not visible on webpage)', 'kunta_api_core' );
+            break;
+            case 'serviceLocationServiceChannelIds':
+              $content = __( 'Placeholder for service location channels (Currently empty, not visible on webpage)', 'kunta_api_core' );
+            break;
+            case 'webPageServiceChannelIds':
+              $content = __( 'Placeholder for webpage service channels (Currently empty, not visible on webpage)', 'kunta_api_core' );
+            break;
+            default:
+              $content = "unknown component type";
+            break;
+          }
+        }
+        
+        return $content;
       }
       
       private function renderServiceComponent($serviceId, $lang, $type) {
