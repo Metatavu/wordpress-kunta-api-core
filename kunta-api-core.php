@@ -10,6 +10,7 @@
   defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
 
   require_once( __DIR__ . '/vendor/autoload.php');
+  require_once( __DIR__ . '/twig/twig-loader.php');
   require_once( __DIR__ . '/core/schedules.php');
   require_once( __DIR__ . '/core/locale-helper.php');
   require_once( __DIR__ . '/core/settings.php');
