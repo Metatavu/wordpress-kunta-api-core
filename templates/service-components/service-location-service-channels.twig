@@ -1,0 +1,7 @@
+{% if serviceLocationChannels %}
+<h3>Toimipisteet</h3>
+{% for serviceLocationChannel in serviceLocationChannels %}
+<h4><a href="{{ serviceLocationChannel.id|serviceLocationPath(serviceId) }}">{{ serviceLocationChannel.names|localizedValue(lang) }}</a></h4>
+{{ serviceLocationChannel.descriptions|localizedValue(lang)|nl2p|raw }}
+{% endfor %}  
+{% endif %}

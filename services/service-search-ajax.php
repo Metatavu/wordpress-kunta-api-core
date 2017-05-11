@@ -21,8 +21,17 @@
   
   add_action( 'wp_ajax_kunta_api_render_service_component', function () {
     $renderer = new \KuntaAPI\Services\ServiceComponentRenderer();
-    $service = \KuntaAPI\Services\Loader::findService($_POST['serviceId']);
-    echo $renderer->renderComponentParent($service, $_POST['lang'], $_POST['component']);
+    $serviceId = $_POST['serviceId'];
+    $lang = $_POST['lang'];
+    $serviceComponent = $_POST['component'];
+    
+    if (empty($lang)) {
+      $lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
+    }
+
+    echo '<article data-lang="' . $lang . '" data-type="kunta-api-service-component" data-component="' . $serviceComponent . '" data-service-id="' . $serviceId . '">';
+    echo $renderer->renderComponent($serviceId, $serviceComponent, $lang, "edit");
+    echo '</article>';
     wp_die();
   } );
 

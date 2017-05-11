@@ -1,42 +1,40 @@
 {% if serviceHours %}
-    {% for serviceHour in serviceHours|serviceHourSort %}
-      {% if serviceHour.serviceHourType == 'Standard' or serviceHour.serviceHourType == 'Special' %}
-        <div>
-        {% if serviceHour.validFrom %}{{ serviceHour.validFrom|dateTimeFormat }}{% if serviceHour.validTo %} - {{ serviceHour.validTo|dateTimeFormat }}{% endif %}</br>{% endif %}
-        {% if serviceHour.isClosed %}Suljettu{% endif %}
-        {% if serviceHour.additionalInformation %}
-          <b>{{ serviceHour.additionalInformation|localizedValue(lang)|nl2br }}</b>
+{% spaceless %}
+  {% for serviceHour in serviceHours|serviceHourSort %}
+    {% if serviceHour.serviceHourType == 'Standard' or serviceHour.serviceHourType == 'Special' %}
+      <div class="service-hour">
+      {% if serviceHour.isClosed %}Suljettu{% endif %}
+      {% if serviceHour.additionalInformation %}
+        <b>{{ serviceHour.additionalInformation|localizedValue(lang)|nl2p|raw }}</b>
+      {% else %}
+        {% if serviceHour.serviceHourType == 'Standard' %}
+          <h4><span>Aukioloajat</span>{% if serviceHour.validFrom %}<span class="service-hour-valid"> {{ serviceHour.validFrom|dateTimeFormat }}{% if serviceHour.validTo %} - {{ serviceHour.validTo|dateTimeFormat }}{% endif %}</span>{% endif %}</h4>
         {% else %}
-          {% if serviceHour.serviceHourType == 'Standard' %}
-            <b>Normaalit palveluajat</b>
-          {% else %}
-            <b>Vuorokauden yli menevät palveluajat</b>
-          {% endif %}
+          <b>Vuorokauden yli menevät palveluajat</b>
         {% endif %}
-        {% if serviceHour.openingHour %}
-          <ul>
-          {% for openingHour in serviceHour.openingHour %}
-            <li>{{ openingHour|openingHoursFormat }}</li>
-          {% endfor %}
-          </ul>
-        {% endif %}
-        </div>
       {% endif %}
-      {% if serviceHour.serviceHourType == 'Exception' %}
-        <div>
-        <b>Poikkeavat palveluajat</b>
-        {% if serviceHour.isClosed %}<p>Suljettu</p>{% endif %}
-        {% if serviceHour.validForNow %}Voimassa toistaiseksi{% endif %}
-        {% if serviceHour.openingHour %}
-          <ul>
-          {% for openingHour in serviceHour.openingHour %}
-            <li>
-              {% if serviceHour.validFrom %}{{ serviceHour.validFrom|dateTimeFormat }}{% endif %}{% if serviceHour.validTo %} - {{ serviceHour.validTo|dateTimeFormat }} {% endif %}{% if openingHour.from %}{{ openingHour.from|formatServiceHour }}{% endif %}{% if openingHour.to %} - {{ openingHour.to|formatServiceHour }}{% endif %} {% if serviceHour.additionalInformation %}{{ serviceHour.additionalInformation|localizedValue(lang)|nl2br }}{% endif %}
-            </li>
-          {% endfor %}
-          </ul>
-        {% endif %}
-        <div>
+      {% if serviceHour.openingHour %}
+        {% for openingHour in serviceHour.openingHour %}
+          <div class="opening-hour">{{ openingHour|openingHoursFormat }}</div>
+        {% endfor %}
       {% endif %}
-    {% endfor %}
+      </div>      
+    {% endif %}
+    {% if serviceHour.serviceHourType == 'Exception' %}
+      <div class="service-hour service-hour-exception">
+        <h4>Poikkeusaukioloajat</h4>
+        {% if serviceHour.additionalInformation %}
+        <div class="service-hour-additional-info">{{ serviceHour.additionalInformation|localizedValue(lang)|nl2p|raw }}</div>
+        {% endif %}{% if serviceHour.isClosed %}<div class="service-hour-closed">Suljettu</div>{% endif %}{% if serviceHour.validForNow %}<div class="service-hour-valid-for-now">Voimassa toistaiseksi</div>{% endif %}
+        {% if serviceHour.openingHour %}
+          {% for openingHour in serviceHour.openingHour %}
+            <div class="opening-hour">
+              {% if serviceHour.validFrom %}{{ serviceHour.validFrom|dateTimeFormat }}{% endif %}{% if serviceHour.validTo %} - {{ serviceHour.validTo|dateTimeFormat }} {% endif %}{% if openingHour.from %}{{ openingHour.from|formatServiceHour }}{% endif %}{% if openingHour.to %} - {{ openingHour.to|formatServiceHour }}{% endif %} {% if serviceHour.additionalInformation %}{{ serviceHour.additionalInformation|localizedValue(lang)|nl2p|raw }}{% endif %}
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endspaceless %}
 {% endif %}

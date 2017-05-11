@@ -1,1 +1,4 @@
-{{ serviceLocationChannel.descriptions|localizedValue(lang, 'Description')|nl2br }}
+{% if serviceLocationChannel.descriptions|localizedValue(lang, 'Description') %}
+<h3>Kuvaus</h3>
+{{ serviceLocationChannel.descriptions|localizedValue(lang, 'Description')|nl2p|raw }}
+{% endif %}

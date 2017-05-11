@@ -18,7 +18,14 @@
       
       public static function listOrganizationServices($firstResult, $maxResults) {
         $organizationId = \KuntaAPI\Core\CoreSettings::getValue('organizationId');
-        return \KuntaAPI\Core\Api::getServicesApi()->listServices($organizationId, null, $firstResult, $maxResults);
+        
+        $result = [];
+        
+        foreach (\KuntaAPI\Core\Api::getServicesApi()->listServices($organizationId, null, $firstResult, $maxResults) as $service) {
+          $result[] = static::findService($service->getId());
+        }
+        
+        return $result;
       }
       
       public static function findElectronicServiceChannel($serviceId, $id) {
@@ -94,7 +101,7 @@
             }
           }
           
-          return $result;
+          return static::sortServiceChannelsByName($result);
         } catch (\KuntaAPI\ApiException $e) {
           error_log("listServiceLocationServiceChannels failed with following message: " . $e->getMessage());
         }
@@ -116,7 +123,7 @@
             }
           }
           
-          return $result;
+          return static::sortServiceChannelsByName($result);
         } catch (\KuntaAPI\ApiException $e) {
           error_log("listElectronicServiceChannels failed with following message: " . $e->getMessage());
         }
@@ -138,7 +145,7 @@
             }
           }
           
-          return $result;
+          return static::sortServiceChannelsByName($result);
         } catch (\KuntaAPI\ApiException $e) {
           error_log("listPhoneServiceChannels failed with following message: " . $e->getMessage());
         }
@@ -160,7 +167,7 @@
             }
           }
           
-          return $result;
+          return static::sortServiceChannelsByName($result);
         } catch (\KuntaAPI\ApiException $e) {
           error_log("listPrintableFormServiceChannels failed with following message: " . $e->getMessage());
         }
@@ -182,7 +189,7 @@
             }
           }
           
-          return $result;
+          return static::sortServiceChannelsByName($result);
         } catch (\KuntaAPI\ApiException $e) {
           error_log("listWebPageServiceChannels failed with following message: " . $e->getMessage());
         }
@@ -191,69 +198,26 @@
       }
       
       public static function findService($id) {
-        if(!isset(static::$services[$id])) {
+        if (!isset(static::$services[$id])) {
           try {
-            static::$services[$id] = \KuntaAPI\Core\Api::getServicesApi()->findService($id);
-            static::$services[$id]['electronicChannels'] = [];
-            static::$services[$id]['phoneChannels'] = [];
-            static::$services[$id]['printableFormChannels'] = [];
-            static::$services[$id]['serviceLocationChannels'] = [];
-            static::$services[$id]['webPageChannels'] = [];
-            
-            try {
-              static::$services[$id]['electronicChannels'] = static::listElectronicServiceChannels($id);
-            } catch (\KuntaAPI\ApiException $e) {
-        	  error_log("listServiceElectronicChannels failed with following message: " . $e->getMessage());
-            }
-            
-            try {
-              static::$services[$id]['phoneChannels'] = static::listPhoneServiceChannels($id);
-            } catch (\KuntaAPI\ApiException $e) {
-              error_log("listServicePhoneChannels failed with following message: " . $e->getMessage());
-            }
-            
-            try {
-              static::$services[$id]['printableFormChannels'] = static::listPrintableFormServiceChannels($id);
-            } catch (\KuntaAPI\ApiException $e) {
-              error_log("listServicePrintableFormChannels failed with following message: " . $e->getMessage());
-            }
-            
-            try {
-              static::$services[$id]['serviceLocationChannels'] = static::listServiceLocationServiceChannels($id);
-            } catch (\KuntaAPI\ApiException $e) {
-              error_log("listServiceServiceLocationChannels failed with following message: " . $e->getMessage());
-            }
-            
-            try {
-              static::$services[$id]['webPageChannels'] = static::listWebPageServiceChannels($id);
-            } catch (\KuntaAPI\ApiException $e) {
-              error_log("listServiceWebPageChannels failed with following message: " . $e->getMessage());
-            }
-            
-            static::cacheServiceChannelsFromService(static::$services[$id]);
+            static::$services[$id] = \KuntaAPI\Core\Api::getServicesApi()->findService($id);      
           } catch (\KuntaAPI\ApiException $e) {
-        	error_log("findService failed with following message: " . $e->getMessage());
+        	  error_log("findService failed with following message: " . $e->getMessage());
           }
         }
+        
         return static::$services[$id];
       }
 
-      private static function cacheServiceChannelsFromService($service) {
-        foreach ($service['electronicChannels'] as $electronicChannel) {
-          static::$electronicChannels[$electronicChannel->getId()] = $electronicChannel;
-        }
-        foreach ($service['phoneChannels'] as $phoneChannel) {
-          static::$phoneChannels[$phoneChannel->getId()] = $phoneChannel;
-        }
-        foreach ($service['printableFormChannels'] as $printableFormChannel) {
-          static::$printableFormChannels[$printableFormChannel->getId()] = $printableFormChannel;
-        }
-        foreach ($service['serviceLocationChannels'] as $serviceLocationChannel) {
-          static::$serviceLocationChannels[$serviceLocationChannel->getId()] = $serviceLocationChannel;
-        }
-        foreach ($service['webPageChannels'] as $webPageChannel) {
-          static::$webPageChannels[$webPageChannel->getId()] = $webPageChannel;
-        }
+      private static function sortServiceChannelsByName($serviceChannels) {
+        usort($serviceChannels, function($serviceChannel1, $serviceChannel2) {
+          $currentLanguage = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
+          $name1 = \KuntaAPI\Core\LocaleHelper::getLocalizedValue($serviceChannel1->getNames(), $currentLanguage, "Name");
+          $name2 = \KuntaAPI\Core\LocaleHelper::getLocalizedValue($serviceChannel2->getNames(), $currentLanguage, "Name");
+          return strcasecmp($name1, $name2);
+        });
+        
+        return $serviceChannels;
       }
     }
     

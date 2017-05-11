@@ -1,1 +1,6 @@
-{{ service.descriptions|localizedValue(lang, 'Description')|nl2br }}
+{% spaceless %}
+{% if service.descriptions|localizedValue(lang, 'Description') %}
+<h3>Kuvaus</h3>
+{{ service.descriptions|localizedValue(lang, 'Description')|nl2p|raw }}
+{% endif %}
+{% endspaceless %}

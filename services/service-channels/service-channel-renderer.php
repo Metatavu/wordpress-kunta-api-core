@@ -4,55 +4,49 @@
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
   require_once( __DIR__ . '/../../vendor/autoload.php');
-  require_once( __DIR__ . '/../../core/twig-extension.php');
   
   if (!class_exists( 'KuntaAPI\Services\ServiceChannelRenderer' ) ) {
     class ServiceChannelRenderer {
       
-      private $twig;
-      
-      public function __construct() {
-        $this->twig = new \Twig_Environment(new \Twig_Loader_Filesystem( __DIR__ . '/../../templates'));
-        $this->twig->addExtension(new \KuntaAPI\Services\TwigExtension());
-      }
-      
-      public function renderElectronicChannel($serviceId, $electronicChannel, $lang) {
-        return $this->twig->render("service-components/electronic-service-channel.twig", [
+      public function __construct() { }
+  
+      public function renderElectronicChannels($serviceId, $electronicChannels, $lang) {
+        return \KuntaAPI\Twig\TwigLoader::getTwig()->render("service-components/electronic-service-channels.twig", [
           'serviceId' => $serviceId,
           'lang' => $lang,
-          'electronicChannel' => $electronicChannel
+          'electronicChannels' => $electronicChannels
         ]);
       }
       
-      public function renderPhoneChannel($serviceId, $phoneChannel, $lang) {
-        return $this->twig->render("service-components/phone-service-channel.twig", [
+      public function renderPhoneChannels($serviceId, $phoneChannels, $lang) {
+        return \KuntaAPI\Twig\TwigLoader::getTwig()->render("service-components/phone-service-channels.twig", [
           'serviceId' => $serviceId, 
-          'phoneChannel' => $phoneChannel,
+          'phoneChannels' => $phoneChannels,
           'lang' =>	$lang
         ]);
       }
       
-      public function renderPrintableFormChannel($serviceId, $printableFormChannel, $lang) {
-      	return $this->twig->render("service-components/printable-form-service-channel.twig", [
+      public function renderPrintableFormChannels($serviceId, $printableFormChannels, $lang) {
+      	return \KuntaAPI\Twig\TwigLoader::getTwig()->render("service-components/printable-form-service-channels.twig", [
       	  'serviceId' => $serviceId,
       	  'lang' => $lang,
-      	  'printableFormChannel' => $printableFormChannel
+      	  'printableFormChannels' => $printableFormChannels
       	]);
       }
       
-      public function renderServiceLocationChannel($serviceId, $serviceLocationChannel, $lang) {
-      	return $this->twig->render("service-components/service-location-service-channel.twig", [
+      public function renderServiceLocationChannels($serviceId, $serviceLocationChannels, $lang) {
+      	return \KuntaAPI\Twig\TwigLoader::getTwig()->render("service-components/service-location-service-channels.twig", [
       	  'serviceId' => $serviceId,
       	  'lang' => $lang,
-      	  'serviceLocationChannel' => $serviceLocationChannel
+      	  'serviceLocationChannels' => $serviceLocationChannels
       	]);
       }
       
-      public function renderWebPageChannel($serviceId, $webPageChannel, $lang) {
-      	return $this->twig->render("service-components/webpage-service-channel.twig", [
+      public function renderWebPageChannels($serviceId, $webPageChannels, $lang) {
+      	return \KuntaAPI\Twig\TwigLoader::getTwig()->render("service-components/webpage-service-channels.twig", [
       	  'serviceId' => $serviceId,
       	  'lang' => $lang,
-      	  'webPageChannel' => $webPageChannel
+      	  'webPageChannels' => $webPageChannels
       	]);
       }
       

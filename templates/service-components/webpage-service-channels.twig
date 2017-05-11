@@ -1,0 +1,7 @@
+{% if webPageChannels %}
+<h3>Hyödylliset linkit</h3>
+{% for webPageChannel in webPageChannels %}
+<h4><a href="{{ webPageChannel.urls|localizedValue(lang) }}">{{ webPageChannel.names|localizedValue(lang) }}</a></h4>
+{{ webPageChannel.descriptions|localizedValue(lang)|nl2p|raw }}
+{% endfor %}  
+{% endif %}

@@ -1,7 +1,10 @@
-<h4>{{ phoneChannel.names|localizedValue(lang)|nl2br }}</h4>
+{% if phoneChannels %}
+<h3>Puhelinnumerot</h3>
+{% for phoneChannel in phoneChannels %}
+<h4>{{ phoneChannel.names|localizedValue(lang) }}</h4>
 {% for description in phoneChannel.descriptions %}
 {% endfor %}
-<p>{{ phoneChannel.descriptions|localizedValue(lang, 'Description')|nl2br }}</p>
+{{ phoneChannel.descriptions|localizedValue(lang, 'Description')|nl2p|raw }}
 {% if phoneChannel.phoneNumbers %}
 {% for number in phoneChannel.phoneNumbers %}
 <p>{{ number|phoneNumber }}<br/>
@@ -17,3 +20,5 @@
 {% endif %}
 {% set serviceHours = phoneChannel.serviceHours %}
 {% include 'service-components/servicehours-fragment.twig' %}
+{% endfor %}  
+{% endif %}

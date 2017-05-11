@@ -3,13 +3,14 @@
  * Created on Oct 21, 2016
  * Plugin Name: Kunta API Core
  * Description: Core functionalities for Kunta API integrations
- * Version: 0.4.4
+ * Version: 0.5.0
  * Author: Metatavu Oy
  */
 
   defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
 
   require_once( __DIR__ . '/vendor/autoload.php');
+  require_once( __DIR__ . '/twig/twig-loader.php');
   require_once( __DIR__ . '/core/schedules.php');
   require_once( __DIR__ . '/core/locale-helper.php');
   require_once( __DIR__ . '/core/settings.php');
