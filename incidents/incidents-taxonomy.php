@@ -8,9 +8,9 @@
   }
   
   add_action('init', function () {
-  	register_taxonomy('incident-areas', 'incident', [
+  	register_taxonomy('incident_areas', 'incident', [
   	  'label' => __( 'Incident Areas', KUNTA_API_CORE_I18N_DOMAIN),
-  	  'rewrite' => array( 'slug' => 'incident-areas' ),
+  	  'rewrite' => array( 'slug' => 'incident_areas' ),
   	  'show_ui' => true,
   	  'show_in_menu' => true,
   	  'show_in_nav_menus' => false,
