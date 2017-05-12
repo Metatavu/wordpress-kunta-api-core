@@ -29,6 +29,7 @@
   require_once( __DIR__ . '/shortlinks/shortlinks.php');
   require_once( __DIR__ . '/pages/pages.php');
   require_once( __DIR__ . '/id-mappings/pages/page-mappings-rest.php');
+  require_once( __DIR__ . '/incidents/incidents.php');
   require_once( __DIR__ . '/patches/patches.php');
   require_once( __DIR__ . '/webhooks/webhooks.php');
 
