@@ -24,9 +24,8 @@
         ]);
       }
 
-      public function renderLocationChannelPage($lang, $serviceId, $serviceLocationChannel) {
+      public function renderLocationChannelPage($lang, $serviceLocationChannel) {
       	return \KuntaAPI\Twig\TwigLoader::getTwig()->render('pages/service-location-channel.twig', [
-          'serviceId' => $serviceId,
       	  'serviceLocationChannel' => $serviceLocationChannel,
       	  'lang' => $lang
       	]);

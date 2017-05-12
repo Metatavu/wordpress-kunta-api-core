@@ -1,4 +1,4 @@
-{% if serviceLocationChannel.email %}
+{% if serviceLocationChannel.emails %}
 <h3>Sähköposti</h3>
-{{ serviceLocationChannel.email }}
+{{ serviceLocationChannel.emails|localizedValue(lang)|nl2p|raw }}
 {% endif %}

@@ -29,7 +29,7 @@
         
         if (isset($serviceLocationChannel)) {
           $renderer = new ServiceLocationComponentRenderer();
-          return $renderer->renderShortCodeComponent($lang, $serviceLocationChannel, $serviceComponent);
+          return $renderer->renderComponent($lang, $serviceLocationChannel, $serviceComponent);
         }
         
         return '';
