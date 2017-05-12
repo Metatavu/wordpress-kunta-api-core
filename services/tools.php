@@ -72,13 +72,12 @@ add_action('kunta_api_core_tools', function () {
         $serviceLocationMapping = array_slice($mapper->getLocationChannelPageMapping(), $offset, $batchSize, true);
 
         foreach ($serviceLocationMapping as $serviceLocationId => $pageId) {
-          $serviceId = $mapper->getLocationChannnelServiceId($serviceLocationId);
           $serviceLocationChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceLocationId);
           if (!isset($serviceLocationChannel)) {
-            error_log("Service $serviceId location $serviceLocationId from page $pageId could not be loaded");
+            error_log("Service location channel $serviceLocationId from page $pageId could not be loaded");
           } else {
-            $title = \KuntaAPI\Core\LocaleHelper::getLocalizedValue($serviceLocationMapping["names"], $lang, "Name");
-            $content = $renderer->renderLocationChannelPage($lang, $serviceId, $serviceLocationChannel);
+            $title = \KuntaAPI\Core\LocaleHelper::getLocalizedValue($serviceLocationChannel->getNames(), $lang, "Name");
+            $content = $renderer->renderLocationChannelPage($lang, $serviceLocationChannel);
             $result = wp_update_post([
                 'ID' => $pageId,
                 'post_title' => $title,
@@ -86,9 +85,9 @@ add_action('kunta_api_core_tools', function () {
             ]);
 
             if ($result) {
-              error_log("Service location channel $serviceId / $serviceLocationId page $pageId regenerated succesfully");
+              error_log("Service location channel $serviceLocationId page $pageId regenerated succesfully");
             } else {
-              error_log("Service location channel $serviceId / $serviceLocationId page $pageId regeneration failed");
+              error_log("Service location channel $serviceLocationId page $pageId regeneration failed");
             }
           }
         }

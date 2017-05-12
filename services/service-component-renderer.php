@@ -11,12 +11,7 @@
     
     class ServiceComponentRenderer {
       
-      private $twig;
-      
-      public function __construct() {
-        $this->twig = new \Twig_Environment(new \Twig_Loader_Filesystem( __DIR__ . '/../templates'));
-        $this->twig->addExtension(new \KuntaAPI\Services\TwigExtension());
-      }
+      public function __construct() {}
       
       public function renderComponent($serviceId, $serviceComponent, $lang, $mode = 'view') {
         
@@ -96,11 +91,11 @@
 
           switch ($type) {
             case 'description':
-              return $this->twig->render("service-components/service-description.twig", $model);
+              return \KuntaAPI\Twig\TwigLoader::getTwig()->render("service-components/service-description.twig", $model);
             case 'userInstruction':
-              return $this->twig->render("service-components/service-user-instructions.twig", $model);
+              return \KuntaAPI\Twig\TwigLoader::getTwig()->render("service-components/service-user-instructions.twig", $model);
             case 'languages':
-              return $this->twig->render("service-components/service-languages.twig", $model);
+              return \KuntaAPI\Twig\TwigLoader::getTwig()->render("service-components/service-languages.twig", $model);
             default:
               error_log("unknown servicetype $type");
               break;

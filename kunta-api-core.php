@@ -3,13 +3,14 @@
  * Created on Oct 21, 2016
  * Plugin Name: Kunta API Core
  * Description: Core functionalities for Kunta API integrations
- * Version: 0.5.0
+ * Version: 0.6.0
  * Author: Metatavu Oy
  */
 
   defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
 
   require_once( __DIR__ . '/vendor/autoload.php');
+  require_once( __DIR__ . '/twig/twig-loader.php');
   require_once( __DIR__ . '/core/schedules.php');
   require_once( __DIR__ . '/core/locale-helper.php');
   require_once( __DIR__ . '/core/settings.php');
@@ -28,6 +29,7 @@
   require_once( __DIR__ . '/shortlinks/shortlinks.php');
   require_once( __DIR__ . '/pages/pages.php');
   require_once( __DIR__ . '/id-mappings/pages/page-mappings-rest.php');
+  require_once( __DIR__ . '/incidents/incidents.php');
   require_once( __DIR__ . '/patches/patches.php');
   require_once( __DIR__ . '/webhooks/webhooks.php');
 
