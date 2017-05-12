@@ -77,7 +77,7 @@ add_action('kunta_api_core_tools', function () {
           if (!isset($serviceLocationChannel)) {
             error_log("Service $serviceId location $serviceLocationId from page $pageId could not be loaded");
           } else {
-            $title = \KuntaAPI\Core\LocaleHelper::getLocalizedValue($serviceLocationMapping["names"], $lang, "Name");
+            $title = \KuntaAPI\Core\LocaleHelper::getLocalizedValue($serviceLocationChannel->getNames(), $lang, "Name");
             $content = $renderer->renderLocationChannelPage($lang, $serviceId, $serviceLocationChannel);
             $result = wp_update_post([
                 'ID' => $pageId,
