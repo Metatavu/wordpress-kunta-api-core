@@ -26,18 +26,16 @@
   
   add_action( 'wp_ajax_kunta_api_render_service_location_component', function () {
     $renderer = new \KuntaAPI\Services\ServiceLocations\ServiceLocationComponentRenderer();
-    $serviceId = $_POST['serviceId'];
-    $serviceLocationChannelId = $_POST['serviceLocationChannelId'];
-    $service = \KuntaAPI\Services\Loader::findService($serviceId);
+    $serviceLocationChannelId = $_POST['serviceChannelId'];
     $serviceLocationChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceLocationChannelId);
     $component = $_POST['component'];
     $lang = $_POST['lang'];
     if (empty($lang)) {
       $lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
     }
-    
-    echo '<article data-type="kunta-api-service-location-component" data-component="' . $component . '" data-service-id="' . $serviceId . '" data-service-channel-id="' . $serviceLocationChannelId . '" data-lang="' . $lang . '">';
-    echo $renderer->renderComponent($lang, $service, $serviceLocationChannel, $component);
+
+    echo '<article data-type="kunta-api-service-location-component" data-component="' . $component . '" data-service-channel-id="' . $serviceLocationChannelId . '" data-lang="' . $lang . '">';
+    echo $renderer->renderComponent($lang, $serviceLocationChannel, $component, 'edit');
     echo '</article>';
     wp_die();
   } );

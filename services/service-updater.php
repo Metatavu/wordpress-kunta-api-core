@@ -123,7 +123,7 @@
       	if (!$defaultPageId) {
       	  $lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
       	  $title = \KuntaAPI\Core\LocaleHelper::getLocalizedValue($serviceLocationChannel["names"], $lang, "Name");
-      	  $content = $this->renderServiceLocationChannelPage($lang, $serviceId, $serviceLocationChannel);
+      	  $content = $this->renderServiceLocationChannelPage($lang, $serviceLocationChannel);
       	  $pageId = $this->createPage($parentPageId, $title, $content);
       	  $this->mapper->setLocationChannelPageId($serviceLocationChannelId, $pageId);
       	}
@@ -133,8 +133,8 @@
       	return $this->renderer->renderServicePage($lang, $service);
       }
       
-      private function renderServiceLocationChannelPage($lang, $serviceId, $serviceLocationChannel) {
-      	return $this->renderer->renderLocationChannelPage($lang, $serviceId, $serviceLocationChannel);
+      private function renderServiceLocationChannelPage($lang, $serviceLocationChannel) {
+      	return $this->renderer->renderLocationChannelPage($lang, $serviceLocationChannel);
       }
       
       private function createPage($parentPageId, $title, $content) {
