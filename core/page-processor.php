@@ -20,8 +20,9 @@
         
         $useSidebar = \KuntaAPI\Core\CoreSettings::getBooleanValue('useSidebarPluginTinymce');
         $useEmbedder = \KuntaAPI\Core\CoreSettings::getBooleanValue('useServiceEmbedPluginTinymce');
+        $tinyMceEnabled = $useSidebar || $useEmbedder;
         
-        if (!$useSidebar || !$useEmbedder) {
+        if (!$tinyMceEnabled) {
           add_filter('the_content', array($this, 'processPageContent'));
           if (is_admin()) {
             add_filter('content_edit_pre', array($this, 'processPageEditContent'));
