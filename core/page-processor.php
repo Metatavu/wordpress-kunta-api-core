@@ -17,9 +17,15 @@
       
       public function __construct() {
         $this->contentProcessors = [];
-        add_filter('the_content', array($this, 'processPageContent'));
-        if (is_admin()) {
-          add_filter('content_edit_pre', array($this, 'processPageEditContent'));
+        
+        $useSidebar = \KuntaAPI\Core\CoreSettings::getBooleanValue('useSidebarPluginTinymce');
+        $useEmbedder = \KuntaAPI\Core\CoreSettings::getBooleanValue('useServiceEmbedPluginTinymce');
+        
+        if (!$useSidebar && !$useEmbedder) {
+          add_filter('the_content', array($this, 'processPageContent'));
+          if (is_admin()) {
+            add_filter('content_edit_pre', array($this, 'processPageEditContent'));
+          }
         }
       }
        
