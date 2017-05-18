@@ -22,15 +22,41 @@
       public function onEditPost($id) {
         $post = get_post($id);
         $status = $post->post_status;
-        $type = $post->post_type;        
-        $this->doPostRequest("ID=$id&post_status=$status&post_type=$type&hook=edit_post");
+        $type = $post->post_type;
+        $orderIndex = $status === 'publish' ? $this->resolveOrderIndex($type, $id) : '';
+        $this->doPostRequest("ID=$id&post_status=$status&post_type=$type&hook=edit_post&order_index=$orderIndex");
       }
       
       public function onEditPostRelated($id) {
         $post = get_post($id);
         $status = $post->post_status;
-        $type = $post->post_type;        
-        $this->doPostRequest("ID=$id&post_status=$status&post_type=$type&hook=edit_post");
+        $type = $post->post_type;
+        $orderIndex = $status === 'publish' ? $this->resolveOrderIndex($type, $id) : '';
+        $this->doPostRequest("ID=$id&post_status=$status&post_type=$type&hook=edit_post&order_index=$orderIndex");
+      }
+      
+      private function resolveOrderIndex($type, $id) {
+        $page = 0;
+        $perPage = 50;
+        
+        while ($page < 100) {
+          $offset = $perPage * $page;
+          
+          $ids = get_posts([
+            'fields' => 'ids',
+            'post_type'        => $type,
+            'posts_per_page'   => $perPage,
+            'offset'           => $offset,
+            'suppress_filters' => false
+          ]);
+          
+          $index = array_search($id, $ids);
+          if ($index !== false) {
+            return $offset + $index;
+          }
+          
+          $page++;
+        }
       }
       
       private function doPostRequest($body) {
