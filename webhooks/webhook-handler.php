@@ -37,7 +37,7 @@
       
       private function resolveOrderIndex($type, $id) {
         $page = 0;
-        $perPage = 2;
+        $perPage = 50;
         
         while ($page < 100) {
           $offset = $perPage * $page;
