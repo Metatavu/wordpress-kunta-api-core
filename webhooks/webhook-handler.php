@@ -36,13 +36,13 @@
       }
       
       private function resolveOrderIndex($type, $id) {
-      	$page = 0;
+        $page = 0;
         $perPage = 2;
         
-      	while ($page < 100) {
+        while ($page < 100) {
           $offset = $perPage * $page;
           
-      		$ids = get_posts([
+          $ids = get_posts([
             'fields' => 'ids',
             'post_type'        => $type,
             'posts_per_page'   => $perPage,
@@ -56,7 +56,7 @@
           }
           
           $page++;
-      	}
+        }
       }
       
       private function doPostRequest($body) {
