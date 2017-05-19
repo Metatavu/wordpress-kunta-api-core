@@ -112,7 +112,7 @@
       $options = get_option(KUNTA_API_CORE_SETTINGS_OPTION);
       if ($options) {
         return $options[$name];
-      } 
+      }
       
       return null;
     }
@@ -124,24 +124,25 @@
     public static function getOrganizationIds() {
       $result = [];
       
-      $organizations = static::getValue("organizations");
+      $organizations = static::getOrganizations();
+
       foreach ($organizations as $organization) {
-        $result[] = $organization->organizationId;
+        $result[] = $organization['organizationId'];
       }
-        
+
       return $result;
     }
     
     public static function getOrganizationIdsWithWebhooks() {
       $result = [];
       
-      $organizations = static::getValue("organizations");
+      $organizations = static::getOrganizations();
       foreach ($organizations as $organization) {
-        if ($organization->webhooks == '1') {
-          $result[] = $organization->organizationId;
+        if ($organization['webhooks'] == '1') {
+          $result[] = $organization['organizationId'];
         }
       }
-        
+      
       return $result;
     }
     
@@ -152,13 +153,13 @@
     public static function getOrganizationIdsWithSynchronization() {
       $result = [];
       
-      $organizations = static::getValue("organizations");
+      $organizations = static::getOrganizations();
       foreach ($organizations as $organization) {
-        $synchronizeServices = $organization->synchronizeServices == '1';
-        $synchronizeServiceLocationServiceChannels = $organization->synchronizeServiceLocationServiceChannels == '1';
+        $synchronizeServices = $organization['synchronizeServices'] == '1';
+        $synchronizeServiceLocationServiceChannels = $organization['synchronizeServiceLocationServiceChannels'] == '1';
         
         if ($synchronizeServices || $synchronizeServiceLocationServiceChannels) {
-          $result[] = $organization->organizationId;
+          $result[] = $organization['organizationId'];
         }
       }
         
@@ -168,10 +169,10 @@
     public static function getOrganizationServiceLocationChannnelsPath($organizationId) {
       $result = [];
       
-      $organizations = static::getValue("organizations");
+      $organizations = static::getOrganizations();
       foreach ($organizations as $organization) {
-        if ($organization->organizationId == $organizationId) {
-          return $organization->serviceLocationChannnelsPath;
+        if ($organization['organizationId'] == $organizationId) {
+          return $organization['serviceLocationChannnelsPath'];
         }
       }
         
@@ -181,10 +182,10 @@
     public static function getOrganizationSynchronizeServices($organizationId) {
       $result = [];
       
-      $organizations = static::getValue("organizations");
+      $organizations = static::getOrganizations();
       foreach ($organizations as $organization) {
-        if ($organization->organizationId == $organizationId) {
-          return $organization->synchronizeServices == '1';
+        if ($organization['organizationId'] == $organizationId) {
+          return $organization['synchronizeServices'] == '1';
         }
       }
         
@@ -194,14 +195,23 @@
     public static function getOrganizationSynchronizeServiceLocationServiceChannels($organizationId) {
       $result = [];
       
-      $organizations = static::getValue("organizations");
+      $organizations = static::getOrganizations();
       foreach ($organizations as $organization) {
-        if ($organization->organizationId == $organizationId) {
-          return $organization->synchronizeServiceLocationServiceChannels == '1';
+        if ($organization['organizationId'] == $organizationId) {
+          return $organization['synchronizeServiceLocationServiceChannels'] == '1';
         }
       }
         
       return false;
+    }
+    
+    private static function getOrganizations() {
+      $result = static::getValue("organizations");
+      if (is_array($result)) {
+        return $result;
+      }      
+      
+      return [];
     }
     
   }
@@ -238,7 +248,7 @@
           $settingType = $setting['type'];
           switch ($settingType) {
             case "table":
-              $result[$name] = json_decode($value);
+              $result[$name] = json_decode($value, true);
             break;
             default:
               $result[$name] = $value;
@@ -300,6 +310,9 @@
       foreach ($tableNames as $tableName) {
         $tableSettings = CoreSettings::getSetting($tableName);
         $tableValues = CoreSettings::getValue($tableName);
+        if (!isset($tableValues)) {
+          $tableValues = [];
+        }
         
         echo '<div class="wrap">';
         echo '<h1 class="wp-heading-inline">' . $tableSettings['title'] . '</h1>';
@@ -320,7 +333,7 @@
           echo '<tr>';
           
           foreach ($tableSettings['fields'] as $fieldName => $fieldSettings) {
-            $fieldValue = $tableValue->$fieldName;          
+            $fieldValue = $tableValue[$fieldName];          
             echo '<td>';
             switch ($fieldSettings['type']) {
               case 'checkbox':
