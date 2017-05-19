@@ -5,7 +5,7 @@
     exit;
   }
   
-  require_once('core-setting.php');
+  require_once('core-setting.php');  
   
   define(KUNTA_API_CORE_SETTINGS, 'kunta_api_core');
   define(KUNTA_API_CORE_SETTINGS_GROUP, 'kunta_api_core');
@@ -29,6 +29,10 @@
       ];
 
       do_action('kunta_api_core_setting_groups');
+      
+      $kuntaApiSettingGroups[] = [
+        'name' => 'hidden'
+      ];
       
       return $kuntaApiSettingGroups;
     }
@@ -56,13 +60,35 @@
           "group" => "api"
         ], 
         [
-          "type" => "text",
-          "name" => "organizationId",
-          "title" => __('Organization identifier', KUNTA_API_CORE_I18N_DOMAIN),
-          "group" => "api"
+          "type" => "table",
+          "name" => "organizations",
+          "group" => "hidden",
+          "title" => __( 'Organizations', KUNTA_API_CORE_I18N_DOMAIN),
+          "fields" => [
+            "name" => [
+              "title" => __("Name", KUNTA_API_CORE_I18N_DOMAIN),
+              "type" => "text"
+            ],
+            "organizationId" => [
+              "title" => __("Id", KUNTA_API_CORE_I18N_DOMAIN),
+              "type" => "text"
+            ],
+            "serviceLocationChannnelsPath" => [
+              "title" => __("Location service channels path", KUNTA_API_CORE_I18N_DOMAIN),
+              "type" => "text"
+            ],
+            "synchronizeServiceChannels" => [
+              "title" => __("Synchronize service channels", KUNTA_API_CORE_I18N_DOMAIN),
+              "type" => "checkbox"
+            ],
+            "synchronizeServiceChannelLocations" => [
+              "title" => __("Synchronize service channel locations", KUNTA_API_CORE_I18N_DOMAIN),
+              "type" => "checkbox"
+            ]
+          ]
         ]
       ];
-
+      
       do_action('kunta_api_core_settings');
       
       return $kuntaApiSettings;
@@ -105,7 +131,7 @@
     }
     
     public function adminInit() {
-      register_setting(KUNTA_API_CORE_SETTINGS_GROUP, KUNTA_API_CORE_SETTINGS_PAGE);
+      register_setting(KUNTA_API_CORE_SETTINGS_GROUP, KUNTA_API_CORE_SETTINGS_PAGE, [ $this, 'registerSettingSanitize']);
       
       foreach (CoreSettings::getSettingGroups() as $group) {
       	add_settings_section($group['name'], $group['title'], null, KUNTA_API_CORE_SETTINGS_PAGE);
@@ -114,6 +140,27 @@
       foreach (CoreSettings::getSettings() as $setting) {
         $this->addOption($setting['group'], $setting['name'], $setting['title']);
       }
+    }
+    
+    public function registerSettingSanitize($settings) {
+      $result = [];
+      
+      foreach ($settings as $name => $value) {
+        $setting = CoreSettings::getSetting($name);
+        if (isset($setting)) {
+          $settingType = $setting['type'];
+          switch ($settingType) {
+            case "table":
+              $result[$name] = json_decode($value);
+            break;
+            default:
+              $result[$name] = $value;
+            break;
+          }
+        }
+      }
+      
+      return $result;
     }
     
     private function addOption($group, $name, $title) {
@@ -126,12 +173,19 @@
       $settingType = $setting['type'];
       $settingName = $setting['name'];
       
-      if ($settingType == "checkbox") {
-      	$checked = CoreSettings::getBooleanValue($settingName) ? 'checked="checked"' : '';
-      	echo "<input id='$settingName' name='" . KUNTA_API_CORE_SETTINGS_OPTION . "[$settingName]' size='42' type='$settingType' value='1' $checked/>";
-      } else {
-      	$optionValue = CoreSettings::getValue($settingName);
-      	echo "<input id='$settingName' name='" . KUNTA_API_CORE_SETTINGS_OPTION . "[$settingName]' size='42' type='$settingType' value='$optionValue' />";
+      switch ($settingType) {
+        case 'checkbox':
+        	$checked = CoreSettings::getBooleanValue($settingName) ? 'checked="checked"' : '';
+        	echo "<input id='$settingName' name='" . KUNTA_API_CORE_SETTINGS_OPTION . "[$settingName]' size='42' type='$settingType' value='1' $checked/>";
+        break;
+        case 'table':
+        	$optionValue = CoreSettings::getValue($settingName);
+        	echo "<input id='$settingName' name='" . KUNTA_API_CORE_SETTINGS_OPTION . "[$settingName]' size='42' type='hidden' value='$optionValue' />";
+        break;
+        default:
+        	$optionValue = CoreSettings::getValue($settingName);
+        	echo "<input id='$settingName' name='" . KUNTA_API_CORE_SETTINGS_OPTION . "[$settingName]' size='42' type='$settingType' value='$optionValue' />";
+        break;
       }
     }
     
@@ -149,10 +203,62 @@
       settings_fields(KUNTA_API_CORE_SETTINGS_GROUP);
       do_settings_sections(KUNTA_API_CORE_SETTINGS_PAGE);
       
-      submit_button();
-      echo "</form>";
-      echo "</div>";
+      $tableNames = [];
+      foreach (CoreSettings::getSettings() as $setting) {
+        if ($setting["type"] === 'table') {
+          $tableNames[] = $setting["name"];
+        }
+      }
       
+      foreach ($tableNames as $tableName) {
+        $tableSettings = CoreSettings::getSetting($tableName);
+        $tableValues = CoreSettings::getValue($tableName);
+        
+        echo '<div class="wrap">';
+        echo '<h1 class="wp-heading-inline">' . $tableSettings['title'] . '</h1>';
+        echo '<a class="page-title-action add-settings-table-row" data-table-name="' . $tableName . '">' . __( 'Add new', KUNTA_API_CORE_I18N_DOMAIN) . '</a>';
+        echo '<table class="wp-list-table widefat fixed striped settings-table" data-table-name="' . $tableName . '">';
+        echo '<thead>';
+        echo '<tr>';
+        
+        foreach ($tableSettings['fields'] as $fieldName => $fieldSettings) {
+          echo '<th>' . $fieldSettings['title'] . '</th>';
+        }
+        
+        echo '<th style="width:24px" /></tr>';
+        echo '</thead>';        
+        echo '<tbody>';
+        
+        foreach ($tableValues as $tableValue) {
+          echo '<tr>';
+          
+          foreach ($tableSettings['fields'] as $fieldName => $fieldSettings) {
+            $fieldValue = $tableValue->$fieldName;          
+            echo '<td>';
+            switch ($fieldSettings['type']) {
+              case 'checkbox':
+                echo '<input type="checkbox" data-column=' . $fieldName . ' value="1"' . ($fieldValue == '1' ? ' checked="checked"' : '') . '/>';
+              break;
+              default:
+                echo '<input data-column=' . $fieldName . ' style="width: 100%" type="' . $fieldSettings['type'] . '" value="' . $fieldValue . '"/>';
+              break;
+            }
+            
+            echo '</td>';
+          }
+          
+          echo '<td/><a class="settings-table-delete-row dashicons-trash dashicons-before"/></tr>';
+        }
+
+        echo '</tbody>';
+        echo '</table>';
+        echo "</div>";
+
+        submit_button();
+        echo "</form>";
+        echo "</div>";
+      }
+
       echo '<div class="wrap">';
       echo "<h2>" . __( "Tools", KUNTA_API_CORE_I18N_DOMAIN) . "</h2>";
      
@@ -194,6 +300,12 @@
   	  	break;
   	  }
   	}
+  });
+  
+  add_action('admin_enqueue_scripts', function ($hook) {
+    if ('settings_page_kunta_api_core_settings' == $hook) {
+      wp_enqueue_script('kunta_api_core_settings_script', plugin_dir_url(dirname(__FILE__)) . 'scripts/core-settings.js' );  
+    }
   });
   
   if (is_admin()) {
