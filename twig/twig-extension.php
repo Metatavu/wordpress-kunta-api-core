@@ -196,7 +196,7 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
       return 'about:blank';
     }
     
-    public function pagePathFilter($page) {
+    public function pagePathFilter($page, $organizationId) {
       $path = [];
       
       $currentPage = $page;
@@ -207,7 +207,7 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
           break;
         }
         
-        $currentPage = \KuntaAPI\Pages\Loader::findOrganizationPage($currentPage['parentId']);
+        $currentPage = \KuntaAPI\Pages\Loader::findOrganizationPage($organizationId, $currentPage['parentId']);
         array_unshift($path, $currentPage['slug']);
         
         $i++;

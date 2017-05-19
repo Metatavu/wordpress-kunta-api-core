@@ -17,6 +17,7 @@
         
         foreach ($dom->find('*[data-type="kunta-api-page-children"]') as $article) {
           $pageId = $article->{'data-page-id'};
+          $organizationId = $article->{'data-organization-id'};
           $component = $article->{'data-component'};
           $lang = $article->{'data-lang'};
           $sortBy = $article->{'data-sort-by'};
@@ -39,13 +40,13 @@
        	    $article->removeAttribute('data-sort-dir');
           }
           
-          $childPages = \KuntaAPI\Pages\Loader::listOrganizationChildPages($pageId);
+          $childPages = \KuntaAPI\Pages\Loader::listOrganizationChildPages($organizationId, $pageId);
           if (isset($childPages)) {        
             switch ($component) {
               case 'page-list':
-          	    $article->innertext = $renderer->renderPageList($lang, $childPages, $sortBy, $sortDir);
+          	    $article->innertext = $renderer->renderPageList($lang, $organizationId, $childPages, $sortBy, $sortDir);
               break;
-            }	 
+            }
           }
         } 
       }

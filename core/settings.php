@@ -77,12 +77,16 @@
               "title" => __("Location service channels path", KUNTA_API_CORE_I18N_DOMAIN),
               "type" => "text"
             ],
-            "synchronizeServiceChannels" => [
-              "title" => __("Synchronize service channels", KUNTA_API_CORE_I18N_DOMAIN),
+            "synchronizeServices" => [
+              "title" => __("Synchronize services", KUNTA_API_CORE_I18N_DOMAIN),
               "type" => "checkbox"
             ],
-            "synchronizeServiceChannelLocations" => [
-              "title" => __("Synchronize service channel locations", KUNTA_API_CORE_I18N_DOMAIN),
+            "synchronizeServiceLocationServiceChannels" => [
+              "title" => __("Synchronize service locations", KUNTA_API_CORE_I18N_DOMAIN),
+              "type" => "checkbox"
+            ],
+            "webhooks" => [
+              "title" => __("Webhooks", KUNTA_API_CORE_I18N_DOMAIN),
               "type" => "checkbox"
             ]
           ]
@@ -115,6 +119,89 @@
     
     public static function getBooleanValue($name) {
       return static::getValue($name) == '1';
+    }
+    
+    public static function getOrganizationIds() {
+      $result = [];
+      
+      $organizations = static::getValue("organizations");
+      foreach ($organizations as $organization) {
+        $result[] = $organization->organizationId;
+      }
+        
+      return $result;
+    }
+    
+    public static function getOrganizationIdsWithWebhooks() {
+      $result = [];
+      
+      $organizations = static::getValue("organizations");
+      foreach ($organizations as $organization) {
+        if ($organization->webhooks == '1') {
+          $result[] = $organization->organizationId;
+        }
+      }
+        
+      return $result;
+    }
+    
+    public static function getWebhooksEnabled() {
+      return count(static::getOrganizationIdsWithWebhooks()) > 0;
+    }
+    
+    public static function getOrganizationIdsWithSynchronization() {
+      $result = [];
+      
+      $organizations = static::getValue("organizations");
+      foreach ($organizations as $organization) {
+        $synchronizeServices = $organization->synchronizeServices == '1';
+        $synchronizeServiceLocationServiceChannels = $organization->synchronizeServiceLocationServiceChannels == '1';
+        
+        if ($synchronizeServices || $synchronizeServiceLocationServiceChannels) {
+          $result[] = $organization->organizationId;
+        }
+      }
+        
+      return $result;
+    }
+    
+    public static function getOrganizationServiceLocationChannnelsPath($organizationId) {
+      $result = [];
+      
+      $organizations = static::getValue("organizations");
+      foreach ($organizations as $organization) {
+        if ($organization->organizationId == $organizationId) {
+          return $organization->serviceLocationChannnelsPath;
+        }
+      }
+        
+      return false;
+    }
+    
+    public static function getOrganizationSynchronizeServices($organizationId) {
+      $result = [];
+      
+      $organizations = static::getValue("organizations");
+      foreach ($organizations as $organization) {
+        if ($organization->organizationId == $organizationId) {
+          return $organization->synchronizeServices == '1';
+        }
+      }
+        
+      return false;
+    }
+    
+    public static function getOrganizationSynchronizeServiceLocationServiceChannels($organizationId) {
+      $result = [];
+      
+      $organizations = static::getValue("organizations");
+      foreach ($organizations as $organization) {
+        if ($organization->organizationId == $organizationId) {
+          return $organization->synchronizeServiceLocationServiceChannels == '1';
+        }
+      }
+        
+      return false;
     }
     
   }
