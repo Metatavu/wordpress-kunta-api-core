@@ -84,7 +84,7 @@
       	    $pagePath = implode('/', $pageSlugs);
       	    $page = get_page_by_path($pagePath);
       	    if (!isset($page)) {
-      	  	  $parentId = $this-createPage($parentId, $slug, '', 'publish');
+      	  	  $parentId = $this->createPage($parentId, $slug, '', 'publish');
             } else {
       	  	  $parentId = $page->ID;
       	    }
