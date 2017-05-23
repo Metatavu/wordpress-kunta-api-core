@@ -12,9 +12,8 @@
       private $baseUrl;
       
       public function __construct() {
-        $organizationId = \KuntaAPI\Core\CoreSettings::getValue('organizationId');
         $apiUrl = dirname(\KuntaAPI\Core\CoreSettings::getValue('apiUrl'));
-        $this->baseUrl = "$apiUrl/webhooks/management?organizationId=$organizationId";
+        $this->baseUrl = "$apiUrl/webhooks/management";
         add_action('edit_post', [$this, "onEditPost"]);
         add_action('edit_post_related', [$this, "onEditPostRelated"]);
       }
@@ -60,10 +59,12 @@
       }
       
       private function doPostRequest($body) {
-        $url = "$this->baseUrl";
-        $bg = " > /dev/null 2>&1 &";
-        $command = "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' '$url' -d '$body'$bg"; 
-        exec($command);
+        foreach (\KuntaAPI\Core\CoreSettings::getOrganizationIdsWithWebhooks() as $organizationId) {
+          $url = "$this->baseUrl?organizationId=$organizationId";
+          $bg = " > /dev/null 2>&1 &";
+          $command = "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' '$url' -d '$body'$bg"; 
+          exec($command);  
+        }
       }
       
     }
@@ -71,7 +72,7 @@
   }
   
   add_action('kunta_api_init', function () {  
-    if (\KuntaAPI\Core\CoreSettings::getBooleanValue('webhooksEnabled')) {
+    if (\KuntaAPI\Core\CoreSettings::getWebhooksEnabled()) {
       new WebhookHandler();
     }
   });

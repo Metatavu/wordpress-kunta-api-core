@@ -5,12 +5,15 @@
   require_once( __DIR__ . '/../service-loader.php');
   
   add_action( 'wp_ajax_kunta_api_search_service_location_channels', function () {
-    $organizationId = \KuntaAPI\Core\CoreSettings::getValue('organizationId');
-    $serviceLocationChannels = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi()->listServiceLocationServiceChannels($organizationId, $_POST['data']);
     $response = [];
-    foreach ($serviceLocationChannels as $serviceLocationChannel) {
-      $response[] = $serviceLocationChannel -> __toString();
+    
+    foreach (\KuntaAPI\Core\CoreSettings::getOrganizationIds() as $organizationId) {
+      $serviceLocationChannels = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi()->listServiceLocationServiceChannels($organizationId, $_POST['data']);
+       foreach ($serviceLocationChannels as $serviceLocationChannel) {
+        $response[] = $serviceLocationChannel -> __toString();
+      }
     }
+    
     echo '[';
     echo join(',', $response);
     echo ']';

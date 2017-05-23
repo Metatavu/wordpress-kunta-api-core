@@ -2,7 +2,6 @@
 
 defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
 
-require_once( __DIR__ . '/settings.php');
 require_once( __DIR__ . '/tools.php');
 require_once( __DIR__ . '/service-updater.php');
 require_once( __DIR__ . '/tinymce-settings.php');
