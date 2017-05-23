@@ -6,9 +6,10 @@
   require_once( __DIR__ . '/service-loader.php');
   
   add_action( 'wp_ajax_kunta_api_search_services', function () {
+    $responce = [];
+    
     foreach (\KuntaAPI\Core\CoreSettings::getOrganizationIds() as $organizationId) {
       $services = \KuntaAPI\Core\Api::getServicesApi()->listServices($organizationId, $_POST['data']);
-      $responce = [];
       foreach ($services as $service) {
         $responce[] = $service -> __toString();
       }

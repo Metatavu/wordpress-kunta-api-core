@@ -277,7 +277,7 @@
         break;
         case 'table':
         	$optionValue = CoreSettings::getValue($settingName);
-        	echo "<input id='$settingName' name='" . KUNTA_API_CORE_SETTINGS_OPTION . "[$settingName]' size='42' type='hidden' value='$optionValue' />";
+        	echo "<input id='$settingName' name='" . KUNTA_API_CORE_SETTINGS_OPTION . "[$settingName]' type='hidden' value='$optionValue' />";
         break;
         default:
         	$optionValue = CoreSettings::getValue($settingName);
@@ -347,7 +347,7 @@
             echo '</td>';
           }
           
-          echo '<td/><a class="settings-table-delete-row dashicons-trash dashicons-before"/></tr>';
+          echo '<td><a class="settings-table-delete-row dashicons-trash dashicons-before"/></td></tr>';
         }
 
         echo '</tbody>';

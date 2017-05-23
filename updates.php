@@ -38,32 +38,26 @@
         unset($options['locationChannelsPath']);
 
         $options['organizations'] = $organizations;
-    
         update_option(KUNTA_API_CORE_SETTINGS_OPTION, $options);
-        update_option(KUNTA_API_CORE_PLUGIN_VERSION_SETTING, '0.7.0');
       }
     }
+    
+    update_option(KUNTA_API_CORE_PLUGIN_VERSION_SETTING, '0.7.0');
   }
   
-  if (!defined('KUNTA_API_CORE_PLUGIN_VERSION')) {
-    define('KUNTA_API_CORE_PLUGIN_VERSION', '0.7.0');
-  }
+  add_action('init', function() {  
+    $version = get_option(KUNTA_API_CORE_PLUGIN_VERSION_SETTING);
+    if (empty($version)) {
+      $version = '0.6.0';
+    };
   
-  $version = get_option(KUNTA_API_CORE_PLUGIN_VERSION_SETTING);
-  if (empty($version)) {
-    $version = '0.6.0';
-  };
-  
-  if (KUNTA_API_CORE_PLUGIN_VERSION !== $versiona) {
-    switch ($version) {
-      case '0.6.0':
-        upgrade_060to070();
-      break;
+    if (KUNTA_API_CORE_PLUGIN_VERSION !== $version) {
+      switch ($version) {
+        case '0.6.0':
+          upgrade_060to070();
+        break;
+      }
     }
-  }
-  
-  add_action('init', function () {
-    do_action('kunta_api_init');
   });
-   
+  
 ?>
