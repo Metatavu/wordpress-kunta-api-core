@@ -138,8 +138,10 @@
       private function renderLocationServiceChannelIds($serviceId, $lang) {
         $renderer = new \KuntaAPI\Services\ServiceChannels\ServiceChannelRenderer();
         $serviceChannels = \KuntaAPI\Services\Loader::listServiceLocationServiceChannels($serviceId);
-        if (!empty($serviceChannels)) {
-          return $renderer->renderServiceLocationChannels($serviceId, $serviceChannels, $lang);
+        $publishedServiceChannels = $this->filterPublishedServiceLocationServiceChannels($serviceChannels);
+        
+        if (!empty($publishedServiceChannels)) {
+          return $renderer->renderServiceLocationChannels($serviceId, $publishedServiceChannels, $lang);
         }
         
         return '';
@@ -153,6 +155,22 @@
         }
         
         return '';
+      }
+      
+      private function filterPublishedServiceLocationServiceChannels($serviceChannels) {
+        $mapper = new \KuntaAPI\Services\Mapper();
+        
+        $result = [];
+        
+        foreach ($serviceChannels as $serviceChannel) {
+          $serviceLocationServiceChannelId = $serviceChannel['id'];
+          $pageId = $mapper->getLocationChannelPageId($serviceLocationServiceChannelId);
+          if (isset($pageId) && 'publish' === get_post_status($pageId)) {
+            $result[] = $serviceChannel;
+          }
+        }
+        
+        return $result;
       }
       
     }
