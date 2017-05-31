@@ -3,14 +3,14 @@
  * Created on Oct 21, 2016
  * Plugin Name: Kunta API Core
  * Description: Core functionalities for Kunta API integrations
- * Version: 0.7.0
+ * Version: 0.7.1
  * Author: Metatavu Oy
  */
 
   defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
   
   if (!defined('KUNTA_API_CORE_PLUGIN_VERSION')) {
-    define('KUNTA_API_CORE_PLUGIN_VERSION', '0.7.0');
+    define('KUNTA_API_CORE_PLUGIN_VERSION', '0.7.1');
   }
   
   require_once( __DIR__ . '/updates.php');

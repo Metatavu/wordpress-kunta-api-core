@@ -50,6 +50,41 @@
                 "new_lines": ""
             },
             {
+                "key": "field_592e6c28f35b1",
+                "label": "Lisätietojen linkki",
+                "name": "details_link",
+                "type": "url",
+                "instructions": "Kirjoita tähän url-osoite lisätietoihin (esim. https:\/\/www.example.com\/lisatiedot)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "url-osoite lisätietoihin"
+            },
+            {
+                "key": "field_592e6c87f35b2",
+                "label": "Lisätietojen linkin teksti",
+                "name": "details_link_text",
+                "type": "text",
+                "instructions": "Kirjoita tähän lisätietojen linkin näytettävä teksti. Mikäli kenttä jätetään tyhjäksi käytetään linkin osoitetta.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
                 "key": "field_59152b4de5f9b",
                 "label": "Alueet",
                 "name": "areas",
