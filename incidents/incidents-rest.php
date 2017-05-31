@@ -30,6 +30,24 @@
           ]
         ]);
         
+        register_rest_field( 'incident', 'details_link', [
+          'get_callback' => [$this, 'getIncidentMeta'],
+          'update_callback' => null,
+          'schema' => [
+            "type" => "string",
+           	"description" => "Incident details link"
+          ]
+        ]);
+        
+        register_rest_field( 'incident', 'details_link_text', [
+          'get_callback' => [$this, 'getIncidentMeta'],
+          'update_callback' => null,
+          'schema' => [
+            "type" => "string",
+           	"description" => "Incident details link text"
+          ]
+        ]);
+        
         register_rest_field( 'incident', 'areas', [
           'get_callback' => [$this, 'getIncidentMetaTermArray'],
           'update_callback' => null,
