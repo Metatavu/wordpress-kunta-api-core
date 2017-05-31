@@ -1,5 +1,5 @@
 {% for childPage in childPages %}
   {% spaceless %}
-    <p><a href="{{ childPage|pagePath }}">{{ childPage.titles|localizedValue(lang) }}</a></p>
+    <p><a href="{{ childPage|pagePath(organizationId) }}">{{ childPage.titles|localizedValue(lang) }}</a></p>
   {% endspaceless %}
 {% endfor %}

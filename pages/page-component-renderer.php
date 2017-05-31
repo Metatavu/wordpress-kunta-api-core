@@ -11,7 +11,7 @@
       
       public function __construct() { }
       
-      public function renderPageList($lang, $childPages, $sortBy, $sortDir) {
+      public function renderPageList($lang, $organizationId, $childPages, $sortBy, $sortDir) {
         switch ($sortBy||'') {
           case 'title':
             $childPages = $this->sortPagesByTitle($childPages, $lang, $sortDir);
@@ -25,6 +25,7 @@
         
         $model = [
           'lang' => $lang,
+          'organizationId' => $organizationId,
           'childPages' => $childPages
         ];
         

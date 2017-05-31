@@ -16,9 +16,7 @@
       private static $serviceLocationChannels = [];
       private static $webPageChannels = [];
       
-      public static function listOrganizationServices($firstResult, $maxResults) {
-        $organizationId = \KuntaAPI\Core\CoreSettings::getValue('organizationId');
-        
+      public static function listOrganizationServices($organizationId, $firstResult, $maxResults) {
         $result = [];
         
         foreach (\KuntaAPI\Core\Api::getServicesApi()->listServices($organizationId, null, $firstResult, $maxResults) as $service) {

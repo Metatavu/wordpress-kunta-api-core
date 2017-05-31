@@ -19,53 +19,58 @@
       	$this->renderer = new \KuntaAPI\Services\PageRenderer();
       	$this->mapper = new \KuntaAPI\Services\Mapper();
       	
-      	add_action('kunta_api_service_updater_poll', array($this, 'poll'));
+      	add_action('kunta_api_synchronization', array($this, 'synchronize'));
       }
       
       public function startPolling() {
-      	if (! wp_next_scheduled ( 'kunta_api_service_updater_poll' )) {
-          wp_schedule_event(time(), 'Minutely', 'kunta_api_service_updater_poll');
+      	if (! wp_next_scheduled ( 'kunta_api_synchronization' )) {
+          wp_schedule_event(time(), 'Minutely', 'kunta_api_synchronization');
         }
       }
       
-      public function poll() {
-        $synchronizeServices = \KuntaAPI\Core\CoreSettings::getBooleanValue('synchronizeServicesAsPages');
-        $synchronizeServiceLocations = \KuntaAPI\Core\CoreSettings::getBooleanValue('synchronizeServiceLocationChannelsAsPages');
-        
-        if (!$synchronizeServices && !$synchronizeServiceLocations) {
-          return;
+      public function synchronize() {
+        foreach (\KuntaAPI\Core\CoreSettings::getOrganizationIdsWithSynchronization() as $organizationId) {
+          $this->synchronizeOrganization($organizationId); 
         }
-        
-      	$locationChannelsPath = \KuntaAPI\Core\CoreSettings::getValue('locationChannelsPath');
-      	
-        $offset = get_option('kunta-api-sync-offset');
-      	if (empty($offset)) {
+      }
+      
+      private function synchronizeOrganization($organizationId) {
+        $offsetOption = 'kunta-api-sync-offset-services-' . $organizationId;
+          
+        $locationChannelsPath = \KuntaAPI\Core\CoreSettings::getOrganizationServiceLocationChannnelsPath($organizationId);
+        $locationChanneldParentPageId = $this->resolveLocationChannelParentPageId($locationChannelsPath);
+        $synchronizeServices = \KuntaAPI\Core\CoreSettings::getOrganizationSynchronizeServices($organizationId);
+        $synchronizeServiceLocations = \KuntaAPI\Core\CoreSettings::getOrganizationSynchronizeServiceLocationServiceChannels($organizationId);
+
+        $offset = get_option($offsetOption);
+        if (empty($offset)) {
           $offset = 0;
         }
-        
-      	$services = Loader::listOrganizationServices($offset, 10);
-      	foreach ($services as $service) {
-          if ($synchronizeServiceLocations) {
-      	    if (!empty($locationChannelsPath)) {
-      	      $locationChanneldParentPageId = $this->resolveLocationChannelParentPageId($locationChannelsPath);
-      	  	  $this->updateServiceLocationChannels($locationChanneldParentPageId, $service->getId());
-      	    } else {
-      	   	  error_log("Location channel path not defined, skipped service location channel synchronization");
-      	    }
-          }
-          
-          if ($synchronizeServices) {
-      	    $this->updateService($service);
-          }
-      	}
-      	
+
+        $services = Loader::listOrganizationServices($organizationId, $offset, 10);
+        foreach ($services as $service) {
+          $this->synchronizeService($synchronizeServiceLocations, $synchronizeServices, $locationChanneldParentPageId, $service);
+        }
+
         if(count($services) == 0) {
           $offset = 0;
         } else {
           $offset += 10;
         }
-        
-        update_option('kunta-api-sync-offset', $offset);
+
+        update_option($offsetOption, $offset);
+      }
+      
+      private function synchronizeService($synchronizeServiceLocations, $synchronizeServices, $locationChanneldParentPageId, $service) {
+        if ($synchronizeServices) {
+          $this->updateService($service);
+        }
+
+        if ($synchronizeServiceLocations) {
+          $this->updateServiceLocationChannels($locationChanneldParentPageId, $service->getId());
+        } else {
+          error_log("Location channel path not defined, skipped service location channel synchronization");
+        }
       }
       
       private function resolveLocationChannelParentPageId($path) {
@@ -75,17 +80,12 @@
       	
       	foreach ($slugs as $slug) {
       	  if (!empty($slug)) {
-      		$pageSlugs[] = $slug;
+      		  $pageSlugs[] = $slug;
       	    $pagePath = implode('/', $pageSlugs);
       	    $page = get_page_by_path($pagePath);
       	    if (!isset($page)) {
-      	  	  $parentId = wp_insert_post(array(
-      	  	    'post_type' => 'page',
-      	  	  	'post_status' => 'publish',
-      	  	    'post_title' => $slug,
-      	  	    'post_parent' => $parentId
-      	  	  ));
-      	    } else {
+      	  	  $parentId = $this->createPage($parentId, $slug, '', 'publish');
+            } else {
       	  	  $parentId = $page->ID;
       	    }
       	  }
@@ -137,11 +137,11 @@
       	return $this->renderer->renderLocationChannelPage($lang, $serviceLocationChannel);
       }
       
-      private function createPage($parentPageId, $title, $content) {
+      private function createPage($parentPageId, $title, $content, $status = 'draft') {
         return wp_insert_post(array(
       	  'post_content' => $content,
       	  'post_title' => $title,
-      	  'post_status' => 'draft',
+      	  'post_status' => $status,
       	  'post_type' => 'page',
           'post_parent' => $parentPageId	
       	));

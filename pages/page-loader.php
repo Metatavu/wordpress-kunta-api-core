@@ -11,16 +11,15 @@
       
       private static $pages = [];
     	 
-      public static function listOrganizationChildPages($parentId) {
-        $organizationId = \KuntaAPI\Core\CoreSettings::getValue('organizationId');
+      public static function listOrganizationChildPages($organizationId, $parentId) {
         return \KuntaAPI\Core\Api::getPagesApi()->listOrganizationPages($organizationId, $parentId);
       }
       
-      public static function findOrganizationPage($pageId) {
-      	if(!isset(static::$pages[$pageId])) {
-      	  $organizationId = \KuntaAPI\Core\CoreSettings::getValue('organizationId');
+      public static function findOrganizationPage($organizationId, $pageId) {
+      	if (!isset(static::$pages[$pageId])) {
       	  static::$pages[$pageId] = \KuntaAPI\Core\Api::getPagesApi()->findOrganizationPage($organizationId, $pageId);
       	}
+        
       	return static::$pages[$pageId];
       }
   
