@@ -2,16 +2,18 @@
 # This file is distributed under the same license as the Kunta API Core package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Kunta API Core 0.5.0\n"
+"Project-Id-Version: Kunta API Core 0.7.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-kunta-"
 "api-core\n"
-"POT-Creation-Date: 2017-06-07 22:40:56+00:00\n"
+"POT-Creation-Date: 2017-06-08 09:21+0300\n"
+"PO-Revision-Date: 2017-06-08 09:24+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: announcements/announcements-settings.php:13
 msgid "Announcements enabled"
@@ -142,35 +144,63 @@ msgstr "API asetukset"
 msgid "Enabled types"
 msgstr "Käytössä olevat tyypit"
 
-#: core/settings.php:43 shortlinks/acf.php:23
+#: core/settings.php:47 shortlinks/acf.php:23
 msgid "URL"
 msgstr "URL"
 
-#: core/settings.php:49
+#: core/settings.php:53
 msgid "Username"
 msgstr "Käyttäjätunnus"
 
-#: core/settings.php:55
+#: core/settings.php:59
 msgid "Password"
 msgstr "Salasana"
 
-#: core/settings.php:61
-msgid "Organization identifier"
-msgstr "Organisaation tunniste"
+#: core/settings.php:66
+msgid "Organizations"
+msgstr "Organisaatiot"
 
-#: core/settings.php:104
+#: core/settings.php:69
+msgid "Name"
+msgstr "Nimi"
+
+#: core/settings.php:73
+msgid "Id"
+msgstr "Tunniste"
+
+#: core/settings.php:77
+msgid "Location service channels path"
+msgstr "Palvelupisteiden polku"
+
+#: core/settings.php:81
+msgid "Synchronize services"
+msgstr "Synkronoi palvelutiedot"
+
+#: core/settings.php:85
+msgid "Synchronize service locations"
+msgstr "Synkronoi palvelupistetiedot"
+
+#: core/settings.php:89
+msgid "Webhooks"
+msgstr "Webhookit"
+
+#: core/settings.php:227
 msgid "Kunta API Settings"
 msgstr "Kunta API asetukset"
 
-#: core/settings.php:140
+#: core/settings.php:291
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Sinulle ei ole tarvittavia pääsyoikeuksia."
 
-#: core/settings.php:147
+#: core/settings.php:298
 msgid "Kunta API"
 msgstr "Kunta API"
 
-#: core/settings.php:157
+#: core/settings.php:319
+msgid "Add new"
+msgstr "Lisää uusi"
+
+#: core/settings.php:363
 msgid "Tools"
 msgstr "Työkalut"
 
@@ -219,6 +249,55 @@ msgstr "Paloja ei löytynyt"
 msgid "No Fragments in trash"
 msgstr "Ei paloja roskakorissa"
 
+#: incidents/incidents-settings.php:14
+msgid "Incidents enabled"
+msgstr "Tapaturmat käytössä"
+
+#: incidents/incidents-taxonomy.php:12
+msgid "Incident Areas"
+msgstr "Tapaturma alueet"
+
+#: incidents/incidents-type.php:13 incidents/incidents-type.php:23
+#: incidents/incidents-type.php:24
+msgid "Incidents"
+msgstr "Tapaturmat"
+
+#: incidents/incidents-type.php:14
+msgid "Incident"
+msgstr "Tapaturma"
+
+#: incidents/incidents-type.php:15
+msgid "Add Incident"
+msgstr "Lisää tapaturma"
+
+#: incidents/incidents-type.php:16
+msgid "Add New Incident"
+msgstr "Lisää uusi tapaturma"
+
+#: incidents/incidents-type.php:17
+msgid "Edit Incident"
+msgstr "Muokkaa tapaturmaa"
+
+#: incidents/incidents-type.php:18
+msgid "New Incident"
+msgstr "Uusi tapaturma"
+
+#: incidents/incidents-type.php:19
+msgid "View Incident"
+msgstr "Näytä tapaturma"
+
+#: incidents/incidents-type.php:20
+msgid "Search Incidents"
+msgstr "Etsi tapaturmia"
+
+#: incidents/incidents-type.php:21
+msgid "No Incidents found"
+msgstr "Tapaturmia ei löytynyt"
+
+#: incidents/incidents-type.php:22
+msgid "No Incidents in trash"
+msgstr "Ei tapaturmia roskakorissa"
+
 #: pages/page-banner-image-widget.php:30
 msgid "Banner Image"
 msgstr "Banneri kuva"
@@ -238,99 +317,115 @@ msgstr "Aseta banneri kuva"
 #: services/service-component-renderer.php:52
 #: services/service-locations/service-location-component-renderer.php:28
 msgid "Placeholder for description (Currently empty, not visible on webpage)"
-msgstr "Paikanpitäjä upotetulle kuvaukselle (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetulle kuvaukselle (tällä hetkellä tyhjä, tämä teksti ei "
+"näy verkkosivulla)"
 
 #: services/service-component-renderer.php:55
 msgid ""
 "Placeholder for user instruction (Currently empty, not visible on webpage)"
-msgstr "Paikanpitäjä upotetulle toimintaohjeelle (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetulle toimintaohjeelle (tällä hetkellä tyhjä, tämä teksti "
+"ei näy verkkosivulla)"
 
 #: services/service-component-renderer.php:58
 msgid "Placeholder for languages (Currently empty, not visible on webpage)"
-msgstr "Paikanpitäjä upotetuille kielille (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetuille kielille (tällä hetkellä tyhjä, tämä teksti ei näy "
+"verkkosivulla)"
 
 #: services/service-component-renderer.php:61
 msgid ""
 "Placeholder for electronic service channels (Currently empty, not visible on "
 "webpage)"
-msgstr "Paikanpitäjä upotetuille sähköisille palvelukanaville (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetuille sähköisille palvelukanaville (tällä hetkellä tyhjä, "
+"tämä teksti ei näy verkkosivulla)"
 
 #: services/service-component-renderer.php:64
 msgid ""
 "Placeholder for phone service channels (Currently empty, not visible on "
 "webpage)"
-msgstr "Paikanpitäjä upotetuille puhelin palvelukanaville (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetuille puhelin palvelukanaville (tällä hetkellä tyhjä, "
+"tämä teksti ei näy verkkosivulla)"
 
 #: services/service-component-renderer.php:67
 msgid ""
 "Placeholder for printable form service channels (Currently empty, not "
 "visible on webpage)"
-msgstr "Paikanpitäjä upotetuille lomake palvelukanaville (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetuille lomake palvelukanaville (tällä hetkellä tyhjä, tämä "
+"teksti ei näy verkkosivulla)"
 
 #: services/service-component-renderer.php:70
 msgid ""
 "Placeholder for service location channels (Currently empty, not visible on "
 "webpage)"
-msgstr "Paikanpitäjä upotetuille palvelupisteille (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetuille palvelupisteille (tällä hetkellä tyhjä, tämä teksti "
+"ei näy verkkosivulla)"
 
 #: services/service-component-renderer.php:73
 msgid ""
 "Placeholder for webpage service channels (Currently empty, not visible on "
 "webpage)"
-msgstr "Paikanpitäjä upotetuille verkkosivu palvelukanaville (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetuille verkkosivu palvelukanaville (tällä hetkellä tyhjä, "
+"tämä teksti ei näy verkkosivulla)"
 
 #: services/service-locations/service-location-component-renderer.php:25
 msgid "Placeholder for adresses (Currently empty, not visible on webpage)"
-msgstr "Paikanpitäjä upotetuille osoitteille (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetuille osoitteille (tällä hetkellä tyhjä, tämä teksti ei "
+"näy verkkosivulla)"
 
 #: services/service-locations/service-location-component-renderer.php:31
 msgid "Placeholder for email (Currently empty, not visible on webpage)"
-msgstr "Paikanpitäjä upotetuille sähköpostiosoitteelle (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetuille sähköpostiosoitteelle (tällä hetkellä tyhjä, tämä "
+"teksti ei näy verkkosivulla)"
 
 #: services/service-locations/service-location-component-renderer.php:34
 msgid "Placeholder for fax (Currently empty, not visible on webpage)"
-msgstr "Paikanpitäjä upotetuille faksille (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetuille faksille (tällä hetkellä tyhjä, tämä teksti ei näy "
+"verkkosivulla)"
 
 #: services/service-locations/service-location-component-renderer.php:37
 msgid ""
 "Placeholder for service location name (Currently empty, not visible on "
 "webpage)"
-msgstr "Paikanpitäjä upotetulle palvelukanavan nimelle (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetulle palvelukanavan nimelle (tällä hetkellä tyhjä, tämä "
+"teksti ei näy verkkosivulla)"
 
 #: services/service-locations/service-location-component-renderer.php:40
 msgid "Placeholder for phonenumbers (Currently empty, not visible on webpage)"
-msgstr "Paikanpitäjä upotetuille puhelinnumeroille (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetuille puhelinnumeroille (tällä hetkellä tyhjä, tämä "
+"teksti ei näy verkkosivulla)"
 
 #: services/service-locations/service-location-component-renderer.php:43
 msgid ""
 "Placeholder for phone charge info (Currently empty, not visible on webpage)"
-msgstr "Paikanpitäjä upotetuille puhelujen maksutiedoille (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetuille puhelujen maksutiedoille (tällä hetkellä tyhjä, "
+"tämä teksti ei näy verkkosivulla)"
 
 #: services/service-locations/service-location-component-renderer.php:46
 msgid "Placeholder for servicehours (Currently empty, not visible on webpage)"
-msgstr "Paikanpitäjä upotetuille palveluajoille (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
+msgstr ""
+"Paikanpitäjä upotetuille palveluajoille (tällä hetkellä tyhjä, tämä teksti "
+"ei näy verkkosivulla)"
 
 #: services/service-locations/service-location-component-renderer.php:49
 msgid ""
 "Placeholder for service location webpages (Currently empty, not visible on "
 "webpage)"
-msgstr "Paikanpitäjä upotetuille verkkosivuille (tällä hetkellä tyhjä, tämä teksti ei näy verkkosivulla)"
-
-#: services/settings.php:12
-msgid "Service settings"
-msgstr "Palveluiden asetukset"
-
-#: services/settings.php:23
-msgid "Synchronize services as pages"
-msgstr "Synkronoi palveluista sivuja"
-
-#: services/settings.php:30
-msgid "Synchronize service location channels as pages"
-msgstr "Synkronoi palvelukanavista sivuja"
-
-#: services/settings.php:37
-msgid "Location channels path"
-msgstr "Palvelukanavien polku"
+msgstr ""
+"Paikanpitäjä upotetuille verkkosivuille (tällä hetkellä tyhjä, tämä teksti "
+"ei näy verkkosivulla)"
 
 #: services/tinymce-settings.php:12
 msgid "Tinymce settings"
@@ -469,10 +564,6 @@ msgstr "Laatikot"
 msgid "Tile Link"
 msgstr "Laatikon linkki"
 
-#: webhooks/webhook-settings.php:14
-msgid "Webhooks enabled"
-msgstr "Webhookit käytössä"
-
 #. Plugin Name of the plugin/theme
 msgid "Kunta API Core"
 msgstr "Kunta API ydin"
@@ -484,3 +575,21 @@ msgstr "Ydintoiminnot Kunta API integraatioita varten"
 #. Author of the plugin/theme
 msgid "Metatavu Oy"
 msgstr "Metatavu Oy"
+
+#~ msgid "Organization identifier"
+#~ msgstr "Organisaation tunniste"
+
+#~ msgid "Service settings"
+#~ msgstr "Palveluiden asetukset"
+
+#~ msgid "Synchronize services as pages"
+#~ msgstr "Synkronoi palveluista sivuja"
+
+#~ msgid "Synchronize service location channels as pages"
+#~ msgstr "Synkronoi palvelukanavista sivuja"
+
+#~ msgid "Location channels path"
+#~ msgstr "Palvelukanavien polku"
+
+#~ msgid "Webhooks enabled"
+#~ msgstr "Webhookit käytössä"
