@@ -8,4 +8,8 @@ require_once( __DIR__ . '/incidents-settings.php');
 require_once( __DIR__ . '/incidents-taxonomy.php');
 require_once( __DIR__ . '/acf.php');
 
+add_action('admin_enqueue_scripts', function () {
+  wp_enqueue_script('incident-acf-js', plugin_dir_url(__FILE__) . 'acf.js', array(), KUNTA_API_CORE_PLUGIN_VERSION, true);
+});
+
 ?>
