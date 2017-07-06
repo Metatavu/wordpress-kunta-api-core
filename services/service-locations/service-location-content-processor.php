@@ -29,12 +29,6 @@
             $article->class = 'mceNonEditable';
             $article->contentEditable = 'false';
             $article->readonly = 'true';
-          } else {
-            $article->removeAttribute('data-service-id');
-            $article->removeAttribute('data-type');
-            $article->removeAttribute('data-component');
-            $article->removeAttribute('data-lang');
-            $article->removeAttribute('data-service-channel-id');
           }
           
           $serviceLocationChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceChannelId);

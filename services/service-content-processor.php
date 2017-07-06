@@ -26,11 +26,6 @@
             $article->class = 'mceNonEditable';
             $article->contentEditable = 'false';
             $article->readonly = 'true';
-          } else {
-            $article->removeAttribute('data-service-id');
-            $article->removeAttribute('data-type');
-            $article->removeAttribute('data-component');
-            $article->removeAttribute('data-lang');
           }
           
           $renderer = new \KuntaAPI\Services\ServiceComponentRenderer();
