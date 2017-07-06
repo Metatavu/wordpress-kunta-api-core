@@ -10,7 +10,7 @@
       });
       
       wp_enqueue_style('font_awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' );
-      add_editor_style(plugin_dir_url( __FILE__ ) . 'tinymce-plugins/tinymce-styles.css');
+      add_editor_style(plugin_dir_url(dirname(__FILE__)) . 'tinymce-plugins/tinymce-styles.css');
     });
   }
 ?>
