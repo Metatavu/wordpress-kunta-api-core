@@ -101,6 +101,7 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
     }
     
     public function dateTimeFormatFilter($datetime) {
+      $datetime->setTimezone(new \DateTimeZone('Europe/Helsinki')); //TODO: create setting
       return $datetime->format('d.m.Y');
     }
     
