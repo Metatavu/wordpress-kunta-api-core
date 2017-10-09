@@ -17,6 +17,10 @@
         {% for openingHour in serviceHour.openingHour %}
           <div class="opening-hour">{{ openingHour|openingHoursFormat }}</div>
         {% endfor %}
+      {% else %}
+        {% if not serviceHour.isClosed %}
+          <div class="opening-hour">Avoinna ympäri vuorokauden</div>
+        {% endif %}
       {% endif %}
       </div>      
     {% endif %}
