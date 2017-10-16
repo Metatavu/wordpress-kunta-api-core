@@ -3,7 +3,7 @@
  * Created on Oct 21, 2016
  * Plugin Name: Kunta API Core
  * Description: Core functionalities for Kunta API integrations
- * Version: 0.7.6
+ * Version: 0.7.8
  * Author: Metatavu Oy
  * Text Domain: kunta_api_core
  */
@@ -40,6 +40,7 @@
   require_once( __DIR__ . '/pages/pages.php');
   require_once( __DIR__ . '/id-mappings/pages/page-mappings-rest.php');
   require_once( __DIR__ . '/incidents/incidents.php');
+  require_once( __DIR__ . '/contacts/contacts.php');
   require_once( __DIR__ . '/patches/patches.php');
   require_once( __DIR__ . '/webhooks/webhooks.php');
 
