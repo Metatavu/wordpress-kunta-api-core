@@ -281,7 +281,6 @@
         serviceContainer.append(this._createCheckboxField(serviceLocationChannel.id, 'email', 'Sähköpostiosoitteet', 'Palvelupisteen sähköpostiosoitteet.'));
         serviceContainer.append(this._createCheckboxField(serviceLocationChannel.id, 'fax', 'Faksi', 'Palvelupisteen faksi.'));
         serviceContainer.append(this._createCheckboxField(serviceLocationChannel.id, 'phone', 'Puhelinnumero', 'Palvelupisteen puhelinnumero.'));
-        serviceContainer.append(this._createCheckboxField(serviceLocationChannel.id, 'phone-charge-info', 'Puhelun maksutiedot', 'Palvelupisteen puhelimen maksullisuustiedot.'));
         serviceContainer.append(this._createCheckboxField(serviceLocationChannel.id, 'addresses', 'Osoitetiedot', 'Palvelupisteen osoitetiedot'));
         serviceContainer.append(this._createCheckboxField(serviceLocationChannel.id, 'servicehours', 'Palveluajat', 'Palvelupisteen palveluajat'));
         serviceContainer.append(this._createCheckboxField(serviceLocationChannel.id, 'webpages', 'Verkkosivustot', 'Palvelupisteen verkkosivut'));

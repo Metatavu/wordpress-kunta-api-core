@@ -145,21 +145,6 @@
         .attr({
           'type':'checkbox',
           'data-service-location-channel-name': name,
-          'data-component-type': 'phone-charge-info',
-          'data-service-location-channel-id': result.id
-        }))
-        .append(
-          $('<span>')
-            .text('Puheluiden maksutiedot'))
-    );
-    
-    resultContainer.append(
-      $('<p>')
-        .append($('<input>')
-        .addClass('service-component-embed-input')
-        .attr({
-          'type':'checkbox',
-          'data-service-location-channel-name': name,
           'data-component-type': 'servicehours',
           'data-service-location-channel-id': result.id
         }))
