@@ -22,6 +22,7 @@
        * 
        * <li>
        *   <ul><b>placeholder:</b> if set to true the component only renders a placeholder element for contact search</ul>
+       *   <ul><b>placeholder-text:</b> Optional text for search input placeholder</ul>
        * </li>
        * 
        * @param type $tagAttrs tag attributes
@@ -29,14 +30,16 @@
        */
       public function contactSearchShortcode($tagAttrs) {
         $attrs = shortcode_atts([
-          'placeholder' => 'true'
+          'placeholder' => 'true',
+          'placeholder-text' => ''
         ], $tagAttrs);
         
         $html = '';
         $placeholder = $attrs['placeholder'] === 'true'; 
+        $placeholderText = $attrs['placeholder-text'];
         
         if ($placeholder) {
-          $html = '<div class="kunta-api-contact-search"></div>';
+          $html = '<div class="kunta-api-contact-search" data-placeholder="' . htmlspecialchars($placeholderText, null, null, false) . '"></div>';
         }
         
         return $html;
