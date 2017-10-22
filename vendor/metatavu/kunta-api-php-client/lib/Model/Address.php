@@ -70,7 +70,7 @@ class Address implements ArrayAccess
         'longitude' => 'string',
         'coordinateState' => 'string',
         'type' => 'string',
-        'postOfficeBox' => 'string',
+        'postOfficeBox' => '\KuntaAPI\Model\LocalizedValue[]',
         'postalCode' => 'string',
         'postOffice' => '\KuntaAPI\Model\LocalizedValue[]',
         'streetAddress' => '\KuntaAPI\Model\LocalizedValue[]',
@@ -296,7 +296,7 @@ class Address implements ArrayAccess
 
     /**
      * Gets postOfficeBox
-     * @return string
+     * @return \KuntaAPI\Model\LocalizedValue[]
      */
     public function getPostOfficeBox()
     {
@@ -305,7 +305,7 @@ class Address implements ArrayAccess
 
     /**
      * Sets postOfficeBox
-     * @param string $postOfficeBox Post office box like PL 310
+     * @param \KuntaAPI\Model\LocalizedValue[] $postOfficeBox Post office box like PL 310
      * @return $this
      */
     public function setPostOfficeBox($postOfficeBox)

@@ -4,6 +4,7 @@ All URIs are relative to *https://demo.kuntaapi.fi/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**deleteOrganizationPage**](PagesApi.md#deleteOrganizationPage) | **DELETE** /organizations/{organizationId}/pages/{pageId} | Deletes an organizations page
 [**findOrganizationPage**](PagesApi.md#findOrganizationPage) | **GET** /organizations/{organizationId}/pages/{pageId} | Finds organizations page
 [**findOrganizationPageContent**](PagesApi.md#findOrganizationPageContent) | **GET** /organizations/{organizationId}/pages/{pageId}/content | Returns organizations page content in all available languages
 [**findOrganizationPageImage**](PagesApi.md#findOrganizationPageImage) | **GET** /organizations/{organizationId}/pages/{pageId}/images/{imageId} | Returns a single organiztion page image
@@ -11,6 +12,56 @@ Method | HTTP request | Description
 [**listOrganizationPageImages**](PagesApi.md#listOrganizationPageImages) | **GET** /organizations/{organizationId}/pages/{pageId}/images | Returns a list of organization page images
 [**listOrganizationPages**](PagesApi.md#listOrganizationPages) | **GET** /organizations/{organizationId}/pages | Lists organizations pages
 
+
+# **deleteOrganizationPage**
+> deleteOrganizationPage($organizationId, $pageId)
+
+Deletes an organizations page
+
+Deletes single organization page
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
+
+$api_instance = new KuntaAPI\Api\PagesApi();
+$organizationId = "organizationId_example"; // string | Organization id
+$pageId = "pageId_example"; // string | page id
+
+try {
+    $api_instance->deleteOrganizationPage($organizationId, $pageId);
+} catch (Exception $e) {
+    echo 'Exception when calling PagesApi->deleteOrganizationPage: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **organizationId** | **string**| Organization id |
+ **pageId** | **string**| page id |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[basicAuth](../../README.md#basicAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json;charset=utf-8
+ - **Accept**: application/json;charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **findOrganizationPage**
 > \KuntaAPI\Model\Page findOrganizationPage($organizationId, $pageId)
@@ -276,7 +327,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **listOrganizationPages**
-> \KuntaAPI\Model\Page[] listOrganizationPages($organizationId, $parentId, $path, $search, $firstResult, $maxResults)
+> \KuntaAPI\Model\Page[] listOrganizationPages($organizationId, $parentId, $path, $search, $sortBy, $sortDir, $firstResult, $maxResults)
 
 Lists organizations pages
 
@@ -296,11 +347,13 @@ $organizationId = "organizationId_example"; // string | Organization id
 $parentId = "parentId_example"; // string | Filter results by parent id
 $path = "path_example"; // string | Filter results by page path
 $search = "search_example"; // string | Search pages by free-text query
+$sortBy = "sortBy_example"; // string | define order (NATURAL or SCORE). Default is NATURAL
+$sortDir = "sortDir_example"; // string | ASC or DESC. Default is ASC
 $firstResult = 789; // int | First result
 $maxResults = 789; // int | Max results
 
 try {
-    $result = $api_instance->listOrganizationPages($organizationId, $parentId, $path, $search, $firstResult, $maxResults);
+    $result = $api_instance->listOrganizationPages($organizationId, $parentId, $path, $search, $sortBy, $sortDir, $firstResult, $maxResults);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PagesApi->listOrganizationPages: ', $e->getMessage(), PHP_EOL;
@@ -316,6 +369,8 @@ Name | Type | Description  | Notes
  **parentId** | **string**| Filter results by parent id | [optional]
  **path** | **string**| Filter results by page path | [optional]
  **search** | **string**| Search pages by free-text query | [optional]
+ **sortBy** | **string**| define order (NATURAL or SCORE). Default is NATURAL | [optional]
+ **sortDir** | **string**| ASC or DESC. Default is ASC | [optional]
  **firstResult** | **int**| First result | [optional]
  **maxResults** | **int**| Max results | [optional]
 

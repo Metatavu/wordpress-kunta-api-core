@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **longitude** | **string** | Service location longitude coordinate. | [optional] 
 **coordinateState** | **string** | State of coordinates. Coordinates are fetched from a service provided by Maanmittauslaitos (WFS).  Possible values are: Loading, Ok, Failed, NotReceived, EmptyInputReceived, MultipleResultsReceived or WrongFormatReceived. | [optional] 
 **type** | **string** | Address type, Visiting or Postal. | [optional] 
-**postOfficeBox** | **string** | Post office box like PL 310 | [optional] 
+**postOfficeBox** | [**\KuntaAPI\Model\LocalizedValue[]**](LocalizedValue.md) | Post office box like PL 310 | [optional] 
 **postalCode** | **string** | Postal code, for example 00010. | [optional] 
 **postOffice** | [**\KuntaAPI\Model\LocalizedValue[]**](LocalizedValue.md) | List of localized Post offices, for example Helsinki, Helsingfors. | [optional] 
 **streetAddress** | [**\KuntaAPI\Model\LocalizedValue[]**](LocalizedValue.md) | List of localized street addresses. | [optional] 

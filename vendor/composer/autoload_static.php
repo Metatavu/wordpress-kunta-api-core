@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInitc7a584e8870075c37b9494a8c0a22248
 {
     public static $prefixLengthsPsr4 = array (
+        'T' => 
+        array (
+            'Twig\\' => 5,
+        ),
         'K' => 
         array (
             'KuntaAPI\\' => 9,
@@ -18,6 +22,10 @@ class ComposerStaticInitc7a584e8870075c37b9494a8c0a22248
     );
 
     public static $prefixDirsPsr4 = array (
+        'Twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
         'KuntaAPI\\' => 
         array (
             0 => __DIR__ . '/..' . '/metatavu/kunta-api-php-client/lib',
