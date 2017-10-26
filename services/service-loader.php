@@ -61,6 +61,12 @@
         return static::$printableFormChannels[$id];
       }
       
+      /**
+       * Finds service location service channel by id
+       * 
+       * @param \String $id
+       * @return type
+       */
       public static function findServiceLocationServiceChannel($id) {
         if(!isset(static::$serviceLocationChannels[$id])) {
           try {
