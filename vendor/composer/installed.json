@@ -237,7 +237,7 @@
         "source": {
             "type": "git",
             "url": "https://github.com/Metatavu/kunta-api-php-client.git",
-            "reference": "22d78e1ac26d9c28aaa436523eeb3dd34658550b"
+            "reference": "724826ae9d1a5d088e8c51a6addb03dad3a38b86"
         },
         "require": {
             "ext-curl": "*",
@@ -250,7 +250,7 @@
             "satooshi/php-coveralls": "~1.0",
             "squizlabs/php_codesniffer": "~2.6"
         },
-        "time": "2017-10-19T11:33:56+00:00",
+        "time": "2017-10-23T16:31:18+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
