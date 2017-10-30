@@ -1,3 +1,10 @@
+@import "metaform";
+
+$tab-active-color: #ffffff;
+$tab-active-background-color: #0085ba;
+$tab-active-border-color: #0073aa #006799 #006799;
+$tab-active-text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799;
+
 .mce-kunta-api-search-results {
   overflow-y: scroll;
   overflow-x: hidden;
@@ -48,6 +55,53 @@ i.mce-i-kunta_api_service_location_embed:before {
   button {
     color: #fff;
   }
+}
+
+.ui-tabs-panel, 
+.ui-dialog-content {
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 100%;
+  min-height: 100%;
+  max-height: 100%;
+}
+
+.ui-tabs-panel {
+  overflow-y: scroll;
+}
+
+.ui-dialog { 
+  z-index: 99999 !important;
   
+  .ui-tabs-active {
+    color: $tab-active-color;
+    background: $tab-active-background-color;
+    text-shadow: $tab-active-text-shadow;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $tab-active-border-color;
+  }
+
+  .ui-widget.ui-widget-content {
+    height: calc(100% - 7px); 
+    overflow: hidden;
+  }
   
+  .ui-tabs-panel {
+    min-height: 0;
+    max-height: calc(100% - 37px);
+  }
+
+  table.serviceHours {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    
+    td:nth-of-type(2), 
+    td:nth-of-type(3) {
+      width: 80px;
+      text-align: right;
+    } 
+    
+  }
 }

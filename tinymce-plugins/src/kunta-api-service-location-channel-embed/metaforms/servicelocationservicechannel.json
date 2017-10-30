@@ -1,0 +1,76 @@
+{
+  "title": "Palvelupiste",
+  "sections": [{
+    "fields": [{
+      "name": "name",
+      "type": "text",
+      "title": "Nimi",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita palvelupaikan nimi."
+    }, {
+      "name": "shortDescription",
+      "type": "memo",
+      "title": "Tiivistelmä",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita lyhyt tiivistelmä hakukoneita varten."
+    }, {
+      "name": "description",
+      "type": "memo",
+      "title": "Kuvaus",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita selkeä ja ymmärrettävä kuvausteksti."
+    }]
+  }, {
+    "fields": [{
+      "name": "addresses",
+      "type": "table",
+      "title": "Käyntiosoite",
+      "required": false,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
+        "type": "text",
+        "name": "street",
+        "title": "Kadunnimi"
+      }, {
+        "type": "text",
+        "name": "streetNumber",
+        "title": "Osoitenumero"
+      }, {
+        "type": "text",
+        "name": "postOfficeCode",
+        "title": "Postinumero"
+      }, {
+        "type": "text",
+        "name": "additionalInformation",
+        "title": "Osoitteen lisätieto"
+      }]
+    }, {
+      "name": "foreignAddresses",
+      "type": "table",
+      "title": "Käyntiosoite - ulkomainen",
+      "required": false,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
+        "type": "text",
+        "name": "foreign",
+        "title": "Vapaasti täydennettävä osoite"
+      }]
+    }, {
+      "name": "serviceHours",
+      "type": "html",
+      "title": "Palveluajat",
+      "required": false,
+      "contexts": "FORM",
+      "html": "<table class=\"serviceHours\"><tbody></tbody></table>"
+    }, {
+      "name": "add-service-hour",
+      "type": "html",
+      "html":"<a class=\"btn btn-sm btn-success add-service-hour\">Lisää palveluaika</a>"
+    }]
+  }]
+}

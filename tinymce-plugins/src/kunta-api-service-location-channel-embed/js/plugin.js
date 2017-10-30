@@ -1,4 +1,4 @@
-/* global ajaxurl, tinymce */
+/* global ajaxurl, tinymce, moment */
 ((tinymce, $) => {
   
   const SUPPORTED_COMPONENTS = {
@@ -28,392 +28,137 @@
     }
   };
   
-  class AbstractEditor {
-    
-    constructor(dialog, tab) {
-      this.dialog = dialog;
-      this.tab = tab;
-    }
-    
-    getLocalizedValue(localized, locale) {
-      for (let i = 0; i < localized.length; i++) {
-        if (localized[i].language === locale) {
-          return localized[i].value;
-        } 
-      }
-      
-      return null;
-    }
-    
-    commitValue(locale, values) {
-    }
-    
-  }
-  
-  class LocalizedValueEditor extends AbstractEditor {
-    
-    constructor(dialog, tab, locale, name, title, multiline) {
-      super(dialog, tab);
-      this.locale = locale;
-      this.name = name;
-      this.title = title;
-      this.multiline = multiline;
-    }
-    
-    getEditorFields(values) {
-      const value = this.getLocalizedValue(values, this.locale);
-      return [{
-        name: `${this.name}.${this.locale}`,
-        label: `${this.title} (${this.locale})`,
-        type: 'textbox',
-        multiline: this.multiline,
-        value: value
-      }];
-    }
-    
-    commitLocalizedValue(targetList, values, name, type) {
-      const newValue = values[`${name}.${this.locale}`];
-      let valueUpdated = false;
-
-      targetList.forEach((targetItem, index) => {
-        if (targetItem.language === this.locale && (!type || type === targetItem.type)) {
-          if (newValue) {
-            targetItem.value = newValue;
-          } else {
-            targetList.splice(index, 1); 
-          }
-          
-          valueUpdated = true;
-        }
-      });
-      
-      if (newValue && !valueUpdated) {
-        const newItem = {
-          value: newValue,
-          language: this.locale
-        };
-        
-        if (type) {
-          newItem.type = type;
-        }
-        
-        targetList.push(newItem);
-      }
-    }
-    
-  };
-  
-  class ServiceLocationServiceChannelNameEditor extends LocalizedValueEditor {
-    
-    constructor(dialog, tab, locale, serviceLocationServiceChannel) {
-      super(dialog, tab, locale, 'name', 'Nimi', false);
-      this.serviceLocationServiceChannel = serviceLocationServiceChannel;
-    }
-    
-    getEditorFields() {
-      return super.getEditorFields(this.serviceLocationServiceChannel.names);
-    }
-    
-    commitValue(values) {
-      super.commitLocalizedValue(this.serviceLocationServiceChannel.names, values, 'name');
-    }
-    
-  };
-  
-  class AbstractServiceLocationServiceChannelDescriptionEditor extends LocalizedValueEditor {
-    
-    constructor(dialog, tab, locale, name, title, descriptionType, serviceLocationServiceChannel) {
-      super(dialog, tab, locale, name, title, true);
-      this.serviceLocationServiceChannel = serviceLocationServiceChannel;
-      this.descriptionType = descriptionType;
-    }
-    
-    getEditorFields() {
-      return super.getEditorFields(this.serviceLocationServiceChannel.descriptions.filter((description) => {
-        return description.type === this.descriptionType;
-      }));
-    }
-    
-  };
-  
-  class ServiceLocationServiceChannelShortDescriptionEditor extends AbstractServiceLocationServiceChannelDescriptionEditor {
-
-     constructor(dialog, tab, locale, serviceLocationServiceChannel) {
-      super(dialog, tab, locale, 'short-description', 'Tiivistelmä', 'ShortDescription');
-      this.serviceLocationServiceChannel = serviceLocationServiceChannel;
-    }
-    
-    commitValue(values) {
-      super.commitLocalizedValue(this.serviceLocationServiceChannel.descriptions, values, 'short-description', 'ShortDescription');
-    }
-    
-  };
-  
-  class ServiceLocationServiceChannelDescriptionEditor extends AbstractServiceLocationServiceChannelDescriptionEditor {
-    
-    constructor(dialog, tab, locale, serviceLocationServiceChannel) {
-    super(dialog, tab, locale, 'description', 'Kuvaus', 'Description');
-      this.serviceLocationServiceChannel = serviceLocationServiceChannel;
-    }
-    
-    commitValue(values) {
-      super.commitLocalizedValue(this.serviceLocationServiceChannel.descriptions, values, 'description', 'Description');
-    }
-    
-  };
-  
-  class ServiceLocationServiceChannelAbstractMultivalueEditor extends AbstractEditor {
-    
-    constructor(dialog, tab, supportedLocales, serviceLocationServiceChannel, options) {
-      super(dialog, tab);
-      this.options = options;
-      this.index = -1;
-      this.serviceLocationServiceChannel = serviceLocationServiceChannel;
-      this.supportedLocales = supportedLocales;
-      this.dialog.on('open', this.onDialogOpen.bind(this));
-    }
-    
-    getValues() {
-      return [];  
-    }
-    
-    getEditorFields() {
-      return [
-        this.createFieldList(this.createFieldSets()),
-        this.createAddButton()
-      ];
-    }
-    
-    createFieldList(items) {
-      return {
-        label: '',
-        type: 'container',
-        layout: 'grid',
-        id: `${this.options.baseName}-list`,
-        name: `${this.options.baseName}-list`,
-        columns: 1,
-        items: items
-      };
-    }
-    
-    createFieldSets() {
-      return this.getValues().map((value) => {
-        return this.createFieldSet(value);
-      });
-    }
-    
-    createAddButton() {
-      return {
-        id: `${this.options.baseName}-add`,
-        classes: `${this.options.baseName}-add`,
-        name: `${this.options.baseName}-add`,
-        type: 'button',
-        text: this.options.addButtonText
-      };
-    }
-    
-    commitLocalizedValue(targetList, values, name, locale) {
-      const newValue = values[name];
-      let valueUpdated = false;
-      
-      targetList.forEach((targetItem, index) => {
-        if (targetItem.language === locale) {
-          if (newValue) {
-            targetItem.value = newValue;
-          } else {
-            targetList.splice(index, 1); 
-          }
-          
-          valueUpdated = true;
-        }
-      });
-      
-      if (newValue && !valueUpdated) {
-        targetList.push({
-          value: newValue,
-          language: locale
-        });
-      }
-    }
-    
-    onDialogOpen() {
-      this.dialog.window.find(`#${this.options.baseName}-add`).on('click', this.onAddAddressClick.bind(this));
-    }
-    
-    onAddAddressClick(event) {
-      this.dialog.addChildItems(`#${this.options.baseName}-list`, this.createFieldSet());
-    }
-    
-  };
-  
-  class ServiceLocationServiceChannelAddressEditor extends ServiceLocationServiceChannelAbstractMultivalueEditor {
-    
-    constructor(dialog, tab, supportedLocales, serviceLocationServiceChannel) {
-      super(dialog, tab, supportedLocales, serviceLocationServiceChannel, {
-        baseName: 'address',
-        addButtonText: 'Lisää osoite'
-      });
-    }
-    
-    getValues() {
-      return this.serviceLocationServiceChannel.addresses;
-    }
-    
-    createFieldSet(value) {
-      return {
-        label: 'Osoite',
-        type: 'fieldset',
-        border: 'none',
-        layout: 'grid',
-        name: "address",
-        columns: 2,
-        items: this.createAddressFields(value)
-      };
-    }
-    
-    createAddressFields(address) {
-      const additionalInformation = null;
-      const streetNumber = address ? address.streetNumber : null;
-      const postalCode = address ? address.postalCode : null;
-      this.index++;
-      
-      const result = [];
-      
-      this.supportedLocales.forEach((locale) => {
-        result.push({
-          'name': this.getStreetAddressFieldName(locale, this.index),
-          'type': 'textbox',
-          'label': `Kadunnimi (${locale})`,
-          'value': address ? this.getLocalizedValue(address.streetAddress, locale) : null
-        });
-        
-        result.push({
-          'name': this.getAdditionalInformationFieldName(locale, this.index),
-          'type': 'textbox',
-          'label': `Osoitteen lisätieto (${locale})`,
-          'value': additionalInformation ? additionalInformation.value : ''
-        });
-      });
-      
-      result.push({
-        'name': this.getStreetNumberFieldName(this.index),
-        'type': 'textbox',
-        'label': 'Osoitenumero',
-        'value': streetNumber
-      });
-      
-      result.push({
-        'name': this.getPostalCodeFieldName(this.index),
-        'type': 'textbox',
-        'label': 'Postinumero',
-        'value': postalCode
-      });
-      
-      return result; 
-    }
-    
-    commitValue(values) {
-      for (let index = 0; index < this.index + 1; index++) {
-        let address = this.serviceLocationServiceChannel.addresses[index];
-        if (!address) {
-          address = {};
-          this.serviceLocationServiceChannel.addresses.push(address);
-        }
-        
-        if (!address.streetAddress) {
-          address.streetAddress = [];
-        }
-        
-        if (!address.additionalInformations) {
-          address.additionalInformations = [];
-        }
-        
-        this.supportedLocales.forEach((locale) => {
-          this.commitLocalizedValue(address.streetAddress, values, this.getStreetAddressFieldName(locale, index), locale);
-          this.commitLocalizedValue(address.additionalInformations, values, this.getAdditionalInformationFieldName(locale, index), locale);
-        });
-        
-        address.streetNumber = values[this.getStreetNumberFieldName(index)];
-        address.postalCode = values[this.getPostalCodeFieldName(index)];
-      }
-    }
-    
-    getStreetAddressFieldName(locale, index) {
-      return `address-street-address-${locale}-${index}`;
-    }
-    
-    getStreetNumberFieldName(index) {
-      return `address-street-number-${index}`;
-    }
-    
-    getPostalCodeFieldName(index) {
-      return `address-postal-code-${index}`;
-    }
-    
-    getAdditionalInformationFieldName(locale, index) {
-      return `address-additional-information-${locale}-${index}`;
-    }
-    
-  };
-  
   class ServiceLocationServiceChannelDialog {
     
     constructor(editor, serviceLocationServiceChannel) {
       this.serviceLocationServiceChannel = serviceLocationServiceChannel;
       this.dialogTitle = 'Palvelupiste';
       this.supportedLocales = ['fi', 'en', 'sv'];
+      this.localeNames = {
+        'fi': 'Suomi',
+        'en': 'Englanti',
+        'sv': 'Ruotsi'
+      };
+      
+      this.serviceHourTypeNames = {
+        'Special': 'Päivystys',
+        'Standard': 'Normaali',
+        'Exception': 'Poikkeus'
+      };
+      
+      this.dayNames = {
+        0: 'Sunnuntai',
+        1: 'Maanantai',
+        2: 'Tiistai',
+        3: 'Keskiviikko',
+        4: 'Torstai',
+        5: 'Perjantai',
+        6: 'Lauantai'
+      };
+      
       this.editor = editor;
       this.listeners = [];
-      this.editors = [];
-   
-      this.supportedLocales.forEach((locale) => {
-        this.editors.push(new ServiceLocationServiceChannelNameEditor(this, `basic-${locale}`, locale, serviceLocationServiceChannel));
-        this.editors.push(new ServiceLocationServiceChannelShortDescriptionEditor(this, `basic-${locale}`, locale, serviceLocationServiceChannel));
-        this.editors.push(new ServiceLocationServiceChannelDescriptionEditor(this, `basic-${locale}`, locale, serviceLocationServiceChannel));
-      });
-
-      this.editors.push(new ServiceLocationServiceChannelAddressEditor(this, 'addresses', this.supportedLocales, serviceLocationServiceChannel));
-
+      
       // TODO: Kielet, joilla palvelupisteessä palvellaan
     }
     
-    addChildItems(selector, items) {
-      const container = this.window.find(selector)[0];
-      container.append(container.create(items)); 
-    }
-    
     getLocaleName(locale) {
-      switch (locale) {
-        case 'fi':
-          return 'Suomi';
-        case 'en':
-          return 'Englanti';
-        case 'sv':
-          return 'Ruotsi';
+      return this.localeNames[locale];
+    }
+    
+    getServiceHourTypeName(type) {
+      return this.serviceHourTypeNames[type];
+    }
+    
+    getDayName(index, short) {
+      const name = this.dayNames[index];
+      if (short) {
+        return name.substring(0, 2);
+      }
+      
+      return name;
+    }
+    
+    formatServiceHour(serviceHour) {
+      const type = this.getServiceHourTypeName(serviceHour.serviceHourType);
+      if (serviceHour.serviceHourType === 'Exception') {
+        let result = `(${type})`;
+        
+        if (serviceHour.isClosed) {
+          result += ' Suljettu';
+        }
+        
+        const openingHour = serviceHour.openingHour && serviceHour.openingHour.length ? serviceHour.openingHour[0] : null;
+        const openFrom = openingHour ? openingHour.from : null;
+        const openTo = openingHour ? openingHour.to : null;
+        
+        if (serviceHour.validFrom && serviceHour.validTo) {
+          result += ` ${this.formatDateWithTime(serviceHour.validFrom, openFrom)} - ${this.formatDateWithTime(serviceHour.validTo, openTo)}`;
+        } else if (serviceHour.validFrom) {
+          result += ` ${this.formatDateWithTimes(serviceHour.validFrom, openFrom, openTo)}`;
+        }
+        
+        const additionalInformation = this.getAnyLocalizedValue(serviceHour.additionalInformation);
+        if (additionalInformation) {
+          return `${result} - ${additionalInformation}`;
+        }
+        
+        return result;
+      } else {
+        if (serviceHour.openingHour.length === 0 && !serviceHour.isClosed) {
+          return `(${type}) Aina avoinna (24/7)`;
+        }
+        
+        const openingHours = serviceHour.openingHour.map((openingHour) => {
+          return this.formatOpeningHour(openingHour);
+        });
+
+        return `(${type}) ${openingHours.join(',')}`;
       }
     }
     
-    createTab(name, title, items) {
-      const tabEditors = this.editors.filter((editor) => {
-        return editor.tab === name;
-      });
-
-      let tabItems = [];
-      
-      if (items) {
-        tabItems = items;
-      } else {
-        tabEditors.forEach((editor) => {
-          tabItems = tabItems.concat(editor.getEditorFields());
-        });
+    formatDateTime(dateTime) {
+      return moment(dateTime).locale('fi').format('lll');
+    }
+    
+    formatDate(date) {
+      return moment(date).locale('fi').format('ll');
+    }
+    
+    formatDateWithTime(date, time) {
+      const result = this.formatDate(date);
+      if (time) {
+        return `${result} ${time}`;
       }
       
-      return {
-        type: 'fieldset',
-        name: name,
-        title: title,
-        items: tabItems
-      };
+      return result;
+    }
+    
+    formatDateWithTimes(date, startTime, endTime) {
+      const start = this.formatDateWithTime(date, startTime);
+      return endTime ? `${start} - ${endTime}` : start;
+    }
+    
+    formatOpeningHour(dailyOpeningTime) {
+      if (dailyOpeningTime.dayFrom === null) {
+        return '';
+      } else {
+        let result = this.getDayName(dailyOpeningTime.dayFrom, true);
+
+        if (dailyOpeningTime.dayTo !== null && dailyOpeningTime.dayTo !== dailyOpeningTime.dayFrom) {
+          result += ' - ' + this.getDayName(dailyOpeningTime.dayTo, true);
+        }
+
+        if (dailyOpeningTime.from) {
+          result += ' ' + dailyOpeningTime.from;
+        }
+
+        if (dailyOpeningTime.to) {
+          result += ' - ' + dailyOpeningTime.to;
+        }
+
+        return result;
+      }
     }
     
     saveServiceLocationServiceChannel(serviceLocationServiceChannel, callback) {
@@ -428,67 +173,448 @@
       });
     }
     
-    open() {
-      let tabs = [];
-      const contactSubtabs = [];
- 
-      contactSubtabs.push(this.createTab('emails', 'Sähköpostit'));
-      contactSubtabs.push(this.createTab('fax', 'Faksit'));
-      contactSubtabs.push(this.createTab('phone', 'Puhelimet'));
-      contactSubtabs.push(this.createTab('web', 'Verkkosivut'));
+    openMetaformDialog(viewModel, formValues, callback) {
+      const dialog = $('<div>')
+        .attr({
+          'title': viewModel.title
+        });
       
-      tabs.push(this.createTab('common', 'Yleiset'));
+      const dialogContents = $('<div>')
+        .addClass('container-fluid')
+        .html(mfRender({
+          viewModel: viewModel,
+          formValues: formValues
+        }))
+        .appendTo(dialog);
       
-      this.supportedLocales.forEach((locale) => {
-        tabs.push(this.createTab(`basic-${locale}`, `Perustiedot (${locale})`));
-      });
-      
-      tabs.push(this.createTab('addresses', 'Osoitteet'));
-      tabs.push(this.createTab('times', 'Palveluajat'));
-      tabs.push(this.createTab('contacts', 'Yhteystiedot', contactSubtabs));
-      
-      this.window = this.editor.windowManager.open({
-        title: this.dialogTitle,
-        body: [{
-          id: 'dialog-form',
-          type: 'form',
-          items: [{
-            name: 'locales',
-            type: 'tabpanel',
-            layout: 'fit',
-            items: tabs
-          }]
-        }],
-        width: 1000,
-        height: 700,
+      $(dialog).dialog({
+        modal: true,
+        draggable: false,
+        width: $(window).width() * 0.9,
+        height: $(window).height() * 0.9,
         buttons: [{
-          text: 'Tallenna',
-          subtype: 'save',
-          onclick: (event) => {
-            const dialogForm = this.window.find('form').filter((form) => {
-              return form.settings.id === 'dialog-form';
-            })[0];
+          text: "Tallenna",
+          click: () => {
+            const formValues = {};
             
-            const values = dialogForm.toJSON();
-            this.editors.forEach((editor) => {
-              editor.commitValue(values);
+            $(dialog).find(`form.metaform`).metaform('val', true).forEach((value) => {
+              formValues[value.name] = value.value;
             });
             
-            this.saveServiceLocationServiceChannel(this.serviceLocationServiceChannel, (err) => {
-              if (err) {
-                tinyMCE.activeEditor.windowManager.alert(err);
-              }
-            });
+            callback(formValues);
+            $(dialog).dialog("close");
           }
         }, {
-          text: 'Peruuta', 
-          onclick: () => {
-            this.window.close();
+          text: "Peruuta",
+          click: () => {
+            $(dialog).dialog("close");
           }
         }]
       });
+       
+      $(dialog).find('form.metaform').metaform();
       
-      this.trigger('open');
+      return dialog;
+    }
+    
+    openLocalizedMetaformDialog(viewModel, formValues, callback) {
+      const dialog = $('<div>')
+        .attr({
+          'title': viewModel.title
+        });
+      
+      const dialogContents = $('<div>')
+        .addClass('container-fluid')
+        .appendTo(dialog);
+      
+      const dialogTabs = $('<ul>').appendTo(dialogContents);
+     
+      this.supportedLocales.forEach((locale) => {
+        const tabId = `locale-tab-${locale}`;
+        
+        $('<li>')
+          .appendTo(dialogTabs)
+          .append($('<a>').attr('href', `#${tabId}`).text(this.getLocaleName(locale)));
+
+        $('<div>')
+          .attr('id', tabId)
+          .html(mfRender({
+            viewModel: viewModel,
+            formValues: formValues[locale]
+          }))
+          .appendTo(dialogContents);
+      });
+      
+      dialogContents.tabs();
+      
+      $(dialog).dialog({
+        modal: true,
+        draggable: false,
+        width: $(window).width() * 0.9,
+        height: $(window).height() * 0.9,
+        buttons: [{
+          text: "Tallenna",
+          click: () => {
+            const formValues = {};
+            this.supportedLocales.forEach((locale) => {
+              formValues[locale] = {};
+              $(dialog).find(`#locale-tab-${locale} form.metaform`).metaform('val', true).forEach((value) => {
+                formValues[locale][value.name] = value.value;
+              });
+            });
+            
+            callback(formValues);
+            $(dialog).dialog("close");
+          }
+        }, {
+          text: "Peruuta",
+          click: () => {
+            $(dialog).dialog("close");
+          }
+        }]
+      });
+       
+      $(dialog).find('form.metaform').metaform();
+      
+      return dialog;
+    }
+    
+    open() {
+      const viewModel = getServiceLocationServiceChannelMetaform();
+      const formValues = {};
+      this.supportedLocales.map((locale) => {
+        formValues[locale] = this.serviceLocationServiceChannelToForm(locale, this.serviceLocationServiceChannel);
+      });
+      
+      const dialog = this.openLocalizedMetaformDialog(viewModel, formValues, (newFormValues) => {
+        // TODO: Translate and save
+        console.log(newFormValues);
+      });
+      
+      $(dialog).on('click', '.add-service-hour', this._onAddServiceHourClick.bind(this));
+      $(dialog).on('click', '.edit-service-hour', this._onEditServiceHourClick.bind(this));
+      $(dialog).on('click', '.remove-service-hour', this._onRemoveServiceHourClick.bind(this));
+      
+      this.redrawServiceHours();
+    }
+    
+    openServiceHourEditDialog(serviceHour, callback) {
+      const viewModel = getServiceHourMetaform();
+      const formValues = this.serviceHourToForm(serviceHour);
+      const dialog = this.openMetaformDialog(this.prepareViewModel(viewModel), formValues, (newFormValues) => {
+        const updatedServiceHour = this.serviceHourFromForm(newFormValues);
+        callback(updatedServiceHour);
+      });
+    }
+    
+    redrawServiceHours() {
+      const serviceHourTexts = this.serviceLocationServiceChannel.serviceHours.map((serviceHour) => {
+        return this.formatServiceHour(serviceHour);
+      });
+      
+      $('table.serviceHours tbody').empty();
+      
+      if (serviceHourTexts.length) {
+        serviceHourTexts.forEach((serviceHourText) => {
+          const row = $('<tr>').appendTo($('table.serviceHours tbody'));
+          $('<td>').html(serviceHourText).appendTo(row);
+          $('<td>').append($('<a>').addClass('btn btn-sm btn-warning remove-service-hour').html('Poista')).appendTo(row);
+          $('<td>').append($('<a>').addClass('btn btn-sm btn-success edit-service-hour').html('Muokkaa')).appendTo(row);
+        });
+      } else {
+        $('<tr>')
+          .append($('<td>').html('Palveluaikoja ei ole vielä määritelty'))
+          .appendTo($('table.serviceHours tbody'));
+      }
+    }
+    
+    getTypedLocalizedValue(values, locale, type) {
+      if (!values) {
+        return null;
+      }
+      
+      for (let i = 0; i < values.length; i++) {
+        if (locale === values[i].language && type === values[i].type) {
+          return values[i].value;
+        }
+      }
+      
+      return null;
+    }
+    
+    getLocalizedValue(values, locale) {
+      if (!values) {
+        return null;
+      }
+      
+      for (let i = 0; i < values.length; i++) {
+        if (locale === values[i].language) {
+          return values[i].value;
+        }
+      }
+      
+      return null;
+    }
+    
+    getAnyLocalizedValue(values) {
+      for (let i = 0; i < this.supportedLocales.length; i++) {
+        const result = this.getLocalizedValue(values, this.supportedLocales[i]);
+        if (result) {
+          return result;
+        }
+      }
+      
+      return null;
+    }
+    
+    prepareViewModel(viewModel) {
+      (viewModel.sections||[]).forEach((section) => {
+        (section.fields||[]).forEach((field, index) => {
+          const localeVariableIndex = field.name.indexOf('{LOCALE}');
+          if (localeVariableIndex !== -1) {
+            section.fields.splice(index, 1);
+            
+            this.supportedLocales.forEach((locale) => {
+              section.fields.splice(index, 0, Object.assign({}, field, {
+                name: field.name.replace(/\{LOCALE\}/g, locale),
+                title: field.title.replace(/\{LOCALE\}/g, this.getLocaleName(locale))
+              }));   
+            });
+          }
+        });
+      });
+      
+      return viewModel;
+    }
+    
+    serviceHourFromFormException(formValues) {
+      const additionalInformation = [];
+      const isClosed = formValues.type === 'closed-all-day';
+      const validForNow = false;
+      const toTime = isClosed ? null : formValues[`Exception-to-time`];
+      const fromTime = isClosed ? null : formValues[`Exception-from-time`];
+      const openingHour = [];
+      
+      if (toTime || fromTime) {
+        openingHour.push({
+          dayFrom: null,
+          dayTo: null,
+          from: fromTime,
+          to: toTime,
+          isExtra: false
+        });
+      }
+      
+      this.supportedLocales.forEach((locale) => {
+        const value = formValues[`Exception-additional-information-${locale}`];
+        if (value) {
+          additionalInformation.push({
+            language: locale,
+            value: value
+          });  
+        }
+      });
+      
+      return {
+        serviceHourType: formValues.type,
+        validFrom: this.parseIsoDate(formValues[`Exception-from-date`]),
+        validTo: this.parseIsoDate(formValues[`Exception-to-date`]),
+        isClosed: isClosed,
+        validForNow: validForNow,
+        additionalInformation: additionalInformation,
+        openingHour: openingHour
+      };
+    }
+    
+    serviceHourFromFormStandard(formValues) {
+      const isClosed = false;
+      const validForNow = formValues[`${formValues.type}-validForNow`] === "true";
+      const additionalInformation = [];
+      const serviceHours = JSON.parse(formValues['Standard-openinghours']);
+      const openingHour = formValues['Standard-open24h'] ? [] : serviceHours.map((serviceHour) => {
+        return {
+          dayFrom: parseInt(serviceHour.day),
+          dayTo: parseInt(serviceHour.day),
+          from: serviceHour.from,
+          to: serviceHour.to,
+          isExtra: false
+        };
+      });
+      
+      return {
+        serviceHourType: formValues.type,
+        validFrom: validForNow ? null : this.parseIsoDate(formValues[`${formValues.type}-validFrom`]),
+        validTo: validForNow ? null : this.parseIsoDate(formValues[`${formValues.type}-validTo`]),
+        isClosed: isClosed,
+        validForNow: validForNow,
+        additionalInformation: additionalInformation,
+        openingHour: openingHour
+      };
+    }
+    
+    serviceHourFromFormSpecial(formValues) {
+      const isClosed = false;
+      const validForNow = formValues[`${formValues.type}-validForNow`] === "true";
+      const additionalInformation = [];
+      const openingHour = [{
+        dayFrom: parseInt(formValues['Special-from-date']),
+        dayTo: parseInt(formValues['Special-to-date']),
+        from: formValues['Special-from-time'],
+        to: formValues['Special-to-time'],
+        isExtra: false
+      }];
+    
+      return {
+        serviceHourType: formValues.type,
+        validFrom: validForNow ? null : this.parseIsoDate(formValues[`${formValues.type}-validFrom`]),
+        validTo: validForNow ? null : this.parseIsoDate(formValues[`${formValues.type}-validTo`]),
+        isClosed: isClosed,
+        validForNow: validForNow,
+        additionalInformation: additionalInformation,
+        openingHour: openingHour
+      };
+    }
+    
+    serviceHourFromForm(formValues) {
+      const serviceHourType = formValues.type;
+      switch (serviceHourType) {
+        case "Exception":
+          return this.serviceHourFromFormException(formValues);
+        case "Standard":
+          return this.serviceHourFromFormStandard(formValues);
+        case "Special":
+          return this.serviceHourFromFormSpecial(formValues);
+      };
+    }
+    
+    serviceHourToForm(serviceHour) {
+      if (!serviceHour) {
+        return {};
+      }
+      
+      const type = serviceHour.serviceHourType;
+      const validForNow = serviceHour.validForNow ? "true" : "false";
+      const validFrom = serviceHour.validForNow || !serviceHour.validFrom ? null : moment(serviceHour.validFrom);
+      const validTo = serviceHour.validForNow || !serviceHour.validTo ? null : moment(serviceHour.validTo);
+      const open24h = serviceHour.openingHour.length === 0 && !serviceHour.isClosed;
+      const validFromStr = validFrom ? validFrom.format() : null;
+      const validToStr = validTo ? validTo.format() : null;
+      const openingHour = serviceHour.openingHour && serviceHour.openingHour.length ? serviceHour.openingHour[0] : null;
+      const openingHours = [];
+          
+      (serviceHour.openingHour||[]).forEach((openingHour) => {
+        for (let day = openingHour.dayFrom; day <= openingHour.dayTo; day++) {
+          openingHours.push({
+            day: day,
+            from: openingHour.from,
+            to: openingHour.to
+          });
+        };
+      });
+      
+      switch (type) {
+        case 'Standard':
+          return {
+            'type': type,
+            'Standard-validForNow': validForNow,
+            'Standard-validFrom': validFromStr,
+            'Standard-validTo': validToStr,
+            'Standard-open24h': open24h,
+            'Standard-openinghours': openingHours
+          };
+        case 'Special':
+          return {
+            'type': type,
+            'Special-validForNow': validForNow,
+            'Special-validFrom': validFromStr,
+            'Special-validTo': validToStr,
+            'Special-from-date': openingHour ? openingHour.dayFrom : null,
+            'Special-from-time': openingHour ? openingHour.from : null,
+            'Special-to-date': openingHour ? openingHour.dayTo : null,
+            'Special-to-time': openingHour ? openingHour.to : null
+          };
+        case 'Exception':
+          const openFrom = openingHour ? openingHour.from : null;
+          const openTo = openingHour ? openingHour.to : null;
+          const exceptionType = !validTo ? !openFrom && !openTo ? 'closed-all-day' : 'single' : 'range';
+          
+          if (validFrom && openFrom) {
+            const parts = openFrom.split(':');
+            validFrom.hour(parseInt(parts[0]));
+            validFrom.minute(parseInt(parts[1]));
+          }
+          
+          if (validTo && openTo) {
+            const parts = openTo.split(':');
+            validTo.hour(parseInt(parts[0]));
+            validTo.minute(parseInt(parts[1]));
+          }
+          
+          const result = {
+            'type': type,
+            'Exception-type': exceptionType,
+            'Exception-from-date': validFrom ? validFrom.format() : null,
+            'Exception-to-date': validTo ? validTo.format() : null,
+            'Exception-from-time': openFrom,
+            'Exception-to-time': openTo
+          };
+          
+          this.supportedLocales.forEach((locale) => {
+            result[`Exception-additional-information-${locale}`] = this.getLocalizedValue(serviceHour.additionalInformation, locale);
+          });
+          
+          return result;
+        default:
+          throw new Error(`Unknown service hour type ${type}`);
+        break;
+      }
+    }
+    
+    serviceLocationServiceChannelToForm(locale, serviceLocationServiceChannel) {
+      const name = this.getTypedLocalizedValue(serviceLocationServiceChannel.names, locale, 'Name');
+      const shortDescription = this.getTypedLocalizedValue(serviceLocationServiceChannel.descriptions, locale, 'ShortDescription');
+      const description = this.getTypedLocalizedValue(serviceLocationServiceChannel.descriptions, locale, 'Description');
+      const visitAddresses = serviceLocationServiceChannel.addresses.filter((address) => {
+        return address.subtype !== 'Abroad';
+      });
+      
+      const foreignAddresses = serviceLocationServiceChannel.addresses.filter((address) => {
+        return address.subtype === 'Abroad';
+      });
+      
+      const addresses = visitAddresses.map((address) => {
+        return {
+          street: this.getLocalizedValue(address.streetAddress, locale),
+          streetNumber: address.streetNumber,
+          postOfficeCode: address.postalCode,
+          additionalInformation: this.getLocalizedValue(address.additionalInformations, locale) 
+        };
+      });
+      
+      const serviceHours = serviceLocationServiceChannel.serviceHours.map((serviceHour) => {
+        return 'TODO';
+      });
+      
+      return {
+        name: name,
+        description: description,
+        shortDescription: shortDescription,
+        addresses: addresses,
+        foreignAddresses: foreignAddresses.map((foreignAddress) => {
+          return {
+            foreign: this.getLocalizedValue(foreignAddress.locationAbroad, locale)
+          };
+        }),
+        serviceHours: serviceHours
+      };
+    }
+    
+    parseIsoDate(string) {
+      if (!string) {
+        return null;
+      }
+      
+      return new Date(Date.parse(string));
     }
     
     trigger (event, data) {
@@ -504,6 +630,31 @@
         event: event,
         callable: callable
       });
+    }
+    
+    _onAddServiceHourClick(event) {
+      this.openServiceHourEditDialog(null, (createdServiceHour) => {
+        this.serviceLocationServiceChannel.serviceHours.push(createdServiceHour);
+        this.redrawServiceHours();
+      });
+    }
+    
+    _onEditServiceHourClick(event) {
+      const row = $(event.target).closest('tr');
+      const index = row.index();
+      const serviceHour = this.serviceLocationServiceChannel.serviceHours[index];
+      
+      this.openServiceHourEditDialog(serviceHour, (updatedServiceHour) => {
+        this.serviceLocationServiceChannel.serviceHours.splice(index, 1, updatedServiceHour);
+        this.redrawServiceHours();
+      });
+    }
+    
+    _onRemoveServiceHourClick(event) {
+      const row = $(event.target).closest('tr');
+      const index = row.index();
+      this.serviceLocationServiceChannel.serviceHours.splice(index, 1);
+      this.redrawServiceHours();
     }
     
   }
@@ -637,8 +788,6 @@
 
     onServiceLocationChannelEdit(ui, options) {
       this.findServiceLocationServiceChannel(options.serviceLocationServiceChannelId, (err, serviceLocationServiceChannel) => {
-        console.log(err, serviceLocationServiceChannel);
-        
         if (err) {
           tinyMCE.activeEditor.windowManager.alert(err);
         } else {
