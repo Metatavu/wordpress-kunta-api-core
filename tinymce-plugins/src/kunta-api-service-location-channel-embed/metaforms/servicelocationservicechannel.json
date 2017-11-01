@@ -34,31 +34,38 @@
       "columns": [{
         "type": "text",
         "name": "street",
-        "title": "Kadunnimi"
+        "title": "Kadunnimi",
+        "placeholder": "esim. Mannerheimintie",
+        "column-width": 300
       }, {
         "type": "text",
         "name": "streetNumber",
-        "title": "Osoitenumero"
+        "title": "Osoitenumero",
+        "placeholder": "esim. 12 A 23",
+        "column-width": 40
       }, {
         "type": "text",
         "name": "postOfficeCode",
-        "title": "Postinumero"
+        "title": "Postinumero",
+        "column-width": 270,
+        "placeholder": "Postitoimipaikka haetaan automaaattisesti"
       }, {
         "type": "text",
         "name": "additionalInformation",
-        "title": "Osoitteen lisätieto"
+        "title": "Osoitteen lisätieto",
+        "placeholder": "Anna tarvittaessa osoitetta täsmentävä tieto tekstinä."
       }]
     }, {
       "name": "foreignAddresses",
       "type": "table",
-      "title": "Käyntiosoite - ulkomainen",
+      "title": "Käyntiosoite - ulkomainen (Vapaasti täydennettävä osoite)",
       "required": false,
       "contexts": "FORM",
       "addRows": true,
       "columns": [{
         "type": "text",
         "name": "foreign",
-        "title": "Vapaasti täydennettävä osoite"
+        "placeholder": "Kirjoita ulkomainen osoite."
       }]
     }, {
       "name": "serviceHours",

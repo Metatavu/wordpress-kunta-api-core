@@ -32,7 +32,6 @@
     
     constructor(editor, serviceLocationServiceChannel) {
       this.serviceLocationServiceChannel = serviceLocationServiceChannel;
-      this.dialogTitle = 'Palvelupiste';
       this.supportedLocales = ['fi', 'en', 'sv'];
       this.localeNames = {
         'fi': 'Suomi',
@@ -60,6 +59,9 @@
       this.listeners = [];
       
       // TODO: Kielet, joilla palvelupisteessä palvellaan
+      // TODO: Emails
+      // TODO: Phone Numbers
+      // TODO: Web Pages
     }
     
     getLocaleName(locale) {
@@ -169,7 +171,7 @@
         callback();
       })
       .fail((response) => {
-        callback(response.responseText || response.statusText);
+        callback(response.responseText || response.statusText || "Unknown error occurred");
       });
     }
     
@@ -264,7 +266,6 @@
             });
             
             callback(formValues);
-            $(dialog).dialog("close");
           }
         }, {
           text: "Peruuta",
@@ -287,8 +288,25 @@
       });
       
       const dialog = this.openLocalizedMetaformDialog(viewModel, formValues, (newFormValues) => {
-        // TODO: Translate and save
-        console.log(newFormValues);
+        dialog.dialog("widget").addClass('loading');
+        
+        const updatedChannel = this.translateServiceLocationServiceChannelFromForm(this.serviceLocationServiceChannel, newFormValues);
+        const validationError = this.validate(updatedChannel);
+        console.log("validationError", validationError);
+        if (validationError !== null) {
+          this.showError('Virheellinen syöte', validationError);
+        } else {
+          this.serviceLocationServiceChannel = updatedChannel;
+          
+          this.saveServiceLocationServiceChannel(this.serviceLocationServiceChannel, (err) => {
+            dialog.dialog("widget").removeClass('loading');
+            if (err) {
+              this.showError('Virhe tallentaessa', err);
+            } else {
+              dialog.dialog('close'); 
+            }
+          });
+        }
       });
       
       $(dialog).on('click', '.add-service-hour', this._onAddServiceHourClick.bind(this));
@@ -305,6 +323,46 @@
         const updatedServiceHour = this.serviceHourFromForm(newFormValues);
         callback(updatedServiceHour);
       });
+    }
+    
+    showError(title, text) {
+      const contents = $('<div>')
+        .addClass('error')
+        .text(text);
+      
+      const dialog = $('<div>')
+        .attr('title', title)
+        .append(contents)
+        .dialog({
+          modal: true,
+          draggable: false,
+          width: 600,
+          height: 350,
+          buttons: {
+            Ok: () => {
+              $(dialog).dialog( "close" );
+            }
+          }
+        });
+    }
+    
+    validate(serviceLocationServiceChannel) {
+      const addressSubtypes = [];
+      
+      for (let j = 0; j < serviceLocationServiceChannel.addresses.length; j++) {
+        const address = serviceLocationServiceChannel.addresses[j];
+        if (address.subtype === "Abroad" || address.subtype === "Single") {
+          for (let i = 0; i < addressSubtypes.length; i++) {
+            if (addressSubtypes[i] !== address.subtype) {
+              return "Toimipisteellä ei voi olla yhtäaikaa kotimaista ja ulkomaista osoitetta"; 
+            }
+          }
+        }
+        
+        addressSubtypes.push(address.subtype);
+      }
+      
+      return null;
     }
     
     redrawServiceHours() {
@@ -485,6 +543,107 @@
         case "Special":
           return this.serviceHourFromFormSpecial(formValues);
       };
+    }
+    
+    translateServiceLocationServiceChannelFromForm(existingLocationServiceChannel, formValues) {
+      const serviceLocationServiceChannel = JSON.parse(JSON.stringify(existingLocationServiceChannel));
+      serviceLocationServiceChannel.addresses = [];
+      serviceLocationServiceChannel.descriptions = [];
+      
+      this.supportedLocales.forEach((locale) => {
+        const localeValues = formValues[locale];
+        
+        const localeAddresses = JSON.parse(localeValues.addresses).filter((address) => {
+          return !!address.street && !!address.street.trim();
+        });
+        
+        localeAddresses.forEach((localeAddress, addressIndex) => {
+          let address;
+          if (serviceLocationServiceChannel.addresses.length - 1 < addressIndex) {
+            address = {
+              additionalInformations: [],
+              streetAddress: [],
+              subtype: 'Single',
+              type: 'Location',
+              country: 'FI'
+            };
+            
+            serviceLocationServiceChannel.addresses.push(address);
+          } else {
+            address = serviceLocationServiceChannel.addresses[addressIndex];
+          }
+          
+          if (localeAddress.additionalInformation) {
+            localeAddress.additionalInformation = localeAddress.additionalInformation.trim();
+          }
+          
+          if (localeAddress.additionalInformation) {
+            address.additionalInformations.push({
+              "language": locale,
+              "value": localeAddress.additionalInformation
+            });
+          }
+        
+          address.streetAddress.push({
+            "language": locale,
+            "value": localeAddress.street
+          });
+          
+          address.postalCode = localeAddress.postOfficeCode;
+          address.streetNumber = localeAddress.streetNumber;
+        });
+        
+        const foreignAddresses = JSON.parse(localeValues.foreignAddresses).filter((address) => {
+          return !!address.foreign;
+        });
+        
+        foreignAddresses.forEach((foreignAddress, foreignAddressIndex) => {
+          const addressIndex = localeAddresses.length + foreignAddressIndex;
+          
+          let address;
+          if (serviceLocationServiceChannel.addresses.length - 1 < addressIndex) {
+            address = {
+              subtype: 'Abroad',
+              type: 'Location',
+              locationAbroad: []
+            };            
+            serviceLocationServiceChannel.addresses.push(address);
+          } else {
+            address = serviceLocationServiceChannel.addresses[addressIndex];
+          }
+          
+          address.locationAbroad.push({
+            "language": locale,
+            "value": foreignAddress.foreign
+          });
+        });
+        
+        if (localeValues.description) {
+          localeValues.description = localeValues.description.trim();
+        }
+        
+        if (localeValues.description) {
+          serviceLocationServiceChannel.descriptions.push({
+            "language": locale,
+            "value": localeValues.description,
+            "type": "Description"
+          });
+        }
+        
+        if (localeValues.shortDescription) {
+          localeValues.shortDescription = localeValues.shortDescription.trim();
+        }
+      
+        if (localeValues.shortDescription) {
+          serviceLocationServiceChannel.descriptions.push({
+            "language": locale,
+            "value": localeValues.shortDescription,
+            "type": "ShortDescription"
+          });
+        }
+      });
+      
+      return serviceLocationServiceChannel;
     }
     
     serviceHourToForm(serviceHour) {

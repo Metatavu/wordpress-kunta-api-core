@@ -198,12 +198,20 @@ $button-warning-border-color: darken($button-warning-background-color, 0.2);
   overflow: hidden;
 }
 
-.table-field table {
-  margin-bottom: 0px;
-  width: calc(100% - 5px);
-  border-collapse: collapse;
-  
-  input {
-    border: 1px solid #ddd;
+.table-field  {
+  margin-bottom: 5px;
+
+  table {
+    margin-bottom: 0px;
+    width: calc(100% - 5px);
+    border-collapse: collapse;
+   
+    input {
+      border: 1px solid #ddd;
+    }
   }
+}
+
+.add-table-row {
+  margin-top: 5px;
 }
