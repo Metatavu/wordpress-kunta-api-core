@@ -20,7 +20,8 @@
       echo ']';
       wp_die();
     } catch (\KuntaAPI\ApiException $e) {
-      wp_die($e->getMessage(), null, [
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
         response => $e->getCode()
       ]);
     }
@@ -49,7 +50,8 @@
       echo '</article>';
       wp_die();
     } catch (\KuntaAPI\ApiException $e) {
-      wp_die($e->getMessage(), null, [
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
         response => $e->getCode()
       ]);
     }
@@ -63,7 +65,8 @@
       echo $json;
       wp_die();
     } catch (\KuntaAPI\ApiException $e) {
-      wp_die($e->getMessage(), null, [
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
         response => $e->getCode()
       ]);
     }
@@ -78,7 +81,8 @@
       echo $json;
       wp_die();
     } catch (\KuntaAPI\ApiException $e) {
-      wp_die($e->getMessage(), null, [
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
         response => $e->getCode()
       ]);
     }

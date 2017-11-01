@@ -59,7 +59,6 @@
       this.listeners = [];
       
       // TODO: Kielet, joilla palvelupisteessä palvellaan
-      // TODO: Emails
       // TODO: Phone Numbers
       // TODO: Web Pages
     }
@@ -292,7 +291,7 @@
         
         const updatedChannel = this.translateServiceLocationServiceChannelFromForm(this.serviceLocationServiceChannel, newFormValues);
         const validationError = this.validate(updatedChannel);
-        console.log("validationError", validationError);
+        
         if (validationError !== null) {
           this.showError('Virheellinen syöte', validationError);
         } else {
@@ -549,6 +548,7 @@
       const serviceLocationServiceChannel = JSON.parse(JSON.stringify(existingLocationServiceChannel));
       serviceLocationServiceChannel.addresses = [];
       serviceLocationServiceChannel.descriptions = [];
+      serviceLocationServiceChannel.emails = [];
       
       this.supportedLocales.forEach((locale) => {
         const localeValues = formValues[locale];
@@ -617,6 +617,19 @@
             "value": foreignAddress.foreign
           });
         });
+        
+        serviceLocationServiceChannel.emails = serviceLocationServiceChannel.emails.concat(
+          JSON.parse(localeValues.emails)
+            .filter((email) => {
+              return !!email.email;
+            })
+            .map((email) => {
+              return {
+                "language": locale,
+                "value": email.email
+              };
+            })
+        );
         
         if (localeValues.description) {
           localeValues.description = localeValues.description.trim();

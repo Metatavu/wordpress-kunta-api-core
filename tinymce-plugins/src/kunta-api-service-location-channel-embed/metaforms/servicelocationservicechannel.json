@@ -68,6 +68,18 @@
         "placeholder": "Kirjoita ulkomainen osoite."
       }]
     }, {
+      "name": "emails",
+      "type": "table",
+      "title": "Sähköpostit",
+      "required": false,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
+        "type": "text",
+        "name": "email",
+        "placeholder": "esim. osoite@organisaatio.fi"
+      }]
+    }, {
       "name": "serviceHours",
       "type": "html",
       "title": "Palveluajat",
