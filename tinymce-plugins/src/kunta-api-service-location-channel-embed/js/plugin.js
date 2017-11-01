@@ -549,6 +549,7 @@
       serviceLocationServiceChannel.addresses = [];
       serviceLocationServiceChannel.descriptions = [];
       serviceLocationServiceChannel.emails = [];
+      serviceLocationServiceChannel.phoneNumbers = [];
       
       this.supportedLocales.forEach((locale) => {
         const localeValues = formValues[locale];
@@ -627,6 +628,22 @@
               return {
                 "language": locale,
                 "value": email.email
+              };
+            })
+        );
+
+        serviceLocationServiceChannel.phoneNumbers = serviceLocationServiceChannel.phoneNumbers.concat(
+          JSON.parse(localeValues.faxes)
+            .filter((fax) => {
+              return !!fax.prefixNumber && !!fax.number;
+            })
+            .map((fax) => {
+              return {
+                "type": "Fax",
+                "language": locale,
+                "number": fax.number,
+                "prefixNumber": fax.prefixNumber,
+                "isFinnishServiceNumber": false
               };
             })
         );
@@ -754,6 +771,14 @@
         return address.subtype === 'Abroad';
       });
       
+      const emails = serviceLocationServiceChannel.emails.filter((email) => {
+        return locale === email.language;
+      });
+      
+      const faxes = serviceLocationServiceChannel.phoneNumbers.filter((phoneNumber) => {
+        return phoneNumber.type === 'Fax' && locale === phoneNumber.language;
+      });
+      
       const addresses = visitAddresses.map((address) => {
         return {
           street: this.getLocalizedValue(address.streetAddress, locale),
@@ -763,21 +788,22 @@
         };
       });
       
-      const serviceHours = serviceLocationServiceChannel.serviceHours.map((serviceHour) => {
-        return 'TODO';
-      });
-      
       return {
         name: name,
         description: description,
         shortDescription: shortDescription,
         addresses: addresses,
+        emails: emails.map((email) => {
+          return {
+            email: email.value
+          };
+        }),
+        faxes: faxes,
         foreignAddresses: foreignAddresses.map((foreignAddress) => {
           return {
             foreign: this.getLocalizedValue(foreignAddress.locationAbroad, locale)
           };
-        }),
-        serviceHours: serviceHours
+        })
       };
     }
     

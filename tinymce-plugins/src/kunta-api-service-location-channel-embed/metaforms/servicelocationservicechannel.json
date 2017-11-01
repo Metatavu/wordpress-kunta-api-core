@@ -80,6 +80,24 @@
         "placeholder": "esim. osoite@organisaatio.fi"
       }]
     }, {
+      "name": "faxes",
+      "type": "table",
+      "title": "Faksinumerot",
+      "required": false,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
+        "title": "Maan suuntanumero",
+        "type": "text",
+        "name": "prefixNumber",
+        "placeholder": "esim. +358"
+      },  {
+        "title": "Numero",
+        "type": "text",
+        "name": "number",
+        "placeholder": "esim. 45123467"
+      }]
+    }, {
       "name": "serviceHours",
       "type": "html",
       "title": "Palveluajat",
