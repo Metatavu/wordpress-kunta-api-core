@@ -661,6 +661,18 @@
               };
             })
         );
+
+        serviceLocationServiceChannel.webPages = serviceLocationServiceChannel.webPages.concat(
+          JSON.parse(localeValues.webPages)
+            .filter((webPage) => {
+              return !!webPage.url;
+            })
+            .map((webPage) => {
+              return Object.assign(webPage, {
+                "language": locale
+              });
+            })
+        );
         
         if (localeValues.description) {
           localeValues.description = localeValues.description.trim();
@@ -797,6 +809,10 @@
         return phoneNumber.type === 'Phone' && locale === phoneNumber.language;
       });
       
+      const webPages = serviceLocationServiceChannel.webPages.filter((webPage) => {
+        return locale === webPage.language;
+      });
+      
       const addresses = visitAddresses.map((address) => {
         return {
           street: this.getLocalizedValue(address.streetAddress, locale),
@@ -826,7 +842,8 @@
           return {
             foreign: this.getLocalizedValue(foreignAddress.locationAbroad, locale)
           };
-        })
+        }),
+        webPages: webPages
       };
     }
     

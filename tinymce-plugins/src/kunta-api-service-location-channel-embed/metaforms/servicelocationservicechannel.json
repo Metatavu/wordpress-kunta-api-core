@@ -80,6 +80,24 @@
         "placeholder": "esim. osoite@organisaatio.fi"
       }]
     }, {
+      "name": "webPages",
+      "type": "table",
+      "title": "Verkkosivut",
+      "required": false,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
+        "title": "Verkkosivun nimi",
+        "type": "text",
+        "name": "value",
+        "placeholder": "Kirjoita verkkosivun nimi"
+      }, {
+        "title": "Verkko-osoite",
+        "type": "text",
+        "name": "url",
+        "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://"
+      }]
+    }, {
       "name": "phoneNumbers",
       "type": "table",
       "title": "Puhelinnumerot",
