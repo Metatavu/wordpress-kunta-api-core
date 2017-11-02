@@ -633,6 +633,20 @@
         );
 
         serviceLocationServiceChannel.phoneNumbers = serviceLocationServiceChannel.phoneNumbers.concat(
+          JSON.parse(localeValues.phoneNumbers)
+            .filter((phoneNumber) => {
+              return !!phoneNumber.prefixNumber && !!phoneNumber.number;
+            })
+            .map((phoneNumber) => {
+              return Object.assign(phoneNumber, {
+                "type": "Phone",
+                "language": locale,
+                "isFinnishServiceNumber": phoneNumber.isFinnishServiceNumber === "true"
+              });
+            })
+        );
+
+        serviceLocationServiceChannel.phoneNumbers = serviceLocationServiceChannel.phoneNumbers.concat(
           JSON.parse(localeValues.faxes)
             .filter((fax) => {
               return !!fax.prefixNumber && !!fax.number;
@@ -779,6 +793,10 @@
         return phoneNumber.type === 'Fax' && locale === phoneNumber.language;
       });
       
+      const phoneNumbers = serviceLocationServiceChannel.phoneNumbers.filter((phoneNumber) => {
+        return phoneNumber.type === 'Phone' && locale === phoneNumber.language;
+      });
+      
       const addresses = visitAddresses.map((address) => {
         return {
           street: this.getLocalizedValue(address.streetAddress, locale),
@@ -797,6 +815,11 @@
           return {
             email: email.value
           };
+        }),
+        phoneNumbers: phoneNumbers.map((phoneNumber) => {
+          return Object.assign(phoneNumber, {
+            isFinnishServiceNumber: phoneNumber.isFinnishServiceNumber ? 'true' : 'false'
+          });
         }),
         faxes: faxes,
         foreignAddresses: foreignAddresses.map((foreignAddress) => {

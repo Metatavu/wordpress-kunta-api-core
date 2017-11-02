@@ -80,6 +80,60 @@
         "placeholder": "esim. osoite@organisaatio.fi"
       }]
     }, {
+      "name": "phoneNumbers",
+      "type": "table",
+      "title": "Puhelinnumerot",
+      "required": false,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
+        "title": "Maan suuntanumero",
+        "type": "text",
+        "name": "prefixNumber",
+        "placeholder": "esim. +358",
+        "column-width": 150
+      }, {
+        "title": "Numero",
+        "type": "text",
+        "name": "number",
+        "placeholder": "esim. 45123467"
+      }, {
+        "title": "Voi soittaa ulkomailta",
+        "type": "enum",
+        "name": "isFinnishServiceNumber",
+        "values": [{
+          "value": "true",
+          "text": "Ei"
+        }, {
+          "value": "false",
+          "text": "Kyllä"
+        }]
+      }, {
+        "title": "Maksullisuus",
+        "type": "enum",
+        "name": "serviceChargeType",
+        "values": [{
+          "value": "Charged",
+          "text": "Maksullinen"
+        }, {
+          "value": "Free",
+          "text": "Maksuton"
+        }, {
+          "value": "Other",
+          "text": "Muu"
+        }]
+      }, {
+        "title": "Hintatiedot sanallisesti",
+        "type": "text",
+        "name": "chargeDescription",
+        "placeholder": "esim. jonotusajalta peritään normaali puhelumaksu."
+      }, {
+        "title": "Lisätieto",
+        "type": "text",
+        "name": "additionalInformation",
+        "placeholder": "esim. Vaihde"
+      }]
+    }, {
       "name": "faxes",
       "type": "table",
       "title": "Faksinumerot",
@@ -90,7 +144,8 @@
         "title": "Maan suuntanumero",
         "type": "text",
         "name": "prefixNumber",
-        "placeholder": "esim. +358"
+        "placeholder": "esim. +358",
+        "column-width": 150
       },  {
         "title": "Numero",
         "type": "text",
