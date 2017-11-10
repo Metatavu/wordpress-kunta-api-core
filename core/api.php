@@ -223,6 +223,15 @@
         return new \KuntaAPI\Api\WebPageServiceChannelsApi(self::getClient());
       }
       
+      /**
+       * Returns new instance of CodesApi
+       * 
+       * @return \KuntaAPI\Api\CodesApi CodesApi
+       */
+      public static function getCodesApi() {
+        return new \KuntaAPI\Api\CodesApi(self::getClient());
+      }
+      
       private function getConfiguration() {
        $result = \KuntaAPI\Configuration::getDefaultConfiguration();
        $result->setHost(\KuntaAPI\Core\CoreSettings::getValue("apiUrl"));
