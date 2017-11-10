@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "91e8ee90836606f26a2cb4c4e34b8054",
+    "hash": "82f56213619823f417aeb4d0ea913d60",
+    "content-hash": "29484e3a5636ff1d58d340ee45570a4b",
     "packages": [
         {
             "name": "composer/installers",
@@ -121,15 +122,21 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2017-08-09T07:53:48+00:00"
+            "time": "2017-08-09 07:53:48"
         },
         {
             "name": "metatavu/kunta-api-php-client",
-            "version": "dev-master",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Metatavu/kunta-api-php-client.git",
-                "reference": "1108748fb880d84a72f8afa59eb6f2834d8489e3"
+                "reference": "adba6226926fbb6534bd0e58712a56979168c94a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Metatavu/kunta-api-php-client/zipball/adba6226926fbb6534bd0e58712a56979168c94a",
+                "reference": "adba6226926fbb6534bd0e58712a56979168c94a",
+                "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
@@ -148,11 +155,7 @@
                     "KuntaAPI\\": "lib/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "KuntaAPI\\": "test/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache v2"
             ],
@@ -169,7 +172,7 @@
                 "sdk",
                 "swagger"
             ],
-            "time": "2017-11-09T13:21:30+00:00"
+            "time": "2017-11-10 10:21:03"
         },
         {
             "name": "sunra/php-simple-html-dom-parser",
@@ -212,7 +215,7 @@
                 "html",
                 "parser"
             ],
-            "time": "2016-05-20T11:21:15+00:00"
+            "time": "2016-05-20 11:21:15"
         },
         {
             "name": "twig/twig",
@@ -277,15 +280,13 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-09-27T18:06:46+00:00"
+            "time": "2017-09-27 18:06:46"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "metatavu/kunta-api-php-client": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

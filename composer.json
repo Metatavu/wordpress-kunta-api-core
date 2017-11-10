@@ -1,22 +1,17 @@
 {
-	"name" : "Metatavu/wordpress-kunta-api-core",
-	"description" : "Wordpress plugin core functionalities for Kunta API integrations",
-	"keywords" : [
-		"wordpress",
-		"plugin",
-		"kunta-api"
-	],
-	"license" : "AGPL-3.0",
-	"type" : "wordpress-plugin",
-	"require" : {
-		"Metatavu/kunta-api-php-client" : "@dev",
-		"sunra/php-simple-html-dom-parser" : "1.5.1",
-		"composer/installers" : "^1.2",
+  "name" : "Metatavu/wordpress-kunta-api-core",
+  "description" : "Wordpress plugin core functionalities for Kunta API integrations",
+  "keywords" : [
+    "wordpress",
+    "plugin",
+    "kunta-api"
+  ],
+  "license" : "AGPL-3.0",
+  "type" : "wordpress-plugin",
+  "require" : {
+    "Metatavu/kunta-api-php-client" : "1.0.3",
+    "sunra/php-simple-html-dom-parser" : "1.5.1",
+    "composer/installers" : "^1.2",
     "twig/twig" : "^1.26"
-	},
-	"repositories" : [{
-			"type" : "git",
-			"url" : "https://github.com/Metatavu/kunta-api-php-client.git"
-		}
-	]
+  }
 }
