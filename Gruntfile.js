@@ -58,9 +58,14 @@ module.exports = function(grunt) {
         'src': 'tinymce-plugins/src/kunta-api-service-location-channel-embed/metaforms/servicehour.json',
         'prepend': 'tinymce-plugins/kunta-api-service-location-channel-embed/plugin.js',
         'name': 'ServiceHour'
+      },
+      'tinymce-kunta-api-additional-details': {
+        'src': 'tinymce-plugins/src/kunta-api-service-location-channel-embed/metaforms/additionaldetails.json',
+        'prepend': 'tinymce-plugins/kunta-api-service-location-channel-embed/plugin.js',
+        'name': 'AdditionalDetails'
       }
     }
   });
   
-  grunt.registerTask('default', [ 'sass', 'babel:tinymce-kunta-api-service-location-channel-embed', 'metaform:tinymce-kunta-api-service-location-channel-servicelocationservicechannel', 'metaform:tinymce-kunta-api-service-location-channel-servicehour' ]);
+  grunt.registerTask('default', [ 'sass', 'babel:tinymce-kunta-api-service-location-channel-embed', 'metaform:tinymce-kunta-api-service-location-channel-servicelocationservicechannel', 'metaform:tinymce-kunta-api-service-location-channel-servicehour', 'metaform:tinymce-kunta-api-additional-details' ]);
 };
