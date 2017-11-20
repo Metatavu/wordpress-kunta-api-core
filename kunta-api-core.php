@@ -3,7 +3,7 @@
  * Created on Oct 21, 2016
  * Plugin Name: Kunta API Core
  * Description: Core functionalities for Kunta API integrations
- * Version: 0.7.9
+ * Version: 0.8.0
  * Author: Metatavu Oy
  * Text Domain: kunta_api_core
  */
@@ -30,6 +30,7 @@
   require_once( __DIR__ . '/core/ckeditor.php');
   require_once( __DIR__ . '/core/abstract-content-processor.php');
   require_once( __DIR__ . '/core/page-processor.php');
+  require_once( __DIR__ . '/core/ajax.php');
   require_once( __DIR__ . '/services/services.php');
   require_once( __DIR__ . '/fragments/fragments.php');
   require_once( __DIR__ . '/announcements/announcements.php');

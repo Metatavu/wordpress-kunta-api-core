@@ -19,7 +19,7 @@
       public static function listOrganizationServices($organizationId, $firstResult, $maxResults) {
         $result = [];
         
-        foreach (\KuntaAPI\Core\Api::getServicesApi()->listServices($organizationId, null, $firstResult, $maxResults) as $service) {
+        foreach (\KuntaAPI\Core\Api::getServicesApi()->listServices($organizationId, null, null, null, $firstResult, $maxResults) as $service) {
           $result[] = static::findService($service->getId());
         }
         
@@ -61,6 +61,12 @@
         return static::$printableFormChannels[$id];
       }
       
+      /**
+       * Finds service location service channel by id
+       * 
+       * @param \String $id
+       * @return type
+       */
       public static function findServiceLocationServiceChannel($id) {
         if(!isset(static::$serviceLocationChannels[$id])) {
           try {

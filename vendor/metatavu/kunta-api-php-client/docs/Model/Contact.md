@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **displayName** | **string** |  | [optional] 
 **firstName** | **string** |  | [optional] 
 **lastName** | **string** |  | [optional] 
+**privateContact** | **bool** |  | [optional] 
 **title** | **string** |  | [optional] 
 **organization** | **string** |  | [optional] 
 **organizationUnits** | **string[]** |  | [optional] 

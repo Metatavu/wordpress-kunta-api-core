@@ -70,13 +70,13 @@ class ServiceLocationServiceChannel implements ArrayAccess
         'organizationId' => 'string',
         'names' => '\KuntaAPI\Model\LocalizedValue[]',
         'descriptions' => '\KuntaAPI\Model\LocalizedValue[]',
-        'serviceAreaRestricted' => 'bool',
         'phoneNumbers' => '\KuntaAPI\Model\Phone[]',
         'emails' => '\KuntaAPI\Model\Email[]',
         'languages' => 'string[]',
         'phoneServiceCharge' => 'bool',
         'webPages' => '\KuntaAPI\Model\WebPage[]',
-        'serviceAreas' => '\KuntaAPI\Model\Municipality[]',
+        'areaType' => 'string',
+        'areas' => '\KuntaAPI\Model\Area[]',
         'addresses' => '\KuntaAPI\Model\Address[]',
         'serviceHours' => '\KuntaAPI\Model\ServiceHour[]',
         'publishingStatus' => 'string'
@@ -96,13 +96,13 @@ class ServiceLocationServiceChannel implements ArrayAccess
         'organizationId' => 'organizationId',
         'names' => 'names',
         'descriptions' => 'descriptions',
-        'serviceAreaRestricted' => 'serviceAreaRestricted',
         'phoneNumbers' => 'phoneNumbers',
         'emails' => 'emails',
         'languages' => 'languages',
         'phoneServiceCharge' => 'phoneServiceCharge',
         'webPages' => 'webPages',
-        'serviceAreas' => 'serviceAreas',
+        'areaType' => 'areaType',
+        'areas' => 'areas',
         'addresses' => 'addresses',
         'serviceHours' => 'serviceHours',
         'publishingStatus' => 'publishingStatus'
@@ -122,13 +122,13 @@ class ServiceLocationServiceChannel implements ArrayAccess
         'organizationId' => 'setOrganizationId',
         'names' => 'setNames',
         'descriptions' => 'setDescriptions',
-        'serviceAreaRestricted' => 'setServiceAreaRestricted',
         'phoneNumbers' => 'setPhoneNumbers',
         'emails' => 'setEmails',
         'languages' => 'setLanguages',
         'phoneServiceCharge' => 'setPhoneServiceCharge',
         'webPages' => 'setWebPages',
-        'serviceAreas' => 'setServiceAreas',
+        'areaType' => 'setAreaType',
+        'areas' => 'setAreas',
         'addresses' => 'setAddresses',
         'serviceHours' => 'setServiceHours',
         'publishingStatus' => 'setPublishingStatus'
@@ -148,13 +148,13 @@ class ServiceLocationServiceChannel implements ArrayAccess
         'organizationId' => 'getOrganizationId',
         'names' => 'getNames',
         'descriptions' => 'getDescriptions',
-        'serviceAreaRestricted' => 'getServiceAreaRestricted',
         'phoneNumbers' => 'getPhoneNumbers',
         'emails' => 'getEmails',
         'languages' => 'getLanguages',
         'phoneServiceCharge' => 'getPhoneServiceCharge',
         'webPages' => 'getWebPages',
-        'serviceAreas' => 'getServiceAreas',
+        'areaType' => 'getAreaType',
+        'areas' => 'getAreas',
         'addresses' => 'getAddresses',
         'serviceHours' => 'getServiceHours',
         'publishingStatus' => 'getPublishingStatus'
@@ -185,13 +185,13 @@ class ServiceLocationServiceChannel implements ArrayAccess
         $this->container['organizationId'] = isset($data['organizationId']) ? $data['organizationId'] : null;
         $this->container['names'] = isset($data['names']) ? $data['names'] : null;
         $this->container['descriptions'] = isset($data['descriptions']) ? $data['descriptions'] : null;
-        $this->container['serviceAreaRestricted'] = isset($data['serviceAreaRestricted']) ? $data['serviceAreaRestricted'] : null;
         $this->container['phoneNumbers'] = isset($data['phoneNumbers']) ? $data['phoneNumbers'] : null;
         $this->container['emails'] = isset($data['emails']) ? $data['emails'] : null;
         $this->container['languages'] = isset($data['languages']) ? $data['languages'] : null;
         $this->container['phoneServiceCharge'] = isset($data['phoneServiceCharge']) ? $data['phoneServiceCharge'] : null;
         $this->container['webPages'] = isset($data['webPages']) ? $data['webPages'] : null;
-        $this->container['serviceAreas'] = isset($data['serviceAreas']) ? $data['serviceAreas'] : null;
+        $this->container['areaType'] = isset($data['areaType']) ? $data['areaType'] : null;
+        $this->container['areas'] = isset($data['areas']) ? $data['areas'] : null;
         $this->container['addresses'] = isset($data['addresses']) ? $data['addresses'] : null;
         $this->container['serviceHours'] = isset($data['serviceHours']) ? $data['serviceHours'] : null;
         $this->container['publishingStatus'] = isset($data['publishingStatus']) ? $data['publishingStatus'] : null;
@@ -305,27 +305,6 @@ class ServiceLocationServiceChannel implements ArrayAccess
     }
 
     /**
-     * Gets serviceAreaRestricted
-     * @return bool
-     */
-    public function getServiceAreaRestricted()
-    {
-        return $this->container['serviceAreaRestricted'];
-    }
-
-    /**
-     * Sets serviceAreaRestricted
-     * @param bool $serviceAreaRestricted Is the service location channel restricted by service area.
-     * @return $this
-     */
-    public function setServiceAreaRestricted($serviceAreaRestricted)
-    {
-        $this->container['serviceAreaRestricted'] = $serviceAreaRestricted;
-
-        return $this;
-    }
-
-    /**
      * Gets phoneNumbers
      * @return \KuntaAPI\Model\Phone[]
      */
@@ -399,7 +378,7 @@ class ServiceLocationServiceChannel implements ArrayAccess
 
     /**
      * Sets phoneServiceCharge
-     * @param bool $phoneServiceCharge Is the phone service charged for.
+     * @param bool $phoneServiceCharge DEPRECATED. DO NOT USE!
      * @return $this
      */
     public function setPhoneServiceCharge($phoneServiceCharge)
@@ -431,22 +410,43 @@ class ServiceLocationServiceChannel implements ArrayAccess
     }
 
     /**
-     * Gets serviceAreas
-     * @return \KuntaAPI\Model\Municipality[]
+     * Gets areaType
+     * @return string
      */
-    public function getServiceAreas()
+    public function getAreaType()
     {
-        return $this->container['serviceAreas'];
+        return $this->container['areaType'];
     }
 
     /**
-     * Sets serviceAreas
-     * @param \KuntaAPI\Model\Municipality[] $serviceAreas List of serviceareas. Used when location service channel is restricted by service area (ServiceAreaRestricted=true).
+     * Sets areaType
+     * @param string $areaType Area type (WholeCountry, WholeCountryExceptAlandIslands, AreaType).
      * @return $this
      */
-    public function setServiceAreas($serviceAreas)
+    public function setAreaType($areaType)
     {
-        $this->container['serviceAreas'] = $serviceAreas;
+        $this->container['areaType'] = $areaType;
+
+        return $this;
+    }
+
+    /**
+     * Gets areas
+     * @return \KuntaAPI\Model\Area[]
+     */
+    public function getAreas()
+    {
+        return $this->container['areas'];
+    }
+
+    /**
+     * Sets areas
+     * @param \KuntaAPI\Model\Area[] $areas List of service channel areas.
+     * @return $this
+     */
+    public function setAreas($areas)
+    {
+        $this->container['areas'] = $areas;
 
         return $this;
     }

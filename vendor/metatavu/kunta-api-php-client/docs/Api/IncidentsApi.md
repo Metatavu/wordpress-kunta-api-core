@@ -60,7 +60,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **listOrganizationIncidents**
-> \KuntaAPI\Model\Incident[] listOrganizationIncidents($organizationId, $startBefore, $endAfter, $area, $firstResult, $maxResults, $orderBy, $orderDir)
+> \KuntaAPI\Model\Incident[] listOrganizationIncidents($organizationId, $slug, $startBefore, $endAfter, $area, $firstResult, $maxResults, $orderBy, $orderDir)
 
 Lists organizations incidents
 
@@ -77,6 +77,7 @@ KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new KuntaAPI\Api\IncidentsApi();
 $organizationId = "organizationId_example"; // string | Organization id
+$slug = "slug_example"; // string | Filter with slug
 $startBefore = "startBefore_example"; // string | 
 $endAfter = "endAfter_example"; // string | 
 $area = 56; // int | Return only incidents from specified area
@@ -86,7 +87,7 @@ $orderBy = "orderBy_example"; // string | Define order (start, end)
 $orderDir = "orderDir_example"; // string | Order direction (ASC, DESC). Default is ASC
 
 try {
-    $result = $api_instance->listOrganizationIncidents($organizationId, $startBefore, $endAfter, $area, $firstResult, $maxResults, $orderBy, $orderDir);
+    $result = $api_instance->listOrganizationIncidents($organizationId, $slug, $startBefore, $endAfter, $area, $firstResult, $maxResults, $orderBy, $orderDir);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling IncidentsApi->listOrganizationIncidents: ', $e->getMessage(), PHP_EOL;
@@ -99,6 +100,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **organizationId** | **string**| Organization id |
+ **slug** | **string**| Filter with slug | [optional]
  **startBefore** | **string**|  | [optional]
  **endAfter** | **string**|  | [optional]
  **area** | **int**| Return only incidents from specified area | [optional]

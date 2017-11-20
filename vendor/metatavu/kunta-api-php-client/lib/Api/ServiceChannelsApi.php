@@ -943,14 +943,16 @@ class ServiceChannelsApi
      *
      * @param string $organizationId Organization id (optional)
      * @param string $search Search service location channels by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return \KuntaAPI\Model\ServiceLocationServiceChannel[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listServiceLocationServiceChannels($organizationId = null, $search = null, $firstResult = null, $maxResults = null)
+    public function listServiceLocationServiceChannels($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
-        list($response) = $this->listServiceLocationServiceChannelsWithHttpInfo($organizationId, $search, $firstResult, $maxResults);
+        list($response) = $this->listServiceLocationServiceChannelsWithHttpInfo($organizationId, $search, $sortBy, $sortDir, $firstResult, $maxResults);
         return $response;
     }
 
@@ -961,12 +963,14 @@ class ServiceChannelsApi
      *
      * @param string $organizationId Organization id (optional)
      * @param string $search Search service location channels by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return Array of \KuntaAPI\Model\ServiceLocationServiceChannel[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listServiceLocationServiceChannelsWithHttpInfo($organizationId = null, $search = null, $firstResult = null, $maxResults = null)
+    public function listServiceLocationServiceChannelsWithHttpInfo($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
         // parse inputs
         $resourcePath = "/serviceLocationServiceChannels";
@@ -987,6 +991,14 @@ class ServiceChannelsApi
         // query params
         if ($search !== null) {
             $queryParams['search'] = $this->apiClient->getSerializer()->toQueryValue($search);
+        }
+        // query params
+        if ($sortBy !== null) {
+            $queryParams['sortBy'] = $this->apiClient->getSerializer()->toQueryValue($sortBy);
+        }
+        // query params
+        if ($sortDir !== null) {
+            $queryParams['sortDir'] = $this->apiClient->getSerializer()->toQueryValue($sortDir);
         }
         // query params
         if ($firstResult !== null) {
@@ -1130,6 +1142,122 @@ class ServiceChannelsApi
             switch ($e->getCode()) {
                 case 200:
                     $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\WebPageServiceChannel[]', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\BadRequest', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\Forbidden', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\NotFound', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\InternalServerError', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateServiceLocationServiceChannel
+     *
+     * Updates a service location channel
+     *
+     * @param string $serviceLocationServiceChannelId serviceLocationChannel id (required)
+     * @param \KuntaAPI\Model\ServiceLocationServiceChannel $serviceLocationChannel New service location channel data (required)
+     * @return \KuntaAPI\Model\ServiceLocationServiceChannel
+     * @throws \KuntaAPI\ApiException on non-2xx response
+     */
+    public function updateServiceLocationServiceChannel($serviceLocationServiceChannelId, $serviceLocationChannel)
+    {
+        list($response) = $this->updateServiceLocationServiceChannelWithHttpInfo($serviceLocationServiceChannelId, $serviceLocationChannel);
+        return $response;
+    }
+
+    /**
+     * Operation updateServiceLocationServiceChannelWithHttpInfo
+     *
+     * Updates a service location channel
+     *
+     * @param string $serviceLocationServiceChannelId serviceLocationChannel id (required)
+     * @param \KuntaAPI\Model\ServiceLocationServiceChannel $serviceLocationChannel New service location channel data (required)
+     * @return Array of \KuntaAPI\Model\ServiceLocationServiceChannel, HTTP status code, HTTP response headers (array of strings)
+     * @throws \KuntaAPI\ApiException on non-2xx response
+     */
+    public function updateServiceLocationServiceChannelWithHttpInfo($serviceLocationServiceChannelId, $serviceLocationChannel)
+    {
+        // verify the required parameter 'serviceLocationServiceChannelId' is set
+        if ($serviceLocationServiceChannelId === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $serviceLocationServiceChannelId when calling updateServiceLocationServiceChannel');
+        }
+        // verify the required parameter 'serviceLocationChannel' is set
+        if ($serviceLocationChannel === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $serviceLocationChannel when calling updateServiceLocationServiceChannel');
+        }
+        // parse inputs
+        $resourcePath = "/serviceLocationServiceChannels/{serviceLocationServiceChannelId}";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json;charset=utf-8'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
+
+        // path params
+        if ($serviceLocationServiceChannelId !== null) {
+            $resourcePath = str_replace(
+                "{" . "serviceLocationServiceChannelId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($serviceLocationServiceChannelId),
+                $resourcePath
+            );
+        }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        // body params
+        $_tempBody = null;
+        if (isset($serviceLocationChannel)) {
+            $_tempBody = $serviceLocationChannel;
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        // this endpoint requires HTTP basic authentication
+        if (strlen($this->apiClient->getConfig()->getUsername()) !== 0 or strlen($this->apiClient->getConfig()->getPassword()) !== 0) {
+            $headerParams['Authorization'] = 'Basic ' . base64_encode($this->apiClient->getConfig()->getUsername() . ":" . $this->apiClient->getConfig()->getPassword());
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath,
+                'PUT',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                '\KuntaAPI\Model\ServiceLocationServiceChannel',
+                '/serviceLocationServiceChannels/{serviceLocationServiceChannelId}'
+            );
+
+            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\ServiceLocationServiceChannel', $httpHeader), $statusCode, $httpHeader);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\ServiceLocationServiceChannel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:

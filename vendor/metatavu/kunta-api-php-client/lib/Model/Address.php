@@ -68,15 +68,19 @@ class Address implements ArrayAccess
     protected static $swaggerTypes = array(
         'latitude' => 'string',
         'longitude' => 'string',
+        'coordinates' => '\KuntaAPI\Model\Coordinates',
         'coordinateState' => 'string',
         'type' => 'string',
-        'postOfficeBox' => 'string',
+        'subtype' => 'string',
+        'postOfficeBox' => '\KuntaAPI\Model\LocalizedValue[]',
         'postalCode' => 'string',
         'postOffice' => '\KuntaAPI\Model\LocalizedValue[]',
         'streetAddress' => '\KuntaAPI\Model\LocalizedValue[]',
         'streetNumber' => 'string',
         'municipality' => '\KuntaAPI\Model\Municipality',
         'country' => 'string',
+        'locationAbroad' => '\KuntaAPI\Model\LocalizedValue[]',
+        'multipointLocation' => '\KuntaAPI\Model\Address[]',
         'additionalInformations' => '\KuntaAPI\Model\LocalizedValue[]'
     );
 
@@ -92,8 +96,10 @@ class Address implements ArrayAccess
     protected static $attributeMap = array(
         'latitude' => 'latitude',
         'longitude' => 'longitude',
+        'coordinates' => 'coordinates',
         'coordinateState' => 'coordinateState',
         'type' => 'type',
+        'subtype' => 'subtype',
         'postOfficeBox' => 'postOfficeBox',
         'postalCode' => 'postalCode',
         'postOffice' => 'postOffice',
@@ -101,6 +107,8 @@ class Address implements ArrayAccess
         'streetNumber' => 'streetNumber',
         'municipality' => 'municipality',
         'country' => 'country',
+        'locationAbroad' => 'locationAbroad',
+        'multipointLocation' => 'multipointLocation',
         'additionalInformations' => 'additionalInformations'
     );
 
@@ -116,8 +124,10 @@ class Address implements ArrayAccess
     protected static $setters = array(
         'latitude' => 'setLatitude',
         'longitude' => 'setLongitude',
+        'coordinates' => 'setCoordinates',
         'coordinateState' => 'setCoordinateState',
         'type' => 'setType',
+        'subtype' => 'setSubtype',
         'postOfficeBox' => 'setPostOfficeBox',
         'postalCode' => 'setPostalCode',
         'postOffice' => 'setPostOffice',
@@ -125,6 +135,8 @@ class Address implements ArrayAccess
         'streetNumber' => 'setStreetNumber',
         'municipality' => 'setMunicipality',
         'country' => 'setCountry',
+        'locationAbroad' => 'setLocationAbroad',
+        'multipointLocation' => 'setMultipointLocation',
         'additionalInformations' => 'setAdditionalInformations'
     );
 
@@ -140,8 +152,10 @@ class Address implements ArrayAccess
     protected static $getters = array(
         'latitude' => 'getLatitude',
         'longitude' => 'getLongitude',
+        'coordinates' => 'getCoordinates',
         'coordinateState' => 'getCoordinateState',
         'type' => 'getType',
+        'subtype' => 'getSubtype',
         'postOfficeBox' => 'getPostOfficeBox',
         'postalCode' => 'getPostalCode',
         'postOffice' => 'getPostOffice',
@@ -149,6 +163,8 @@ class Address implements ArrayAccess
         'streetNumber' => 'getStreetNumber',
         'municipality' => 'getMunicipality',
         'country' => 'getCountry',
+        'locationAbroad' => 'getLocationAbroad',
+        'multipointLocation' => 'getMultipointLocation',
         'additionalInformations' => 'getAdditionalInformations'
     );
 
@@ -175,8 +191,10 @@ class Address implements ArrayAccess
     {
         $this->container['latitude'] = isset($data['latitude']) ? $data['latitude'] : null;
         $this->container['longitude'] = isset($data['longitude']) ? $data['longitude'] : null;
+        $this->container['coordinates'] = isset($data['coordinates']) ? $data['coordinates'] : null;
         $this->container['coordinateState'] = isset($data['coordinateState']) ? $data['coordinateState'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
+        $this->container['subtype'] = isset($data['subtype']) ? $data['subtype'] : null;
         $this->container['postOfficeBox'] = isset($data['postOfficeBox']) ? $data['postOfficeBox'] : null;
         $this->container['postalCode'] = isset($data['postalCode']) ? $data['postalCode'] : null;
         $this->container['postOffice'] = isset($data['postOffice']) ? $data['postOffice'] : null;
@@ -184,6 +202,8 @@ class Address implements ArrayAccess
         $this->container['streetNumber'] = isset($data['streetNumber']) ? $data['streetNumber'] : null;
         $this->container['municipality'] = isset($data['municipality']) ? $data['municipality'] : null;
         $this->container['country'] = isset($data['country']) ? $data['country'] : null;
+        $this->container['locationAbroad'] = isset($data['locationAbroad']) ? $data['locationAbroad'] : null;
+        $this->container['multipointLocation'] = isset($data['multipointLocation']) ? $data['multipointLocation'] : null;
         $this->container['additionalInformations'] = isset($data['additionalInformations']) ? $data['additionalInformations'] : null;
     }
 
@@ -253,6 +273,27 @@ class Address implements ArrayAccess
     }
 
     /**
+     * Gets coordinates
+     * @return \KuntaAPI\Model\Coordinates
+     */
+    public function getCoordinates()
+    {
+        return $this->container['coordinates'];
+    }
+
+    /**
+     * Sets coordinates
+     * @param \KuntaAPI\Model\Coordinates $coordinates
+     * @return $this
+     */
+    public function setCoordinates($coordinates)
+    {
+        $this->container['coordinates'] = $coordinates;
+
+        return $this;
+    }
+
+    /**
      * Gets coordinateState
      * @return string
      */
@@ -295,8 +336,29 @@ class Address implements ArrayAccess
     }
 
     /**
-     * Gets postOfficeBox
+     * Gets subtype
      * @return string
+     */
+    public function getSubtype()
+    {
+        return $this->container['subtype'];
+    }
+
+    /**
+     * Sets subtype
+     * @param string $subtype Address sub type, Single, Street, PostOfficeBox, Abroad or Multipoint or NoAddress.
+     * @return $this
+     */
+    public function setSubtype($subtype)
+    {
+        $this->container['subtype'] = $subtype;
+
+        return $this;
+    }
+
+    /**
+     * Gets postOfficeBox
+     * @return \KuntaAPI\Model\LocalizedValue[]
      */
     public function getPostOfficeBox()
     {
@@ -305,7 +367,7 @@ class Address implements ArrayAccess
 
     /**
      * Sets postOfficeBox
-     * @param string $postOfficeBox Post office box like PL 310
+     * @param \KuntaAPI\Model\LocalizedValue[] $postOfficeBox Post office box like PL 310
      * @return $this
      */
     public function setPostOfficeBox($postOfficeBox)
@@ -437,6 +499,48 @@ class Address implements ArrayAccess
     public function setCountry($country)
     {
         $this->container['country'] = $country;
+
+        return $this;
+    }
+
+    /**
+     * Gets locationAbroad
+     * @return \KuntaAPI\Model\LocalizedValue[]
+     */
+    public function getLocationAbroad()
+    {
+        return $this->container['locationAbroad'];
+    }
+
+    /**
+     * Sets locationAbroad
+     * @param \KuntaAPI\Model\LocalizedValue[] $locationAbroad Localized list of foreign address information.
+     * @return $this
+     */
+    public function setLocationAbroad($locationAbroad)
+    {
+        $this->container['locationAbroad'] = $locationAbroad;
+
+        return $this;
+    }
+
+    /**
+     * Gets multipointLocation
+     * @return \KuntaAPI\Model\Address[]
+     */
+    public function getMultipointLocation()
+    {
+        return $this->container['multipointLocation'];
+    }
+
+    /**
+     * Sets multipointLocation
+     * @param \KuntaAPI\Model\Address[] $multipointLocation Moving address. Includes several street addresses.
+     * @return $this
+     */
+    public function setMultipointLocation($multipointLocation)
+    {
+        $this->container['multipointLocation'] = $multipointLocation;
 
         return $this;
     }

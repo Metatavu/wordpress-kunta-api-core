@@ -103,6 +103,117 @@ class PagesApi
     }
 
     /**
+     * Operation deleteOrganizationPage
+     *
+     * Deletes an organizations page
+     *
+     * @param string $organizationId Organization id (required)
+     * @param string $pageId page id (required)
+     * @return void
+     * @throws \KuntaAPI\ApiException on non-2xx response
+     */
+    public function deleteOrganizationPage($organizationId, $pageId)
+    {
+        list($response) = $this->deleteOrganizationPageWithHttpInfo($organizationId, $pageId);
+        return $response;
+    }
+
+    /**
+     * Operation deleteOrganizationPageWithHttpInfo
+     *
+     * Deletes an organizations page
+     *
+     * @param string $organizationId Organization id (required)
+     * @param string $pageId page id (required)
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @throws \KuntaAPI\ApiException on non-2xx response
+     */
+    public function deleteOrganizationPageWithHttpInfo($organizationId, $pageId)
+    {
+        // verify the required parameter 'organizationId' is set
+        if ($organizationId === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $organizationId when calling deleteOrganizationPage');
+        }
+        // verify the required parameter 'pageId' is set
+        if ($pageId === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $pageId when calling deleteOrganizationPage');
+        }
+        // parse inputs
+        $resourcePath = "/organizations/{organizationId}/pages/{pageId}";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json;charset=utf-8'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
+
+        // path params
+        if ($organizationId !== null) {
+            $resourcePath = str_replace(
+                "{" . "organizationId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($organizationId),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($pageId !== null) {
+            $resourcePath = str_replace(
+                "{" . "pageId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($pageId),
+                $resourcePath
+            );
+        }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        // this endpoint requires HTTP basic authentication
+        if (strlen($this->apiClient->getConfig()->getUsername()) !== 0 or strlen($this->apiClient->getConfig()->getPassword()) !== 0) {
+            $headerParams['Authorization'] = 'Basic ' . base64_encode($this->apiClient->getConfig()->getUsername() . ":" . $this->apiClient->getConfig()->getPassword());
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath,
+                'DELETE',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                null,
+                '/organizations/{organizationId}/pages/{pageId}'
+            );
+
+            return array(null, $statusCode, $httpHeader);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\BadRequest', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\Forbidden', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\InternalServerError', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
      * Operation findOrganizationPage
      *
      * Finds organizations page
@@ -726,14 +837,16 @@ class PagesApi
      * @param string $parentId Filter results by parent id (optional)
      * @param string $path Filter results by page path (optional)
      * @param string $search Search pages by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return \KuntaAPI\Model\Page[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listOrganizationPages($organizationId, $parentId = null, $path = null, $search = null, $firstResult = null, $maxResults = null)
+    public function listOrganizationPages($organizationId, $parentId = null, $path = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
-        list($response) = $this->listOrganizationPagesWithHttpInfo($organizationId, $parentId, $path, $search, $firstResult, $maxResults);
+        list($response) = $this->listOrganizationPagesWithHttpInfo($organizationId, $parentId, $path, $search, $sortBy, $sortDir, $firstResult, $maxResults);
         return $response;
     }
 
@@ -746,12 +859,14 @@ class PagesApi
      * @param string $parentId Filter results by parent id (optional)
      * @param string $path Filter results by page path (optional)
      * @param string $search Search pages by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return Array of \KuntaAPI\Model\Page[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listOrganizationPagesWithHttpInfo($organizationId, $parentId = null, $path = null, $search = null, $firstResult = null, $maxResults = null)
+    public function listOrganizationPagesWithHttpInfo($organizationId, $parentId = null, $path = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
         // verify the required parameter 'organizationId' is set
         if ($organizationId === null) {
@@ -780,6 +895,14 @@ class PagesApi
         // query params
         if ($search !== null) {
             $queryParams['search'] = $this->apiClient->getSerializer()->toQueryValue($search);
+        }
+        // query params
+        if ($sortBy !== null) {
+            $queryParams['sortBy'] = $this->apiClient->getSerializer()->toQueryValue($sortBy);
+        }
+        // query params
+        if ($sortDir !== null) {
+            $queryParams['sortDir'] = $this->apiClient->getSerializer()->toQueryValue($sortDir);
         }
         // query params
         if ($firstResult !== null) {

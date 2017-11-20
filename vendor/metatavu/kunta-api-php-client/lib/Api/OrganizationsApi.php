@@ -211,14 +211,16 @@ class OrganizationsApi
      * @param string $businessName Filter by organization&#39;s business name (optional)
      * @param string $businessCode Filter by organization&#39;s business code (optional)
      * @param string $search Search organizations by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return \KuntaAPI\Model\Organization[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listOrganizations($businessName = null, $businessCode = null, $search = null, $firstResult = null, $maxResults = null)
+    public function listOrganizations($businessName = null, $businessCode = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
-        list($response) = $this->listOrganizationsWithHttpInfo($businessName, $businessCode, $search, $firstResult, $maxResults);
+        list($response) = $this->listOrganizationsWithHttpInfo($businessName, $businessCode, $search, $sortBy, $sortDir, $firstResult, $maxResults);
         return $response;
     }
 
@@ -230,12 +232,14 @@ class OrganizationsApi
      * @param string $businessName Filter by organization&#39;s business name (optional)
      * @param string $businessCode Filter by organization&#39;s business code (optional)
      * @param string $search Search organizations by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return Array of \KuntaAPI\Model\Organization[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listOrganizationsWithHttpInfo($businessName = null, $businessCode = null, $search = null, $firstResult = null, $maxResults = null)
+    public function listOrganizationsWithHttpInfo($businessName = null, $businessCode = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
         // parse inputs
         $resourcePath = "/organizations";
@@ -260,6 +264,14 @@ class OrganizationsApi
         // query params
         if ($search !== null) {
             $queryParams['search'] = $this->apiClient->getSerializer()->toQueryValue($search);
+        }
+        // query params
+        if ($sortBy !== null) {
+            $queryParams['sortBy'] = $this->apiClient->getSerializer()->toQueryValue($sortBy);
+        }
+        // query params
+        if ($sortDir !== null) {
+            $queryParams['sortDir'] = $this->apiClient->getSerializer()->toQueryValue($sortDir);
         }
         // query params
         if ($firstResult !== null) {
