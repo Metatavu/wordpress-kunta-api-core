@@ -13,6 +13,7 @@ $button-warning-border-color: darken($button-warning-background-color, 0.2);
   text-align: center;
   cursor: pointer;
   display: inline-block;
+  padding: 7px 12px;
   
   &.btn-sm {
     padding: 5px 12px;
