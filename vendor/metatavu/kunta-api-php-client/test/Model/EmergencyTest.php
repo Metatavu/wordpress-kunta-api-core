@@ -96,6 +96,17 @@ class EmergencyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+<<<<<<< HEAD
+     * Test attribute "id"
+     */
+    public function testPropertyId()
+    {
+
+    }
+
+    /**
+=======
+>>>>>>> adba6226926fbb6534bd0e58712a56979168c94a
      * Test attribute "location"
      */
     public function testPropertyLocation()
@@ -104,9 +115,15 @@ class EmergencyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+<<<<<<< HEAD
+     * Test attribute "time"
+     */
+    public function testPropertyTime()
+=======
      * Test attribute "published"
      */
     public function testPropertyPublished()
+>>>>>>> adba6226926fbb6534bd0e58712a56979168c94a
     {
 
     }
@@ -136,6 +153,17 @@ class EmergencyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+<<<<<<< HEAD
+     * Test attribute "url"
+     */
+    public function testPropertyUrl()
+    {
+
+    }
+
+    /**
+=======
+>>>>>>> adba6226926fbb6534bd0e58712a56979168c94a
      * Test attribute "latitude"
      */
     public function testPropertyLatitude()

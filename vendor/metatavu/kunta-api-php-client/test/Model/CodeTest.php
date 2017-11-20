@@ -96,6 +96,17 @@ class CodeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+<<<<<<< HEAD
+     * Test attribute "id"
+     */
+    public function testPropertyId()
+    {
+
+    }
+
+    /**
+=======
+>>>>>>> adba6226926fbb6534bd0e58712a56979168c94a
      * Test attribute "type"
      */
     public function testPropertyType()

@@ -68,6 +68,7 @@ class Address implements ArrayAccess
     protected static $swaggerTypes = array(
         'latitude' => 'string',
         'longitude' => 'string',
+        'coordinates' => '\KuntaAPI\Model\Coordinates',
         'coordinateState' => 'string',
         'type' => 'string',
         'subtype' => 'string',
@@ -95,6 +96,7 @@ class Address implements ArrayAccess
     protected static $attributeMap = array(
         'latitude' => 'latitude',
         'longitude' => 'longitude',
+        'coordinates' => 'coordinates',
         'coordinateState' => 'coordinateState',
         'type' => 'type',
         'subtype' => 'subtype',
@@ -122,6 +124,7 @@ class Address implements ArrayAccess
     protected static $setters = array(
         'latitude' => 'setLatitude',
         'longitude' => 'setLongitude',
+        'coordinates' => 'setCoordinates',
         'coordinateState' => 'setCoordinateState',
         'type' => 'setType',
         'subtype' => 'setSubtype',
@@ -149,6 +152,7 @@ class Address implements ArrayAccess
     protected static $getters = array(
         'latitude' => 'getLatitude',
         'longitude' => 'getLongitude',
+        'coordinates' => 'getCoordinates',
         'coordinateState' => 'getCoordinateState',
         'type' => 'getType',
         'subtype' => 'getSubtype',
@@ -187,6 +191,7 @@ class Address implements ArrayAccess
     {
         $this->container['latitude'] = isset($data['latitude']) ? $data['latitude'] : null;
         $this->container['longitude'] = isset($data['longitude']) ? $data['longitude'] : null;
+        $this->container['coordinates'] = isset($data['coordinates']) ? $data['coordinates'] : null;
         $this->container['coordinateState'] = isset($data['coordinateState']) ? $data['coordinateState'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
         $this->container['subtype'] = isset($data['subtype']) ? $data['subtype'] : null;
@@ -263,6 +268,27 @@ class Address implements ArrayAccess
     public function setLongitude($longitude)
     {
         $this->container['longitude'] = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Gets coordinates
+     * @return \KuntaAPI\Model\Coordinates
+     */
+    public function getCoordinates()
+    {
+        return $this->container['coordinates'];
+    }
+
+    /**
+     * Sets coordinates
+     * @param \KuntaAPI\Model\Coordinates $coordinates
+     * @return $this
+     */
+    public function setCoordinates($coordinates)
+    {
+        $this->container['coordinates'] = $coordinates;
 
         return $this;
     }

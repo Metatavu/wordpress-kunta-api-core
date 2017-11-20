@@ -5,6 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **latitude** | **string** | Service location latitude coordinate. | [optional] 
 **longitude** | **string** | Service location longitude coordinate. | [optional] 
+**coordinates** | [**\KuntaAPI\Model\Coordinates**](Coordinates.md) |  | [optional] 
 **coordinateState** | **string** | State of coordinates. Coordinates are fetched from a service provided by Maanmittauslaitos (WFS).  Possible values are: Loading, Ok, Failed, NotReceived, EmptyInputReceived, MultipleResultsReceived or WrongFormatReceived. | [optional] 
 **type** | **string** | Address type, Visiting or Postal. | [optional] 
 **subtype** | **string** | Address sub type, Single, Street, PostOfficeBox, Abroad or Multipoint or NoAddress. | [optional] 
