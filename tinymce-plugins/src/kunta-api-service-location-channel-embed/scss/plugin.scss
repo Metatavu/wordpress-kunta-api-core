@@ -22,11 +22,11 @@ $loading-background-color: rgba(255, 255, 255, 0.7);
   }
   
   .mce-kunta-api-search-result-row {
-    margin-top:20px;
-    margin-bottom:20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     
     .mce-kunta-api-search-result-title {
-      margin-bottom:10px;
+      margin-bottom: 10px;
       font-weight: bold;
     }
   }
@@ -37,7 +37,7 @@ $loading-background-color: rgba(255, 255, 255, 0.7);
   text-align: center !important;
 }
 
-i.mce-i-kunta_api_service_location_embed:before {
+i.mce-i-kunta_api_service_location_embed::before {
   content: "\f19c";
   font-family: FontAwesome;
   font-size: 1.3em;

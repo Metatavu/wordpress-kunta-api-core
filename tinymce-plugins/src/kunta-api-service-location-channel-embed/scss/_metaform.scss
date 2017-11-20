@@ -192,18 +192,18 @@ $button-warning-border-color: darken($button-warning-background-color, 0.2);
 .form-control {
   display: block;
   width: 100%;
-  padding: .5rem .75rem;
+  padding: 0.5rem 0.75rem;
 }
 
 .table-field .table-container {
   overflow: hidden;
 }
 
-.table-field  {
+.table-field {
   margin-bottom: 5px;
 
   table {
-    margin-bottom: 0px;
+    margin-bottom: 0;
     width: calc(100% - 5px);
     border-collapse: collapse;
    
