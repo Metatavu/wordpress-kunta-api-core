@@ -363,7 +363,7 @@
                 }));
               })
               .catch((err) => {
-                console.error(err);
+                tinyMCE.activeEditor.windowManager.alert(err);
               });
           });
 
@@ -380,7 +380,7 @@
                 }));
               })
               .catch((err) => {
-                console.error(err);
+                tinyMCE.activeEditor.windowManager.alert(err);
               });
           });
       
