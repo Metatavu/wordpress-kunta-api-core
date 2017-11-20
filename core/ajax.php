@@ -5,8 +5,6 @@
   
   add_action( 'wp_ajax_kunta_api_search_codes', function () {
     try {
-      error_log("Hurbadurba");
-      
       $types = $_POST['types'];
       $search = $_POST['search'];
       $results = [];

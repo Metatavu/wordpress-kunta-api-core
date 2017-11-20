@@ -1,4 +1,4 @@
-/* global ajaxurl, tinymce, moment */
+/* global ajaxurl, tinymce, moment, Promise */
 ((tinymce, $) => {
   
   const SUPPORTED_COMPONENTS = {
@@ -30,6 +30,12 @@
   
   class ServiceLocationServiceChannelDialog {
     
+    /**
+     * Constructs service location service channel dialog
+     * 
+     * @param {type} editor TinyMCE editor instance
+     * @param {type} serviceLocationServiceChannel
+     */
     constructor(editor, serviceLocationServiceChannel) {
       this.serviceLocationServiceChannel = serviceLocationServiceChannel;
       this.supportedLocales = ['fi', 'en', 'sv'];
@@ -57,10 +63,6 @@
       
       this.editor = editor;
       this.listeners = [];
-      
-      // TODO: Kielet, joilla palvelupisteessä palvellaan
-      // TODO: Phone Numbers
-      // TODO: Web Pages
     }
     
     getLocaleName(locale) {
@@ -311,6 +313,7 @@
       $(dialog).on('click', '.add-service-hour', this._onAddServiceHourClick.bind(this));
       $(dialog).on('click', '.edit-service-hour', this._onEditServiceHourClick.bind(this));
       $(dialog).on('click', '.remove-service-hour', this._onRemoveServiceHourClick.bind(this));
+      $(dialog).on('click', '.edit-additional-details', this._onEditAdditionalDetailsClick.bind(this));
       
       this.redrawServiceHours();
     }
@@ -322,6 +325,98 @@
         const updatedServiceHour = this.serviceHourFromForm(newFormValues);
         callback(updatedServiceHour);
       });
+    }
+    
+    searchCodes(types, search) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_search_codes',
+          'types': types,
+          'search': search
+        }, (response) => {
+          const codes = JSON.parse(response);
+          resolve(codes);
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });
+    }
+    
+    openAdditionalDetailsEditDialog() {
+      const viewModel = getAdditionalDetailsMetaform();
+      this.additionalDetailsToForm(this.serviceLocationServiceChannel).then((formValues) => {
+        const dialog = this.openMetaformDialog(this.prepareViewModel(viewModel), formValues, (newFormValues) => {
+          this.additionalDetailsFromForm(newFormValues);
+        });
+
+        dialog.find('*[data-name="languages"]')
+          .metaformMultivalueAutocomplete('val', formValues.languageCodes)
+          .metaformMultivalueAutocomplete('option', 'customSource', (input, callback) => {
+            this.searchCodes("Language", input.term + '*')
+              .then((codes) => {
+                callback(codes.map((codeItem) => {
+                  return {
+                    value: `${codeItem.type}:${codeItem.code}`,
+                    label: this.getLocalizedValue(codeItem.names, 'fi')
+                  };
+                }));
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          });
+
+        dialog.find('*[data-name="areas"]')
+          .metaformMultivalueAutocomplete('val', formValues.areaCodes)
+          .metaformMultivalueAutocomplete('option', 'customSource', (input, callback) => {
+            this.searchCodes("Municipality,Province,HospitalRegions,BusinessRegions", input.term + '*')
+              .then((codes) => {
+                callback(codes.map((areaCode) => {
+                  return {
+                    value: `${areaCode.type}:${areaCode.code}`,
+                    label: this.getCodeNameWithType(areaCode)
+                  };
+                }));
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          });
+      
+      });
+      
+    }
+    
+    getCodeTypeName(type) {
+       switch (type) {
+        case 'Municipality':
+          return 'kunta';
+        case 'Province':
+          return 'maakunta';
+        case 'HospitalRegions':
+          return 'sairaanhoitopiiri';
+        case 'BusinessRegions':
+          return 'yrityspalvelujen seutualue';
+        case 'Country':
+          return 'maa';
+        case 'Language':
+          return 'kieli';
+        case 'Postal':
+          return 'postinumero';
+      }
+    }
+    
+    getCodeNameWithType(codeItem) {
+      const name = this.getLocalizedValue(codeItem.names, 'fi');
+      const type = this.getCodeTypeName(codeItem.type);
+      return `${name} (${type})`;
+    }
+    
+    getMunicipalityNameWithType(municipality) {
+      const name = this.getLocalizedValue(municipality.names, 'fi');
+      const type = this.getCodeTypeName('Municipality');
+      return `${name} (${type})`;
     }
     
     showError(title, text) {
@@ -785,6 +880,89 @@
       }
     }
     
+    additionalDetailsToForm(serviceLocationServiceChannel) {
+      const languageQuery = serviceLocationServiceChannel.languages.map((language) => {
+        return `code:${language}`;
+      }).join(' ');
+      
+      return this.searchCodes("Language", `+(${languageQuery})`)
+        .then((languageQueryResult) => {
+          const languageMap = {};
+          languageQueryResult.forEach((queryResult) => {
+            languageMap[queryResult.code] = this.getLocalizedValue(queryResult.names, 'fi');
+          });
+  
+          const languageCodes = serviceLocationServiceChannel.languages.map((language) => {
+            return {
+              value: language,
+              label: languageMap[language] || language
+            };
+          });
+          
+          const areaCodes = [];
+          serviceLocationServiceChannel.areas.forEach((area) => {
+            if (area.type !== 'Municipality') {
+              areaCodes.push({
+                value: `${area.type}:${area.code}`,
+                label: this.getCodeNameWithType(area)
+              });
+            } else {
+              area.municipalities.forEach((municipality) => {
+                areaCodes.push({
+                  value: `Municipality:${municipality.code}`,
+                  label: this.getMunicipalityNameWithType(municipality)
+                });
+              });
+            }
+          });
+          
+          return {
+            languageCodes: languageCodes,
+            areaCodes: areaCodes,
+            areaType: serviceLocationServiceChannel.areaType
+          };
+        });
+    }
+    
+    
+    additionalDetailsFromForm(newFormValues) {
+      this.serviceLocationServiceChannel.areaType = newFormValues.areaType;
+      this.serviceLocationServiceChannel.languages = (newFormValues.languages||'').split(',');
+      
+      if (newFormValues.areaType === 'AreaType') {
+        let mucicipalitiesIndex = -1;
+        const areas = [];
+        
+        (newFormValues.areas||'').split(',').forEach((area) => {
+          const parts = area.split(':');
+          const type = parts[0];
+          const code = parts[1];
+          
+          if (type === 'Municipality') {
+            if (mucicipalitiesIndex > -1) {
+              areas[mucicipalitiesIndex].municipalities.push({
+                code: code
+              });
+            } else {
+              mucicipalitiesIndex = areas.push({
+                'type': 'Municipality',
+                'municipalities': [{
+                  code: code
+                }]
+              }) - 1;
+            }
+          } else {
+            areas.push({
+              type: type,
+              code: code
+            });
+          }
+        });
+        
+        this.serviceLocationServiceChannel.areas = areas;
+      }
+    }
+   
     serviceLocationServiceChannelToForm(locale, serviceLocationServiceChannel) {
       const name = this.getTypedLocalizedValue(serviceLocationServiceChannel.names, locale, 'Name');
       const shortDescription = this.getTypedLocalizedValue(serviceLocationServiceChannel.descriptions, locale, 'ShortDescription');
@@ -875,6 +1053,10 @@
         this.serviceLocationServiceChannel.serviceHours.push(createdServiceHour);
         this.redrawServiceHours();
       });
+    }
+    
+    _onEditAdditionalDetailsClick() {
+      this.openAdditionalDetailsEditDialog(this.serviceLocationServiceChannel);
     }
     
     _onEditServiceHourClick(event) {
