@@ -639,7 +639,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **listServices**
-> \KuntaAPI\Model\Service[] listServices($organizationId, $search, $sortBy, $sortDir, $firstResult, $maxResults)
+> \KuntaAPI\Model\Service[] listServices($organizationId, $search, $sortBy, $sortDir, $firstResult, $maxResults, $electronicServiceChannelId, $phoneServiceChannelId, $printableFormServiceChannelId, $serviceLocationServiceChannelId, $webPageServiceChannelId)
 
 Service list
 
@@ -661,9 +661,14 @@ $sortBy = "sortBy_example"; // string | define order (NATURAL or SCORE). Default
 $sortDir = "sortDir_example"; // string | ASC or DESC. Default is ASC
 $firstResult = 789; // int | First result
 $maxResults = 789; // int | Max results
+$electronicServiceChannelId = "electronicServiceChannelId_example"; // string | Return only services that are connected to specified electronic service channel
+$phoneServiceChannelId = "phoneServiceChannelId_example"; // string | Return only services that are connected to specified phone service channel
+$printableFormServiceChannelId = "printableFormServiceChannelId_example"; // string | Return only services that are connected to specified printable form service channel
+$serviceLocationServiceChannelId = "serviceLocationServiceChannelId_example"; // string | Return only services that are connected to specified location service channel
+$webPageServiceChannelId = "webPageServiceChannelId_example"; // string | Return only services that are connected to specified webpage service channel
 
 try {
-    $result = $api_instance->listServices($organizationId, $search, $sortBy, $sortDir, $firstResult, $maxResults);
+    $result = $api_instance->listServices($organizationId, $search, $sortBy, $sortDir, $firstResult, $maxResults, $electronicServiceChannelId, $phoneServiceChannelId, $printableFormServiceChannelId, $serviceLocationServiceChannelId, $webPageServiceChannelId);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ServicesApi->listServices: ', $e->getMessage(), PHP_EOL;
@@ -681,6 +686,11 @@ Name | Type | Description  | Notes
  **sortDir** | **string**| ASC or DESC. Default is ASC | [optional]
  **firstResult** | **int**| First result | [optional]
  **maxResults** | **int**| Max results | [optional]
+ **electronicServiceChannelId** | **string**| Return only services that are connected to specified electronic service channel | [optional]
+ **phoneServiceChannelId** | **string**| Return only services that are connected to specified phone service channel | [optional]
+ **printableFormServiceChannelId** | **string**| Return only services that are connected to specified printable form service channel | [optional]
+ **serviceLocationServiceChannelId** | **string**| Return only services that are connected to specified location service channel | [optional]
+ **webPageServiceChannelId** | **string**| Return only services that are connected to specified webpage service channel | [optional]
 
 ### Return type
 

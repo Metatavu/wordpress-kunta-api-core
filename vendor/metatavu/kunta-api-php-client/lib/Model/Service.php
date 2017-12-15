@@ -70,6 +70,7 @@ class Service implements ArrayAccess
         'type' => 'string',
         'statutoryDescriptionId' => 'string',
         'chargeType' => 'string',
+        'fundingType' => 'string',
         'names' => '\KuntaAPI\Model\LocalizedValue[]',
         'areaType' => 'string',
         'areas' => '\KuntaAPI\Model\Area[]',
@@ -85,6 +86,7 @@ class Service implements ArrayAccess
         'requirements' => '\KuntaAPI\Model\LocalizedValue[]',
         'publishingStatus' => 'string',
         'organizations' => '\KuntaAPI\Model\ServiceOrganization[]',
+        'vouchers' => '\KuntaAPI\Model\ServiceVoucher[]',
         'electronicServiceChannelIds' => 'string[]',
         'phoneServiceChannelIds' => 'string[]',
         'printableFormServiceChannelIds' => 'string[]',
@@ -106,6 +108,7 @@ class Service implements ArrayAccess
         'type' => 'type',
         'statutoryDescriptionId' => 'statutoryDescriptionId',
         'chargeType' => 'chargeType',
+        'fundingType' => 'fundingType',
         'names' => 'names',
         'areaType' => 'areaType',
         'areas' => 'areas',
@@ -121,6 +124,7 @@ class Service implements ArrayAccess
         'requirements' => 'requirements',
         'publishingStatus' => 'publishingStatus',
         'organizations' => 'organizations',
+        'vouchers' => 'vouchers',
         'electronicServiceChannelIds' => 'electronicServiceChannelIds',
         'phoneServiceChannelIds' => 'phoneServiceChannelIds',
         'printableFormServiceChannelIds' => 'printableFormServiceChannelIds',
@@ -142,6 +146,7 @@ class Service implements ArrayAccess
         'type' => 'setType',
         'statutoryDescriptionId' => 'setStatutoryDescriptionId',
         'chargeType' => 'setChargeType',
+        'fundingType' => 'setFundingType',
         'names' => 'setNames',
         'areaType' => 'setAreaType',
         'areas' => 'setAreas',
@@ -157,6 +162,7 @@ class Service implements ArrayAccess
         'requirements' => 'setRequirements',
         'publishingStatus' => 'setPublishingStatus',
         'organizations' => 'setOrganizations',
+        'vouchers' => 'setVouchers',
         'electronicServiceChannelIds' => 'setElectronicServiceChannelIds',
         'phoneServiceChannelIds' => 'setPhoneServiceChannelIds',
         'printableFormServiceChannelIds' => 'setPrintableFormServiceChannelIds',
@@ -178,6 +184,7 @@ class Service implements ArrayAccess
         'type' => 'getType',
         'statutoryDescriptionId' => 'getStatutoryDescriptionId',
         'chargeType' => 'getChargeType',
+        'fundingType' => 'getFundingType',
         'names' => 'getNames',
         'areaType' => 'getAreaType',
         'areas' => 'getAreas',
@@ -193,6 +200,7 @@ class Service implements ArrayAccess
         'requirements' => 'getRequirements',
         'publishingStatus' => 'getPublishingStatus',
         'organizations' => 'getOrganizations',
+        'vouchers' => 'getVouchers',
         'electronicServiceChannelIds' => 'getElectronicServiceChannelIds',
         'phoneServiceChannelIds' => 'getPhoneServiceChannelIds',
         'printableFormServiceChannelIds' => 'getPrintableFormServiceChannelIds',
@@ -225,6 +233,7 @@ class Service implements ArrayAccess
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
         $this->container['statutoryDescriptionId'] = isset($data['statutoryDescriptionId']) ? $data['statutoryDescriptionId'] : null;
         $this->container['chargeType'] = isset($data['chargeType']) ? $data['chargeType'] : null;
+        $this->container['fundingType'] = isset($data['fundingType']) ? $data['fundingType'] : null;
         $this->container['names'] = isset($data['names']) ? $data['names'] : null;
         $this->container['areaType'] = isset($data['areaType']) ? $data['areaType'] : null;
         $this->container['areas'] = isset($data['areas']) ? $data['areas'] : null;
@@ -240,6 +249,7 @@ class Service implements ArrayAccess
         $this->container['requirements'] = isset($data['requirements']) ? $data['requirements'] : null;
         $this->container['publishingStatus'] = isset($data['publishingStatus']) ? $data['publishingStatus'] : null;
         $this->container['organizations'] = isset($data['organizations']) ? $data['organizations'] : null;
+        $this->container['vouchers'] = isset($data['vouchers']) ? $data['vouchers'] : null;
         $this->container['electronicServiceChannelIds'] = isset($data['electronicServiceChannelIds']) ? $data['electronicServiceChannelIds'] : null;
         $this->container['phoneServiceChannelIds'] = isset($data['phoneServiceChannelIds']) ? $data['phoneServiceChannelIds'] : null;
         $this->container['printableFormServiceChannelIds'] = isset($data['printableFormServiceChannelIds']) ? $data['printableFormServiceChannelIds'] : null;
@@ -350,6 +360,27 @@ class Service implements ArrayAccess
     public function setChargeType($chargeType)
     {
         $this->container['chargeType'] = $chargeType;
+
+        return $this;
+    }
+
+    /**
+     * Gets fundingType
+     * @return string
+     */
+    public function getFundingType()
+    {
+        return $this->container['fundingType'];
+    }
+
+    /**
+     * Sets fundingType
+     * @param string $fundingType Service funding type. Possible values are: PubliclyFunded or MarketFunded.
+     * @return $this
+     */
+    public function setFundingType($fundingType)
+    {
+        $this->container['fundingType'] = $fundingType;
 
         return $this;
     }
@@ -665,6 +696,27 @@ class Service implements ArrayAccess
     public function setOrganizations($organizations)
     {
         $this->container['organizations'] = $organizations;
+
+        return $this;
+    }
+
+    /**
+     * Gets vouchers
+     * @return \KuntaAPI\Model\ServiceVoucher[]
+     */
+    public function getVouchers()
+    {
+        return $this->container['vouchers'];
+    }
+
+    /**
+     * Sets vouchers
+     * @param \KuntaAPI\Model\ServiceVoucher[] $vouchers List of service vouchers.
+     * @return $this
+     */
+    public function setVouchers($vouchers)
+    {
+        $this->container['vouchers'] = $vouchers;
 
         return $this;
     }
