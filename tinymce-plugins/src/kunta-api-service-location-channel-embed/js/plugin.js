@@ -101,46 +101,14 @@
     }
     
     openAdditionalDetailsEditDialog() {
-      const viewModel = getAdditionalDetailsMetaform();
+      const viewModel = getServiceLocationChannelAdditionalDetailsMetaform();
       this.additionalDetailsToForm(this.serviceLocationServiceChannel).then((formValues) => {
         const dialog = this.openMetaformDialog(this.prepareViewModel(viewModel), formValues, (newFormValues) => {
           this.additionalDetailsFromForm(newFormValues);
         });
-
-        dialog.find('*[data-name="languages"]')
-          .metaformMultivalueAutocomplete('val', formValues.languageCodes)
-          .metaformMultivalueAutocomplete('option', 'customSource', (input, callback) => {
-            this.searchCodes("Language", input.term + '*')
-              .then((codes) => {
-                callback(codes.map((codeItem) => {
-                  return {
-                    value: `${codeItem.type}:${codeItem.code}`,
-                    label: this.getLocalizedValue(codeItem.names, 'fi')
-                  };
-                }));
-              })
-              .catch((err) => {
-                tinyMCE.activeEditor.windowManager.alert(err);
-              });
-          });
-
-        dialog.find('*[data-name="areas"]')
-          .metaformMultivalueAutocomplete('val', formValues.areaCodes)
-          .metaformMultivalueAutocomplete('option', 'customSource', (input, callback) => {
-            this.searchCodes("Municipality,Province,HospitalRegions,BusinessRegions", input.term + '*')
-              .then((codes) => {
-                callback(codes.map((areaCode) => {
-                  return {
-                    value: `${areaCode.type}:${areaCode.code}`,
-                    label: this.getCodeNameWithType(areaCode)
-                  };
-                }));
-              })
-              .catch((err) => {
-                tinyMCE.activeEditor.windowManager.alert(err);
-              });
-          });
-      
+        
+        this.createLanguagesAutocomplete(dialog.find('*[data-name="languages"]'), formValues.languageCodes);
+        this.createAreasAutocomplete(dialog.find('*[data-name="areas"]'), formValues.areaCodes);
       });
       
     }
@@ -527,44 +495,11 @@
     }
     
     additionalDetailsToForm(serviceLocationServiceChannel) {
-      const languageQuery = serviceLocationServiceChannel.languages.map((language) => {
-        return `code:${language}`;
-      }).join(' ');
-      
-      return this.searchCodes("Language", `+(${languageQuery})`)
-        .then((languageQueryResult) => {
-          const languageMap = {};
-          languageQueryResult.forEach((queryResult) => {
-            languageMap[queryResult.code] = this.getLocalizedValue(queryResult.names, 'fi');
-          });
-  
-          const languageCodes = serviceLocationServiceChannel.languages.map((language) => {
-            return {
-              value: language,
-              label: languageMap[language] || language
-            };
-          });
-          
-          const areaCodes = [];
-          serviceLocationServiceChannel.areas.forEach((area) => {
-            if (area.type !== 'Municipality') {
-              areaCodes.push({
-                value: `${area.type}:${area.code}`,
-                label: this.getCodeNameWithType(area)
-              });
-            } else {
-              area.municipalities.forEach((municipality) => {
-                areaCodes.push({
-                  value: `Municipality:${municipality.code}`,
-                  label: this.getMunicipalityNameWithType(municipality)
-                });
-              });
-            }
-          });
-          
+      return this.languagesToForm(serviceLocationServiceChannel.languages)
+        .then((languageCodes) => {
           return {
             languageCodes: languageCodes,
-            areaCodes: areaCodes,
+            areaCodes: this.areasToForm(serviceLocationServiceChannel.areas),
             areaType: serviceLocationServiceChannel.areaType
           };
         });
@@ -573,39 +508,7 @@
     additionalDetailsFromForm(newFormValues) {
       this.serviceLocationServiceChannel.areaType = newFormValues.areaType;
       this.serviceLocationServiceChannel.languages = (newFormValues.languages||'').split(',');
-      
-      if (newFormValues.areaType === 'AreaType') {
-        let mucicipalitiesIndex = -1;
-        const areas = [];
-        
-        (newFormValues.areas||'').split(',').forEach((area) => {
-          const parts = area.split(':');
-          const type = parts[0];
-          const code = parts[1];
-          
-          if (type === 'Municipality') {
-            if (mucicipalitiesIndex > -1) {
-              areas[mucicipalitiesIndex].municipalities.push({
-                code: code
-              });
-            } else {
-              mucicipalitiesIndex = areas.push({
-                'type': 'Municipality',
-                'municipalities': [{
-                  code: code
-                }]
-              }) - 1;
-            }
-          } else {
-            areas.push({
-              type: type,
-              code: code
-            });
-          }
-        });
-        
-        this.serviceLocationServiceChannel.areas = areas;
-      }
+      this.serviceLocationServiceChannel.areas = this.areasFromForm(newFormValues.areaType, newFormValues.areas);
     }
    
     serviceLocationServiceChannelToForm(locale, serviceLocationServiceChannel) {
@@ -795,7 +698,7 @@
     
     openElementEditor(element) {
       const placeholderAttr = element.attributes['data-kunta-api-placeholder'];
-      if (placeholderAttr) {
+      if (placeholderAttr && placeholderAttr.value === 'location_channel_component') {
         const serviceLocationServiceChannelId = element.attributes['data-channel-id'].value;
         this.editor.execCommand('kunta-api-service-location-channel-edit', '', {
           serviceLocationServiceChannelId: serviceLocationServiceChannelId

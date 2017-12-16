@@ -8,7 +8,6 @@
      * Constructs abstract dialog class
      * 
      * @param {type} editor TinyMCE editor instance
-     * @param {type} serviceLocationServiceChannel
      */
     constructor(editor) {
       this.supportedLocales = ['fi', 'en', 'sv'];
@@ -278,7 +277,7 @@
     }
     
     getCodeNameWithType(codeItem) {
-      const name = this.getLocalizedValue(codeItem.names, 'fi');
+      const name = this.getLocalizedValue(codeItem.name || codeItem.names, 'fi');
       const type = this.getCodeTypeName(codeItem.type);
       return `${name} (${type})`;
     }
@@ -324,14 +323,22 @@
       return null;
     }
     
-    getLocalizedValue(values, locale) {
+    /**
+     * Returns localized value
+     * 
+     * @param {Array} values array containing localized values
+     * @param {String} locale Locale
+     * @param {String} property property containing value. Defaults to 'value'
+     * @returns {unresolved}
+     */
+    getLocalizedValue(values, locale, property) {
       if (!values) {
         return null;
       }
       
       for (let i = 0; i < values.length; i++) {
         if (locale === values[i].language) {
-          return values[i].value;
+          return values[i][property || 'value'];
         }
       }
       
@@ -347,6 +354,97 @@
       }
       
       return null;
+    }
+    
+    /**
+     * Sets localized value (e.g. service requirements) value
+     * 
+     * @param {type} result result object
+     * @param {type} resultProperty result object property
+     * @param {type} localeValues locale values from form
+     * @param {type} formProperty form property
+     * @param {type} language locale
+     */
+    setLocalizedValue(result, resultProperty, localeValues, formProperty, language) {
+      if (!result[resultProperty]) {
+        result[resultProperty] = [];
+      }
+      
+      const value = localeValues[formProperty];
+      if (!value) {
+        return;
+      }
+      
+      for (let i = 0; i < result[resultProperty].length; i++) {
+        if (result[resultProperty][i].language === language) {
+          result[resultProperty][i].value = value;
+          return;
+        }
+      }
+      
+      result[resultProperty].push({
+        value: value,
+        language: language
+      });
+    }
+    
+    /**
+     * Sets typed localized value (e.g. service description) value
+     * 
+     * @param {type} result result object
+     * @param {type} resultProperty result object property
+     * @param {type} localeValues locale values from form
+     * @param {type} formProperty form property
+     * @param {type} language locale
+     * @param {type} type type
+     */
+    setTypedLocalizedValue(result, resultProperty, localeValues, formProperty, language, type) {
+      if (!result[resultProperty]) {
+        result[resultProperty] = [];
+      }
+      
+      const value = localeValues[formProperty];
+      if (!value) {
+        return;
+      }
+      
+      for (let i = 0; i < result[resultProperty].length; i++) {
+        if (result[resultProperty][i].language === language && result[resultProperty][i].type === type) {
+          result[resultProperty][i].value = value;
+          return;
+        }
+      }
+      
+      result[resultProperty].push({
+        value: value,
+        language: language,
+        type: type
+      });
+    }
+    
+    setLocalizedTableValues(result, resultProperty, localeValues, formProperty, language, filterFunction, mapFunction) {
+      if (!result[resultProperty]) {
+        result[resultProperty] = []; 
+      }
+      
+      const value = localeValues[formProperty];
+      if (!value) {
+        return;
+      }
+      
+      let tableValues = JSON.parse(value);
+      
+      if (filterFunction) {
+        tableValues = tableValues.filter(filterFunction);
+      }
+      
+      const mappedValues = tableValues.map(mapFunction ? mapFunction : (value) => {
+        return Object.assign({
+          language: language
+        }, value);
+      }) || [];
+      
+      result[resultProperty] = result[resultProperty].concat(mappedValues); 
     }
     
     prepareViewModel(viewModel) {
@@ -375,6 +473,152 @@
       }
       
       return new Date(Date.parse(string));
+    }
+    
+    /**
+     * Creates autocomplete field for selecting languages
+     * 
+     * @param {jQuery} element autocomplete element
+     * @param {Array} languageCodes language codes
+     */
+    createLanguagesAutocomplete(element, languageCodes) {
+      element
+        .metaformMultivalueAutocomplete('val', languageCodes)
+        .metaformMultivalueAutocomplete('option', 'customSource', (input, callback) => {
+          this.searchCodes("Language", input.term + '*')
+            .then((codes) => {
+              callback(codes.map((codeItem) => {
+                return {
+                  value: codeItem.code,
+                  label: this.getLocalizedValue(codeItem.names, 'fi')
+                };
+              }));
+            })
+            .catch((err) => {
+              tinyMCE.activeEditor.windowManager.alert(err);
+            });
+        });
+    }
+    
+    /**
+     * Creates autocomplete field for selecting areas
+     * 
+     * @param {jQuery} element autocomplete element
+     * @param {Array} areaCodes area codes
+     */
+    createAreasAutocomplete(element, areaCodes) {
+      element
+        .metaformMultivalueAutocomplete('val', areaCodes)
+        .metaformMultivalueAutocomplete('option', 'customSource', (input, callback) => {
+          this.searchCodes("Municipality,Province,HospitalRegions,BusinessRegions", input.term + '*')
+            .then((codes) => {
+              callback(codes.map((areaCode) => {
+                return {
+                  value: `${areaCode.type}:${areaCode.code}`,
+                  label: this.getCodeNameWithType(areaCode)
+                };
+              }));
+            })
+            .catch((err) => {
+              tinyMCE.activeEditor.windowManager.alert(err);
+            });
+        });
+    }
+    
+    /**
+     * Translates language list to be suitable for form
+     * 
+     * @param {Array} languages language codes
+     * @returns {Promise} promise for language items
+     */
+    languagesToForm(languages) {
+      const languageQuery = languages.map((language) => {
+        return `code:${language}`;
+      }).join(' ');
+      
+      return this.searchCodes("Language", `+(${languageQuery})`)
+        .then((languageQueryResult) => {
+          const languageMap = {};
+          languageQueryResult.forEach((queryResult) => {
+            languageMap[queryResult.code] = this.getLocalizedValue(queryResult.names, 'fi');
+          });
+          
+          return languages.map((language) => {
+            return {
+              value: language,
+              label: languageMap[language] || language
+            };
+          });
+        });
+    }
+    
+    /**
+     * Translates areas to be suitable for form
+     * 
+     * @param {Array} areas areas
+     * @returns {Array} area items
+     */
+    areasToForm(areas) {
+      const areaCodes = [];
+      areas.forEach((area) => {
+        if (area.type !== 'Municipality') {
+          areaCodes.push({
+            value: `${area.type}:${area.code}`,
+            label: this.getCodeNameWithType(area)
+          });
+        } else {
+          area.municipalities.forEach((municipality) => {
+            areaCodes.push({
+              value: `Municipality:${municipality.code}`,
+              label: this.getMunicipalityNameWithType(municipality)
+            });
+          });
+        }
+      });
+
+      return areaCodes;
+    }
+    
+    /**
+     * Translates areas from form to be suitable for REST
+     * 
+     * @param {String} areaType area type 
+     * @param {Array} areas array of area values
+     * @returns {Array} result
+     */
+    areasFromForm(areaType, areas) {
+      if (areaType === 'AreaType') {
+        let mucicipalitiesIndex = -1;
+        const result = [];
+        
+        (areas||'').split(',').forEach((area) => {
+          const parts = area.split(':');
+          const type = parts[0];
+          const code = parts[1];
+          
+          if (type === 'Municipality') {
+            if (mucicipalitiesIndex > -1) {
+              result[mucicipalitiesIndex].municipalities.push({
+                code: code
+              });
+            } else {
+              mucicipalitiesIndex = result.push({
+                'type': 'Municipality',
+                'municipalities': [{
+                  code: code
+                }]
+              }) - 1;
+            }
+          } else {
+            result.push({
+              type: type,
+              code: code
+            });
+          }
+        });
+        
+        return result;
+      }
     }
     
     trigger (event, data) {
