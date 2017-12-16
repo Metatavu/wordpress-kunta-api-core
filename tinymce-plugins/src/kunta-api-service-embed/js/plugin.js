@@ -1,7 +1,11 @@
 /* jshint esversion: 6 */
 /* global ajaxurl, tinymce, moment, Promise */
 ((tinymce, $) => {
-  
+  // TODO: Service:
+  // Palvelun pohjakuvaus
+  // Luokittelu ja asiasanat
+  // Toteutustapa ja tuottaja
+
   const SUPPORTED_COMPONENTS = {
     'description': {
       'title': 'Palvelun kuvaus'
@@ -55,13 +59,158 @@
     }
     
     open() {
+      const viewModel = getServiceMetaform();
+      const formValues = {};
+     
+      this.supportedLocales.map((locale) => {
+        formValues[locale] = this.serviceToForm(locale);
+      });
+     
+      const dialog = this.openLocalizedMetaformDialog(viewModel, formValues, (newFormValues) => {
+        dialog.dialog("widget").addClass('loading');
+        
+        const updatedService = this.translateServiceFromForm(newFormValues);
+        const validationError = this.validate(updatedService);
+        
+        if (validationError !== null) {
+          this.showError('Virheellinen syöte', validationError);
+        } else {
+          this.service = updatedService;
+          
+          this.saveService(this.service, (err) => {
+            dialog.dialog("widget").removeClass('loading');
+            if (err) {
+              this.showError('Virhe tallentaessa', err);
+            } else {
+              dialog.dialog('close'); 
+            }
+          });
+        }
+      });
+      
+      $(dialog).on('click', '.edit-additional-details', this.onEditAdditionalDetailsClick.bind(this));
+    }
+    
+    openAdditionalDetailsEditDialog() {
+      const viewModel = getServiceAdditionalDetailsMetaform();
+      this.additionalDetailsToForm().then((formValues) => {
+        const dialog = this.openMetaformDialog(this.prepareViewModel(viewModel), formValues, (newFormValues) => {
+          this.additionalDetailsFromForm(newFormValues);
+        });
+        
+        this.createLanguagesAutocomplete(dialog.find('*[data-name="languages"]'), formValues.languageCodes);
+        this.createAreasAutocomplete(dialog.find('*[data-name="areas"]'), formValues.areaCodes);
+      });
       
     }
     
-    validate(serviceLocationServiceChannel) {
+    validate(service) {
       return null;
     }
     
+    serviceToForm(locale) {
+      const type = this.service.type;
+      const chargeType = this.service.chargeType;
+      const fundingType = this.service.fundingType;
+      const name = this.getTypedLocalizedValue(this.service.names, locale, 'Name');
+      const alternateName = this.getTypedLocalizedValue(this.service.names, locale, 'AlternateName');
+      const shortDescription = this.getTypedLocalizedValue(this.service.descriptions, locale, 'ShortDescription');
+      const description = this.getTypedLocalizedValue(this.service.descriptions, locale, 'Description');
+      const chargeTypeAdditionalInfo = this.getTypedLocalizedValue(this.service.descriptions, locale, 'ChargeTypeAdditionalInfo');
+      const userInstruction = this.getTypedLocalizedValue(this.service.descriptions, locale, 'ServiceUserInstruction');
+      const deadLineAdditionalInfo = this.getTypedLocalizedValue(this.service.descriptions, locale, 'DeadLineAdditionalInfo');
+      const processingTimeAdditionalInfo = this.getTypedLocalizedValue(this.service.descriptions, locale, 'ProcessingTimeAdditionalInfo');
+      const validityTimeAdditionalInfo = this.getTypedLocalizedValue(this.service.descriptions, locale, 'ValidityTimeAdditionalInfo');
+      const requirements = this.getLocalizedValue(this.service.requirements, locale);
+      const vouchers = this.service.vouchers.filter((voucher) => {
+        return voucher.value && voucher.language === locale;
+      });
+      
+      const legislation = this.service.legislation
+        .map((legistation) => {
+          return {
+            name: this.getLocalizedValue(legistation.names, locale),
+            webPage: this.getLocalizedValue(legistation.webPages, locale, 'url')
+          };
+        })
+        .filter((legistation) => {
+          return legistation.name && legistation.webPage;
+        });
+      
+      return {
+        type: type,
+        serviceChargeType: chargeType,
+        fundingType: fundingType,
+        name: name,
+        alternateName: alternateName,
+        shortDescription: shortDescription,
+        description: description,
+        chargeTypeAdditionalInfo: chargeTypeAdditionalInfo,
+        userInstruction: userInstruction,
+        deadLineAdditionalInfo: deadLineAdditionalInfo,
+        processingTimeAdditionalInfo: processingTimeAdditionalInfo,
+        validityTimeAdditionalInfo: validityTimeAdditionalInfo,
+        requirements: requirements,
+        serviceVouchersInUse: vouchers.length > 0 ? 'true' : 'false',
+        serviceVouchers: vouchers,
+        legislation: legislation
+      };
+    }
+    
+    additionalDetailsToForm() {
+      return this.languagesToForm(this.service.languages)
+        .then((languageCodes) => {
+          return {
+            languageCodes: languageCodes,
+            areaCodes: this.areasToForm(this.service.areas),
+            areaType: this.service.areaType
+          };
+        });
+    }
+    
+    translateServiceFromForm(formValues) {
+      const result = JSON.parse(JSON.stringify(this.service));
+      
+      result.names = [];
+      result.descriptions = [];
+      result.vouchers = []; 
+  
+      this.supportedLocales.forEach((locale) => {
+        const localeValues = formValues[locale];
+        
+        result.type = localeValues.type || result.type;
+        result.chargeType = localeValues.serviceChargeType || result.chargeType;
+        result.fundingType = localeValues.fundingType || result.fundingType;
+        
+        this.setTypedLocalizedValue(result, 'names', localeValues, 'name', locale, 'Name');
+        this.setTypedLocalizedValue(result, 'names', localeValues, 'alternateName', locale, 'AlternateName');
+        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'shortDescription', locale, 'ShortDescription');
+        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'description', locale, 'Description');
+        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'chargeTypeAdditionalInfo', locale, 'ChargeTypeAdditionalInfo');
+        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'userInstruction', locale, 'ServiceUserInstruction');
+        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'deadLineAdditionalInfo', locale, 'DeadLineAdditionalInfo');
+        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'processingTimeAdditionalInfo', locale, 'ProcessingTimeAdditionalInfo');
+        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'validityTimeAdditionalInfo', locale, 'ValidityTimeAdditionalInfo');
+        
+        this.setLocalizedValue(result, 'requirements', localeValues, 'requirements', locale);
+        
+        this.setLocalizedTableValues(result, 'vouchers', localeValues, 'serviceVouchers', locale, (voucher) => {
+          return voucher.value && voucher.url;
+        });
+      });
+      
+      return result;
+    }
+    
+    additionalDetailsFromForm(newFormValues) {
+      this.service.areaType = newFormValues.areaType;
+      this.service.languages = (newFormValues.languages||'').split(',');
+      this.service.areas = this.areasFromForm(newFormValues.areaType, newFormValues.areas);
+    }
+    
+    onEditAdditionalDetailsClick() {
+      this.openAdditionalDetailsEditDialog();
+    }
   }
   
   class ServiceEditor {
@@ -158,7 +307,7 @@
     
     openElementEditor(element) {
       const placeholderAttr = element.attributes['data-kunta-api-placeholder'];
-      if (placeholderAttr) {
+      if (placeholderAttr && placeholderAttr.value === 'service') {
         const serviceId = element.attributes['data-service-id'].value;
         this.editor.execCommand('kunta-api-service-edit', '', {
           serviceId: serviceId

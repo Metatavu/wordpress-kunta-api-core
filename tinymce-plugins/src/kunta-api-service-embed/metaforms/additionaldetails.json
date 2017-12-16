@@ -1,0 +1,39 @@
+{
+  "title": "Lisätiedot",
+  "sections": [{
+    "title": "Lisätiedot",
+    "fields": [{
+      "name": "languages",
+      "type": "autocomplete-multiple",
+      "title": "Kielet, joilla palvelupaikassa palvellaan",
+      "required": true
+    }, {
+      "title": "Alue, jolla palvelu palvelee",
+      "name": "areaType",
+      "type": "radio",
+      "required": true,
+      "options":  [{
+        "name": "WholeCountry",
+        "text": "Koko maa"
+      }, {
+        "name": "WholeCountryExceptAlandIslands",
+        "text": "Koko maa paitsi ei Ahvenanmaa",
+        "checked": true
+      }, {
+        "name": "AreaType",
+        "text": "Rajattu alue"
+      }],
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "visible-if": {
+        "field": "areaType",
+        "equals": "AreaType"
+      },
+      "name": "areas",
+      "type": "autocomplete-multiple",
+      "title": "Valitse yksi tai useampi alue",
+      "required": true
+    }]
+  }]
+}
