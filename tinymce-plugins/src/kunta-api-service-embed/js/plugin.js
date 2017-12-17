@@ -202,7 +202,7 @@
               value: organization.id,
               label: this.getLocalizedValue(organization.names, 'fi')
             };
-          })
+          });
         })
         .catch((err) => {
           tinyMCE.activeEditor.windowManager.alert(err);
