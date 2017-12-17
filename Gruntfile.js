@@ -94,8 +94,8 @@ module.exports = function(grunt) {
         'name': 'Service'
       },
       'tinymce-kunta-api-service-additional-details': {
-        'src': 'tinymce-plugins/src/kunta-api-service-location-channel-embed/metaforms/additionaldetails.json',
-        'prepend': 'tinymce-plugins/kunta-api-service-location-channel-embed/plugin.js',
+        'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/additionaldetails.json',
+        'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
         'name': 'ServiceAdditionalDetails'
       }
     }

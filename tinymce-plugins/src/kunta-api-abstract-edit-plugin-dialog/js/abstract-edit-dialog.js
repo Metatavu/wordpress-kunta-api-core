@@ -241,6 +241,26 @@
       return dialog;
     }
     
+    /**
+     * Finds an organization by id
+     * 
+     * @param {String} id organization id
+     * @returns {Promise} promise for organization
+     */
+    findOrganization(id) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_find_organization',
+          'id': id
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });      
+    }
+    
     searchCodes(types, search) {
       return new Promise((resolve, reject) => {
         $.post(ajaxurl, {
@@ -250,6 +270,20 @@
         }, (response) => {
           const codes = JSON.parse(response);
           resolve(codes);
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });
+    }
+    
+    searchOrganizations(search) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_search_organizations',
+          'search': search
+        }, (response) => {
+          resolve(JSON.parse(response));
         })
         .fail((response) => {
           reject(response.responseText || response.statusText);
@@ -619,6 +653,18 @@
         
         return result;
       }
+    }
+    
+    splitSearchTerms(search) {
+      if (!search) {
+        return null;
+      }
+
+      const searchTerms = _.map(search.replace(/\ {1,}/g, ' ').split(' '), (term) => {
+        return `+(${term}*)`;
+      });
+
+      return searchTerms.join(' ');
     }
     
     trigger (event, data) {

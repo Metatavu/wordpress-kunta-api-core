@@ -2,9 +2,7 @@
 /* global ajaxurl, tinymce, moment, Promise */
 ((tinymce, $) => {
   // TODO: Service:
-  // Palvelun pohjakuvaus
   // Luokittelu ja asiasanat
-  // Toteutustapa ja tuottaja
 
   const SUPPORTED_COMPONENTS = {
     'description': {
@@ -100,6 +98,8 @@
         
         this.createLanguagesAutocomplete(dialog.find('*[data-name="languages"]'), formValues.languageCodes);
         this.createAreasAutocomplete(dialog.find('*[data-name="areas"]'), formValues.areaCodes);
+        this.createServiceProducersAutocomplete(dialog.find('*[data-name="serviceProducersPurchaseServices"]'), formValues.serviceProducersPurchaseServiceItems);
+        this.createServiceProducersAutocomplete(dialog.find('*[data-name="serviceProducersOthers"]'), formValues.serviceProducersOtherItems);
       });
       
     }
@@ -157,13 +157,80 @@
       };
     }
     
+    /**
+     * Creates autocomplete field for selecting service producers
+     * 
+     * @param {jQuery} element autocomplete element
+     * @param {Array} organizationItems organizationItem to be loaded
+     */
+    createServiceProducersAutocomplete(element, organizationItems) {
+      element
+        .metaformMultivalueAutocomplete('val', organizationItems)
+        .metaformMultivalueAutocomplete('option', 'customSource', (input, callback) => {
+          const search = this.splitSearchTerms(input.term);
+          if (!search) {
+            callback([]);
+            return;
+          }
+          
+          this.searchOrganizations(search)
+            .then((organizations) => {
+              callback(organizations.map((organization) => {
+                return {
+                  value: organization.id,
+                  label: this.getLocalizedValue(organization.names, 'fi')
+                };
+              }));
+            })
+            .catch((err) => {
+              tinyMCE.activeEditor.windowManager.alert(err);
+            });
+        });
+    }
+    
+    serviceProducersToForm(serviceOrganizations, provisionType) {
+      const findPromises = (serviceOrganizations||[]).filter((serviceOrganization) => {
+        return serviceOrganization.roleType === "Producer" && serviceOrganization.provisionType === provisionType;
+      }).map((serviceOrganization) => {
+        return this.findOrganization(serviceOrganization.organizationId);
+      });
+      
+      return Promise.all(findPromises)
+        .then((organizations) => {
+          return organizations.map((organization) => {
+            return {
+              value: organization.id,
+              label: this.getLocalizedValue(organization.names, 'fi')
+            };
+          })
+        })
+        .catch((err) => {
+          tinyMCE.activeEditor.windowManager.alert(err);
+        });
+    }
+    
     additionalDetailsToForm() {
-      return this.languagesToForm(this.service.languages)
-        .then((languageCodes) => {
+      const formPromises = [
+        this.languagesToForm(this.service.languages),
+        this.serviceProducersToForm(this.service.organizations, 'PurchaseServices'),
+        this.serviceProducersToForm(this.service.organizations, 'Other')
+      ];
+      
+      return Promise.all(formPromises)
+        .then((results) => {
+          const languageCodes = results[0];
+          const serviceProducersPurchaseServices = results[1];
+          const serviceProducersOthers = results[2];
+          
           return {
             languageCodes: languageCodes,
             areaCodes: this.areasToForm(this.service.areas),
-            areaType: this.service.areaType
+            areaType: this.service.areaType,
+            serviceProducersPurchaseServiceItems: serviceProducersPurchaseServices,
+            serviceProducersOtherItems: serviceProducersOthers,
+            serviceProducersSelfProduced: (this.service.organizations||[]).filter((serviceOrganization) => {
+              return serviceOrganization.roleType === "Producer" && serviceOrganization.provisionType === 'SelfProduced';
+            }).length > 0
           };
         });
     }
@@ -206,6 +273,40 @@
       this.service.areaType = newFormValues.areaType;
       this.service.languages = (newFormValues.languages||'').split(',');
       this.service.areas = this.areasFromForm(newFormValues.areaType, newFormValues.areas);
+      this.service.organizations = this.service.organizations.filter((serviceOrganization) => {
+        return serviceOrganization.roleType !== 'Producer';
+      });
+      
+      const responsibleOrganizations = this.service.organizations.filter((serviceOrganization) => {
+        return serviceOrganization.roleType === 'Responsible';
+      });
+      
+      const formProducersPurchaseServices =  (newFormValues.serviceProducersPurchaseServices||'').split(',');
+      const formProducersOthers =  (newFormValues.serviceProducersOthers||'').split(',');
+      
+      const serviceProducersPurchaseServices = formProducersPurchaseServices.forEach((organizationId) => {
+        this.service.organizations.push({
+          provisionType: 'PurchaseServices',
+          roleType: 'Producer',
+          organizationId: organizationId
+        });
+      });
+      
+      const serviceProducersPurchaseOthers = formProducersOthers.forEach((organizationId) => {
+        this.service.organizations.push({
+          provisionType: 'Other',
+          roleType: 'Producer',
+          organizationId: organizationId
+        });
+      });
+      
+      if (newFormValues.serviceProducersSelfProduced) {
+        this.service.organizations.push({
+          provisionType: 'SelfProduced',
+          roleType: 'Producer',
+          organizationId: responsibleOrganizations.length > 0 ? responsibleOrganizations[0].organizationId : null
+        });
+      }
     }
     
     onEditAdditionalDetailsClick() {

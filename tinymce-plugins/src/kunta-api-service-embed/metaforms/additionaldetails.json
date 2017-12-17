@@ -35,5 +35,20 @@
       "title": "Valitse yksi tai useampi alue",
       "required": true
     }]
+  }, {
+    "title": "Toteutustavat ja tuottajat",
+    "fields": [{  
+      "title": "Palvelua tuotetaan itse",
+      "name": "serviceProducersSelfProduced",
+      "type": "boolean"
+    },{
+      "title": "Ostopalvelut",
+      "name": "serviceProducersPurchaseServices",
+      "type": "autocomplete-multiple"
+    }, {
+      "title": "Muut",
+      "name": "serviceProducersOthers",
+      "type": "autocomplete-multiple"
+    }]
   }]
 }
