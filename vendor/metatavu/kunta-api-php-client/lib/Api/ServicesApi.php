@@ -1496,12 +1496,17 @@ class ServicesApi
      * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
+     * @param string $electronicServiceChannelId Return only services that are connected to specified electronic service channel (optional)
+     * @param string $phoneServiceChannelId Return only services that are connected to specified phone service channel (optional)
+     * @param string $printableFormServiceChannelId Return only services that are connected to specified printable form service channel (optional)
+     * @param string $serviceLocationServiceChannelId Return only services that are connected to specified location service channel (optional)
+     * @param string $webPageServiceChannelId Return only services that are connected to specified webpage service channel (optional)
      * @return \KuntaAPI\Model\Service[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listServices($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
+    public function listServices($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null, $electronicServiceChannelId = null, $phoneServiceChannelId = null, $printableFormServiceChannelId = null, $serviceLocationServiceChannelId = null, $webPageServiceChannelId = null)
     {
-        list($response) = $this->listServicesWithHttpInfo($organizationId, $search, $sortBy, $sortDir, $firstResult, $maxResults);
+        list($response) = $this->listServicesWithHttpInfo($organizationId, $search, $sortBy, $sortDir, $firstResult, $maxResults, $electronicServiceChannelId, $phoneServiceChannelId, $printableFormServiceChannelId, $serviceLocationServiceChannelId, $webPageServiceChannelId);
         return $response;
     }
 
@@ -1516,10 +1521,15 @@ class ServicesApi
      * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
+     * @param string $electronicServiceChannelId Return only services that are connected to specified electronic service channel (optional)
+     * @param string $phoneServiceChannelId Return only services that are connected to specified phone service channel (optional)
+     * @param string $printableFormServiceChannelId Return only services that are connected to specified printable form service channel (optional)
+     * @param string $serviceLocationServiceChannelId Return only services that are connected to specified location service channel (optional)
+     * @param string $webPageServiceChannelId Return only services that are connected to specified webpage service channel (optional)
      * @return Array of \KuntaAPI\Model\Service[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listServicesWithHttpInfo($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
+    public function listServicesWithHttpInfo($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null, $electronicServiceChannelId = null, $phoneServiceChannelId = null, $printableFormServiceChannelId = null, $serviceLocationServiceChannelId = null, $webPageServiceChannelId = null)
     {
         // parse inputs
         $resourcePath = "/services";
@@ -1556,6 +1566,26 @@ class ServicesApi
         // query params
         if ($maxResults !== null) {
             $queryParams['maxResults'] = $this->apiClient->getSerializer()->toQueryValue($maxResults);
+        }
+        // query params
+        if ($electronicServiceChannelId !== null) {
+            $queryParams['electronicServiceChannelId'] = $this->apiClient->getSerializer()->toQueryValue($electronicServiceChannelId);
+        }
+        // query params
+        if ($phoneServiceChannelId !== null) {
+            $queryParams['phoneServiceChannelId'] = $this->apiClient->getSerializer()->toQueryValue($phoneServiceChannelId);
+        }
+        // query params
+        if ($printableFormServiceChannelId !== null) {
+            $queryParams['printableFormServiceChannelId'] = $this->apiClient->getSerializer()->toQueryValue($printableFormServiceChannelId);
+        }
+        // query params
+        if ($serviceLocationServiceChannelId !== null) {
+            $queryParams['serviceLocationServiceChannelId'] = $this->apiClient->getSerializer()->toQueryValue($serviceLocationServiceChannelId);
+        }
+        // query params
+        if ($webPageServiceChannelId !== null) {
+            $queryParams['webPageServiceChannelId'] = $this->apiClient->getSerializer()->toQueryValue($webPageServiceChannelId);
         }
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);

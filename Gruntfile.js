@@ -20,17 +20,23 @@ module.exports = function(grunt) {
   
   grunt.initConfig({
     'sass': {
-      'tinymce-kunta-api-service-location-channel-embed': {
+      'tinymce-kunta-api-plugins': {
         options: {
           style: 'compressed'
-      },
-      files: [{
-        expand: true,
-        cwd: 'tinymce-plugins/src/kunta-api-service-location-channel-embed/scss/',
-        src: ['*.scss'],
-        dest: 'tinymce-plugins/kunta-api-service-location-channel-embed/',
-        ext: '.css'
-      }]
+        },
+        files: [{
+          expand: true,
+          cwd: 'tinymce-plugins/src/kunta-api-service-location-channel-embed/scss/',
+          src: ['*.scss'],
+          dest: 'tinymce-plugins/kunta-api-service-location-channel-embed/',
+          ext: '.css'
+        }, {
+          expand: true,
+          cwd: 'tinymce-plugins/src/kunta-api-service-embed/scss/',
+          src: ['*.scss'],
+          dest: 'tinymce-plugins/kunta-api-service-embed/',
+          ext: '.css'
+        }]
       }
     },
     'babel': {
@@ -38,12 +44,30 @@ module.exports = function(grunt) {
         sourceMap: true,
         minified: true
       },
+      'tinymce-kunta-api-abstract-edit-plugin-dialog': {
+        files: [{
+          expand: true,
+          cwd: 'tinymce-plugins/src/kunta-api-abstract-edit-plugin-dialog/js/',
+          src: ['*.js'],
+          dest: 'tinymce-plugins/kunta-api-abstract-edit-plugin-dialog/',
+          ext: '.js'
+        }]
+      },
       'tinymce-kunta-api-service-location-channel-embed': {
         files: [{
           expand: true,
           cwd: 'tinymce-plugins/src/kunta-api-service-location-channel-embed/js/',
           src: ['*.js'],
           dest: 'tinymce-plugins/kunta-api-service-location-channel-embed/',
+          ext: '.js'
+        }]
+      },
+      'tinymce-kunta-api-service-embed': {
+        files: [{
+          expand: true,
+          cwd: 'tinymce-plugins/src/kunta-api-service-embed/js/',
+          src: ['*.js'],
+          dest: 'tinymce-plugins/kunta-api-service-embed/',
           ext: '.js'
         }]
       }
@@ -59,13 +83,33 @@ module.exports = function(grunt) {
         'prepend': 'tinymce-plugins/kunta-api-service-location-channel-embed/plugin.js',
         'name': 'ServiceHour'
       },
-      'tinymce-kunta-api-additional-details': {
+      'tinymce-kunta-api-service-location-channel-additional-details': {
         'src': 'tinymce-plugins/src/kunta-api-service-location-channel-embed/metaforms/additionaldetails.json',
         'prepend': 'tinymce-plugins/kunta-api-service-location-channel-embed/plugin.js',
-        'name': 'AdditionalDetails'
+        'name': 'ServiceLocationChannelAdditionalDetails'
+      },
+      'tinymce-kunta-api-service': {
+        'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/service.json',
+        'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
+        'name': 'Service'
+      },
+      'tinymce-kunta-api-service-additional-details': {
+        'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/additionaldetails.json',
+        'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
+        'name': 'ServiceAdditionalDetails'
       }
     }
   });
   
-  grunt.registerTask('default', [ 'sass', 'babel:tinymce-kunta-api-service-location-channel-embed', 'metaform:tinymce-kunta-api-service-location-channel-servicelocationservicechannel', 'metaform:tinymce-kunta-api-service-location-channel-servicehour', 'metaform:tinymce-kunta-api-additional-details' ]);
+  grunt.registerTask('default', [ 'sass', 
+    'babel:tinymce-kunta-api-abstract-edit-plugin-dialog', 
+    'babel:tinymce-kunta-api-service-location-channel-embed', 
+    'babel:tinymce-kunta-api-service-embed', 
+    'metaform:tinymce-kunta-api-service-location-channel-servicelocationservicechannel', 
+    'metaform:tinymce-kunta-api-service-location-channel-servicehour', 
+    'metaform:tinymce-kunta-api-service-location-channel-additional-details', 
+    'metaform:tinymce-kunta-api-service',
+    'metaform:tinymce-kunta-api-service-additional-details'
+  ]);
+  
 };
