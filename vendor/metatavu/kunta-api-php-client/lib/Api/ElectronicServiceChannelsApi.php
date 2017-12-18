@@ -212,14 +212,18 @@ class ElectronicServiceChannelsApi
      *
      * Lists electronic service channels
      *
+     * @param string $organizationId Organization id (optional)
+     * @param string $search Search channels by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return \KuntaAPI\Model\ElectronicServiceChannel[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listElectronicServiceChannels($firstResult = null, $maxResults = null)
+    public function listElectronicServiceChannels($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
-        list($response) = $this->listElectronicServiceChannelsWithHttpInfo($firstResult, $maxResults);
+        list($response) = $this->listElectronicServiceChannelsWithHttpInfo($organizationId, $search, $sortBy, $sortDir, $firstResult, $maxResults);
         return $response;
     }
 
@@ -228,12 +232,16 @@ class ElectronicServiceChannelsApi
      *
      * Lists electronic service channels
      *
+     * @param string $organizationId Organization id (optional)
+     * @param string $search Search channels by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return Array of \KuntaAPI\Model\ElectronicServiceChannel[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listElectronicServiceChannelsWithHttpInfo($firstResult = null, $maxResults = null)
+    public function listElectronicServiceChannelsWithHttpInfo($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
         // parse inputs
         $resourcePath = "/electronicServiceChannels";
@@ -247,6 +255,22 @@ class ElectronicServiceChannelsApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
 
+        // query params
+        if ($organizationId !== null) {
+            $queryParams['organizationId'] = $this->apiClient->getSerializer()->toQueryValue($organizationId);
+        }
+        // query params
+        if ($search !== null) {
+            $queryParams['search'] = $this->apiClient->getSerializer()->toQueryValue($search);
+        }
+        // query params
+        if ($sortBy !== null) {
+            $queryParams['sortBy'] = $this->apiClient->getSerializer()->toQueryValue($sortBy);
+        }
+        // query params
+        if ($sortDir !== null) {
+            $queryParams['sortDir'] = $this->apiClient->getSerializer()->toQueryValue($sortDir);
+        }
         // query params
         if ($firstResult !== null) {
             $queryParams['firstResult'] = $this->apiClient->getSerializer()->toQueryValue($firstResult);
