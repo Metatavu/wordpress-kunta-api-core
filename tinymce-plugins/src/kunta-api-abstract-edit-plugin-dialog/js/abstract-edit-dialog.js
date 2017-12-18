@@ -1,6 +1,7 @@
 /* jshint esversion: 6 */
 /* global ajaxurl, moment, Promise */
 (($) => {
+  'use strict';
   
   class KuntaApiAbstractEditDialog {
     
@@ -180,7 +181,7 @@
       return dialog;
     }
     
-    openLocalizedMetaformDialog(viewModel, formValues, callback) {
+    openTabbedMetaformDialog(tabs, viewModel, formTabValues, callback) {
       const dialog = $('<div>')
         .attr({
           'title': viewModel.title
@@ -192,18 +193,18 @@
       
       const dialogTabs = $('<ul>').appendTo(dialogContents);
      
-      this.supportedLocales.forEach((locale) => {
-        const tabId = `locale-tab-${locale}`;
+      tabs.forEach((tab) => {
+        const tabId = tab.id;
         
         $('<li>')
           .appendTo(dialogTabs)
-          .append($('<a>').attr('href', `#${tabId}`).text(this.getLocaleName(locale)));
+          .append($('<a>').attr('href', `#${tabId}`).text(tab.title));
 
         $('<div>')
           .attr('id', tabId)
           .html(mfRender({
             viewModel: viewModel,
-            formValues: formValues[locale]
+            formValues: formTabValues[tab.id]
           }))
           .appendTo(dialogContents);
       });
@@ -218,15 +219,7 @@
         buttons: [{
           text: "Tallenna",
           click: () => {
-            const formValues = {};
-            this.supportedLocales.forEach((locale) => {
-              formValues[locale] = {};
-              $(dialog).find(`#locale-tab-${locale} form.metaform`).metaform('val', true).forEach((value) => {
-                formValues[locale][value.name] = value.value;
-              });
-            });
-            
-            callback(formValues);
+            callback();
           }
         }, {
           text: "Peruuta",
@@ -237,6 +230,33 @@
       });
        
       $(dialog).find('form.metaform').metaform();
+      
+      return dialog;
+    }
+    
+    openLocalizedMetaformDialog(viewModel, formValues, callback) {
+      const formTabValues = {};
+      
+      this.supportedLocales.forEach((locale) => {
+        formTabValues[`locale-tab-${locale}`] = formValues[locale];
+      });
+      
+      const dialog = this.openTabbedMetaformDialog(this.supportedLocales.map((locale) => {
+        return {
+          id: `locale-tab-${locale}`,
+          title: this.getLocaleName(locale)
+        };
+      }), viewModel, formTabValues, () => {
+        const formValues = {};
+        this.supportedLocales.forEach((locale) => {
+          formValues[locale] = {};
+          $(dialog).find(`#locale-tab-${locale} form.metaform`).metaform('val', true).forEach((value) => {
+            formValues[locale][value.name] = value.value;
+          });
+        });
+
+        callback(formValues);
+      });
       
       return dialog;
     }
@@ -281,6 +301,46 @@
       return new Promise((resolve, reject) => {
         $.post(ajaxurl, {
           'action': 'kunta_api_search_organizations',
+          'search': search
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });
+    }
+    
+    /**
+     * Finds an electronic service channel by id
+     * 
+     * @param {String} id organization id
+     * @returns {Promise} promise for electronic service channel
+     */
+    findElectronicServiceChannel(id) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_load_electronic_service_channel',
+          'id': id
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });      
+    }
+    
+    /**
+     * Search electronic service channels by free text query
+     * 
+     * @param {String} search search string
+     * @returns {Promise} promise for found electronic service channels
+     */
+    searchElectronicServiceChannels(search) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_search_electronic_service_channels',
           'search': search
         }, (response) => {
           resolve(JSON.parse(response));

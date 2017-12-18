@@ -68,4 +68,43 @@
     }
   });
   
+  add_action( 'wp_ajax_kunta_api_load_electronic_service_channel', function () {
+    try {
+      $id = $_POST['id'];
+      $channel = \KuntaAPI\Core\Api::getElectronicServiceChannelsApi()->findElectronicServiceChannel($id);
+      $json = $channel->__toString();
+      echo $json;
+      wp_die();
+    } catch (\KuntaAPI\ApiException $e) {
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
+        response => $e->getCode()
+      ]);
+    }
+  });
+  
+  add_action( 'wp_ajax_kunta_api_search_electronic_service_channels', function () {
+    try {
+      $search = $_POST['search'];
+      $organizationId = $_POST['organizationId'];
+      $results = [];
+      $organizations = \KuntaAPI\Core\Api::getElectronicServiceChannelsApi()->listElectronicServiceChannels($organizationId, $search, null, null, null, 10);
+      
+      foreach ($organizations as $organization) {
+        $results[] = $organization->__toString();
+      }
+      
+      echo '[';
+      echo join(',', $results);
+      echo ']';
+      
+      wp_die();
+    } catch (\KuntaAPI\ApiException $e) {
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
+        response => $e->getCode()
+      ]);
+    }
+  });
+  
 ?>
