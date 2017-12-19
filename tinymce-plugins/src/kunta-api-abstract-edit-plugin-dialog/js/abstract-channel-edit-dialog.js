@@ -9,10 +9,12 @@
      * 
      * @param {Object} editor TinyMCE editor instance
      * @param {Object} serviceChannel service channel
+     * @param {String} saveAction ajax action to save the channel
      */
-    constructor(editor, serviceChannel) {
+    constructor(editor, serviceChannel, saveAction) {
       super(editor);
       this.serviceChannel = serviceChannel;
+      this.saveAction = saveAction;
     }
     
     /**
@@ -63,7 +65,17 @@
      * @returns {Promise} promise for save result
      */
     saveChannel(updatedChannel) {
-      return null;
+     return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': this.saveAction,
+          'serviceChannel': JSON.stringify(updatedChannel)
+        }, (response) => {
+          resolve();
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText || "Unknown error occurred");
+        });
+      });
     }
     
     /**
@@ -297,7 +309,7 @@
       const dialog = this.openLocalizedMetaformDialog(viewModel, formValues, (newFormValues) => {
         dialog.dialog("widget").addClass('loading');
         
-        const updatedChannel = this.serviceChannelFromForm(this.serviceLocationServiceChannel, newFormValues);
+        const updatedChannel = this.serviceChannelFromForm(this.serviceChannel, newFormValues);
         const validationError = this.validate(updatedChannel);
         
         if (validationError !== null) {

@@ -463,9 +463,15 @@
      * @returns {Array} list of phones in specified locale
      */
     getLocalizedPhoneNumbers(phones, locale) {
-      return (phones || []).filter((phone) => {
-        return phone.number && phone.language === locale;
-      });
+      return (phones || [])
+        .filter((phone) => {
+          return phone.number && phone.language === locale;
+        })
+        .map((phone) => {
+          return Object.assign({}, phone, {
+            isFinnishServiceNumber: phone.isFinnishServiceNumber ? "true" : "false"
+          });
+        });
     }
     
     /**
@@ -492,6 +498,23 @@
       return (webPages || []).filter((webPage) => {
         return webPage.url && webPage.language === locale;
       });
+    }
+    
+    /**
+     * Converts boolean from form into boolean
+     * 
+     * @param {String} value form value
+     * @param {Boolean} defaultValue default value
+     * @returns {Boolean} boolean
+     */
+    getFormBooleanValue(value, defaultValue) {
+      if (value === 'true') {
+        return true;
+      } else if (value === 'false') {
+        return false;
+      }
+      
+      return defaultValue;
     }
     
     /**
@@ -771,12 +794,44 @@
       return searchTerms.join(' ');
     }
     
+    linkInputs(dialog, linkedInputsNames) {
+      const linkedInputsSelector = linkedInputsNames.map((name) => {
+        return `input[name="${name}"]`;
+      }).join(',');
+      
+      $(dialog).on('change', linkedInputsSelector, this.onLinkedInputChange.bind(this)); 
+    }
+    
     trigger (event, data) {
       this.listeners.forEach((listener) => {
         if (listener.event === event) {
           listener.callable(data||{});
         }
       });
+    }
+    
+    onLinkedInputChange(event) {
+      const input = $(event.target);
+      const name = input.attr('name');
+      const dialog = input.closest('.ui-dialog-content');
+
+      if (input.attr('type') === 'checkbox') {
+        const value = input.is(':checked');
+        dialog.find(`*[name="${name}"]`)
+          .filter((index, element) => {
+            return (!$(element).is(input)) && (value !== $(element).is(':checked'));
+          })
+          .prop('checked', value)
+          .change();
+      } else {
+        const value = input.val();
+        dialog.find(`*[name="${name}"]`)
+          .filter((index, element) => {
+            return (!$(element).is(input)) && (value !== $(element).val());
+          })
+          .val(value)
+          .change();
+      }
     }
     
     on (event, callable) {

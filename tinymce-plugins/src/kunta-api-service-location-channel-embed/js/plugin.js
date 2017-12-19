@@ -38,29 +38,9 @@
      * @param {Object} serviceChannel service channel
      */
     constructor(editor, serviceChannel) {
-      super(editor, serviceChannel);
+      super(editor, serviceChannel, 'kunta_api_save_service_location_service_channel');
       
       this.on("afterDialogOpen", this.onAfterDialogOpen.bind(this));
-    }
-    
-    /**
-     * Saves the channel
-     * 
-     * @param updatedChannel channel data
-     * @returns {Promise} promise for save result
-     */
-    saveChannel(updatedChannel) {
-      return new Promise((resolve, reject) => {
-        $.post(ajaxurl, {
-          'action': 'kunta_api_save_service_location_service_channel',
-          'serviceLocationServiceChannel': JSON.stringify(updatedChannel)
-        }, (response) => {
-          resolve();
-        })
-        .fail((response) => {
-          reject(response.responseText || response.statusText || "Unknown error occurred");
-        });
-      });
     }
     
     /**
@@ -382,6 +362,10 @@
       const index = row.index();
       this.serviceChannel.serviceHours.splice(index, 1);
       this.redrawServiceHours();
+    }
+    
+    onEditAdditionalDetailsClick() {
+      this.openAdditionalDetailsEditDialog(this.serviceChannel);
     }
     
   }
