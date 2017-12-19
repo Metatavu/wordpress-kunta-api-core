@@ -15,7 +15,8 @@
         "column-width": 63,
         "type": "button",
         "text": "Muokka",
-        "class": "btn-success"
+        "class": "btn-success",
+        "action": "edit-channel"
       }, {
         "column-width": 63,
         "type": "button",

@@ -57,6 +57,7 @@
     
     formatServiceHour(serviceHour) {
       const type = this.getServiceHourTypeName(serviceHour.serviceHourType);
+      
       if (serviceHour.serviceHourType === 'Exception') {
         let result = `(${type})`;
         
@@ -85,7 +86,7 @@
           return `(${type}) Aina avoinna (24/7)`;
         }
         
-        const openingHours = serviceHour.openingHour.map((openingHour) => {
+        const openingHours = (serviceHour.openingHour||[]).map((openingHour) => {
           return this.formatOpeningHour(openingHour);
         });
 
@@ -116,12 +117,16 @@
     }
     
     formatOpeningHour(dailyOpeningTime) {
+      if (!dailyOpeningTime) {
+        return null;
+      }
+      
       if (dailyOpeningTime.dayFrom === null) {
         return '';
       } else {
         let result = this.getDayName(dailyOpeningTime.dayFrom, true);
 
-        if (dailyOpeningTime.dayTo !== null && dailyOpeningTime.dayTo !== dailyOpeningTime.dayFrom) {
+        if (dailyOpeningTime.dayTo && dailyOpeningTime.dayTo !== dailyOpeningTime.dayFrom) {
           result += ' - ' + this.getDayName(dailyOpeningTime.dayTo, true);
         }
 
@@ -448,6 +453,45 @@
       }
       
       return null;
+    }
+    
+    /**
+     * Returns list of phones in specified locale
+     * 
+     * @param {Array} phones phones
+     * @param {String} locale locale
+     * @returns {Array} list of phones in specified locale
+     */
+    getLocalizedPhoneNumbers(phones, locale) {
+      return (phones || []).filter((phone) => {
+        return phone.number && phone.language === locale;
+      });
+    }
+    
+    /**
+     * Returns list of emails in specified locale
+     * 
+     * @param {Array} emails emails
+     * @param {String} locale locale
+     * @returns {Array} list of emails in specified locale
+     */
+    getLocalizedEmails(emails, locale) {
+      return (emails || []).filter((email) => {
+        return email.value && email.language === locale;
+      });
+    }
+    
+    /**
+     * Returns list of web pages in specified locale
+     * 
+     * @param {Array} webPages web pages
+     * @param {String} locale locale
+     * @returns {Array} list of web pages in specified locale
+     */
+    getLocalizedWebPages(webPages, locale) {
+      return (webPages || []).filter((webPage) => {
+        return webPage.url && webPage.language === locale;
+      });
     }
     
     /**

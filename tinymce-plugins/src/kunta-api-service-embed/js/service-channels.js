@@ -36,17 +36,19 @@
         title: 'Sähköiset asiointikanavat'
       }];
     
-      const dialog = this.openTabbedMetaformDialog(tabs, viewModel, formValues, (newFormValues) => {
-        dialog.dialog("widget").addClass('loading');
+      this.dialog = this.openTabbedMetaformDialog(tabs, viewModel, formValues, (newFormValues) => {
+        this.dialog.dialog("widget").addClass('loading');
       });
       
-      const electronicChannelsTable = dialog.find('#electronic-channels .table-field[data-field-name="channels"]');
+      const electronicChannelsTable = this.dialog.find('#electronic-channels .table-field[data-field-name="channels"]');
       electronicChannelsTable.tableField('option', 'afterProcessRow', this._onAfterElectronicChannelTableProcessRow.bind(this));
       electronicChannelsTable.tableField('removeAllRows');
       const electronicServiceChannelPromises = (this.service.electronicServiceChannelIds||[]).map((electronicServiceChannelId) => {
         return this.findElectronicServiceChannel(electronicServiceChannelId);
       });
       
+      electronicChannelsTable.on('click', 'td button[data-action="edit-channel"]', this._onElectronicChannelTableEditChannelButtonClick.bind(this));
+
       Promise.all(electronicServiceChannelPromises).then((electronicServiceChannels) => {
         electronicServiceChannels.forEach((channel) => {
           const row = electronicChannelsTable.tableField('addRow', {
@@ -61,6 +63,32 @@
           
         });
       });
+    }
+    
+    /**
+     * Closes dialog
+     */
+    close() {
+      this.dialog.remove();
+    }
+    
+    /**
+     * Opens electronic service channel editor
+     * 
+     * @param {String} channelId channel id
+     */
+    openElectronicServiceChannelEditor(channelId) {
+      this.close();
+      
+      this.findElectronicServiceChannel(channelId)
+        .then((serviceChannel) => {
+          const ElectronicServiceChannelEditorDialog = window.ElectronicServiceChannelEditorDialog;
+          const channelDialog = new ElectronicServiceChannelEditorDialog(this.editor, serviceChannel);
+          channelDialog.open();
+        })
+        .catch((err) => {
+          tinyMCE.activeEditor.windowManager.alert(err);
+        });
     }
     
     /**
@@ -89,6 +117,15 @@
               tinyMCE.activeEditor.windowManager.alert(err);
             });
         });
+    }
+    
+    _onElectronicChannelTableEditChannelButtonClick(event) {
+      event.preventDefault();
+      
+      const value = $(event.target).closest('tr').find('*[data-column-name="name"] input')
+        .metaformAutocomplete('val');
+
+      this.openElectronicServiceChannelEditor(value.value);
     }
 
   }

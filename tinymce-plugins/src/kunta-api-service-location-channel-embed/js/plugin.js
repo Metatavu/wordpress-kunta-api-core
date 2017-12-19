@@ -29,80 +29,52 @@
     }
   };
   
-  class ServiceLocationServiceChannelDialog extends window.KuntaApiAbstractEditDialog {
+  class ServiceLocationServiceChannelDialog extends window.AbstractServiceChannelEditorDialog {
     
     /**
      * Constructs service location service channel dialog
      * 
-     * @param {type} editor TinyMCE editor instance
-     * @param {type} serviceLocationServiceChannel
+     * @param {Object} editor TinyMCE editor instance
+     * @param {Object} serviceChannel service channel
      */
-    constructor(editor, serviceLocationServiceChannel) {
-      super(editor);
-      this.serviceLocationServiceChannel = serviceLocationServiceChannel;
+    constructor(editor, serviceChannel) {
+      super(editor, serviceChannel);
+      
+      this.on("afterDialogOpen", this.onAfterDialogOpen.bind(this));
     }
     
-    saveServiceLocationServiceChannel(serviceLocationServiceChannel, callback) {
-      $.post(ajaxurl, {
-        'action': 'kunta_api_save_service_location_service_channel',
-        'serviceLocationServiceChannel': JSON.stringify(this.serviceLocationServiceChannel)
-      }, (response) => {
-        callback();
-      })
-      .fail((response) => {
-        callback(response.responseText || response.statusText || "Unknown error occurred");
+    /**
+     * Saves the channel
+     * 
+     * @param updatedChannel channel data
+     * @returns {Promise} promise for save result
+     */
+    saveChannel(updatedChannel) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_save_service_location_service_channel',
+          'serviceLocationServiceChannel': JSON.stringify(updatedChannel)
+        }, (response) => {
+          resolve();
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText || "Unknown error occurred");
+        });
       });
     }
     
-    open() {
-      const viewModel = getServiceLocationServiceChannelMetaform();
-      const formValues = {};
-      this.supportedLocales.map((locale) => {
-        formValues[locale] = this.serviceLocationServiceChannelToForm(locale, this.serviceLocationServiceChannel);
-      });
-      
-      const dialog = this.openLocalizedMetaformDialog(viewModel, formValues, (newFormValues) => {
-        dialog.dialog("widget").addClass('loading');
-        
-        const updatedChannel = this.translateServiceLocationServiceChannelFromForm(this.serviceLocationServiceChannel, newFormValues);
-        const validationError = this.validate(updatedChannel);
-        
-        if (validationError !== null) {
-          this.showError('Virheellinen syöte', validationError);
-        } else {
-          this.serviceLocationServiceChannel = updatedChannel;
-          
-          this.saveServiceLocationServiceChannel(this.serviceLocationServiceChannel, (err) => {
-            dialog.dialog("widget").removeClass('loading');
-            if (err) {
-              this.showError('Virhe tallentaessa', err);
-            } else {
-              dialog.dialog('close'); 
-            }
-          });
-        }
-      });
-      
-      $(dialog).on('click', '.add-service-hour', this._onAddServiceHourClick.bind(this));
-      $(dialog).on('click', '.edit-service-hour', this._onEditServiceHourClick.bind(this));
-      $(dialog).on('click', '.remove-service-hour', this._onRemoveServiceHourClick.bind(this));
-      $(dialog).on('click', '.edit-additional-details', this._onEditAdditionalDetailsClick.bind(this));
-      
-      this.redrawServiceHours();
-    }
-    
-    openServiceHourEditDialog(serviceHour, callback) {
-      const viewModel = getServiceHourMetaform();
-      const formValues = this.serviceHourToForm(serviceHour);
-      const dialog = this.openMetaformDialog(this.prepareViewModel(viewModel), formValues, (newFormValues) => {
-        const updatedServiceHour = this.serviceHourFromForm(newFormValues);
-        callback(updatedServiceHour);
-      });
+    /**
+     * Returns main form for service channel
+     * 
+     * @returns {Object} metaform
+     */
+    getServiceChannelFormViewModel() {
+      return getServiceLocationServiceChannelMetaform();
     }
     
     openAdditionalDetailsEditDialog() {
       const viewModel = getServiceLocationChannelAdditionalDetailsMetaform();
-      this.additionalDetailsToForm(this.serviceLocationServiceChannel).then((formValues) => {
+      this.additionalDetailsToForm(this.serviceChannel).then((formValues) => {
         const dialog = this.openMetaformDialog(this.prepareViewModel(viewModel), formValues, (newFormValues) => {
           this.additionalDetailsFromForm(newFormValues);
         });
@@ -132,128 +104,7 @@
       return null;
     }
     
-    redrawServiceHours() {
-      const serviceHourTexts = this.serviceLocationServiceChannel.serviceHours.map((serviceHour) => {
-        return this.formatServiceHour(serviceHour);
-      });
-      
-      $('table.serviceHours tbody').empty();
-      
-      if (serviceHourTexts.length) {
-        serviceHourTexts.forEach((serviceHourText) => {
-          const row = $('<tr>').appendTo($('table.serviceHours tbody'));
-          $('<td>').html(serviceHourText).appendTo(row);
-          $('<td>').append($('<a>').addClass('btn btn-sm btn-warning remove-service-hour').html('Poista')).appendTo(row);
-          $('<td>').append($('<a>').addClass('btn btn-sm btn-success edit-service-hour').html('Muokkaa')).appendTo(row);
-        });
-      } else {
-        $('<tr>')
-          .append($('<td>').html('Palveluaikoja ei ole vielä määritelty'))
-          .appendTo($('table.serviceHours tbody'));
-      }
-    }
-    
-    serviceHourFromFormException(formValues) {
-      const additionalInformation = [];
-      const isClosed = formValues.type === 'closed-all-day';
-      const validForNow = false;
-      const toTime = isClosed ? null : formValues[`Exception-to-time`];
-      const fromTime = isClosed ? null : formValues[`Exception-from-time`];
-      const openingHour = [];
-      
-      if (toTime || fromTime) {
-        openingHour.push({
-          dayFrom: null,
-          dayTo: null,
-          from: fromTime,
-          to: toTime,
-          isExtra: false
-        });
-      }
-      
-      this.supportedLocales.forEach((locale) => {
-        const value = formValues[`Exception-additional-information-${locale}`];
-        if (value) {
-          additionalInformation.push({
-            language: locale,
-            value: value
-          });  
-        }
-      });
-      
-      return {
-        serviceHourType: formValues.type,
-        validFrom: this.parseIsoDate(formValues[`Exception-from-date`]),
-        validTo: this.parseIsoDate(formValues[`Exception-to-date`]),
-        isClosed: isClosed,
-        validForNow: validForNow,
-        additionalInformation: additionalInformation,
-        openingHour: openingHour
-      };
-    }
-    
-    serviceHourFromFormStandard(formValues) {
-      const isClosed = false;
-      const validForNow = formValues[`${formValues.type}-validForNow`] === "true";
-      const additionalInformation = [];
-      const serviceHours = JSON.parse(formValues['Standard-openinghours']);
-      const openingHour = formValues['Standard-open24h'] ? [] : serviceHours.map((serviceHour) => {
-        return {
-          dayFrom: parseInt(serviceHour.day),
-          dayTo: parseInt(serviceHour.day),
-          from: serviceHour.from,
-          to: serviceHour.to,
-          isExtra: false
-        };
-      });
-      
-      return {
-        serviceHourType: formValues.type,
-        validFrom: validForNow ? null : this.parseIsoDate(formValues[`${formValues.type}-validFrom`]),
-        validTo: validForNow ? null : this.parseIsoDate(formValues[`${formValues.type}-validTo`]),
-        isClosed: isClosed,
-        validForNow: validForNow,
-        additionalInformation: additionalInformation,
-        openingHour: openingHour
-      };
-    }
-    
-    serviceHourFromFormSpecial(formValues) {
-      const isClosed = false;
-      const validForNow = formValues[`${formValues.type}-validForNow`] === "true";
-      const additionalInformation = [];
-      const openingHour = [{
-        dayFrom: parseInt(formValues['Special-from-date']),
-        dayTo: parseInt(formValues['Special-to-date']),
-        from: formValues['Special-from-time'],
-        to: formValues['Special-to-time'],
-        isExtra: false
-      }];
-    
-      return {
-        serviceHourType: formValues.type,
-        validFrom: validForNow ? null : this.parseIsoDate(formValues[`${formValues.type}-validFrom`]),
-        validTo: validForNow ? null : this.parseIsoDate(formValues[`${formValues.type}-validTo`]),
-        isClosed: isClosed,
-        validForNow: validForNow,
-        additionalInformation: additionalInformation,
-        openingHour: openingHour
-      };
-    }
-    
-    serviceHourFromForm(formValues) {
-      const serviceHourType = formValues.type;
-      switch (serviceHourType) {
-        case "Exception":
-          return this.serviceHourFromFormException(formValues);
-        case "Standard":
-          return this.serviceHourFromFormStandard(formValues);
-        case "Special":
-          return this.serviceHourFromFormSpecial(formValues);
-      };
-    }
-    
-    translateServiceLocationServiceChannelFromForm(existingLocationServiceChannel, formValues) {
+    serviceChannelFromForm(existingLocationServiceChannel, formValues) {
       const serviceLocationServiceChannel = JSON.parse(JSON.stringify(existingLocationServiceChannel));
       serviceLocationServiceChannel.addresses = [];
       serviceLocationServiceChannel.descriptions = [];
@@ -411,89 +262,6 @@
       return serviceLocationServiceChannel;
     }
     
-    serviceHourToForm(serviceHour) {
-      if (!serviceHour) {
-        return {};
-      }
-      
-      const type = serviceHour.serviceHourType;
-      const validForNow = serviceHour.validForNow ? "true" : "false";
-      const validFrom = serviceHour.validForNow || !serviceHour.validFrom ? null : moment(serviceHour.validFrom);
-      const validTo = serviceHour.validForNow || !serviceHour.validTo ? null : moment(serviceHour.validTo);
-      const open24h = serviceHour.openingHour.length === 0 && !serviceHour.isClosed;
-      const validFromStr = validFrom ? validFrom.format() : null;
-      const validToStr = validTo ? validTo.format() : null;
-      const openingHour = serviceHour.openingHour && serviceHour.openingHour.length ? serviceHour.openingHour[0] : null;
-      const openingHours = [];
-          
-      (serviceHour.openingHour||[]).forEach((openingHour) => {
-        for (let day = openingHour.dayFrom; day <= openingHour.dayTo; day++) {
-          openingHours.push({
-            day: day,
-            from: openingHour.from,
-            to: openingHour.to
-          });
-        };
-      });
-      
-      switch (type) {
-        case 'Standard':
-          return {
-            'type': type,
-            'Standard-validForNow': validForNow,
-            'Standard-validFrom': validFromStr,
-            'Standard-validTo': validToStr,
-            'Standard-open24h': open24h,
-            'Standard-openinghours': openingHours
-          };
-        case 'Special':
-          return {
-            'type': type,
-            'Special-validForNow': validForNow,
-            'Special-validFrom': validFromStr,
-            'Special-validTo': validToStr,
-            'Special-from-date': openingHour ? openingHour.dayFrom : null,
-            'Special-from-time': openingHour ? openingHour.from : null,
-            'Special-to-date': openingHour ? openingHour.dayTo : null,
-            'Special-to-time': openingHour ? openingHour.to : null
-          };
-        case 'Exception':
-          const openFrom = openingHour ? openingHour.from : null;
-          const openTo = openingHour ? openingHour.to : null;
-          const exceptionType = !validTo ? !openFrom && !openTo ? 'closed-all-day' : 'single' : 'range';
-          
-          if (validFrom && openFrom) {
-            const parts = openFrom.split(':');
-            validFrom.hour(parseInt(parts[0]));
-            validFrom.minute(parseInt(parts[1]));
-          }
-          
-          if (validTo && openTo) {
-            const parts = openTo.split(':');
-            validTo.hour(parseInt(parts[0]));
-            validTo.minute(parseInt(parts[1]));
-          }
-          
-          const result = {
-            'type': type,
-            'Exception-type': exceptionType,
-            'Exception-from-date': validFrom ? validFrom.format() : null,
-            'Exception-to-date': validTo ? validTo.format() : null,
-            'Exception-from-time': openFrom,
-            'Exception-to-time': openTo
-          };
-          
-          this.supportedLocales.forEach((locale) => {
-            result[`Exception-additional-information-${locale}`] = this.getLocalizedValue(serviceHour.additionalInformation, locale);
-          });
-          
-          return result;
-        default:
-          throw new Error(`Unknown service hour type ${type}`);
-        break;
-      }
-    }
-    
     additionalDetailsToForm(serviceLocationServiceChannel) {
       return this.languagesToForm(serviceLocationServiceChannel.languages)
         .then((languageCodes) => {
@@ -506,38 +274,36 @@
     }
     
     additionalDetailsFromForm(newFormValues) {
-      this.serviceLocationServiceChannel.areaType = newFormValues.areaType;
-      this.serviceLocationServiceChannel.languages = (newFormValues.languages||'').split(',');
-      this.serviceLocationServiceChannel.areas = this.areasFromForm(newFormValues.areaType, newFormValues.areas);
+      this.serviceChannel.areaType = newFormValues.areaType;
+      this.serviceChannel.languages = (newFormValues.languages||'').split(',');
+      this.serviceChannel.areas = this.areasFromForm(newFormValues.areaType, newFormValues.areas);
     }
    
-    serviceLocationServiceChannelToForm(locale, serviceLocationServiceChannel) {
-      const name = this.getTypedLocalizedValue(serviceLocationServiceChannel.names, locale, 'Name');
-      const shortDescription = this.getTypedLocalizedValue(serviceLocationServiceChannel.descriptions, locale, 'ShortDescription');
-      const description = this.getTypedLocalizedValue(serviceLocationServiceChannel.descriptions, locale, 'Description');
-      const visitAddresses = serviceLocationServiceChannel.addresses.filter((address) => {
+    serviceChannelToForm(locale) {
+      const name = this.getTypedLocalizedValue(this.serviceChannel.names, locale, 'Name');
+      const shortDescription = this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'ShortDescription');
+      const description = this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'Description');
+      const visitAddresses = this.serviceChannel.addresses.filter((address) => {
         return address.subtype !== 'Abroad';
       });
       
-      const foreignAddresses = serviceLocationServiceChannel.addresses.filter((address) => {
+      const foreignAddresses = this.serviceChannel.addresses.filter((address) => {
         return address.subtype === 'Abroad';
       });
       
-      const emails = serviceLocationServiceChannel.emails.filter((email) => {
+      const emails = this.serviceChannel.emails.filter((email) => {
         return locale === email.language;
       });
       
-      const faxes = serviceLocationServiceChannel.phoneNumbers.filter((phoneNumber) => {
+      const faxes = this.serviceChannel.phoneNumbers.filter((phoneNumber) => {
         return phoneNumber.type === 'Fax' && locale === phoneNumber.language;
       });
       
-      const phoneNumbers = serviceLocationServiceChannel.phoneNumbers.filter((phoneNumber) => {
+      const phoneNumbers = this.serviceChannel.phoneNumbers.filter((phoneNumber) => {
         return phoneNumber.type === 'Phone' && locale === phoneNumber.language;
       });
       
-      const webPages = serviceLocationServiceChannel.webPages.filter((webPage) => {
-        return locale === webPage.language;
-      });
+      const webPages = this.getLocalizedWebPages(this.serviceChannel.webPages, locale);
       
       const addresses = visitAddresses.map((address) => {
         return {
@@ -573,32 +339,48 @@
       };
     }
     
-    _onAddServiceHourClick(event) {
+    /**
+     * Method invoked after dialog open
+     * 
+     * @param {Object} data event data
+     */
+    onAfterDialogOpen(data) {
+      const dialog = data.dialog;
+      
+      $(dialog).on('click', '.add-service-hour', this.onAddServiceHourClick.bind(this));
+      $(dialog).on('click', '.edit-service-hour', this.onEditServiceHourClick.bind(this));
+      $(dialog).on('click', '.remove-service-hour', this.onRemoveServiceHourClick.bind(this));
+      $(dialog).on('click', '.edit-additional-details', this.onEditAdditionalDetailsClick.bind(this));
+      
+      this.redrawServiceHours();
+    }
+    
+    onAddServiceHourClick(event) {
       this.openServiceHourEditDialog(null, (createdServiceHour) => {
-        this.serviceLocationServiceChannel.serviceHours.push(createdServiceHour);
+        this.serviceChannel.serviceHours.push(createdServiceHour);
         this.redrawServiceHours();
       });
     }
     
-    _onEditAdditionalDetailsClick() {
-      this.openAdditionalDetailsEditDialog(this.serviceLocationServiceChannel);
+    onEditAdditionalDetailsClick() {
+      this.openAdditionalDetailsEditDialog(this.serviceChannel);
     }
     
-    _onEditServiceHourClick(event) {
+    onEditServiceHourClick(event) {
       const row = $(event.target).closest('tr');
       const index = row.index();
-      const serviceHour = this.serviceLocationServiceChannel.serviceHours[index];
+      const serviceHour = this.serviceChannel.serviceHours[index];
       
       this.openServiceHourEditDialog(serviceHour, (updatedServiceHour) => {
-        this.serviceLocationServiceChannel.serviceHours.splice(index, 1, updatedServiceHour);
+        this.serviceChannel.serviceHours.splice(index, 1, updatedServiceHour);
         this.redrawServiceHours();
       });
     }
     
-    _onRemoveServiceHourClick(event) {
+    onRemoveServiceHourClick(event) {
       const row = $(event.target).closest('tr');
       const index = row.index();
-      this.serviceLocationServiceChannel.serviceHours.splice(index, 1);
+      this.serviceChannel.serviceHours.splice(index, 1);
       this.redrawServiceHours();
     }
     
