@@ -44,7 +44,11 @@ module.exports = function(grunt) {
         separator: ';',
       },
       dist: {
-        src: ['tinymce-plugins/src/kunta-api-service-embed/js/service-channels.js', 'tinymce-plugins/src/kunta-api-service-embed/js/plugin.js'],
+        src: [
+          'tinymce-plugins/src/kunta-api-service-embed/js/electronic-service-channel-editor.js', 
+          'tinymce-plugins/src/kunta-api-service-embed/js/service-channels.js', 
+          'tinymce-plugins/src/kunta-api-service-embed/js/plugin.js'
+        ],
         dest: 'tinymce-plugins/src/kunta-api-service-embed/build/plugin.js',
       },
     },
@@ -88,9 +92,9 @@ module.exports = function(grunt) {
         'prepend': 'tinymce-plugins/kunta-api-service-location-channel-embed/plugin.js',
         'name': 'ServiceLocationServiceChannel'
       },
-      'tinymce-kunta-api-service-location-channel-servicehour': {
-        'src': 'tinymce-plugins/src/kunta-api-service-location-channel-embed/metaforms/servicehour.json',
-        'prepend': 'tinymce-plugins/kunta-api-service-location-channel-embed/plugin.js',
+      'tinymce-kunta-api-service-channel-servicehour': {
+        'src': 'tinymce-plugins/src/kunta-api-abstract-edit-plugin-dialog/metaforms/servicehour.json',
+        'prepend': 'tinymce-plugins/kunta-api-abstract-edit-plugin-dialog/abstract-channel-edit-dialog.js',
         'name': 'ServiceHour'
       },
       'tinymce-kunta-api-service-location-channel-additional-details': {
@@ -112,6 +116,11 @@ module.exports = function(grunt) {
         'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/servicechannels.json',
         'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
         'name': 'ServiceChannels'
+      },
+      'tinymce-electronic-service-channel': {
+        'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/electronicservicechannel.json',
+        'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
+        'name': 'ElectronicServiceChannel'
       }
     }
   });
@@ -123,11 +132,12 @@ module.exports = function(grunt) {
     'babel:tinymce-kunta-api-service-location-channel-embed', 
     'babel:tinymce-kunta-api-service-embed', 
     'metaform:tinymce-kunta-api-service-location-channel-servicelocationservicechannel', 
-    'metaform:tinymce-kunta-api-service-location-channel-servicehour', 
+    'metaform:tinymce-kunta-api-service-channel-servicehour', 
     'metaform:tinymce-kunta-api-service-location-channel-additional-details', 
     'metaform:tinymce-kunta-api-service',
     'metaform:tinymce-kunta-api-service-additional-details',
-    'metaform:tinymce-kunta-api-service-channenls'
+    'metaform:tinymce-kunta-api-service-channenls',
+    'metaform:tinymce-electronic-service-channel'
   ]);
   
 };
