@@ -121,7 +121,15 @@ module.exports = function(grunt) {
         'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/electronicservicechannel.json',
         'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
         'name': 'ElectronicServiceChannel'
+      },
+      'tinymce-electronic-service-channel-additional-details': {
+        'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/electronic-service-additionaldetails.json',
+        'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
+        'name': 'ElectronicServiceChannelAdditionalDetails'
       }
+      
+      
+      
     }
   });
   
@@ -137,7 +145,8 @@ module.exports = function(grunt) {
     'metaform:tinymce-kunta-api-service',
     'metaform:tinymce-kunta-api-service-additional-details',
     'metaform:tinymce-kunta-api-service-channenls',
-    'metaform:tinymce-electronic-service-channel'
+    'metaform:tinymce-electronic-service-channel',
+    'metaform:tinymce-electronic-service-channel-additional-details'
   ]);
   
 };
