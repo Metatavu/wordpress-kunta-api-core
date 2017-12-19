@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**findElectronicServiceChannel**](ElectronicServiceChannelsApi.md#findElectronicServiceChannel) | **GET** /electronicServiceChannels/{electronicServiceChannelId} | Finds an electronic service channel by id
 [**listElectronicServiceChannels**](ElectronicServiceChannelsApi.md#listElectronicServiceChannels) | **GET** /electronicServiceChannels | Lists electronic service channels
+[**updateElectronicServiceChannel**](ElectronicServiceChannelsApi.md#updateElectronicServiceChannel) | **PUT** /electronicServiceChannels/{electronicServiceChannelId} | Updates a channel
 
 
 # **findElectronicServiceChannel**
@@ -104,6 +105,57 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**\KuntaAPI\Model\ElectronicServiceChannel[]**](../Model/ElectronicServiceChannel.md)
+
+### Authorization
+
+[basicAuth](../../README.md#basicAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json;charset=utf-8
+ - **Accept**: application/json;charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **updateElectronicServiceChannel**
+> \KuntaAPI\Model\ElectronicServiceChannel updateElectronicServiceChannel($electronicServiceChannelId, $payload)
+
+Updates a channel
+
+Updates a service channel
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
+
+$api_instance = new KuntaAPI\Api\ElectronicServiceChannelsApi();
+$electronicServiceChannelId = "electronicServiceChannelId_example"; // string | electronicChannel id
+$payload = new \KuntaAPI\Model\ElectronicServiceChannel(); // \KuntaAPI\Model\ElectronicServiceChannel | New electronic service data
+
+try {
+    $result = $api_instance->updateElectronicServiceChannel($electronicServiceChannelId, $payload);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ElectronicServiceChannelsApi->updateElectronicServiceChannel: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **electronicServiceChannelId** | **string**| electronicChannel id |
+ **payload** | [**\KuntaAPI\Model\ElectronicServiceChannel**](../Model/\KuntaAPI\Model\ElectronicServiceChannel.md)| New electronic service data |
+
+### Return type
+
+[**\KuntaAPI\Model\ElectronicServiceChannel**](../Model/ElectronicServiceChannel.md)
 
 ### Authorization
 
