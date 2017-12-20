@@ -3,8 +3,8 @@
   
   if (is_admin()) {
   	add_action('init', function(){
-      $metaformUrl = '//cdn.metatavu.io/libs/metaform-fields/0.6.11';
-        
+      $metaformUrl = '//cdn.metatavu.io/libs/metaform-fields/0.6.12';
+      
       add_filter('mce_external_plugins', function($plugins){
         $plugins['noneditable'] = '//cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.10/plugins/noneditable/plugin.min.js';
   	    return $plugins;
@@ -26,6 +26,7 @@
       wp_register_script('flatpickr-fi', '//cdn.metatavu.io/libs/flatpickr/4.0.6/l10n/fi.js');
       
       wp_register_script('kunta-api-abstract-edit-plugin-dialog', plugin_dir_url(dirname(__FILE__)) . 'tinymce-plugins/kunta-api-abstract-edit-plugin-dialog/abstract-edit-dialog.js', ['jquery', 'jquery-ui-dialog', 'jquery-ui-tabs', 'metaform-form', 'metaform-utils', 'metaform-modernizr']);
+      wp_register_script('kunta-api-abstract-channel-edit-plugin-dialog', plugin_dir_url(dirname(__FILE__)) . 'tinymce-plugins/kunta-api-abstract-edit-plugin-dialog/abstract-channel-edit-dialog.js', ['kunta-api-abstract-edit-plugin-dialog']);
 
       wp_enqueue_script('flatpickr');
       wp_enqueue_script('flatpickr-fi');
@@ -35,7 +36,7 @@
       wp_enqueue_style('metaform');
       wp_enqueue_script('moment');
       wp_enqueue_script('metaform-client');
-      wp_enqueue_script('kunta-api-abstract-edit-plugin-dialog');
+      wp_enqueue_script('kunta-api-abstract-channel-edit-plugin-dialog');
     });
   }
 ?>

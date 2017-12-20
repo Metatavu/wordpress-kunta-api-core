@@ -1,6 +1,7 @@
 /* jshint esversion: 6 */
 /* global ajaxurl, moment, Promise */
 (($) => {
+  'use strict';
   
   class KuntaApiAbstractEditDialog {
     
@@ -56,6 +57,7 @@
     
     formatServiceHour(serviceHour) {
       const type = this.getServiceHourTypeName(serviceHour.serviceHourType);
+      
       if (serviceHour.serviceHourType === 'Exception') {
         let result = `(${type})`;
         
@@ -84,7 +86,7 @@
           return `(${type}) Aina avoinna (24/7)`;
         }
         
-        const openingHours = serviceHour.openingHour.map((openingHour) => {
+        const openingHours = (serviceHour.openingHour||[]).map((openingHour) => {
           return this.formatOpeningHour(openingHour);
         });
 
@@ -115,12 +117,16 @@
     }
     
     formatOpeningHour(dailyOpeningTime) {
+      if (!dailyOpeningTime) {
+        return null;
+      }
+      
       if (dailyOpeningTime.dayFrom === null) {
         return '';
       } else {
         let result = this.getDayName(dailyOpeningTime.dayFrom, true);
 
-        if (dailyOpeningTime.dayTo !== null && dailyOpeningTime.dayTo !== dailyOpeningTime.dayFrom) {
+        if (dailyOpeningTime.dayTo && dailyOpeningTime.dayTo !== dailyOpeningTime.dayFrom) {
           result += ' - ' + this.getDayName(dailyOpeningTime.dayTo, true);
         }
 
@@ -180,7 +186,7 @@
       return dialog;
     }
     
-    openLocalizedMetaformDialog(viewModel, formValues, callback) {
+    openTabbedMetaformDialog(tabs, viewModel, formTabValues, callback) {
       const dialog = $('<div>')
         .attr({
           'title': viewModel.title
@@ -192,18 +198,18 @@
       
       const dialogTabs = $('<ul>').appendTo(dialogContents);
      
-      this.supportedLocales.forEach((locale) => {
-        const tabId = `locale-tab-${locale}`;
+      tabs.forEach((tab) => {
+        const tabId = tab.id;
         
         $('<li>')
           .appendTo(dialogTabs)
-          .append($('<a>').attr('href', `#${tabId}`).text(this.getLocaleName(locale)));
+          .append($('<a>').attr('href', `#${tabId}`).text(tab.title));
 
         $('<div>')
           .attr('id', tabId)
           .html(mfRender({
             viewModel: viewModel,
-            formValues: formValues[locale]
+            formValues: formTabValues[tab.id]
           }))
           .appendTo(dialogContents);
       });
@@ -218,15 +224,7 @@
         buttons: [{
           text: "Tallenna",
           click: () => {
-            const formValues = {};
-            this.supportedLocales.forEach((locale) => {
-              formValues[locale] = {};
-              $(dialog).find(`#locale-tab-${locale} form.metaform`).metaform('val', true).forEach((value) => {
-                formValues[locale][value.name] = value.value;
-              });
-            });
-            
-            callback(formValues);
+            callback();
           }
         }, {
           text: "Peruuta",
@@ -237,6 +235,33 @@
       });
        
       $(dialog).find('form.metaform').metaform();
+      
+      return dialog;
+    }
+    
+    openLocalizedMetaformDialog(viewModel, formValues, callback) {
+      const formTabValues = {};
+      
+      this.supportedLocales.forEach((locale) => {
+        formTabValues[`locale-tab-${locale}`] = formValues[locale];
+      });
+      
+      const dialog = this.openTabbedMetaformDialog(this.supportedLocales.map((locale) => {
+        return {
+          id: `locale-tab-${locale}`,
+          title: this.getLocaleName(locale)
+        };
+      }), viewModel, formTabValues, () => {
+        const formValues = {};
+        this.supportedLocales.forEach((locale) => {
+          formValues[locale] = {};
+          $(dialog).find(`#locale-tab-${locale} form.metaform`).metaform('val', true).forEach((value) => {
+            formValues[locale][value.name] = value.value;
+          });
+        });
+
+        callback(formValues);
+      });
       
       return dialog;
     }
@@ -281,7 +306,147 @@
       return new Promise((resolve, reject) => {
         $.post(ajaxurl, {
           'action': 'kunta_api_search_organizations',
-          'search': search
+          'search': this.splitSearchTerms(search)
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });
+    }
+    
+    /**
+     * Finds an electronic service channel by id
+     * 
+     * @param {String} id organization id
+     * @returns {Promise} promise for electronic service channel
+     */
+    findElectronicServiceChannel(id) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_load_electronic_service_channel',
+          'id': id
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });      
+    }
+    
+    /**
+     * Finds an webpage service channel by id
+     * 
+     * @param {String} id organization id
+     * @returns {Promise} promise for webpage service channel
+     */
+    findWebPageChannelServiceChannel(id) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_load_webpage_service_channel',
+          'id': id
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });      
+    }
+    
+    /**
+     * Finds an printable form service channel by id
+     * 
+     * @param {String} id organization id
+     * @returns {Promise} promise for webpage service channel
+     */
+    findPrintableFormChannelServiceChannel(id) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_load_printable_form_service_channel',
+          'id': id
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });      
+    }
+    
+    /**
+     * Finds an printable form service channel by id
+     * 
+     * @param {String} id organization id
+     * @returns {Promise} promise for webpage service channel
+     */
+    findPhoneServiceChannel(id) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_load_phone_service_channel',
+          'id': id
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });      
+    }
+    
+    /**
+     * Finds an service location service channel by id
+     * 
+     * @param {String} id organization id
+     * @returns {Promise} promise for webpage service channel
+     */
+    findServiceLocationServiceChannel(id) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_load_service_location_service_channel',
+          'id': id
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });      
+    }
+        
+    /**
+     * Search electronic service channels by free text query
+     * 
+     * @param {String} search search string
+     * @returns {Promise} promise for found electronic service channels
+     */
+    searchElectronicServiceChannels(search) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_search_electronic_service_channels',
+          'search': this.splitSearchTerms(search)
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });
+    }
+    
+    /**
+     * Search electronic service channels by free text query
+     * 
+     * @param {String} search search string
+     * @returns {Promise} promise for found electronic service channels
+     */
+    searchServiceLocationServiceChannels(search) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_search_service_location_channels',
+          'search': this.splitSearchTerms(search)
         }, (response) => {
           resolve(JSON.parse(response));
         })
@@ -388,6 +553,68 @@
       }
       
       return null;
+    }
+    
+    /**
+     * Returns list of phones in specified locale
+     * 
+     * @param {Array} phones phones
+     * @param {String} locale locale
+     * @returns {Array} list of phones in specified locale
+     */
+    getLocalizedPhoneNumbers(phones, locale) {
+      return (phones || [])
+        .filter((phone) => {
+          return phone.number && phone.language === locale;
+        })
+        .map((phone) => {
+          return Object.assign({}, phone, {
+            isFinnishServiceNumber: phone.isFinnishServiceNumber ? "true" : "false"
+          });
+        });
+    }
+    
+    /**
+     * Returns list of emails in specified locale
+     * 
+     * @param {Array} emails emails
+     * @param {String} locale locale
+     * @returns {Array} list of emails in specified locale
+     */
+    getLocalizedEmails(emails, locale) {
+      return (emails || []).filter((email) => {
+        return email.value && email.language === locale;
+      });
+    }
+    
+    /**
+     * Returns list of web pages in specified locale
+     * 
+     * @param {Array} webPages web pages
+     * @param {String} locale locale
+     * @returns {Array} list of web pages in specified locale
+     */
+    getLocalizedWebPages(webPages, locale) {
+      return (webPages || []).filter((webPage) => {
+        return webPage.url && webPage.language === locale;
+      });
+    }
+    
+    /**
+     * Converts boolean from form into boolean
+     * 
+     * @param {String} value form value
+     * @param {Boolean} defaultValue default value
+     * @returns {Boolean} boolean
+     */
+    getFormBooleanValue(value, defaultValue) {
+      if (value === 'true') {
+        return true;
+      } else if (value === 'false') {
+        return false;
+      }
+      
+      return defaultValue;
     }
     
     /**
@@ -667,12 +894,56 @@
       return searchTerms.join(' ');
     }
     
+    linkInputs(dialog, linkedInputsNames) {
+      const linkedInputsSelector = linkedInputsNames.map((name) => {
+        return `input[name="${name}"]`;
+      }).join(',');
+      
+      $(dialog).on('change', linkedInputsSelector, this.onLinkedInputChange.bind(this)); 
+    }
+    
     trigger (event, data) {
       this.listeners.forEach((listener) => {
         if (listener.event === event) {
           listener.callable(data||{});
         }
       });
+    }
+    
+    saveService(service, callback) {
+      $.post(ajaxurl, {
+        'action': 'kunta_api_save_service',
+        'service': JSON.stringify(service)
+      }, (response) => {
+        callback();
+      })
+      .fail((response) => {
+        callback(response.responseText || response.statusText || "Unknown error occurred");
+      });
+    }
+    
+    onLinkedInputChange(event) {
+      const input = $(event.target);
+      const name = input.attr('name');
+      const dialog = input.closest('.ui-dialog-content');
+
+      if (input.attr('type') === 'checkbox') {
+        const value = input.is(':checked');
+        dialog.find(`*[name="${name}"]`)
+          .filter((index, element) => {
+            return (!$(element).is(input)) && (value !== $(element).is(':checked'));
+          })
+          .prop('checked', value)
+          .change();
+      } else {
+        const value = input.val();
+        dialog.find(`*[name="${name}"]`)
+          .filter((index, element) => {
+            return (!$(element).is(input)) && (value !== $(element).val());
+          })
+          .val(value)
+          .change();
+      }
     }
     
     on (event, callable) {

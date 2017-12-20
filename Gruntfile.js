@@ -39,10 +39,24 @@ module.exports = function(grunt) {
         }]
       }
     },
+    concat: {
+      options: {
+        separator: ';',
+      },
+      dist: {
+        src: [
+          'tinymce-plugins/src/kunta-api-service-embed/js/electronic-service-channel-editor.js', 
+          'tinymce-plugins/src/kunta-api-service-embed/js/service-channels.js', 
+          'tinymce-plugins/src/kunta-api-service-embed/js/plugin.js'
+        ],
+        dest: 'tinymce-plugins/src/kunta-api-service-embed/build/plugin.js',
+      },
+    },
     'babel': {
       options: {
         sourceMap: true,
-        minified: true
+        minified: true,
+        comments: false
       },
       'tinymce-kunta-api-abstract-edit-plugin-dialog': {
         files: [{
@@ -65,7 +79,7 @@ module.exports = function(grunt) {
       'tinymce-kunta-api-service-embed': {
         files: [{
           expand: true,
-          cwd: 'tinymce-plugins/src/kunta-api-service-embed/js/',
+          cwd: 'tinymce-plugins/src/kunta-api-service-embed/build/',
           src: ['*.js'],
           dest: 'tinymce-plugins/kunta-api-service-embed/',
           ext: '.js'
@@ -78,9 +92,9 @@ module.exports = function(grunt) {
         'prepend': 'tinymce-plugins/kunta-api-service-location-channel-embed/plugin.js',
         'name': 'ServiceLocationServiceChannel'
       },
-      'tinymce-kunta-api-service-location-channel-servicehour': {
-        'src': 'tinymce-plugins/src/kunta-api-service-location-channel-embed/metaforms/servicehour.json',
-        'prepend': 'tinymce-plugins/kunta-api-service-location-channel-embed/plugin.js',
+      'tinymce-kunta-api-service-channel-servicehour': {
+        'src': 'tinymce-plugins/src/kunta-api-abstract-edit-plugin-dialog/metaforms/servicehour.json',
+        'prepend': 'tinymce-plugins/kunta-api-abstract-edit-plugin-dialog/abstract-channel-edit-dialog.js',
         'name': 'ServiceHour'
       },
       'tinymce-kunta-api-service-location-channel-additional-details': {
@@ -97,19 +111,42 @@ module.exports = function(grunt) {
         'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/additionaldetails.json',
         'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
         'name': 'ServiceAdditionalDetails'
+      },
+      'tinymce-kunta-api-service-channenls': {
+        'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/servicechannels.json',
+        'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
+        'name': 'ServiceChannels'
+      },
+      'tinymce-electronic-service-channel': {
+        'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/electronicservicechannel.json',
+        'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
+        'name': 'ElectronicServiceChannel'
+      },
+      'tinymce-electronic-service-channel-additional-details': {
+        'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/electronic-service-additionaldetails.json',
+        'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
+        'name': 'ElectronicServiceChannelAdditionalDetails'
       }
+      
+      
+      
     }
   });
   
-  grunt.registerTask('default', [ 'sass', 
+  grunt.registerTask('default', [ 
+    'sass', 
+    'concat',
     'babel:tinymce-kunta-api-abstract-edit-plugin-dialog', 
     'babel:tinymce-kunta-api-service-location-channel-embed', 
     'babel:tinymce-kunta-api-service-embed', 
     'metaform:tinymce-kunta-api-service-location-channel-servicelocationservicechannel', 
-    'metaform:tinymce-kunta-api-service-location-channel-servicehour', 
+    'metaform:tinymce-kunta-api-service-channel-servicehour', 
     'metaform:tinymce-kunta-api-service-location-channel-additional-details', 
     'metaform:tinymce-kunta-api-service',
-    'metaform:tinymce-kunta-api-service-additional-details'
+    'metaform:tinymce-kunta-api-service-additional-details',
+    'metaform:tinymce-kunta-api-service-channenls',
+    'metaform:tinymce-electronic-service-channel',
+    'metaform:tinymce-electronic-service-channel-additional-details'
   ]);
   
 };

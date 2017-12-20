@@ -1,0 +1,29 @@
+{
+  "title": "Palvelukanavat",
+  "sections": [{
+    "fields": [{
+      "name": "channels",
+      "type": "table",
+      "title": "Liitetyt kanavat",
+      "addRows": true,
+      "columns": [{
+        "type": "autocomplete",
+        "name": "name",
+        "title": "Nimi",
+        "placeholder": "Kirjoita liitettävän kanavan nimi."
+      }, {
+        "column-width": 63,
+        "type": "button",
+        "text": "Muokka",
+        "class": "btn-success",
+        "action": "edit-channel"
+      }, {
+        "column-width": 63,
+        "type": "button",
+        "text": "Poista",
+        "class": "btn-warning",
+        "action": "delete-row"
+      }]
+    }]
+  }]
+}

@@ -74,7 +74,7 @@
   
   add_action( 'wp_ajax_kunta_api_save_service_location_service_channel', function () {
     try {
-      $data = stripslashes($_POST['serviceLocationServiceChannel']);
+      $data = stripslashes($_POST['serviceChannel']);
       $serviceLocationServiceChannel = new \KuntaAPI\Model\ServiceLocationServiceChannel(json_decode($data, true));
       $result = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi()->updateServiceLocationServiceChannel($serviceLocationServiceChannel->getId(), $serviceLocationServiceChannel);
       $json = $result->__toString();

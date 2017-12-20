@@ -44,18 +44,6 @@
       this.service = service;
     }
     
-    saveService(service, callback) {
-      $.post(ajaxurl, {
-        'action': 'kunta_api_save_service',
-        'service': JSON.stringify(this.service)
-      }, (response) => {
-        callback();
-      })
-      .fail((response) => {
-        callback(response.responseText || response.statusText || "Unknown error occurred");
-      });
-    }
-    
     open() {
       const viewModel = getServiceMetaform();
       const formValues = {};
@@ -242,6 +230,8 @@
       result.descriptions = [];
       result.vouchers = []; 
   
+      // TODO: legislation
+    
       this.supportedLocales.forEach((locale) => {
         const localeValues = formValues[locale];
         
@@ -264,6 +254,7 @@
         this.setLocalizedTableValues(result, 'vouchers', localeValues, 'serviceVouchers', locale, (voucher) => {
           return voucher.value && voucher.url;
         });
+
       });
       
       return result;
@@ -410,8 +401,11 @@
       const placeholderAttr = element.attributes['data-kunta-api-placeholder'];
       if (placeholderAttr && placeholderAttr.value === 'service') {
         const serviceId = element.attributes['data-service-id'].value;
+        const component = element.attributes['data-component'].value;  
+        
         this.editor.execCommand('kunta-api-service-edit', '', {
-          serviceId: serviceId
+          serviceId: serviceId,
+          component: component
         });
       }
     }
@@ -446,11 +440,16 @@
         if (err) {
           tinyMCE.activeEditor.windowManager.alert(err);
         } else {
-          const dialog = new ServiceDialog(this.editor, service);
+          const channelComponents = ['electronicServiceChannelIds'];
+          
+          const dialog = channelComponents.indexOf(options.component) === -1 
+            ? new ServiceDialog(this.editor, service) 
+            : new ServiceChannelsDialog(this.editor, service);
+            
           dialog.open();
         }
       });
-    } 
+    }
     
   }
   
