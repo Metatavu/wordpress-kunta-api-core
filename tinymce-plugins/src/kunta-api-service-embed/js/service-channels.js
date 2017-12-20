@@ -214,15 +214,15 @@
     }
     
     onAfterWebPageTableProcessRow(row) {
-      // TODO
+      this.createChannelAutocomplete(row, this.searchWebPageServiceChannels.bind(this));
     }
     
     onAfterPrintableFormTableProcessRow(row) {
-      // TODO
+      this.createChannelAutocomplete(row, this.searchPrintableFormServiceChannels.bind(this));
     }
     
     onAfterPhoneServiceTableProcessRow(row) {
-      // TODO 
+      this.createChannelAutocomplete(row, this.searchPhoneServiceChannels.bind(this));
     }
     
     onAfterServiceLocationTableProcessRow(row) {
