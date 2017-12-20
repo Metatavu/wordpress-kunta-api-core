@@ -364,10 +364,6 @@
       this.redrawServiceHours();
     }
     
-    onEditAdditionalDetailsClick() {
-      this.openAdditionalDetailsEditDialog(this.serviceChannel);
-    }
-    
   }
   
   class ServiceLocationServiceChannelEditor {

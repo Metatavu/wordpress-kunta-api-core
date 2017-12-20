@@ -1,3 +1,4 @@
+/* jshint esversion: 6 */
 /* global ajaxurl, moment, Promise */
 (($) => {
   'use strict';
@@ -199,7 +200,7 @@
           return this.serviceHourFromFormStandard(formValues);
         case "Special":
           return this.serviceHourFromFormSpecial(formValues);
-      };
+      }
     }
     
     serviceHourToForm(serviceHour) {

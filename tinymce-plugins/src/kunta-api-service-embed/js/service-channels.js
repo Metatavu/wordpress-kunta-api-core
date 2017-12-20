@@ -195,7 +195,7 @@
           formValues[value.name] = value.value;
         });
         
-        const tableData = formValues['channels'];
+        const tableData = formValues.channels;
         
         const channelIds = (tableData ? JSON.parse(tableData) : []).map((tableRow) => {
           return tableRow.name;
