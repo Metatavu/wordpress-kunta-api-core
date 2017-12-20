@@ -167,6 +167,78 @@
     }
   });
   
+  add_action( 'wp_ajax_kunta_api_search_phone_service_channels', function () {
+    try {
+      $search = $_POST['search'];
+      $organizationId = $_POST['organizationId'];
+      $results = [];
+      $items = \KuntaAPI\Core\Api::getPhoneServiceChannelsApi()->listPhoneServiceChannels($organizationId, $search, null, null, null, 10);
+      
+      foreach ($items as $item) {
+        $results[] = $item->__toString();
+      }
+      
+      echo '[';
+      echo join(',', $results);
+      echo ']';
+      
+      wp_die();
+    } catch (\KuntaAPI\ApiException $e) {
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
+        response => $e->getCode()
+      ]);
+    }
+  });
+  
+  add_action( 'wp_ajax_kunta_api_search_printable_form_service_channels', function () {
+    try {
+      $search = $_POST['search'];
+      $organizationId = $_POST['organizationId'];
+      $results = [];
+      $items = \KuntaAPI\Core\Api::getPrintableFormServiceChannelsApi()->listPrintableFormServiceChannels($organizationId, $search, null, null, null, 10);
+      
+      foreach ($items as $item) {
+        $results[] = $item->__toString();
+      }
+      
+      echo '[';
+      echo join(',', $results);
+      echo ']';
+      
+      wp_die();
+    } catch (\KuntaAPI\ApiException $e) {
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
+        response => $e->getCode()
+      ]);
+    }
+  });
+  
+  add_action( 'wp_ajax_kunta_api_search_web_page_service_channels', function () {
+    try {
+      $search = $_POST['search'];
+      $organizationId = $_POST['organizationId'];
+      $results = [];
+      $items = \KuntaAPI\Core\Api::getWebPageServiceChannelsApi()->listWebPageServiceChannels($organizationId, $search, null, null, null, 10);
+      
+      foreach ($items as $item) {
+        $results[] = $item->__toString();
+      }
+      
+      echo '[';
+      echo join(',', $results);
+      echo ']';
+      
+      wp_die();
+    } catch (\KuntaAPI\ApiException $e) {
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
+        response => $e->getCode()
+      ]);
+    }
+  });
+  
   add_action( 'wp_ajax_kunta_api_save_electronic_service_channel', function () {
     try {
       $data = stripslashes($_POST['serviceChannel']);

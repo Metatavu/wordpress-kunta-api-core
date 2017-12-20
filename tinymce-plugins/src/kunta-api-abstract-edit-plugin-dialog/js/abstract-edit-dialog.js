@@ -423,29 +423,53 @@
      * @returns {Promise} promise for found electronic service channels
      */
     searchElectronicServiceChannels(search) {
-      return new Promise((resolve, reject) => {
-        $.post(ajaxurl, {
-          'action': 'kunta_api_search_electronic_service_channels',
-          'search': this.splitSearchTerms(search)
-        }, (response) => {
-          resolve(JSON.parse(response));
-        })
-        .fail((response) => {
-          reject(response.responseText || response.statusText);
-        });
-      });
+      return this.executeSearch('search_electronic_service_channels', search); 
     }
     
     /**
-     * Search electronic service channels by free text query
+     * Search phone service channels by free text query
      * 
      * @param {String} search search string
-     * @returns {Promise} promise for found electronic service channels
+     * @returns {Promise} promise for found service channels
+     */
+    searchPhoneServiceChannels(search) {
+      return this.executeSearch('search_phone_service_channels', search); 
+    }
+    
+    /**
+     * Search printable form service channels by free text query
+     * 
+     * @param {String} search search string
+     * @returns {Promise} promise for found service channels
+     */
+    searchPrintableFormServiceChannels(search) {
+      return this.executeSearch('search_printable_form_service_channels', search); 
+    }
+    
+    /**
+     * Search web page service channels by free text query
+     * 
+     * @param {String} search search string
+     * @returns {Promise} promise for found service channels
+     */
+    searchWebPageServiceChannels(search) {
+      return this.executeSearch('search_web_page_service_channels', search); 
+    }
+    
+    /**
+     * Search location service service channels by free text query
+     * 
+     * @param {String} search search string
+     * @returns {Promise} promise for found service channels
      */
     searchServiceLocationServiceChannels(search) {
+      return this.executeSearch('search_service_location_channels', search); 
+    }
+    
+    executeSearch(action, search) {
       return new Promise((resolve, reject) => {
         $.post(ajaxurl, {
-          'action': 'kunta_api_search_service_location_channels',
+          'action': `kunta_api_${action}`,
           'search': this.splitSearchTerms(search)
         }, (response) => {
           resolve(JSON.parse(response));
