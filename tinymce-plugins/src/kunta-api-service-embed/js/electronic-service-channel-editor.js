@@ -59,10 +59,6 @@
       };
     }
     
-    translateServiceFromForm(formValues) {
-      const result = JSON.parse(JSON.stringify(this.service));
-    }
-    
     /**
      * Translates form values to service channel
      * 
