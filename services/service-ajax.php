@@ -83,6 +83,66 @@
     }
   });
   
+  add_action( 'wp_ajax_kunta_api_load_webpage_service_channel', function () {
+    try {
+      $id = $_POST['id'];
+      $channel = \KuntaAPI\Core\Api::getWebPageServiceChannelsApi()->findWebPageServiceChannel($id);
+      $json = $channel->__toString();
+      echo $json;
+      wp_die();
+    } catch (\KuntaAPI\ApiException $e) {
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
+        response => $e->getCode()
+      ]);
+    }
+  });
+  
+  add_action( 'wp_ajax_kunta_api_load_printable_form_service_channel', function () {
+    try {
+      $id = $_POST['id'];
+      $channel = \KuntaAPI\Core\Api::getPrintableFormServiceChannelsApi()->findPrintableFormServiceChannel($id);
+      $json = $channel->__toString();
+      echo $json;
+      wp_die();
+    } catch (\KuntaAPI\ApiException $e) {
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
+        response => $e->getCode()
+      ]);
+    }
+  });
+  
+  add_action( 'wp_ajax_kunta_api_load_phone_service_channel', function () {
+    try {
+      $id = $_POST['id'];
+      $channel = \KuntaAPI\Core\Api::getPhoneServiceChannelsApi()->findPhoneServiceChannel($id);
+      $json = $channel->__toString();
+      echo $json;
+      wp_die();
+    } catch (\KuntaAPI\ApiException $e) {
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
+        response => $e->getCode()
+      ]);
+    }
+  });
+  
+  add_action( 'wp_ajax_kunta_api_load_service_location_service_channel', function () {
+    try {
+      $id = $_POST['id'];
+      $channel = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi()->findServiceLocationServiceChannel($id);
+      $json = $channel->__toString();
+      echo $json;
+      wp_die();
+    } catch (\KuntaAPI\ApiException $e) {
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
+        response => $e->getCode()
+      ]);
+    }
+  });
+  
   add_action( 'wp_ajax_kunta_api_search_electronic_service_channels', function () {
     try {
       $search = $_POST['search'];
