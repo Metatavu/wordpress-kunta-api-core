@@ -759,14 +759,18 @@ class ServiceChannelsApi
      *
      * Lists phone service channels
      *
+     * @param string $organizationId Organization id (optional)
+     * @param string $search Search channels by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return \KuntaAPI\Model\PhoneServiceChannel[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listPhoneServiceChannels($firstResult = null, $maxResults = null)
+    public function listPhoneServiceChannels($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
-        list($response) = $this->listPhoneServiceChannelsWithHttpInfo($firstResult, $maxResults);
+        list($response) = $this->listPhoneServiceChannelsWithHttpInfo($organizationId, $search, $sortBy, $sortDir, $firstResult, $maxResults);
         return $response;
     }
 
@@ -775,12 +779,16 @@ class ServiceChannelsApi
      *
      * Lists phone service channels
      *
+     * @param string $organizationId Organization id (optional)
+     * @param string $search Search channels by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return Array of \KuntaAPI\Model\PhoneServiceChannel[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listPhoneServiceChannelsWithHttpInfo($firstResult = null, $maxResults = null)
+    public function listPhoneServiceChannelsWithHttpInfo($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
         // parse inputs
         $resourcePath = "/phoneServiceChannels";
@@ -794,6 +802,22 @@ class ServiceChannelsApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
 
+        // query params
+        if ($organizationId !== null) {
+            $queryParams['organizationId'] = $this->apiClient->getSerializer()->toQueryValue($organizationId);
+        }
+        // query params
+        if ($search !== null) {
+            $queryParams['search'] = $this->apiClient->getSerializer()->toQueryValue($search);
+        }
+        // query params
+        if ($sortBy !== null) {
+            $queryParams['sortBy'] = $this->apiClient->getSerializer()->toQueryValue($sortBy);
+        }
+        // query params
+        if ($sortDir !== null) {
+            $queryParams['sortDir'] = $this->apiClient->getSerializer()->toQueryValue($sortDir);
+        }
         // query params
         if ($firstResult !== null) {
             $queryParams['firstResult'] = $this->apiClient->getSerializer()->toQueryValue($firstResult);
@@ -862,14 +886,18 @@ class ServiceChannelsApi
      *
      * Lists printable form service channels
      *
+     * @param string $organizationId Organization id (optional)
+     * @param string $search Search channels by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return \KuntaAPI\Model\PrintableFormServiceChannel[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listPrintableFormServiceChannels($firstResult = null, $maxResults = null)
+    public function listPrintableFormServiceChannels($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
-        list($response) = $this->listPrintableFormServiceChannelsWithHttpInfo($firstResult, $maxResults);
+        list($response) = $this->listPrintableFormServiceChannelsWithHttpInfo($organizationId, $search, $sortBy, $sortDir, $firstResult, $maxResults);
         return $response;
     }
 
@@ -878,12 +906,16 @@ class ServiceChannelsApi
      *
      * Lists printable form service channels
      *
+     * @param string $organizationId Organization id (optional)
+     * @param string $search Search channels by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return Array of \KuntaAPI\Model\PrintableFormServiceChannel[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listPrintableFormServiceChannelsWithHttpInfo($firstResult = null, $maxResults = null)
+    public function listPrintableFormServiceChannelsWithHttpInfo($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
         // parse inputs
         $resourcePath = "/printableFormServiceChannels";
@@ -897,6 +929,22 @@ class ServiceChannelsApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
 
+        // query params
+        if ($organizationId !== null) {
+            $queryParams['organizationId'] = $this->apiClient->getSerializer()->toQueryValue($organizationId);
+        }
+        // query params
+        if ($search !== null) {
+            $queryParams['search'] = $this->apiClient->getSerializer()->toQueryValue($search);
+        }
+        // query params
+        if ($sortBy !== null) {
+            $queryParams['sortBy'] = $this->apiClient->getSerializer()->toQueryValue($sortBy);
+        }
+        // query params
+        if ($sortDir !== null) {
+            $queryParams['sortDir'] = $this->apiClient->getSerializer()->toQueryValue($sortDir);
+        }
         // query params
         if ($firstResult !== null) {
             $queryParams['firstResult'] = $this->apiClient->getSerializer()->toQueryValue($firstResult);
@@ -1092,14 +1140,18 @@ class ServiceChannelsApi
      *
      * Lists web page service channels
      *
+     * @param string $organizationId Organization id (optional)
+     * @param string $search Search channels by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return \KuntaAPI\Model\WebPageServiceChannel[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listWebPageServiceChannels($firstResult = null, $maxResults = null)
+    public function listWebPageServiceChannels($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
-        list($response) = $this->listWebPageServiceChannelsWithHttpInfo($firstResult, $maxResults);
+        list($response) = $this->listWebPageServiceChannelsWithHttpInfo($organizationId, $search, $sortBy, $sortDir, $firstResult, $maxResults);
         return $response;
     }
 
@@ -1108,12 +1160,16 @@ class ServiceChannelsApi
      *
      * Lists web page service channels
      *
+     * @param string $organizationId Organization id (optional)
+     * @param string $search Search channels by free-text query (optional)
+     * @param string $sortBy define order (NATURAL or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @param int $firstResult First result (optional)
      * @param int $maxResults Max results (optional)
      * @return Array of \KuntaAPI\Model\WebPageServiceChannel[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listWebPageServiceChannelsWithHttpInfo($firstResult = null, $maxResults = null)
+    public function listWebPageServiceChannelsWithHttpInfo($organizationId = null, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
         // parse inputs
         $resourcePath = "/webPageServiceChannels";
@@ -1127,6 +1183,22 @@ class ServiceChannelsApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
 
+        // query params
+        if ($organizationId !== null) {
+            $queryParams['organizationId'] = $this->apiClient->getSerializer()->toQueryValue($organizationId);
+        }
+        // query params
+        if ($search !== null) {
+            $queryParams['search'] = $this->apiClient->getSerializer()->toQueryValue($search);
+        }
+        // query params
+        if ($sortBy !== null) {
+            $queryParams['sortBy'] = $this->apiClient->getSerializer()->toQueryValue($sortBy);
+        }
+        // query params
+        if ($sortDir !== null) {
+            $queryParams['sortDir'] = $this->apiClient->getSerializer()->toQueryValue($sortDir);
+        }
         // query params
         if ($firstResult !== null) {
             $queryParams['firstResult'] = $this->apiClient->getSerializer()->toQueryValue($firstResult);
