@@ -225,7 +225,7 @@
             from: openingHour.from,
             to: openingHour.to
           });
-        };
+        }
       });
       
       switch (type) {
@@ -282,7 +282,6 @@
           return result;
         default:
           throw new Error(`Unknown service hour type ${type}`);
-        break;
       }
     }
     
