@@ -44,18 +44,6 @@
       this.service = service;
     }
     
-    saveService(service, callback) {
-      $.post(ajaxurl, {
-        'action': 'kunta_api_save_service',
-        'service': JSON.stringify(this.service)
-      }, (response) => {
-        callback();
-      })
-      .fail((response) => {
-        callback(response.responseText || response.statusText || "Unknown error occurred");
-      });
-    }
-    
     open() {
       const viewModel = getServiceMetaform();
       const formValues = {};
@@ -242,6 +230,8 @@
       result.descriptions = [];
       result.vouchers = []; 
   
+      // TODO: legislation
+    
       this.supportedLocales.forEach((locale) => {
         const localeValues = formValues[locale];
         
@@ -264,6 +254,7 @@
         this.setLocalizedTableValues(result, 'vouchers', localeValues, 'serviceVouchers', locale, (voucher) => {
           return voucher.value && voucher.url;
         });
+
       });
       
       return result;

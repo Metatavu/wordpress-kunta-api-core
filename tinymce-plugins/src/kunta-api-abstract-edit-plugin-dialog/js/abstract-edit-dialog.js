@@ -306,7 +306,7 @@
       return new Promise((resolve, reject) => {
         $.post(ajaxurl, {
           'action': 'kunta_api_search_organizations',
-          'search': search
+          'search': this.splitSearchTerms(search)
         }, (response) => {
           resolve(JSON.parse(response));
         })
@@ -337,6 +337,86 @@
     }
     
     /**
+     * Finds an webpage service channel by id
+     * 
+     * @param {String} id organization id
+     * @returns {Promise} promise for webpage service channel
+     */
+    findWebPageChannelServiceChannel(id) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_load_webpage_service_channel',
+          'id': id
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });      
+    }
+    
+    /**
+     * Finds an printable form service channel by id
+     * 
+     * @param {String} id organization id
+     * @returns {Promise} promise for webpage service channel
+     */
+    findPrintableFormChannelServiceChannel(id) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_load_printable_form_service_channel',
+          'id': id
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });      
+    }
+    
+    /**
+     * Finds an printable form service channel by id
+     * 
+     * @param {String} id organization id
+     * @returns {Promise} promise for webpage service channel
+     */
+    findPhoneServiceChannel(id) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_load_phone_service_channel',
+          'id': id
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });      
+    }
+    
+    /**
+     * Finds an service location service channel by id
+     * 
+     * @param {String} id organization id
+     * @returns {Promise} promise for webpage service channel
+     */
+    findServiceLocationServiceChannel(id) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_load_service_location_service_channel',
+          'id': id
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });      
+    }
+        
+    /**
      * Search electronic service channels by free text query
      * 
      * @param {String} search search string
@@ -346,7 +426,27 @@
       return new Promise((resolve, reject) => {
         $.post(ajaxurl, {
           'action': 'kunta_api_search_electronic_service_channels',
-          'search': search
+          'search': this.splitSearchTerms(search)
+        }, (response) => {
+          resolve(JSON.parse(response));
+        })
+        .fail((response) => {
+          reject(response.responseText || response.statusText);
+        });
+      });
+    }
+    
+    /**
+     * Search electronic service channels by free text query
+     * 
+     * @param {String} search search string
+     * @returns {Promise} promise for found electronic service channels
+     */
+    searchServiceLocationServiceChannels(search) {
+      return new Promise((resolve, reject) => {
+        $.post(ajaxurl, {
+          'action': 'kunta_api_search_service_location_channels',
+          'search': this.splitSearchTerms(search)
         }, (response) => {
           resolve(JSON.parse(response));
         })
@@ -807,6 +907,18 @@
         if (listener.event === event) {
           listener.callable(data||{});
         }
+      });
+    }
+    
+    saveService(service, callback) {
+      $.post(ajaxurl, {
+        'action': 'kunta_api_save_service',
+        'service': JSON.stringify(service)
+      }, (response) => {
+        callback();
+      })
+      .fail((response) => {
+        callback(response.responseText || response.statusText || "Unknown error occurred");
       });
     }
     

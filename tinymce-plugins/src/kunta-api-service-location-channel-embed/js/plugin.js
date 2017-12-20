@@ -664,4 +664,6 @@
     new ServiceLocationServiceChannelEditor(editor);
   });
   
+  window.ServiceLocationServiceChannelDialog = ServiceLocationServiceChannelDialog;
+  
 })(tinymce, jQuery);
