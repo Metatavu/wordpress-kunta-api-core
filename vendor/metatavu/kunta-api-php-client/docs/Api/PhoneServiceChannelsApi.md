@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**findPhoneServiceChannel**](PhoneServiceChannelsApi.md#findPhoneServiceChannel) | **GET** /phoneServiceChannels/{phoneServiceChannelId} | Finds a phone service channel by id
 [**listPhoneServiceChannels**](PhoneServiceChannelsApi.md#listPhoneServiceChannels) | **GET** /phoneServiceChannels | Lists phone service channels
+[**updatePhoneServiceChannel**](PhoneServiceChannelsApi.md#updatePhoneServiceChannel) | **PUT** /phoneServiceChannels/{phoneServiceChannelId} | Updates a channel
 
 
 # **findPhoneServiceChannel**
@@ -104,6 +105,57 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**\KuntaAPI\Model\PhoneServiceChannel[]**](../Model/PhoneServiceChannel.md)
+
+### Authorization
+
+[basicAuth](../../README.md#basicAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json;charset=utf-8
+ - **Accept**: application/json;charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **updatePhoneServiceChannel**
+> \KuntaAPI\Model\PhoneServiceChannel updatePhoneServiceChannel($phoneServiceChannelId, $payload)
+
+Updates a channel
+
+Updates a service channel
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
+
+$api_instance = new KuntaAPI\Api\PhoneServiceChannelsApi();
+$phoneServiceChannelId = "phoneServiceChannelId_example"; // string | phone channel id
+$payload = new \KuntaAPI\Model\PhoneServiceChannel(); // \KuntaAPI\Model\PhoneServiceChannel | New phone service data
+
+try {
+    $result = $api_instance->updatePhoneServiceChannel($phoneServiceChannelId, $payload);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling PhoneServiceChannelsApi->updatePhoneServiceChannel: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **phoneServiceChannelId** | **string**| phone channel id |
+ **payload** | [**\KuntaAPI\Model\PhoneServiceChannel**](../Model/\KuntaAPI\Model\PhoneServiceChannel.md)| New phone service data |
+
+### Return type
+
+[**\KuntaAPI\Model\PhoneServiceChannel**](../Model/PhoneServiceChannel.md)
 
 ### Authorization
 
