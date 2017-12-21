@@ -334,4 +334,120 @@ class PhoneServiceChannelsApi
         }
     }
 
+    /**
+     * Operation updatePhoneServiceChannel
+     *
+     * Updates a channel
+     *
+     * @param string $phoneServiceChannelId phone channel id (required)
+     * @param \KuntaAPI\Model\PhoneServiceChannel $payload New phone service data (required)
+     * @return \KuntaAPI\Model\PhoneServiceChannel
+     * @throws \KuntaAPI\ApiException on non-2xx response
+     */
+    public function updatePhoneServiceChannel($phoneServiceChannelId, $payload)
+    {
+        list($response) = $this->updatePhoneServiceChannelWithHttpInfo($phoneServiceChannelId, $payload);
+        return $response;
+    }
+
+    /**
+     * Operation updatePhoneServiceChannelWithHttpInfo
+     *
+     * Updates a channel
+     *
+     * @param string $phoneServiceChannelId phone channel id (required)
+     * @param \KuntaAPI\Model\PhoneServiceChannel $payload New phone service data (required)
+     * @return Array of \KuntaAPI\Model\PhoneServiceChannel, HTTP status code, HTTP response headers (array of strings)
+     * @throws \KuntaAPI\ApiException on non-2xx response
+     */
+    public function updatePhoneServiceChannelWithHttpInfo($phoneServiceChannelId, $payload)
+    {
+        // verify the required parameter 'phoneServiceChannelId' is set
+        if ($phoneServiceChannelId === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $phoneServiceChannelId when calling updatePhoneServiceChannel');
+        }
+        // verify the required parameter 'payload' is set
+        if ($payload === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $payload when calling updatePhoneServiceChannel');
+        }
+        // parse inputs
+        $resourcePath = "/phoneServiceChannels/{phoneServiceChannelId}";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json;charset=utf-8'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
+
+        // path params
+        if ($phoneServiceChannelId !== null) {
+            $resourcePath = str_replace(
+                "{" . "phoneServiceChannelId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($phoneServiceChannelId),
+                $resourcePath
+            );
+        }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        // body params
+        $_tempBody = null;
+        if (isset($payload)) {
+            $_tempBody = $payload;
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        // this endpoint requires HTTP basic authentication
+        if (strlen($this->apiClient->getConfig()->getUsername()) !== 0 or strlen($this->apiClient->getConfig()->getPassword()) !== 0) {
+            $headerParams['Authorization'] = 'Basic ' . base64_encode($this->apiClient->getConfig()->getUsername() . ":" . $this->apiClient->getConfig()->getPassword());
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath,
+                'PUT',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                '\KuntaAPI\Model\PhoneServiceChannel',
+                '/phoneServiceChannels/{phoneServiceChannelId}'
+            );
+
+            return array($this->apiClient->getSerializer()->deserialize($response, '\KuntaAPI\Model\PhoneServiceChannel', $httpHeader), $statusCode, $httpHeader);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\PhoneServiceChannel', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\BadRequest', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\Forbidden', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\NotFound', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KuntaAPI\Model\InternalServerError', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+
+            throw $e;
+        }
+    }
+
 }
