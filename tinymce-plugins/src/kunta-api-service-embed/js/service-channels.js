@@ -148,6 +148,29 @@
     }
     
     /**
+     * Opens phone service channel editor
+     * 
+     * @param {String} channelId channel id
+     */
+    openPhoneServiceChannelEditor(channelId) {
+      if (!channelId) {
+        return;
+      }
+      
+      this.close();
+      
+      this.findPhoneServiceChannel(channelId)
+        .then((serviceChannel) => {
+          const PhoneServiceChannelEditorDialog = window.PhoneServiceChannelEditorDialog;
+          const channelDialog = new PhoneServiceChannelEditorDialog(this.editor, serviceChannel);
+          channelDialog.open();
+        })
+        .catch((err) => {
+          tinyMCE.activeEditor.windowManager.alert(err);
+        });
+    }
+    
+    /**
      * Opens service location service channel editor
      * 
      * @param {type} channelId
@@ -280,7 +303,7 @@
       const value = $(event.target).closest('tr').find('*[data-column-name="name"] input')
         .metaformAutocomplete('val');
 
-      // this.openPhoneServiceChannelEditor(value.value);
+      this.openPhoneServiceChannelEditor(value.value);
     }
     
     onServiceLocationServiceChannelTableEditChannelButtonClick(event) {

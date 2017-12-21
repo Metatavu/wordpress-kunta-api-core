@@ -41,16 +41,17 @@ module.exports = function(grunt) {
     },
     concat: {
       options: {
-        separator: ';',
+        separator: ';'
       },
       dist: {
         src: [
           'tinymce-plugins/src/kunta-api-service-embed/js/electronic-service-channel-editor.js', 
+          'tinymce-plugins/src/kunta-api-service-embed/js/phone-service-channel-editor.js', 
           'tinymce-plugins/src/kunta-api-service-embed/js/service-channels.js', 
           'tinymce-plugins/src/kunta-api-service-embed/js/plugin.js'
         ],
-        dest: 'tinymce-plugins/src/kunta-api-service-embed/build/plugin.js',
-      },
+        dest: 'tinymce-plugins/src/kunta-api-service-embed/build/plugin.js'
+      }
     },
     'babel': {
       options: {
@@ -126,10 +127,17 @@ module.exports = function(grunt) {
         'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/electronic-service-additionaldetails.json',
         'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
         'name': 'ElectronicServiceChannelAdditionalDetails'
+      },
+      'tinymce-phone-service-channel': {
+        'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/phone-service-channel.json',
+        'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
+        'name': 'PhoneServiceChannel'
+      },
+      'tinymce-phone-service-channel-additional-details': {
+        'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/phone-service-additional-details.json',
+        'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
+        'name': 'PhoneServiceChannelAdditionalDetails'
       }
-      
-      
-      
     }
   });
   
@@ -146,7 +154,9 @@ module.exports = function(grunt) {
     'metaform:tinymce-kunta-api-service-additional-details',
     'metaform:tinymce-kunta-api-service-channenls',
     'metaform:tinymce-electronic-service-channel',
-    'metaform:tinymce-electronic-service-channel-additional-details'
+    'metaform:tinymce-electronic-service-channel-additional-details',
+    'metaform:tinymce-phone-service-channel',
+    'metaform:tinymce-phone-service-channel-additional-details'
   ]);
   
 };
