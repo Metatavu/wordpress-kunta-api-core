@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1a6e0ced854515593259b8479c9a2a3",
+    "content-hash": "34359fa129f97cc1c5d51976767e498e",
     "packages": [
         {
             "name": "composer/installers",
@@ -125,16 +125,16 @@
         },
         {
             "name": "metatavu/kunta-api-php-client",
-            "version": "1.0.14",
+            "version": "1.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Metatavu/kunta-api-php-client.git",
-                "reference": "8a495caa67683fbc09b71c7982f61009dec85d64"
+                "reference": "ca83b5055fa720c5800d086f12043606cbf380ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Metatavu/kunta-api-php-client/zipball/8a495caa67683fbc09b71c7982f61009dec85d64",
-                "reference": "8a495caa67683fbc09b71c7982f61009dec85d64",
+                "url": "https://api.github.com/repos/Metatavu/kunta-api-php-client/zipball/ca83b5055fa720c5800d086f12043606cbf380ca",
+                "reference": "ca83b5055fa720c5800d086f12043606cbf380ca",
                 "shasum": ""
             },
             "require": {
@@ -171,7 +171,7 @@
                 "sdk",
                 "swagger"
             ],
-            "time": "2017-12-22T12:39:26+00:00"
+            "time": "2017-12-22T13:22:16+00:00"
         },
         {
             "name": "sunra/php-simple-html-dom-parser",

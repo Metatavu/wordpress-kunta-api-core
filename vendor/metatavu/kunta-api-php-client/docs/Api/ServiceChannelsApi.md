@@ -18,6 +18,7 @@ Method | HTTP request | Description
 [**updatePhoneServiceChannel**](ServiceChannelsApi.md#updatePhoneServiceChannel) | **PUT** /phoneServiceChannels/{phoneServiceChannelId} | Updates a channel
 [**updatePrintableFormServiceChannel**](ServiceChannelsApi.md#updatePrintableFormServiceChannel) | **PUT** /printableFormServiceChannels/{printableFormServiceChannelId} | Updates a channel
 [**updateServiceLocationServiceChannel**](ServiceChannelsApi.md#updateServiceLocationServiceChannel) | **PUT** /serviceLocationServiceChannels/{serviceLocationServiceChannelId} | Updates a service location channel
+[**updateWebPageServiceChannel**](ServiceChannelsApi.md#updateWebPageServiceChannel) | **PUT** /webPageServiceChannels/{webPageServiceChannelId} | Updates a channel
 
 
 # **findElectronicServiceChannel**
@@ -752,6 +753,57 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**\KuntaAPI\Model\ServiceLocationServiceChannel**](../Model/ServiceLocationServiceChannel.md)
+
+### Authorization
+
+[basicAuth](../../README.md#basicAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json;charset=utf-8
+ - **Accept**: application/json;charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **updateWebPageServiceChannel**
+> \KuntaAPI\Model\WebPageServiceChannel updateWebPageServiceChannel($webPageServiceChannelId, $payload)
+
+Updates a channel
+
+Updates a service channel
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
+
+$api_instance = new KuntaAPI\Api\ServiceChannelsApi();
+$webPageServiceChannelId = "webPageServiceChannelId_example"; // string | webPageChannel id
+$payload = new \KuntaAPI\Model\WebPageServiceChannel(); // \KuntaAPI\Model\WebPageServiceChannel | New webPage service data
+
+try {
+    $result = $api_instance->updateWebPageServiceChannel($webPageServiceChannelId, $payload);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ServiceChannelsApi->updateWebPageServiceChannel: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **webPageServiceChannelId** | **string**| webPageChannel id |
+ **payload** | [**\KuntaAPI\Model\WebPageServiceChannel**](../Model/\KuntaAPI\Model\WebPageServiceChannel.md)| New webPage service data |
+
+### Return type
+
+[**\KuntaAPI\Model\WebPageServiceChannel**](../Model/WebPageServiceChannel.md)
 
 ### Authorization
 
