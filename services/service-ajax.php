@@ -271,4 +271,20 @@
     }
   });
   
+  add_action( 'wp_ajax_kunta_api_save_printable_form_service_channel', function () {
+    try {
+      $data = stripslashes($_POST['serviceChannel']);
+      $serviceChannel = new \KuntaAPI\Model\PrintableFormServiceChannel(json_decode($data, true));
+      $result = \KuntaAPI\Core\Api::getPrintableFormServiceChannelsApi()->updatePrintableFormServiceChannel ($serviceChannel->getId(), $serviceChannel);
+      $json = $result->__toString();
+      echo $json;
+      wp_die();
+    } catch (\KuntaAPI\ApiException $e) {
+      $message = json_encode($e->getResponseBody());
+      wp_die($message, null, [
+        response => $e->getCode()
+      ]);
+    }
+  });
+  
 ?>

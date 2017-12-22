@@ -342,7 +342,7 @@
      * @param {String} id organization id
      * @returns {Promise} promise for webpage service channel
      */
-    findWebPageChannelServiceChannel(id) {
+    findWebPageServiceChannel(id) {
       return new Promise((resolve, reject) => {
         $.post(ajaxurl, {
           'action': 'kunta_api_load_webpage_service_channel',
@@ -362,7 +362,7 @@
      * @param {String} id organization id
      * @returns {Promise} promise for webpage service channel
      */
-    findPrintableFormChannelServiceChannel(id) {
+    findPrintableFormServiceChannel(id) {
       return new Promise((resolve, reject) => {
         $.post(ajaxurl, {
           'action': 'kunta_api_load_printable_form_service_channel',
@@ -606,8 +606,19 @@
      * @returns {Array} list of emails in specified locale
      */
     getLocalizedEmails(emails, locale) {
-      return (emails || []).filter((email) => {
-        return email.value && email.language === locale;
+      return this.getLocalizedValues(emails, locale);  
+    }
+    
+    /**
+     * Returns list of values in specified locale
+     * 
+     * @param {Array} values values
+     * @param {String} locale locale
+     * @returns {Array} list of values in specified locale
+     */
+    getLocalizedValues(values, locale) {
+      return (values || []).filter((value) => {
+        return value.value && value.language === locale;
       });
     }
     
@@ -946,27 +957,59 @@
       });
     }
     
+    updateLinkedCheckbox(dialog, input, name) {
+      const value = input.val();
+      dialog.find(`*[name="${name}"]`)
+        .filter((index, element) => {
+          return (!$(element).is(input)) && (value !== $(element).val());
+        })
+        .val(value)
+        .change();
+    }
+    
+    updateLinkedRadio(dialog, input, name) {
+      const value = input.val();
+      
+      const linkedInputs = dialog.find(`*[name="${name}"]`).filter((index, element) => {
+        const checked = $(element).is(':checked');
+        const elementValue = $(element).attr('value');
+        
+        if (elementValue === value && !checked) {
+          return true;
+        }
+        
+        return false;
+      })
+      .prop('checked', 'checked')
+      .change();
+    }
+    
+    updateLinkedInput(dialog, input, name) {
+      const value = input.val();
+      dialog.find(`*[name="${name}"]`)
+        .filter((index, element) => {
+          return (!$(element).is(input)) && (value !== $(element).val());
+        })
+        .val(value)
+        .change();
+    }
+    
     onLinkedInputChange(event) {
       const input = $(event.target);
       const name = input.attr('name');
       const dialog = input.closest('.ui-dialog-content');
-
-      if (input.attr('type') === 'checkbox') {
-        const value = input.is(':checked');
-        dialog.find(`*[name="${name}"]`)
-          .filter((index, element) => {
-            return (!$(element).is(input)) && (value !== $(element).is(':checked'));
-          })
-          .prop('checked', value)
-          .change();
-      } else {
-        const value = input.val();
-        dialog.find(`*[name="${name}"]`)
-          .filter((index, element) => {
-            return (!$(element).is(input)) && (value !== $(element).val());
-          })
-          .val(value)
-          .change();
+      const type = input.attr('type');
+      
+      switch (type) {
+        case 'checkbox':
+          this.updateLinkedCheckbox(dialog, input, name);
+        break;
+        case 'radio':
+          this.updateLinkedRadio(dialog, input, name);
+        break;
+        default:
+          this.updateLinkedInput(dialog, input, name);
+        break;
       }
     }
     

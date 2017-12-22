@@ -45,6 +45,7 @@ module.exports = function(grunt) {
       },
       dist: {
         src: [
+          'tinymce-plugins/src/kunta-api-service-embed/js/printable-form-service-channel-editor.js', 
           'tinymce-plugins/src/kunta-api-service-embed/js/electronic-service-channel-editor.js', 
           'tinymce-plugins/src/kunta-api-service-embed/js/phone-service-channel-editor.js', 
           'tinymce-plugins/src/kunta-api-service-embed/js/service-channels.js', 
@@ -137,6 +138,16 @@ module.exports = function(grunt) {
         'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/phone-service-additional-details.json',
         'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
         'name': 'PhoneServiceChannelAdditionalDetails'
+      },
+      'tinymce-printable-form-service-channel': {
+        'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/printable-form-service-channel.json',
+        'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
+        'name': 'PrintableFormServiceChannel'
+      },
+      'tinymce-printable-form-service-channel-additional-details': {
+        'src': 'tinymce-plugins/src/kunta-api-service-embed/metaforms/printable-form-service-additional-details.json',
+        'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
+        'name': 'PrintableFormServiceChannelAdditionalDetails'
       }
     }
   });
@@ -156,7 +167,9 @@ module.exports = function(grunt) {
     'metaform:tinymce-electronic-service-channel',
     'metaform:tinymce-electronic-service-channel-additional-details',
     'metaform:tinymce-phone-service-channel',
-    'metaform:tinymce-phone-service-channel-additional-details'
+    'metaform:tinymce-phone-service-channel-additional-details',
+    'metaform:tinymce-printable-form-service-channel',
+    'metaform:tinymce-printable-form-service-channel-additional-details'
   ]);
   
 };

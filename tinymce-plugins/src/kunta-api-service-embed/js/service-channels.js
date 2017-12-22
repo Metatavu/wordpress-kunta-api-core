@@ -28,14 +28,14 @@
         title: 'Verkkosivu',
         afterProcessRow: this.onAfterWebPageTableProcessRow.bind(this),
         click: this.onWebPageChannelTableEditChannelButtonClick.bind(this),
-        findMethod: this.findWebPageChannelServiceChannel
+        findMethod: this.findWebPageServiceChannel
       }, {
         tabId: 'printable-form-service-channels',
         property: 'printableFormServiceChannelIds',
         title: 'Tulostettava lomake',
         afterProcessRow: this.onAfterPrintableFormTableProcessRow.bind(this),
         click: this.onPrintableFormChannelTableEditChannelButtonClick.bind(this),
-        findMethod: this.findPrintableFormChannelServiceChannel
+        findMethod: this.findPrintableFormServiceChannel
       }, {
         tabId: 'phone-service-channels',
         property: 'phoneServiceChannelIds',
@@ -171,6 +171,29 @@
     }
     
     /**
+     * Opens printable form service channel editor
+     * 
+     * @param {String} channelId channel id
+     */
+    openPrintableFormServiceChannelEditor(channelId) {
+      if (!channelId) {
+        return;
+      }
+      
+      this.close();
+      
+      this.findPrintableFormServiceChannel(channelId)
+        .then((serviceChannel) => {
+          const PrintableFormServiceChannelEditorDialog = window.PrintableFormServiceChannelEditorDialog;
+          const channelDialog = new PrintableFormServiceChannelEditorDialog(this.editor, serviceChannel);
+          channelDialog.open();
+        })
+        .catch((err) => {
+          tinyMCE.activeEditor.windowManager.alert(err);
+        });
+    }
+    
+    /**
      * Opens service location service channel editor
      * 
      * @param {type} channelId
@@ -294,7 +317,7 @@
       const value = $(event.target).closest('tr').find('*[data-column-name="name"] input')
         .metaformAutocomplete('val');
 
-      // this.openPrintableFormServiceChannelEditor(value.value);
+      this.openPrintableFormServiceChannelEditor(value.value);
     }
     
     onPhoneServiceChannelTableEditChannelButtonClick(event) {
