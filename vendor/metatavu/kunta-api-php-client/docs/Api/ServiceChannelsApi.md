@@ -16,6 +16,7 @@ Method | HTTP request | Description
 [**listWebPageServiceChannels**](ServiceChannelsApi.md#listWebPageServiceChannels) | **GET** /webPageServiceChannels | Lists web page service channels
 [**updateElectronicServiceChannel**](ServiceChannelsApi.md#updateElectronicServiceChannel) | **PUT** /electronicServiceChannels/{electronicServiceChannelId} | Updates a channel
 [**updatePhoneServiceChannel**](ServiceChannelsApi.md#updatePhoneServiceChannel) | **PUT** /phoneServiceChannels/{phoneServiceChannelId} | Updates a channel
+[**updatePrintableFormServiceChannel**](ServiceChannelsApi.md#updatePrintableFormServiceChannel) | **PUT** /printableFormServiceChannels/{printableFormServiceChannelId} | Updates a channel
 [**updateServiceLocationServiceChannel**](ServiceChannelsApi.md#updateServiceLocationServiceChannel) | **PUT** /serviceLocationServiceChannels/{serviceLocationServiceChannelId} | Updates a service location channel
 
 
@@ -649,6 +650,57 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**\KuntaAPI\Model\PhoneServiceChannel**](../Model/PhoneServiceChannel.md)
+
+### Authorization
+
+[basicAuth](../../README.md#basicAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json;charset=utf-8
+ - **Accept**: application/json;charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **updatePrintableFormServiceChannel**
+> \KuntaAPI\Model\PrintableFormServiceChannel updatePrintableFormServiceChannel($printableFormServiceChannelId, $payload)
+
+Updates a channel
+
+Updates a service channel
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure HTTP basic authorization: basicAuth
+KuntaAPI\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+KuntaAPI\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
+
+$api_instance = new KuntaAPI\Api\ServiceChannelsApi();
+$printableFormServiceChannelId = "printableFormServiceChannelId_example"; // string | printable form channel id
+$payload = new \KuntaAPI\Model\PrintableFormServiceChannel(); // \KuntaAPI\Model\PrintableFormServiceChannel | New printable form service data
+
+try {
+    $result = $api_instance->updatePrintableFormServiceChannel($printableFormServiceChannelId, $payload);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ServiceChannelsApi->updatePrintableFormServiceChannel: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **printableFormServiceChannelId** | **string**| printable form channel id |
+ **payload** | [**\KuntaAPI\Model\PrintableFormServiceChannel**](../Model/\KuntaAPI\Model\PrintableFormServiceChannel.md)| New printable form service data |
+
+### Return type
+
+[**\KuntaAPI\Model\PrintableFormServiceChannel**](../Model/PrintableFormServiceChannel.md)
 
 ### Authorization
 
