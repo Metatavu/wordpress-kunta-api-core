@@ -217,6 +217,29 @@
     }
     
     /**
+     * Opens web page service channel editor
+     * 
+     * @param {String} channelId channel id
+     */
+    openWebPageServiceChannelEditor(channelId) {
+      if (!channelId) {
+        return;
+      }
+      
+      this.close();
+      
+      this.findWebPageServiceChannel(channelId)
+        .then((serviceChannel) => {
+          const WebPageServiceChannelEditorDialog = window.WebPageServiceChannelEditorDialog;
+          const channelDialog = new WebPageServiceChannelEditorDialog(this.editor, serviceChannel);
+          channelDialog.open();
+        })
+        .catch((err) => {
+          tinyMCE.activeEditor.windowManager.alert(err);
+        });
+    }
+    
+    /**
      * Creates autocomplete field for selecting service channels
      * 
      * @param {jQuery} element autocomplete element
@@ -308,7 +331,7 @@
       const value = $(event.target).closest('tr').find('*[data-column-name="name"] input')
         .metaformAutocomplete('val');
 
-      // this.openWebPageServiceChannelEditor(value.value);
+      this.openWebPageServiceChannelEditor(value.value);
     }
     
     onPrintableFormChannelTableEditChannelButtonClick(event) {
