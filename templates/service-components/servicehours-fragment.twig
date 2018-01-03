@@ -10,7 +10,7 @@
         {% if serviceHour.serviceHourType == 'Standard' %}
           <h4><span>Aukioloajat</span>{% if serviceHour.validFrom %}<span class="service-hour-valid"> {{ serviceHour.validFrom|dateTimeFormat }}{% if serviceHour.validTo %} - {{ serviceHour.validTo|dateTimeFormat }}{% endif %}</span>{% endif %}</h4>
         {% else %}
-          <b>Vuorokauden yli menevät palveluajat</b>
+          <h4>Vuorokauden yli menevät palveluajat</h4>
         {% endif %}
       {% endif %}
       {% if serviceHour.openingHour %}
