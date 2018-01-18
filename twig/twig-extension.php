@@ -105,13 +105,39 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
       return $datetime->format('d.m.Y');
     }
     
-    public function phoneNumberFilter($phone) {
+    /**
+     * Formats a phone number. 
+     * 
+     * @param \KuntaAPI\Model\Phone $phone
+     * @param boolean $stripFinnishPrefix strips finnish prefix number (+358) when present
+     * @return string formatted phone number
+     */
+    public function phoneNumberFilter($phone, $stripFinnishPrefix = false) {
+      $hasPrefix = false;
+      
       $phonePrefix = $phone->getPrefixNumber();
       $result = '';
       if (isset($phonePrefix)) {
-        $result = $result . $phonePrefix;
+        if (!($phonePrefix === "+358" && $stripFinnishPrefix)) {
+          $result .= "$phonePrefix ";
+          $hasPrefix = true;
+        }
       }
+      
       $phoneNumber = $phone->getNumber();
+      $hasLeadingZero = substr($phoneNumber, 0 , 1) === "0";
+      if ($hasPrefix) {
+        if ($hasLeadingZero) {
+          // If number has a prefix number and the number part starts with a leading zero, we need to strip it out
+          $phoneNumber = substr($phoneNumber, 1);
+        }
+      } else {
+        // If number does not have a prefix number but also lacks the leading zero we need to prepend one
+        if (!$hasLeadingZero) {
+          $phoneNumber = "0${phoneNumber}";
+        }
+      }
+      
       if (isset($phoneNumber)) {
         $result = $result . $phoneNumber;
       }
