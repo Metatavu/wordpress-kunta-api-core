@@ -17,9 +17,13 @@
         {% endif %}
       {% endif %}
       {% if serviceHour.openingHour %}
-        {% for openingHour in serviceHour.openingHour %}
-          <div class="opening-hour">{{ openingHour|openingHoursFormat }}</div>
-        {% endfor %}
+        <table class="opening-hours-table">
+          <tbody>
+            {% for openingHour in serviceHour.openingHour|mergeOpeningHours %}
+              {{ openingHour|openingHoursFormat(true)|raw }}
+            {% endfor %}
+          </tbody>
+        </table>
       {% else %}
         {% if not serviceHour.isClosed %}
           <div class="opening-hour">Avoinna ympäri vuorokauden</div>
@@ -46,7 +50,7 @@
           <div class="service-hour service-hour-exception-time">{% if serviceHour.validFrom %}<span class="service-hour-valid"> {{ serviceHour.validFrom|dateTimeFormat }}{% if serviceHour.validTo %} - {{ serviceHour.validTo|dateTimeFormat }}{% endif %}</span>{% endif %}{% if serviceHour.additionalInformation %}<div class="service-hour-additional-info">{{ serviceHour.additionalInformation|localizedValue(lang) }}</div>{% endif %}</div>
           {% if serviceHour.isClosed %}<div class="service-hour-closed">Suljettu</div>{% endif %}{% if serviceHour.validForNow %}<div class="service-hour-valid-for-now">Voimassa toistaiseksi</div>{% endif %}
           {% if serviceHour.openingHour %}
-            {% for openingHour in serviceHour.openingHour %}
+            {% for openingHour in serviceHour.openingHour|mergeOpeningHours %}
               <div class="opening-hour">
                 {% if openingHour.from %}{{ openingHour.from|formatServiceHour }}{% endif %}{% if openingHour.to %} - {{ openingHour.to|formatServiceHour }}{% endif %}
               </div>
