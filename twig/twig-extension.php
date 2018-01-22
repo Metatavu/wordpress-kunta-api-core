@@ -36,7 +36,8 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
         new \Twig_SimpleFilter('dateTimeFormat', array($this, 'dateTimeFormatFilter')),
         new \Twig_SimpleFilter('openingHoursFormat', array($this, 'openingHoursFormatFilter')),
         new \Twig_SimpleFilter('serviceHourSort', array($this, 'serviceHourSortFilter')),
-        new \Twig_SimpleFilter('nl2p', array($this, 'nl2p'))
+        new \Twig_SimpleFilter('nl2p', array($this, 'nl2p')),
+        new \Twig_SimpleFilter('mergeOpeningHours', array($this, 'mergeOpeningHoursFilter'))
       ];
     }
 
@@ -78,31 +79,95 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
       return $serviceHours;
     }
     
-    public function openingHoursFormatFilter($dailyOpeningTime) {
-      if (!isset($dailyOpeningTime['dayFrom'])) {
-        return '';
+    /**
+     * Merge opening hours from continuous days with same times
+     * 
+     * @param \KuntaAPI\Model\DailyOpeningTime[] $openingHours
+     * @return array 
+     */
+    public function mergeOpeningHoursFilter($openingHours) {
+      $result = [];
+      
+      // Clone the original input
+      foreach ($openingHours as $openingHour) {
+        $stringified = $openingHour->__toString();
+        $data = json_decode($stringified, true);
+        $result[] = new \KuntaAPI\Model\DailyOpeningTime($data);
       }
       
-      $result = $this->dayMap[$dailyOpeningTime['dayFrom']];
-      
-      if (isset($dailyOpeningTime['dayTo'])) {
-        $result = $result . ' - ' . $this->dayMap[$dailyOpeningTime['dayTo']];
-      }
-      
-      if (isset($dailyOpeningTime['from'])) {
-        $result = $result . ' ' . implode(':', array_slice(explode(':', $dailyOpeningTime['from']), 0, 2));
-      }
-      
-      if (isset($dailyOpeningTime['to'])) {
-        $result = $result . '-' . implode(':', array_slice(explode(':', $dailyOpeningTime['to']), 0, 2));
+      for ($i = sizeof($result) - 1; $i >= 0; $i--) {
+        $openingHour = $result[$i];
+          
+        if ($openingHour == null) {
+          error_log("Opening hour $i is null");
+          continue;
+        }
+        
+        for ($j = $i - 1; $j >= 0; $j--) {
+          $mergeOpeningHour = $openingHours[$j];
+          
+          if ($mergeOpeningHour == null) {
+            error_log("Merge opening hour $j is null");
+            continue;
+          }
+          
+          if ($this->areOpeningHoursMergeable($openingHour, $mergeOpeningHour)) {
+            if (empty($openingHour->getDayTo())) {
+              $openingHour->setDayTo($openingHour->getDayFrom());
+            }
+
+            $openingHour->setDayFrom($mergeOpeningHour->getDayFrom());
+            array_splice($result, $j, 1);
+            $i--;
+          }
+        }
       }
       
       return $result;
     }
     
+    /**
+     * Formats daily opening time object.
+     * 
+     * @param type $dailyOpeningTime opening time to be formatted
+     * @param type $table whether to render output as table row
+     * @return string formatted time
+     */
+    public function openingHoursFormatFilter($dailyOpeningTime, $table = false) {
+      $days = isset($dailyOpeningTime['dayFrom']) ? $this->dayMap[$dailyOpeningTime['dayFrom']] : '';
+      $from = "";
+      $to = "";
+      
+      if (isset($dailyOpeningTime['dayTo'])) {
+        $days .= ' - ' . $this->dayMap[$dailyOpeningTime['dayTo']];
+      }
+      
+      if (isset($dailyOpeningTime['from'])) {
+        $from = implode(':', array_slice(explode(':', $dailyOpeningTime['from']), 0, 2));
+      }
+      
+      if (isset($dailyOpeningTime['to'])) {
+        $to = implode(':', array_slice(explode(':', $dailyOpeningTime['to']), 0, 2));
+      }
+      
+      if ($table) {
+        return "<tr><td>${days}</td><td>${from}</td><td>${to}</td>";
+      } else {
+        if (!empty($from) || !empty($to)) {
+          return "${days} ${from} - ${to}";
+        } else {
+          return "${days} ${from}";
+        }
+      }
+    }
+    
     public function dateTimeFormatFilter($datetime) {
-      $datetime->setTimezone(new \DateTimeZone('Europe/Helsinki')); //TODO: create setting
-      return $datetime->format('d.m.Y');
+      if ($datetime) {
+        $datetime->setTimezone(new \DateTimeZone('Europe/Helsinki')); //TODO: create setting
+        return $datetime->format('d.m.Y');
+      } 
+     
+      return null;
     }
     
     /**
@@ -248,6 +313,33 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
     
     public function formatServiceHourFilter($time) {
       return implode(":", array_slice(explode(":", $time), 0, 2));
+    }
+    
+    /**
+     * Returns whether two opening hours can be merged
+     * 
+     * @param \KuntaAPI\Model\DailyOpeningTime $openingHour target opening hour
+     * @param \KuntaAPI\Model\DailyOpeningTime $mergeOpeningHour opening hour to be merged
+     * @return boolean
+     */
+    private function areOpeningHoursMergeable($openingHour, $mergeOpeningHour) {
+      if ($openingHour == null || $mergeOpeningHour == null) {
+        return false;
+      }
+      
+      if ($openingHour->getIsExtra() !== $mergeOpeningHour->getIsExtra()) {
+        return false;
+      }
+      
+      if ($openingHour->getFrom() !== $mergeOpeningHour->getFrom()) {
+        return false;
+      }
+      
+      if ($openingHour->getTo() !== $mergeOpeningHour->getTo()) {
+        return false;
+      }
+      
+      return (($mergeOpeningHour->getDayFrom() + 1) % 7) === $openingHour->getDayFrom();
     }
     
     private function dayToSundayFirst($mondayFirstIndex) {
