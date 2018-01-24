@@ -1,63 +1,7 @@
 {% if serviceHours %}
-{% spaceless %}
-  {% set hasExceptionHours = 0 %}
- 
+  {% spaceless %}
     {% for serviceHour in serviceHours|serviceHourSort %}
-    {% if serviceHour.serviceHourType == 'Standard' or serviceHour.serviceHourType == 'Special' %}
-      <p class="service-hour">
-      {% if serviceHour.isClosed %}Suljettu{% endif %}
-      {% if serviceHour.additionalInformation %}
-        <b>{{ serviceHour.additionalInformation|localizedValue(lang)|nl2p|raw }}</b>
-      {% else %}
-        {% if serviceHour.serviceHourType == 'Standard' %}
-          <h4><span>Aukioloajat</span>{% if serviceHour.validFrom %}<span class="service-hour-valid"> {{ serviceHour.validFrom|dateTimeFormat }}{% if serviceHour.validTo %} - {{ serviceHour.validTo|dateTimeFormat }}{% endif %}</span>{% endif %}</h4>
-        {% else %}
-          <h4>Vuorokauden yli menevät palveluajat</h4>
-        {% endif %}
-      {% endif %}
-      {% if serviceHour.openingHour %}
-        <table class="opening-hours-table">
-          <tbody>
-            {% for openingHour in serviceHour.openingHour|mergeOpeningHours %}
-              {{ openingHour|openingHoursFormat(true)|raw }}
-            {% endfor %}
-          </tbody>
-        </table>
-      {% else %}
-        {% if not serviceHour.isClosed %}
-          <div class="opening-hour">Avoinna ympäri vuorokauden</div>
-        {% endif %}
-      {% endif %}
-      </p>
-    {% endif %}
-
-    {% if serviceHour.serviceHourType == 'Exception' %}
-      {% set hasExceptionHours = hasExceptionHours + 1 %}
-    {% endif %}
-  {% endfor %}
-
-  {% if hasExceptionHours > 0 %}
-    {% if hasExceptionHours == 1 %}
-    <h4>Poikkeusaukioloaika</h4>
-    {% else %}
-    <h4>Poikkeusaukioloajat</h4>
-    {% endif %}
-    
-    {% for serviceHour in serviceHours|serviceHourSort %}
-      {% if serviceHour.serviceHourType == 'Exception' %}
-        <p class="service-hour service-hour-exception">
-          <div class="service-hour service-hour-exception-time">{% if serviceHour.validFrom %}<span class="service-hour-valid"> {{ serviceHour.validFrom|dateTimeFormat }}{% if serviceHour.validTo %} - {{ serviceHour.validTo|dateTimeFormat }}{% endif %}</span>{% endif %}{% if serviceHour.additionalInformation %}<div class="service-hour-additional-info">{{ serviceHour.additionalInformation|localizedValue(lang) }}</div>{% endif %}</div>
-          {% if serviceHour.isClosed %}<div class="service-hour-closed">Suljettu</div>{% endif %}{% if serviceHour.validForNow %}<div class="service-hour-valid-for-now">Voimassa toistaiseksi</div>{% endif %}
-          {% if serviceHour.openingHour %}
-            {% for openingHour in serviceHour.openingHour|mergeOpeningHours %}
-              <div class="opening-hour">
-                {% if openingHour.from %}{{ openingHour.from|formatServiceHour }}{% endif %}{% if openingHour.to %} - {{ openingHour.to|formatServiceHour }}{% endif %}
-              </div>
-            {% endfor %}
-          {% endif %}
-        </p>
-      {% endif %}
+      {% include 'generic-components/service-hour.twig' %}
     {% endfor %}
-  {% endif %}
-{% endspaceless %}
+  {% endspaceless %}
 {% endif %}
