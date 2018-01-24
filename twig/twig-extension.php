@@ -14,13 +14,13 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
     public function __construct() {
       $this->mapper = new \KuntaAPI\Services\Mapper();
       $this->dayMap = [
-        '0' => 'Su',
-        '1' => 'Ma',
-        '2' => 'Ti',
-        '3' => 'Ke',
-        '4' => 'To',
-        '5' => 'Pe',
-        '6' => 'La'
+        '0' => 'su',
+        '1' => 'ma',
+        '2' => 'ti',
+        '3' => 'ke',
+        '4' => 'to',
+        '5' => 'pe',
+        '6' => 'la'
       ];
     }
       
@@ -143,11 +143,11 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
       }
       
       if (isset($dailyOpeningTime['from'])) {
-        $from = implode(':', array_slice(explode(':', $dailyOpeningTime['from']), 0, 2));
+        $from = implode('.', array_slice(explode(':', $dailyOpeningTime['from']), 0, 2));
       }
       
       if (isset($dailyOpeningTime['to'])) {
-        $to = implode(':', array_slice(explode(':', $dailyOpeningTime['to']), 0, 2));
+        $to = implode('.', array_slice(explode(':', $dailyOpeningTime['to']), 0, 2));
       }
       
       if ($table) {
