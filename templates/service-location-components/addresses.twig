@@ -1,11 +1,12 @@
 {% if serviceLocationChannel.addresses %}
 {% for address in serviceLocationChannel.addresses %}
   {% spaceless %}
-    {% if address.type == "Visiting" %}
-      <h3>Käyntiosoite</h3>
+    {% if address.type == "Visiting" or address.type == "Location" %}
+      <h4>Käyntiosoite</h4>
     {% elseif address.type == "Postal" %}
-      <h3>Postiosoite</h3>
+      <h4>Postiosoite</h4>
     {% endif %}
+    
     {% if address.streetAddress %}
       {{ address.streetAddress|localizedValue(lang) }} {{ address.streetNumber }}
     {% endif %}
@@ -32,6 +33,8 @@
       {% if address.postOfficeBox %}
         <span>{{ address.postOfficeBox|localizedValue(lang) }}</span>
       {% endif %}
+    {% elseif address.locationAbroad %}
+      <span>{{ address.locationAbroad|localizedValue(lang) }}</span>
     {% endif %}
   
     {% if address.country == 'FI' %}
