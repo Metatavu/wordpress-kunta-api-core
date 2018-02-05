@@ -2,12 +2,18 @@
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
   if (is_admin()) {
-  	add_action('init', function(){
+  	add_action('init', function() {
       $metaformUrl = '//cdn.metatavu.io/libs/metaform-fields/0.6.12';
       
-      add_filter('mce_external_plugins', function($plugins){
+      add_filter('mce_external_plugins', function($plugins) {
         $plugins['noneditable'] = '//cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.10/plugins/noneditable/plugin.min.js';
-  	    return $plugins;
+        $plugins['magicline'] = '//cdn.metatavu.io/libs/tinymce-plugins/magicline/1.2.3/plugin.min.js';
+        return $plugins;
+      });
+
+      add_filter( 'tiny_mce_before_init', function ($settings) {
+        $settings['magicline_targetedItems'] = "['DIV','IMG','INPUT']";
+        return $settings;
       });
       
       wp_enqueue_style('font_awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' );
