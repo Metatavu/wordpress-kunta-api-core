@@ -440,7 +440,12 @@
         if (err) {
           tinyMCE.activeEditor.windowManager.alert(err);
         } else {
-          const channelComponents = ['electronicServiceChannelIds'];
+          const channelComponents = [
+            'electronicServiceChannelIds', 
+            'phoneServiceChannelIds', 
+            'printableFormServiceChannelIds', 
+            'serviceLocationServiceChannelIds',
+            'webPageServiceChannelIds'];
           
           const dialog = channelComponents.indexOf(options.component) === -1 
             ? new ServiceDialog(this.editor, service) 
