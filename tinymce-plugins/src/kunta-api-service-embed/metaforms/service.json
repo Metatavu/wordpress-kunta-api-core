@@ -191,7 +191,7 @@
     "fields": [{
       "name": "edit-additional-details",
       "type": "html",
-      "html":"<p><a class=\"btn btn-sm btn-success edit-additional-details\">Muokkaa muita lisätietoja</a>&bsp;<a class=\"btn btn-sm btn-success edit-channels\">Muokkaa liitettyjä kanavia</a></p>"
+      "html":"<p><a class=\"btn btn-sm btn-success edit-additional-details\">Muokkaa muita lisätietoja</a>&nbsp;<a class=\"btn btn-sm btn-success edit-channels\">Muokkaa liitettyjä kanavia</a></p>"
     }]
   }]
 }
