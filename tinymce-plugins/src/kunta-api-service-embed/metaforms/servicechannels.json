@@ -14,7 +14,7 @@
       }, {
         "column-width": 63,
         "type": "button",
-        "text": "Muokka",
+        "text": "Muokkaa",
         "class": "btn-success",
         "action": "edit-channel"
       }, {
