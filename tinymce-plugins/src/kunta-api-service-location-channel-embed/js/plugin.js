@@ -471,7 +471,7 @@
     findServiceLocationServiceChannel(id, callback) {
       $.post(ajaxurl, {
         'action': 'kunta_api_load_service_location_service_channel',
-        'serviceLocationServiceChannelId': id
+        'id': id
       }, (response) => {
         callback(null, JSON.parse(response));
       })
