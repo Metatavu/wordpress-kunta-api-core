@@ -74,6 +74,10 @@ i.mce-i-kunta_api_service_location_embed::before {
 .ui-dialog { 
   z-index: 99999 !important;
   
+  .ui-dialog-titlebar-close > span {
+    margin: -8px !important;
+  }
+  
   &.loading::after {
     content: "";
     position: absolute;

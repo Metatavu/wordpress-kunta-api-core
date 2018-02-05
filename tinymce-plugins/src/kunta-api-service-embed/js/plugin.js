@@ -75,6 +75,7 @@
       });
       
       $(dialog).on('click', '.edit-additional-details', this.onEditAdditionalDetailsClick.bind(this));
+      $(dialog).on('click', '.edit-channels', this.onEditChannelsClick.bind(this));
     }
     
     openAdditionalDetailsEditDialog() {
@@ -302,6 +303,11 @@
     
     onEditAdditionalDetailsClick() {
       this.openAdditionalDetailsEditDialog();
+    }
+    
+    onEditChannelsClick() {
+      const dialog = new ServiceChannelsDialog(this.editor, this.service);
+      dialog.open();
     }
   }
   
