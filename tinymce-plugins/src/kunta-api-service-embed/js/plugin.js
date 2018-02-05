@@ -442,6 +442,11 @@
     }
 
     onServiceEdit(ui, options) {
+      const overlay = $('<div>')
+        .addClass('ui-widget-overlay')
+        .css('z-index', 99999)
+        .appendTo($('body'));
+
       this.findService(options.serviceId, (err, service) => {
         if (err) {
           tinyMCE.activeEditor.windowManager.alert(err);
@@ -457,6 +462,7 @@
             ? new ServiceDialog(this.editor, service) 
             : new ServiceChannelsDialog(this.editor, service);
             
+          overlay.remove();
           dialog.open();
         }
       });

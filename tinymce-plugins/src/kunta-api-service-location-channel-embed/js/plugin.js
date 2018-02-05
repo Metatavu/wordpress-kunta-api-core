@@ -494,11 +494,17 @@
     }
 
     onServiceLocationChannelEdit(ui, options) {
+      const overlay = $('<div>')
+        .addClass('ui-widget-overlay')
+        .css('z-index', 99999)
+        .appendTo($('body'));
+
       this.findServiceLocationServiceChannel(options.serviceLocationServiceChannelId, (err, serviceLocationServiceChannel) => {
         if (err) {
           tinyMCE.activeEditor.windowManager.alert(err);
         } else {
           const dialog = new ServiceLocationServiceChannelDialog(this.editor, serviceLocationServiceChannel);
+          overlay.remove();
           dialog.open();
         }
       });
