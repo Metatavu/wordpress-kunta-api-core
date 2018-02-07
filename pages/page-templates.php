@@ -16,6 +16,8 @@
       	add_action('media_buttons', [ $this, 'addMediaButton' ]);
         add_action('wp_ajax_kunta_api_render_service_page_template', [ $this, 'ajaxRenderServicePageTemplate']);
         add_action('wp_ajax_kunta_api_render_service_location_service_channel_page_template', [ $this, 'ajaxRenderServiceLocationServiceChannelPageTemplate']);
+        add_action('kunta_api_core_setting_groups', [ $this, 'kuntaApiCoreSettingGroups']);        
+        add_action('kunta_api_core_settings', [ $this, 'kuntaApiCoreSettings']);   
       }
       
       /**
@@ -24,6 +26,10 @@
        * @param type $editorId editor id
        */
       public function addMediaButton($editorId) {
+        if (!\KuntaAPI\Core\CoreSettings::getBooleanValue('usePageRegenerateTemplatePlugin')) {
+          return;
+        }
+         
       	if ($editorId === 'content') {
           $post = get_post();
           $postType = $post ? $post->post_type : null;
@@ -89,6 +95,32 @@
         $GLOBALS['post_type'] = 'page';
         echo apply_filters('content_edit_pre', $renderer->renderLocationChannelPage($lang, $channel));
         wp_die();
+      }
+      
+      /**
+       * Action for altering kunta api setting groups
+       */
+      public function kuntaApiCoreSettingGroups() {
+        global $kuntaApiSettingGroups;
+    
+        $kuntaApiSettingGroups[] = [
+          'name' => 'pages',
+          'title' => __('Page settings', 'kunta_api_core')
+        ];
+      }
+      
+      /**
+       * Action for altering kunta api settings
+       */
+      public function kuntaApiCoreSettings() {
+        global $kuntaApiSettings;
+
+        $kuntaApiSettings[] = [
+          "group" => "pages",
+          "type" => "checkbox",
+          "name" => "usePageRegenerateTemplatePlugin",
+          "title" => __('Use page regenerate from template plugin (CKEditor only)', 'kunta_api_core')
+        ];
       }
       
     }

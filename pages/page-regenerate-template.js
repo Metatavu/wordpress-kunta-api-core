@@ -4,6 +4,8 @@
   'use strict';
   
   function setEditorContents(editorId, contents) {
+    // TODO: Support TinyMCE
+    
     var ckEditor = !_.isUndefined(window.CKEDITOR) ? CKEDITOR.instances[editorId] : null;
     
     if (ckEditor) {
