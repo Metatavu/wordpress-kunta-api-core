@@ -16,8 +16,6 @@
       	add_action('media_buttons', [ $this, 'addMediaButton' ]);
         add_action('wp_ajax_kunta_api_render_service_page_template', [ $this, 'ajaxRenderServicePageTemplate']);
         add_action('wp_ajax_kunta_api_render_service_location_service_channel_page_template', [ $this, 'ajaxRenderServiceLocationServiceChannelPageTemplate']);
-        add_action('kunta_api_core_setting_groups', [ $this, 'kuntaApiCoreSettingGroups']);        
-        add_action('kunta_api_core_settings', [ $this, 'kuntaApiCoreSettings']);   
       }
       
       /**
@@ -80,7 +78,16 @@
         $service = \KuntaAPI\Services\Loader::findService($id);
         $lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
         $GLOBALS['post_type'] = 'page';
-        echo apply_filters('content_edit_pre', $renderer->renderServicePage($lang, $service));
+        
+        $template = apply_filters('content_edit_pre', $renderer->renderServicePage($lang, $service));
+        $sidebar = $this->extractSidebarContents($template);
+        $content = $this->removeSidebarContents($template);
+        
+        echo json_encode([
+          "content" => $content,
+          "sidebar" => $sidebar
+        ]);
+        
         wp_die();
       }
       
@@ -93,36 +100,63 @@
         $channel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($id);
         $lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
         $GLOBALS['post_type'] = 'page';
-        echo apply_filters('content_edit_pre', $renderer->renderLocationChannelPage($lang, $channel));
+        
+        $template = apply_filters('content_edit_pre', $renderer->renderLocationChannelPage($lang, $channel));
+        $sidebar = $this->extractSidebarContents($template);
+        $content = $this->removeSidebarContents($template);
+        
+        echo json_encode([
+          "content" => $content,
+          "sidebar" => $sidebar
+        ]);
+        
         wp_die();
       }
       
       /**
-       * Action for altering kunta api setting groups
+       * Removes sidebar from the contents
+       * 
+       * @param String $content contents
+       * @return String contents without sidebar
        */
-      public function kuntaApiCoreSettingGroups() {
-        global $kuntaApiSettingGroups;
-    
-        $kuntaApiSettingGroups[] = [
-          'name' => 'pages',
-          'title' => __('Page settings', 'kunta_api_core')
-        ];
+      private function removeSidebarContents($content) {
+        return preg_replace('/(<aside.*?>)(.*?)(<\/aside>)/is', '', $content);
       }
       
       /**
-       * Action for altering kunta api settings
+       * Extracts sidebar from the contents
+       * 
+       * @param String $content contents
+       * @return String sidebar
        */
-      public function kuntaApiCoreSettings() {
-        global $kuntaApiSettings;
-
-        $kuntaApiSettings[] = [
-          "group" => "pages",
-          "type" => "checkbox",
-          "name" => "usePageRegenerateTemplatePlugin",
-          "title" => __('Use page regenerate from template plugin (CKEditor only)', 'kunta_api_core')
-        ];
+      private function extractSidebarContents($content) {
+        $matches = [];
+        preg_match_all('/(<aside.*?>)(.*?)(<\/aside>)/is', $content, $matches, PREG_SET_ORDER, 0);
+        
+        if (count($matches) === 1 && count($matches[0]) === 4) {
+          return $this->removeSidebarInnerDiv($matches[0][2]);
+        }
+        
+        return $content;
       }
       
+      /**
+       * Removes sidebar inner div from sidebar content
+       * 
+       * @param String $content contents
+       * @return String sidebar without inner div
+       */
+      private function removeSidebarInnerDiv($content) {
+        $result = preg_replace('/\<div.*kunta-api-aside-contents.*?\>/', '', $content);
+        if ($result !== $content) {
+          $lastDiv = strrpos($result, '</div>');
+          if ($lastDiv) {
+            return substr($result, 0, $lastDiv);
+          }
+        }
+        
+        return $result;
+      }
     }
   
   }
