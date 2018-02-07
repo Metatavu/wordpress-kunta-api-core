@@ -1,6 +1,5 @@
 /* global _, CKEDITOR, ajaxurl */
-
-(function () {
+(function ($) {
   'use strict';
   
   function setEditorContents(editorId, contents) {
@@ -30,7 +29,7 @@
     });
   }
 
-  jQuery(document).ready(function($) {
+  $(document).ready(function() {
     $('.regenerate-page').click(function (event) {
       var button = $(event.target);
       var serviceId = button.attr('data-service-id');
@@ -73,4 +72,4 @@
     
   });
 
-}).call(this);
+})(jQuery);

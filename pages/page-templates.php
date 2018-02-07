@@ -12,10 +12,13 @@
     class Templates {
       
       public function __construct() {
-        wp_enqueue_script('page-regenerate-template', plugin_dir_url(__FILE__) . 'page-regenerate-template.js', ['jquery-ui-dialog']);
-      	add_action('media_buttons', [ $this, 'addMediaButton' ]);
-        add_action('wp_ajax_kunta_api_render_service_page_template', [ $this, 'ajaxRenderServicePageTemplate']);
-        add_action('wp_ajax_kunta_api_render_service_location_service_channel_page_template', [ $this, 'ajaxRenderServiceLocationServiceChannelPageTemplate']);
+        if (\KuntaAPI\Core\CoreSettings::getBooleanValue('usePageRegenerateTemplatePlugin')) {
+          wp_enqueue_script('page-regenerate-template', plugin_dir_url(__FILE__) . 'page-regenerate-template.js', ['jquery-ui-dialog']);
+          add_action('media_buttons', [ $this, 'addMediaButton' ]);
+          add_action('wp_ajax_kunta_api_render_service_page_template', [ $this, 'ajaxRenderServicePageTemplate']);
+          add_action('wp_ajax_kunta_api_render_service_location_service_channel_page_template', [ $this, 'ajaxRenderServiceLocationServiceChannelPageTemplate']);
+        }
+        
         add_action('kunta_api_core_setting_groups', [ $this, 'kuntaApiCoreSettingGroups']);        
         add_action('kunta_api_core_settings', [ $this, 'kuntaApiCoreSettings']);   
       }
@@ -26,11 +29,7 @@
        * @param type $editorId editor id
        */
       public function addMediaButton($editorId) {
-        if (!\KuntaAPI\Core\CoreSettings::getBooleanValue('usePageRegenerateTemplatePlugin')) {
-          return;
-        }
-         
-      	if ($editorId === 'content') {
+        if ($editorId === 'content') {
           $post = get_post();
           $postType = $post ? $post->post_type : null;
           if ($postType !== null && $post->post_type !== 'page') {
