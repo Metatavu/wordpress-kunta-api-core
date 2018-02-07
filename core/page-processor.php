@@ -43,7 +43,8 @@
       }
 
       public function processPageEditContent($content) {
-        if ($GLOBALS['post']->post_type == 'page') {
+        $postType = $GLOBALS['post_type'] ? $GLOBALS['post_type'] : $GLOBALS['post']->post_type;
+        if ($postType == 'page') {
           return $this->processContent($content);
         }
         

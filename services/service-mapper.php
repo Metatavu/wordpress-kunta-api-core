@@ -6,14 +6,68 @@
   require_once( __DIR__ . '/../vendor/autoload.php');
   
   if (!class_exists( 'KuntaAPI\Services\Mapper' ) ) {
+    
     class Mapper {
       
       public function __construct() {
       }
       
+      /**
+       * Returns related page for service id
+       * 
+       * @param String $serviceId service id
+       * @return int related page id
+       */
       public function getServicePageId($serviceId) {
       	$mapping = $this->getServicePageMapping();
       	return $mapping[$serviceId];
+      }
+      
+      /**
+       * Returns service id for page id
+       * 
+       * @param int $pageId page id
+       * @return String service id
+       */
+      public function getPageServiceId($pageId) {
+      	$mapping = $this->getServicePageMapping();
+        
+      	foreach ($mapping as $serviceId => $servicePageId) {
+          if ($pageId === $servicePageId) {
+            return $serviceId;
+          }
+        }
+        
+        return null;
+      }
+      
+      /**
+       * Returns service location service channel page id.
+       * 
+       * @param String $serviceLocationServiceChannelId service location service channel id
+       * @return int page id
+       */
+      public function getServiceLocationServiceChannelPageId($serviceLocationServiceChannelId) {
+      	$mapping = $this->getLocationChannelPageMapping();
+      	return $mapping[$serviceLocationServiceChannelId];
+      }
+      
+      /**
+       * Returns service location service channel id for page id
+       * 
+       * @param int $pageId pageId
+       * @return String service location service channel id
+       */
+      public function getPageServiceLocationServiceChannelId($pageId) {
+      	$mapping = $this->getLocationChannelPageMapping();
+        
+      	foreach ($mapping as $serviceLocationServiceChannelId => $channelPageId) {
+          if ($pageId === $channelPageId) {
+            return $serviceLocationServiceChannelId;
+          }
+        }
+        
+        return null;
       }
       
       public function setServicePageId($serviceId, $pageId) {
@@ -27,9 +81,15 @@
       	$this->setServicePagesOptionValue($mapping);
       }
       
+      /**
+       * Returns service location service channel page id. Deprecated use getServiceLocationServiceChannelPageId instead
+       * 
+       * @deprecated
+       * @param String $locationChannelId service location service channel id
+       * @return int page id
+       */
       public function getLocationChannelPageId($locationChannelId) {
-      	$mapping = $this->getLocationChannelPageMapping();
-      	return $mapping[$locationChannelId];
+      	return $this->getServiceLocationServiceChannelPageId($locationChannelId);
       }
       
       public function setLocationChannelPageId($locationChannelId, $pageId) {
