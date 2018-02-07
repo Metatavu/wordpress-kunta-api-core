@@ -22,10 +22,10 @@
     $.post(ajaxurl, {
       'action': action,
       'id': id
-    }, (response) => {
+    }, function (response) {
       callback(null, response);
     })
-    .fail((response) => {
+    .fail(function(response) {
       callback(response.responseText || response.statusText);
     });
   }
