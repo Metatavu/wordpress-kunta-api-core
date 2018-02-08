@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Kunta API Core package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Kunta API Core 0.8.3\n"
+"Project-Id-Version: Kunta API Core 0.8.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-kunta-"
 "api-core\n"
-"POT-Creation-Date: 2018-02-07 04:58:29+00:00\n"
+"POT-Creation-Date: 2018-02-08 09:19:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -312,42 +312,54 @@ msgstr ""
 msgid "Set Banner Image"
 msgstr ""
 
-#: pages/page-templates.php:56
+#: pages/page-settings.php:27
+msgid "Page settings"
+msgstr ""
+
+#: pages/page-settings.php:41
+msgid "Use content processors (CKEditor only)"
+msgstr ""
+
+#: pages/page-settings.php:48
+msgid "Use page regenerate from template plugin (CKEditor only)"
+msgstr ""
+
+#: pages/page-settings.php:55
+msgid "Use sidebar plugin (CKEditor only)"
+msgstr ""
+
+#: pages/page-sidebars.php:26
+msgid "Sidebar"
+msgstr ""
+
+#: pages/page-templates.php:52
 msgid "Yes"
 msgstr ""
 
-#: pages/page-templates.php:57
+#: pages/page-templates.php:53
 msgid "Cancel"
 msgstr ""
 
-#: pages/page-templates.php:58
+#: pages/page-templates.php:54
 msgid "Are you sure?"
 msgstr ""
 
-#: pages/page-templates.php:59
+#: pages/page-templates.php:55
 msgid ""
 "Are you sure that you wish to replace page contents with contents from "
 "original template?"
 msgstr ""
 
-#: pages/page-templates.php:60
+#: pages/page-templates.php:56
 msgid "Loading..."
 msgstr ""
 
-#: pages/page-templates.php:61
+#: pages/page-templates.php:57
 msgid "Loading please wait..."
 msgstr ""
 
-#: pages/page-templates.php:68
+#: pages/page-templates.php:64
 msgid "Regenerate from template"
-msgstr ""
-
-#: pages/page-templates.php:108
-msgid "Page settings"
-msgstr ""
-
-#: pages/page-templates.php:122
-msgid "Use page regenerate from template plugin (CKEditor only)"
 msgstr ""
 
 #: services/service-component-renderer.php:52
