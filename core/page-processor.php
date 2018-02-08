@@ -158,18 +158,18 @@
        * @param \simplehtmldom_1_5\simple_html_dom $dom dom
        */
       private function migrateSidebars($post, $dom) {
-        $sidebarContents = '';
-        
         foreach ($dom->find('.kunta-api-aside-contents') as $content) {
-          $sidebarContents .= $content->innertext; 
+          $content->outertext = $content->innertext; 
+        }
+        
+        $sidebarContents = '';
+        foreach ($dom->find('.kunta-api-aside') as $aside) {
+          $sidebarContents .= $aside->innertext;
+          $aside->outertext = '';
         }
         
         if (!empty($sidebarContents)) {
           update_post_meta($post->ID, "kunta_api_sidebar", $sidebarContents);
-        }
-        
-        foreach ($dom->find('.kunta-api-aside') as $aside) {
-          $aside->outertext = '';
         }
       }
       
