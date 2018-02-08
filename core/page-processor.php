@@ -17,9 +17,12 @@
       
       public function __construct() {
         $this->contentProcessors = [];
-        add_filter('the_content', array($this, 'processPageContent'));
-        if (is_admin()) {
-          add_filter('content_edit_pre', array($this, 'processPageEditContent'));
+        
+        if (\KuntaAPI\Core\CoreSettings::getBooleanValue('useContentProcessors')) {
+          add_filter('the_content', array($this, 'processPageContent'));
+          if (is_admin()) {
+            add_filter('content_edit_pre', array($this, 'processPageEditContent'));
+          }
         }
       }
        

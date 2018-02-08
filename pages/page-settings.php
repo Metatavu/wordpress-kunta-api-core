@@ -33,6 +33,13 @@
        */
       public function kuntaApiCoreSettings() {
         global $kuntaApiSettings;
+        
+        $kuntaApiSettings[] = [
+          "group" => "pages",
+          "type" => "checkbox",
+          "name" => "useContentProcessors",
+          "title" => __('Use content processors (CKEditor only)', 'kunta_api_core')
+        ];
 
         $kuntaApiSettings[] = [
           "group" => "pages",
