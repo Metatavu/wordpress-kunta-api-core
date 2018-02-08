@@ -22,7 +22,7 @@
       'action': action,
       'id': id
     }, function (response) {
-      callback(null, response);
+      callback(null, JSON.parse(response));
     })
     .fail(function(response) {
       callback(response.responseText || response.statusText);
@@ -52,11 +52,12 @@
             $(this).dialog("option", 'buttons', []);
             contents.html('<img src="/wp-admin/images/spinner.gif"/><br/>' + locales.dialogLoadingText);
             
-            getPageTemplate(serviceId, serviceLocationServiceChannelId, $.proxy(function (err, content) {
+            getPageTemplate(serviceId, serviceLocationServiceChannelId, $.proxy(function (err, result) {
               if (err) {
                 alert(err); 
               } else {
-                setEditorContents('content', content);
+                setEditorContents('content', result.content);
+                setEditorContents('sidebar_editor', result.sidebar);
                 $(this).dialog("close");
               }
             }, this));

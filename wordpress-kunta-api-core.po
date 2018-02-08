@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Kunta API Core 0.7.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-kunta-"
 "api-core\n"
-"POT-Creation-Date: 2018-02-07 04:58:29+00:00\n"
-"PO-Revision-Date: 2018-02-07 07:01+0200\n"
+"POT-Creation-Date: 2018-02-08 09:19:09+00:00\n"
+"PO-Revision-Date: 2018-02-08 11:20+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -314,43 +314,55 @@ msgstr "Valitse banneri kuva"
 msgid "Set Banner Image"
 msgstr "Aseta banneri kuva"
 
-#: pages/page-templates.php:56
+#: pages/page-settings.php:27
+msgid "Page settings"
+msgstr "Sivuasetukset"
+
+#: pages/page-settings.php:41
+msgid "Use content processors (CKEditor only)"
+msgstr "Käytä sisällön prosessoijia (vain CKEditor)"
+
+#: pages/page-settings.php:48
+msgid "Use page regenerate from template plugin (CKEditor only)"
+msgstr "Käytä sivun uudelleen generointi lisäosaa (vain CKEditor)"
+
+#: pages/page-settings.php:55
+msgid "Use sidebar plugin (CKEditor only)"
+msgstr "Käytä sivupalkki lisäosaa (vain CKEditor)"
+
+#: pages/page-sidebars.php:26
+msgid "Sidebar"
+msgstr "Sivupalkki"
+
+#: pages/page-templates.php:52
 msgid "Yes"
 msgstr "Kyllä"
 
-#: pages/page-templates.php:57
+#: pages/page-templates.php:53
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: pages/page-templates.php:58
+#: pages/page-templates.php:54
 msgid "Are you sure?"
 msgstr "Oletko varma?"
 
-#: pages/page-templates.php:59
+#: pages/page-templates.php:55
 msgid ""
 "Are you sure that you wish to replace page contents with contents from "
 "original template?"
 msgstr "Oletko varma, että haluat korvata sivun sisällön sivupohjan tiedoilla?"
 
-#: pages/page-templates.php:60
+#: pages/page-templates.php:56
 msgid "Loading..."
 msgstr "Ladataan..."
 
-#: pages/page-templates.php:61
+#: pages/page-templates.php:57
 msgid "Loading please wait..."
 msgstr "Ladataan, odota hetki..."
 
-#: pages/page-templates.php:68
+#: pages/page-templates.php:64
 msgid "Regenerate from template"
 msgstr "Uudelleen generoi sivu"
-
-#: pages/page-templates.php:108
-msgid "Page settings"
-msgstr "Sivuasetukset"
-
-#: pages/page-templates.php:122
-msgid "Use page regenerate from template plugin (CKEditor only)"
-msgstr "Käytä sivun uudelleen generointi lisäosaa (vain CKEditor)"
 
 #: services/service-component-renderer.php:52
 #: services/service-locations/service-location-component-renderer.php:28

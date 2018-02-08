@@ -27,7 +27,6 @@
   require_once( __DIR__ . '/core/api.php');
   require_once( __DIR__ . '/core/kses.php');
   require_once( __DIR__ . '/core/tinymce.php');
-  require_once( __DIR__ . '/core/ckeditor.php');
   require_once( __DIR__ . '/core/abstract-content-processor.php');
   require_once( __DIR__ . '/core/page-processor.php');
   require_once( __DIR__ . '/core/ajax.php');
