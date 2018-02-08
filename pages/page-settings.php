@@ -40,6 +40,13 @@
           "name" => "usePageRegenerateTemplatePlugin",
           "title" => __('Use page regenerate from template plugin (CKEditor only)', 'kunta_api_core')
         ];
+        
+        $kuntaApiSettings[] = [
+          "group" => "pages",
+          "type" => "checkbox",
+          "name" => "usePageSidebarPlugin",
+          "title" => __('Use sidebar plugin (CKEditor only)', 'kunta_api_core')
+        ];
       }
       
     }

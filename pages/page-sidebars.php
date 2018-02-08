@@ -12,9 +12,11 @@
     class Sidebars {
       
       public function __construct() {
-        wp_enqueue_script('page-sidebars', plugin_dir_url(__FILE__) . 'page-sidebars.js');
-      	add_action('add_meta_boxes', [$this, 'addMetaBoxes'], 0, 2 );
-        add_action('save_post', [$this, 'savePost']);
+        if (\KuntaAPI\Core\CoreSettings::getBooleanValue('usePageSidebarPlugin')) {
+          wp_enqueue_script('page-sidebars', plugin_dir_url(__FILE__) . 'page-sidebars.js');
+          add_action('add_meta_boxes', [$this, 'addMetaBoxes'], 0, 2 );
+          add_action('save_post', [$this, 'savePost']);
+        }
       }
       
       /**
