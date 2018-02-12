@@ -112,7 +112,7 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
           }
           
           if ($this->areOpeningHoursMergeable($openingHour, $mergeOpeningHour)) {
-            if (empty($openingHour->getDayTo())) {
+            if (is_null($openingHour->getDayTo())) {
               $openingHour->setDayTo($openingHour->getDayFrom());
             }
 
@@ -122,7 +122,7 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
           }
         }
       }
-      
+
       return $result;
     }
     
