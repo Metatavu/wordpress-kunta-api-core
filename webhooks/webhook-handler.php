@@ -72,33 +72,12 @@
         }
       }
       
-      private function doCurlRequest($url, $body) {
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS,$body);  
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec($ch);
-
-        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-        
-        return $status;
-      }
-      
       private function doPostRequest($body) {
         foreach (\KuntaAPI\Core\CoreSettings::getOrganizationIdsWithWebhooks() as $organizationId) {
-          $retryAmount = 10;
           $url = "$this->baseUrl?organizationId=$organizationId";
-          
-          for ($i = 0; $i < $retryAmount; $i++) {
-            $curlRequestStatus = $this->doCurlRequest($url, $body);
-            
-            if ($curlRequestStatus == 200) {
-              break;
-            }
-          }
+          $bg = " > /dev/null 2>&1 &";
+          $command = "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' --retry-connrefused --retry 10 --retry-delay 1 '$url' -d '$body'$bg";
+          exec($command);  
         }
       }
       
