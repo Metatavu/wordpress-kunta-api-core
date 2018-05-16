@@ -41,6 +41,7 @@
   require_once( __DIR__ . '/id-mappings/pages/page-mappings-rest.php');
   require_once( __DIR__ . '/incidents/incidents.php');
   require_once( __DIR__ . '/contacts/contacts.php');
+  require_once( __DIR__ . '/jobs/jobs.php');
   require_once( __DIR__ . '/patches/patches.php');
   require_once( __DIR__ . '/webhooks/webhooks.php');
   require_once( __DIR__ . '/reorder/reorder.php');
