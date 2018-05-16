@@ -76,7 +76,7 @@
         foreach (\KuntaAPI\Core\CoreSettings::getOrganizationIdsWithWebhooks() as $organizationId) {
           $url = "$this->baseUrl?organizationId=$organizationId";
           $bg = " > /dev/null 2>&1 &";
-          $command = "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' --retry-connrefused --retry 10 --retry-delay 1 '$url' -d '$body'$bg";
+          $command = "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' --retry 10 --retry-delay 1 '$url' -d '$body'$bg";
           exec($command);  
         }
       }
