@@ -36,7 +36,7 @@
           'sort-dir' => 'ASCENDING'
         ], $tagAttrs);
 
-        return '<div class="kunta-api-job-list" data-limit="'. $attrs['limit'] . '"  data-sort-by="'. $attrs['sort-by'] . '"  data-sort-dir="'. $attrs['sort-dir'] . '"/>';
+        return '<div class="kunta-api-job-list" data-limit="'. $attrs['limit'] . '"  data-sort-by="'. $attrs['sort-by'] . '"  data-sort-dir="'. $attrs['sort-dir'] . '"></div>';
       }
     }
   
