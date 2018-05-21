@@ -15,7 +15,7 @@
   }
   
   if (!defined('KUNTA_API_CORE_PLUGIN_VERSION')) {
-    define('KUNTA_API_CORE_PLUGIN_VERSION', '0.8.10');
+    define('KUNTA_API_CORE_PLUGIN_VERSION', '0.8.13');
   }
   
   require_once( __DIR__ . '/updates.php');
