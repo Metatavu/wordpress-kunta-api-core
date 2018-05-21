@@ -1,0 +1,18 @@
+{% spaceless %}
+  <h4>
+    {% if serviceHour.additionalInformation %}
+      {{ serviceHour.additionalInformation|localizedValue(lang) }}
+    {% else %}
+      {% if serviceHour.serviceHourType == 'Standard' %}
+        Aukioloajat
+      {% elseif serviceHour.serviceHourType == 'Exception' %}
+        Poikkeusaukioloaika
+      {% else %}
+        Vuorokauden yli menevät palveluajat
+      {% endif %}
+    {% endif %}
+    {% if serviceHour.validFrom %}
+      <br/><small><span class="service-hour-valid">{{ serviceHour.validFrom|dateTimeFormat }}{% if serviceHour.validTo %} - {{ serviceHour.validTo|dateTimeFormat }}{% endif %}</span></small>
+    {% endif %}
+  </h4>
+{% endspaceless %}

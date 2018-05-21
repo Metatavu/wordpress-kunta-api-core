@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,uCAAwC,CACtC,OAAO,CAAE,OAAO,CAChB,WAAW,CAAE,WAAW,CACxB,SAAS,CAAE,KAAK,CAChB,QAAQ,CAAE,QAAQ,CAClB,GAAG,CAAE,GAAG,CACR,IAAI,CAAE,GAAG",
+"sources": ["../src/kunta-api-service-embed/scss/plugin.scss"],
+"names": [],
+"file": "plugin.css"
+}

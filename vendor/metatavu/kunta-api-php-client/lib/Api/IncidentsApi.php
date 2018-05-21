@@ -223,6 +223,7 @@ class IncidentsApi
      * Lists organizations incidents
      *
      * @param string $organizationId Organization id (required)
+     * @param string $slug Filter with slug (optional)
      * @param string $startBefore  (optional)
      * @param string $endAfter  (optional)
      * @param int $area Return only incidents from specified area (optional)
@@ -233,9 +234,9 @@ class IncidentsApi
      * @return \KuntaAPI\Model\Incident[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listOrganizationIncidents($organizationId, $startBefore = null, $endAfter = null, $area = null, $firstResult = null, $maxResults = null, $orderBy = null, $orderDir = null)
+    public function listOrganizationIncidents($organizationId, $slug = null, $startBefore = null, $endAfter = null, $area = null, $firstResult = null, $maxResults = null, $orderBy = null, $orderDir = null)
     {
-        list($response) = $this->listOrganizationIncidentsWithHttpInfo($organizationId, $startBefore, $endAfter, $area, $firstResult, $maxResults, $orderBy, $orderDir);
+        list($response) = $this->listOrganizationIncidentsWithHttpInfo($organizationId, $slug, $startBefore, $endAfter, $area, $firstResult, $maxResults, $orderBy, $orderDir);
         return $response;
     }
 
@@ -245,6 +246,7 @@ class IncidentsApi
      * Lists organizations incidents
      *
      * @param string $organizationId Organization id (required)
+     * @param string $slug Filter with slug (optional)
      * @param string $startBefore  (optional)
      * @param string $endAfter  (optional)
      * @param int $area Return only incidents from specified area (optional)
@@ -255,7 +257,7 @@ class IncidentsApi
      * @return Array of \KuntaAPI\Model\Incident[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listOrganizationIncidentsWithHttpInfo($organizationId, $startBefore = null, $endAfter = null, $area = null, $firstResult = null, $maxResults = null, $orderBy = null, $orderDir = null)
+    public function listOrganizationIncidentsWithHttpInfo($organizationId, $slug = null, $startBefore = null, $endAfter = null, $area = null, $firstResult = null, $maxResults = null, $orderBy = null, $orderDir = null)
     {
         // verify the required parameter 'organizationId' is set
         if ($organizationId === null) {
@@ -273,6 +275,10 @@ class IncidentsApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
 
+        // query params
+        if ($slug !== null) {
+            $queryParams['slug'] = $this->apiClient->getSerializer()->toQueryValue($slug);
+        }
         // query params
         if ($startBefore !== null) {
             $queryParams['startBefore'] = $this->apiClient->getSerializer()->toQueryValue($startBefore);

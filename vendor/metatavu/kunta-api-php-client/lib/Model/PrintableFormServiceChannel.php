@@ -80,7 +80,9 @@ class PrintableFormServiceChannel implements ArrayAccess
         'languages' => 'string[]',
         'webPages' => '\KuntaAPI\Model\WebPage[]',
         'serviceHours' => '\KuntaAPI\Model\ServiceHour[]',
-        'publishingStatus' => 'string'
+        'publishingStatus' => 'string',
+        'areaType' => 'string',
+        'areas' => '\KuntaAPI\Model\Area[]'
     );
 
     public static function swaggerTypes()
@@ -107,7 +109,9 @@ class PrintableFormServiceChannel implements ArrayAccess
         'languages' => 'languages',
         'webPages' => 'webPages',
         'serviceHours' => 'serviceHours',
-        'publishingStatus' => 'publishingStatus'
+        'publishingStatus' => 'publishingStatus',
+        'areaType' => 'areaType',
+        'areas' => 'areas'
     );
 
     public static function attributeMap()
@@ -134,7 +138,9 @@ class PrintableFormServiceChannel implements ArrayAccess
         'languages' => 'setLanguages',
         'webPages' => 'setWebPages',
         'serviceHours' => 'setServiceHours',
-        'publishingStatus' => 'setPublishingStatus'
+        'publishingStatus' => 'setPublishingStatus',
+        'areaType' => 'setAreaType',
+        'areas' => 'setAreas'
     );
 
     public static function setters()
@@ -161,7 +167,9 @@ class PrintableFormServiceChannel implements ArrayAccess
         'languages' => 'getLanguages',
         'webPages' => 'getWebPages',
         'serviceHours' => 'getServiceHours',
-        'publishingStatus' => 'getPublishingStatus'
+        'publishingStatus' => 'getPublishingStatus',
+        'areaType' => 'getAreaType',
+        'areas' => 'getAreas'
     );
 
     public static function getters()
@@ -200,6 +208,8 @@ class PrintableFormServiceChannel implements ArrayAccess
         $this->container['webPages'] = isset($data['webPages']) ? $data['webPages'] : null;
         $this->container['serviceHours'] = isset($data['serviceHours']) ? $data['serviceHours'] : null;
         $this->container['publishingStatus'] = isset($data['publishingStatus']) ? $data['publishingStatus'] : null;
+        $this->container['areaType'] = isset($data['areaType']) ? $data['areaType'] : null;
+        $this->container['areas'] = isset($data['areas']) ? $data['areas'] : null;
     }
 
     /**
@@ -536,6 +546,48 @@ class PrintableFormServiceChannel implements ArrayAccess
     public function setPublishingStatus($publishingStatus)
     {
         $this->container['publishingStatus'] = $publishingStatus;
+
+        return $this;
+    }
+
+    /**
+     * Gets areaType
+     * @return string
+     */
+    public function getAreaType()
+    {
+        return $this->container['areaType'];
+    }
+
+    /**
+     * Sets areaType
+     * @param string $areaType Area type (WholeCountry, WholeCountryExceptAlandIslands, AreaType).
+     * @return $this
+     */
+    public function setAreaType($areaType)
+    {
+        $this->container['areaType'] = $areaType;
+
+        return $this;
+    }
+
+    /**
+     * Gets areas
+     * @return \KuntaAPI\Model\Area[]
+     */
+    public function getAreas()
+    {
+        return $this->container['areas'];
+    }
+
+    /**
+     * Sets areas
+     * @param \KuntaAPI\Model\Area[] $areas List of service channel areas.
+     * @return $this
+     */
+    public function setAreas($areas)
+    {
+        $this->container['areas'] = $areas;
 
         return $this;
     }

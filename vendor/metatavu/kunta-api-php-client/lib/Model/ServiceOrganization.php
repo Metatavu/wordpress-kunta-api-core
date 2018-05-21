@@ -271,7 +271,7 @@ class ServiceOrganization implements ArrayAccess
 
     /**
      * Sets webPages
-     * @param \KuntaAPI\Model\WebPage[] $webPages List of web pages.
+     * @param \KuntaAPI\Model\WebPage[] $webPages DEPRECATED. DO NOT USE
      * @return $this
      */
     public function setWebPages($webPages)

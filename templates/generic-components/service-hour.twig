@@ -1,0 +1,25 @@
+{% spaceless %}
+  {% include 'generic-components/service-hour-title.twig' %}
+
+  {% if serviceHour.isClosed %}Suljettu{% endif %}
+
+  {% if serviceHour.openingHour %}
+    {% if serviceHour.serviceHourType == 'Exception' %}
+      {% for openingHour in serviceHour.openingHour|mergeOpeningHours %}
+        <div class="opening-hour">{{ openingHour|openingHoursFormat }}</div>
+      {% endfor %}
+    {% else %}
+      <table class="opening-hours-table">
+        <tbody>
+          {% for openingHour in serviceHour.openingHour|mergeOpeningHours %}
+            {{ openingHour|openingHoursFormat(true)|raw }}
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  {% else %}
+    {% if not serviceHour.isClosed %}
+      <div class="opening-hour">Avoinna ympäri vuorokauden</div>
+    {% endif %}
+  {% endif %}
+{% endspaceless %}
