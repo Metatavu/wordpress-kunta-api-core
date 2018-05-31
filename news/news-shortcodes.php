@@ -41,7 +41,7 @@
         $category = $attrs['category'];
         $maxResults = $attrs['max-results'];
         
-        $html = '<div class="kunta-api-news-by-category" data-category="'.$category.'" data-max-results="'.$maxResults.'"><div class="row"></div></div>';
+        $html = '<div class="kunta-api-news-by-category" data-category="'.$category.'" data-max-results="'.$maxResults.'"></div>';
         
         return $html;
       }
