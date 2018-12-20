@@ -24,7 +24,7 @@
        * Following attributes can be used to control the component:
        * 
        * <li>
-       *   <ul><b>category:</b> news by this category will be listed inside the div</ul>
+       *   <ul><b>tag:</b> news by this tag will be listed inside the div</ul>
        *   <ul><b>max-results:</b> maximum amount of news</ul>
        * </li>
        * 
@@ -33,15 +33,15 @@
        */
       public function newsListShortcode($tagAttrs) {
         $attrs = shortcode_atts([
-          'category' => '',
+          'tag' => '',
           'max-results' => ''
         ], $tagAttrs);
         
         $html = '';
-        $category = $attrs['category'];
+        $tag = $attrs['tag'];
         $maxResults = $attrs['max-results'];
         
-        $html = '<div class="kunta-api-news-by-category" data-category="'.$category.'" data-max-results="'.$maxResults.'"></div>';
+        $html = '<div class="kunta-api-news-list" data-tag="'.$tag.'" data-max-results="'.$maxResults.'"></div>';
         
         return $html;
       }
