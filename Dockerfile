@@ -12,7 +12,7 @@ RUN cp /usr/src/wordpress-kunta-api-core/docker/entrypoint.sh /usr/local/bin/ent
 RUN chmod a+x /usr/local/bin/entrypoint.sh
 RUN chown www-data.www-data /usr/local/bin/entrypoint.sh
 RUN mkdir -p /usr/src/wordpress
-RUN chown www-data.www-data /usr/src/wordpress
+RUN chown www-data.www-data -R /usr/src/wordpress
 
 USER www-data
 WORKDIR /usr/src/wordpress
