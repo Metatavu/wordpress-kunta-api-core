@@ -46,6 +46,7 @@
   require_once( __DIR__ . '/webhooks/webhooks.php');
   require_once( __DIR__ . '/reorder/reorder.php');
   require_once( __DIR__ . '/news/news.php');
+  require_once( __DIR__ . '/gutenberg/gutenberg.php');
 
   add_action('init', function () {
     do_action('kunta_api_init');
