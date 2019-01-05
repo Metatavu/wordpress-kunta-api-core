@@ -5,7 +5,7 @@ declare module "wp" {
   }
 
   export interface WPElement {
-    createElement(type: string|Function, props: Object, children?: string|WPElement[]): WPElement;
+    createElement(type: string|Function, props?: Object, children?: string|WPElement|WPElement[]): WPElement;
   }
 
   export interface WPBlocks {
