@@ -1,0 +1,57 @@
+{
+  "translation-revision-date": "2019-01-05 00:00:00+0000",
+  "domain": "kunta_api_core",
+  "locale_data": {
+    "messages": {
+      "": {
+        "domain": "kunta_api_core",
+        "plural-forms": "nplurals=2; plural=n != 1;",
+        "lang": "en_US"
+      },
+      
+      "servicecomponent.description": [
+        "Description"
+      ],
+
+      "servicecomponent.userInstruction": [
+        "User Instructions"
+      ],
+
+      "servicecomponent.languages": [
+        "Languages"
+      ],
+
+      "servicecomponent.electronicServiceChannelIds": [
+        "E-services"
+      ],
+
+      "servicecomponent.phoneServiceChannelIds": [
+        "Phone numbers"
+      ],
+
+      "servicecomponent.printableFormServiceChannelIds": [
+        "Forms"
+      ],
+
+      "servicecomponent.serviceLocationServiceChannelIds": [
+        "Service locations"
+      ],
+
+      "servicecomponent.webPageServiceChannelIds": [
+        "Web pages"
+      ],
+
+      "language.fi": [
+        "Finnish"
+      ],
+
+      "language.sv": [
+        "Swedish"
+      ],
+
+      "language.en": [
+        "English"
+      ]
+    }
+  }
+}

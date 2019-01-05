@@ -45,17 +45,17 @@ wp.blocks.registerBlockType('kunta-api/service', {
     const languages = ["fi", "sv", "en"];
 
     const componetOptions = components.map((component) => {
-      return { label: component, value: component };
+      return { label: __(`servicecomponent.${component}`, 'kunta_api_core'), value: component };
     });
 
     const languageOptions = languages.map((language) => {
-      return { label: language, value: language };
+      return { label: __(`language.${language}`, 'kunta_api_core'), value: language };
     });
 
     return (
       <div>
         <div style={{ textAlign: "right" }}>
-          <Button className="button" isDefault onClick={ () => params.setState( { isOpen: true } ) }>Change service</Button>
+          <Button className="button" isDefault onClick={ () => params.setState( { isOpen: true } ) }>{__( 'Change service', 'kunta_api_core' )}</Button>
         </div>
 
         <wp.components.SelectControl 

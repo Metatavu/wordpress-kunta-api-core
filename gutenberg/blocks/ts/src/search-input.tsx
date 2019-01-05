@@ -70,8 +70,6 @@ export class SearchInput extends React.Component<Props, State> {
    * Returns service's display name
    */
   getServiceName = (service: any) => {
-    console.log(wp);
-
     const names = service.names || [];
     names.sort((a: any, b: any) => {
       return a.language === 'fi' ? -1 : 1;
@@ -86,8 +84,8 @@ export class SearchInput extends React.Component<Props, State> {
   render() {
     return (
       <div style={ this.props.style }>
-        <wp.components.BaseControl style={{ width: "100%" }} id="service-search" label="Search services" help="Enter some text to search services">
-          <input id="service-search" style={{ width: "100%" }} onChange={ this.onInputChange }/>
+        <wp.components.BaseControl style={{ width: "100%" }} id="search" label={ __("Search Services", "kunta_api_core") } help={ __("Enter some text to search services", "kunta_api_core") }>
+          <input id="search" style={{ width: "100%" }} onChange={ this.onInputChange }/>
         </wp.components.BaseControl>
         <div style={{ height: "300px", overflowY: "auto" }}>
         { 
@@ -96,7 +94,7 @@ export class SearchInput extends React.Component<Props, State> {
               onMouseOver={ () => this.setState({ hoverIndex: index }) } 
               onClick = { () => this.props.onSelect(service) }
               style={{ fontWeight: this.state.hoverIndex == index ? "bold": "normal", cursor: "pointer", paddingTop: "5px", paddingBottom: "5px" }} 
-              key={service.id}>{this.getServiceName(service)} {service.id}</div>
+              key={service.id}>{this.getServiceName(service)}</div>
           })
         }
         </div>

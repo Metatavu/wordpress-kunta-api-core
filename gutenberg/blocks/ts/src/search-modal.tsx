@@ -54,7 +54,7 @@ export class SearchModal extends React.Component<Props, State> {
     }
 
     return (
-      <wp.components.Modal style={{ minWidth: "60%" }} title={ __("Seach services", 'kunta_api_core') } onRequestClose={ () => this.props.onClose() }>
+      <wp.components.Modal style={{ minWidth: "60%" }} title={ __("Search Services", 'kunta_api_core') } onRequestClose={ () => this.props.onClose() }>
         <SearchInput onSelect={ (data) => this.onSelect(data) } style={{ width: "100%" }}></SearchInput>
       </wp.components.Modal>
     );
