@@ -51,6 +51,42 @@
 
       "language.en": [
         "English"
+      ],
+
+      "servicelocationservicechannel.adresses": [
+        "Address"
+      ],
+
+      "servicelocationservicechannel.description": [
+        "Description"
+      ],
+      
+      "servicelocationservicechannel.email": [
+        "Email"
+      ],
+      
+      "servicelocationservicechannel.fax": [
+        "Fax"
+      ],
+      
+      "servicelocationservicechannel.name": [
+        "Name"
+      ],
+      
+      "servicelocationservicechannel.phone": [
+        "Phone"
+      ],
+      
+      "servicelocationservicechannel.phone-charge-info": [
+        "Phone charge info"
+      ],
+      
+      "servicelocationservicechannel.servicehours": [
+        "Service hours"
+      ],
+      
+      "servicelocationservicechannel.webpages": [
+        "Web pages"
       ]
     }
   }

@@ -20,7 +20,7 @@ wp.blocks.registerBlockType('kunta-api/service', {
       type: 'string'
     },
     component: {
-      type: 'string'
+      type: 'string'  
     },
     lang: {
       type: 'string'
@@ -56,8 +56,14 @@ wp.blocks.registerBlockType('kunta-api/service', {
 
     return (
       <div>
-        <div style={{ textAlign: "right" }}>
-          <Button className="button" isDefault onClick={ () => params.setState( { isOpen: true } ) }>{__( 'Change service', 'kunta_api_core' )}</Button>
+        <div>
+          <div style={{ float: "right" }}>
+            <Button className="button" isDefault onClick={ () => params.setState( { isOpen: true } ) }>{__( 'Change service', 'kunta_api_core' )}</Button>
+          </div> 
+          <div style={{ fontSize: "16px"}}>
+            <div style={{ float: "left", paddingRight: "5px" }}>{__( 'Current service:', 'kunta_api_core' )}</div> 
+            <wp.components.ServerSideRender block="kunta-api/service" attributes={attributes} urlQueryArgs={{displayName: true}} />
+          </div>
         </div>
 
         <wp.components.SelectControl 
@@ -73,7 +79,19 @@ wp.blocks.registerBlockType('kunta-api/service', {
           onChange={ ( lang: any ) => { params.setAttributes({"lang": lang}) }} />
 
         <SearchModal 
-          open={ params.isOpen } 
+          modalTitle={ __("Search Services", 'kunta_api_core') }
+          inputLabel={ __("Search Services", "kunta_api_core") }
+          inputHelp={ __("Enter some text to search services", "kunta_api_core") }
+          searchAction="kunta_api_search_services"
+          open={ params.isOpen }
+          getDisplayName={ (entity: any) => {
+            const names = entity.names || [];
+            names.sort((a: any, b: any) => {
+              return a.language === 'fi' ? -1 : 1;
+            });
+          
+            return names.length ? names[0].value : null;
+          }}
           onSelect={ (data) => { params.setState( { isOpen: false, service: data } ); params.setAttributes({"serviceId": data.id}); } }
           onClose={ () => params.setState( { isOpen: false } )}/> 
 

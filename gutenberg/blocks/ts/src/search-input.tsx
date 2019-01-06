@@ -11,14 +11,18 @@ declare var ajaxurl: string;
  */
 interface Props {
   style: object,
-  onSelect: (service: any) => void
+  inputLabel: string,
+  inputHelp: string,
+  searchAction: string,
+  getDisplayName(entity: any): string, 
+  onSelect: (entity: any) => void
 }
 
 /**
  * Interface describing search input component state
  */
 interface State {
-  services: any[], 
+  entities: any[], 
   searching: boolean,
   hoverIndex: number
 }
@@ -37,7 +41,7 @@ export class SearchInput extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      services: [], 
+      entities: [], 
       searching: false,
       hoverIndex: -1
     };
@@ -56,26 +60,14 @@ export class SearchInput extends React.Component<Props, State> {
     }
 
     const body = new URLSearchParams();
-    body.append("action", "kunta_api_search_services");
+    body.append("action", this.props.searchAction);
     body.append("data", value);
 
     this.setState({ searching: true });
 
     apiFetch({ url: ajaxurl, method: "POST", body: body }).then((result: any) => {
-      this.setState({ searching: false, services: result });
+      this.setState({ searching: false, entities: result });
     });
-  }
-
-  /**
-   * Returns service's display name
-   */
-  getServiceName = (service: any) => {
-    const names = service.names || [];
-    names.sort((a: any, b: any) => {
-      return a.language === 'fi' ? -1 : 1;
-    });
-  
-    return names.length ? names[0].value : null;
   }
 
   /**
@@ -84,17 +76,17 @@ export class SearchInput extends React.Component<Props, State> {
   render() {
     return (
       <div style={ this.props.style }>
-        <wp.components.BaseControl style={{ width: "100%" }} id="search" label={ __("Search Services", "kunta_api_core") } help={ __("Enter some text to search services", "kunta_api_core") }>
+        <wp.components.BaseControl style={{ width: "100%" }} id="search" label={ this.props.inputLabel } help={ this.props.inputHelp }>
           <input id="search" style={{ width: "100%" }} onChange={ this.onInputChange }/>
         </wp.components.BaseControl>
         <div style={{ height: "300px", overflowY: "auto" }}>
         { 
-          this.state.searching ? (<wp.components.Placeholder style={{ height: "300px" }}><wp.components.Spinner /></wp.components.Placeholder> ) : this.state.services.map((service, index) => {
+          this.state.searching ? (<wp.components.Placeholder style={{ height: "300px" }}><wp.components.Spinner /></wp.components.Placeholder> ) : this.state.entities.map((entity, index) => {
             return <div 
               onMouseOver={ () => this.setState({ hoverIndex: index }) } 
-              onClick = { () => this.props.onSelect(service) }
+              onClick = { () => this.props.onSelect(entity) }
               style={{ fontWeight: this.state.hoverIndex == index ? "bold": "normal", cursor: "pointer", paddingTop: "5px", paddingBottom: "5px" }} 
-              key={service.id}>{this.getServiceName(service)}</div>
+              key={entity.id}>{this.props.getDisplayName(entity)}</div>
           })
         }
         </div>

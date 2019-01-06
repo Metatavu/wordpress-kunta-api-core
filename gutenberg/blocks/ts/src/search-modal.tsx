@@ -11,7 +11,12 @@ declare var wp: wp;
  */
 interface Props {
   open: boolean,
+  modalTitle: string,
+  inputLabel: string,
+  inputHelp: string,
+  searchAction: string,
   onClose: () => void,
+  getDisplayName(entity: any): string, 
   onSelect: (service: any) => void
 }
 
@@ -54,10 +59,13 @@ export class SearchModal extends React.Component<Props, State> {
     }
 
     return (
-      <wp.components.Modal style={{ minWidth: "60%" }} title={ __("Search Services", 'kunta_api_core') } onRequestClose={ () => this.props.onClose() }>
-        <SearchInput onSelect={ (data) => this.onSelect(data) } style={{ width: "100%" }}></SearchInput>
+      <wp.components.Modal style={{ minWidth: "60%" }} title={ this.props.modalTitle } onRequestClose={ () => this.props.onClose() }>
+        <SearchInput inputLabel = { this.props.inputLabel } inputHelp = { this.props.inputHelp } getDisplayName={ this.props.getDisplayName } searchAction={ this.props.searchAction } onSelect={ (data) => this.onSelect(data) } style={{ width: "100%" }}></SearchInput>
       </wp.components.Modal>
     );
   }
 
 }
+
+
+  

@@ -12,6 +12,14 @@
       "Kunta API Service": [
         "Kunta API palvelu"
       ],
+
+      "Change service": [
+        "Vaihda palvelua"
+      ],
+
+      "Current service:": [
+        "Valittu palvelu:"
+      ],
       
       "Search Services": [
         "Hae palveluita"
@@ -21,8 +29,20 @@
         "Hae palveluita syöttämällä tekstiä"
       ],
 
-      "Change service": [
-        "Vaihda palvelua"
+      "Change service location": [
+        "Vaihda palvelupaikkaa"
+      ],
+      
+      "Current service location:": [
+        "Valittu palvelupaikka:"
+      ],
+
+      "Search Services Locations": [
+        "Hae palvelupaikkoja"
+      ],
+
+      "Enter some text to search service locations": [
+        "Hae palvelupaikkoja syöttämällä tekstiä"
       ],
       
       "Component": [
@@ -75,7 +95,44 @@
 
       "language.en": [
         "Englanti"
+      ],
+
+      "servicelocationservicechannel.adresses": [
+        "Osoite"
+      ],
+
+      "servicelocationservicechannel.description": [
+        "Kuvaus"
+      ],
+      
+      "servicelocationservicechannel.email": [
+        "Sähköposti"
+      ],
+      
+      "servicelocationservicechannel.fax": [
+        "Faxi"
+      ],
+      
+      "servicelocationservicechannel.name": [
+        "Nimi"
+      ],
+      
+      "servicelocationservicechannel.phone": [
+        "Puhelin"
+      ],
+      
+      "servicelocationservicechannel.phone-charge-info": [
+        "Puhelun hintatiedot"
+      ],
+      
+      "servicelocationservicechannel.servicehours": [
+        "Palveluajat"
+      ],
+      
+      "servicelocationservicechannel.webpages": [
+        "Verkkosivut"
       ]
+      
     }
   }
 }
