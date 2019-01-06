@@ -36,6 +36,11 @@
         $post = get_post($id);
         $status = $post->post_status;
         $type = $post->post_type;
+        
+        if ("inherit" == $status) {
+          return;
+        }
+
         $orderIndex = $status === 'publish' ? $this->resolveOrderIndex($type, $id) : '';
         $this->doPostRequest("ID=$id&post_status=$status&post_type=$type&hook=edit_post&order_index=$orderIndex");
       }
@@ -44,6 +49,11 @@
         $post = get_post($id);
         $status = $post->post_status;
         $type = $post->post_type;
+        
+        if ("inherit" == $status) {
+          return;
+        }
+
         $orderIndex = $status === 'publish' ? $this->resolveOrderIndex($type, $id) : '';
         $this->doPostRequest("ID=$id&post_status=$status&post_type=$type&hook=edit_post&order_index=$orderIndex");
       }
