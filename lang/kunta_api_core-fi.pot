@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-01-06T19:38:59+02:00\n"
+"POT-Creation-Date: 2019-01-07T06:15:43+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.1.0\n"
 "X-Domain: kunta_api_core\n"
@@ -206,20 +206,24 @@ msgstr ""
 msgid "Incidents enabled"
 msgstr ""
 
-#: gutenberg/blocks/blocks.php:75
-msgid "[Failed to load service]"
+#: gutenberg/blocks/blocks.php:74
+msgid "No service selected"
 msgstr ""
 
 #: gutenberg/blocks/blocks.php:82
-msgid "[Data not available for service]"
+msgid "[Failed to load service]"
 msgstr ""
 
-#: gutenberg/blocks/blocks.php:102
-msgid "[Failed to load service location service channel]"
+#: gutenberg/blocks/blocks.php:89
+msgid "[Service does not have data for given component]"
 msgstr ""
 
 #: gutenberg/blocks/blocks.php:114
-msgid "[Data not available for service location service channel]"
+msgid "No service location selected"
+msgstr ""
+
+#: gutenberg/blocks/blocks.php:125
+msgid "[Service location does not have data for given component]"
 msgstr ""
 
 #: shortlinks/shortlinks-settings.php:14

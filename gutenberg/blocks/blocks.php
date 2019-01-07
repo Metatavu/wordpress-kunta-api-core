@@ -86,7 +86,7 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
       $renderer = new \KuntaAPI\Services\ServiceComponentRenderer();
       $result = $serviceId ? $renderer->renderComponent($serviceId, $component, $lang) : "";
       if (empty($result)) {
-        return $_GET["preview"] ? __("[Data not available for service]", "kunta_api_core") : "";
+        return $_GET["preview"] ? __("[Service does not have data for given component]", "kunta_api_core") : "";
       }
 
       return $result;
@@ -122,7 +122,7 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
       $result = $serviceLocationChannel ? $renderer->renderComponent($lang, $serviceLocationChannel, $component) : "";
     
       if (empty($result) && $_GET["preview"]) {
-        return __("[Data not available for service location service channel]", "kunta_api_core");
+        return __("[Service location does not have data for given component]", "kunta_api_core");
       }
 
       return $result;

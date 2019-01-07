@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Kunta API Core 0.7.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-kunta-"
 "api-core\n"
-"POT-Creation-Date: 2019-01-06T19:38:59+02:00\n"
-"PO-Revision-Date: 2019-01-06 19:40+0200\n"
+"POT-Creation-Date: 2019-01-07T06:15:43+02:00\n"
+"PO-Revision-Date: 2019-01-07 06:19+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -254,21 +254,25 @@ msgstr "Banneri"
 msgid "Incidents enabled"
 msgstr "Hätätiedotteet käytössä"
 
-#: gutenberg/blocks/blocks.php:75
+#: gutenberg/blocks/blocks.php:74
+msgid "No service selected"
+msgstr "Ei valittua palvelua"
+
+#: gutenberg/blocks/blocks.php:82
 msgid "[Failed to load service]"
 msgstr "[Palvelun lataaminen epäonnistui]"
 
-#: gutenberg/blocks/blocks.php:82
-msgid "[Data not available for service]"
-msgstr "[Pyydettyä dataa ei löynyt palvelulle]"
-
-#: gutenberg/blocks/blocks.php:102
-msgid "[Failed to load service location service channel]"
-msgstr "[Palvelupisteen lataaminen epäonnistui]"
+#: gutenberg/blocks/blocks.php:89
+msgid "[Service does not have data for given component]"
+msgstr "[Palvelulla ei ole saatavilla tietoja pyydetylle komponentille]"
 
 #: gutenberg/blocks/blocks.php:114
-msgid "[Data not available for service location service channel]"
-msgstr "[Pyydettyä dataa ei löytynyt palvelupisteelle]"
+msgid "No service location selected"
+msgstr "Ei valittua palvelupistettä"
+
+#: gutenberg/blocks/blocks.php:125
+msgid "[Service location does not have data for given component]"
+msgstr "[Palvelupisteelle ei ole saatavilla tietoja pyydetylle komponentille]"
 
 #: shortlinks/shortlinks-settings.php:14
 msgid "Shortlinks enabled"
@@ -378,6 +382,15 @@ msgstr "Käytä sivupalkki lisäosaa (vain CKEditor)"
 msgid "Sidebar"
 msgstr "Sivupalkki"
 
+#~ msgid "[Data not available for service]"
+#~ msgstr "[Pyydettyä dataa ei löynyt palvelulle]"
+
+#~ msgid "[Failed to load service location service channel]"
+#~ msgstr "[Palvelupisteen lataaminen epäonnistui]"
+
+#~ msgid "[Data not available for service location service channel]"
+#~ msgstr "[Pyydettyä dataa ei löytynyt palvelupisteelle]"
+
 #~ msgid "Header Banners"
 #~ msgstr "Bannerit"
 
@@ -455,9 +468,6 @@ msgstr "Sivupalkki"
 
 #~ msgid "Synchronize services"
 #~ msgstr "Synkronoi palvelutiedot"
-
-#~ msgid "Synchronize service locations"
-#~ msgstr "Synkronoi palvelupistetiedot"
 
 #~ msgid "Webhooks"
 #~ msgstr "Webhookit"
