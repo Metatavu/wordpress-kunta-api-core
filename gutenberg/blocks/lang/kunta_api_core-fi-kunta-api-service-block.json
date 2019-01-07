@@ -29,6 +29,10 @@
         "Hae palveluita syöttämällä tekstiä"
       ],
 
+      "Kunta API Service Location": [
+        "Kunta API palvelupaikka"
+      ],
+
       "Change service location": [
         "Vaihda palvelupaikkaa"
       ],
