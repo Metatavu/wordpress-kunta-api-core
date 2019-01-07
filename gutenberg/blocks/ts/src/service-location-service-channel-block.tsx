@@ -1,6 +1,7 @@
 import React from 'react';
 import { wp } from 'wp';
 import { SearchModal } from './search-modal';
+import ServiceLocationPageCheckbox from './service-location-page-checkbox';
 
 declare var wp: wp;
 const { __ } = wp.i18n;
@@ -22,13 +23,16 @@ wp.blocks.registerBlockType('kunta-api/service-location-service-channel', {
     },
     lang: {
       type: 'string'
+    },
+    serviceLocationPage: {
+      type: 'boolean'
     }
   },
 
   /**
    * Block type edit method 
    */
-  edit: wp.compose.withState({ isOpen: false, service: null })((params: any) => {
+  edit: wp.compose.withState({ isOpen: false, channelId: null, serviceLocationPage: false })((params: any) => {
     const Button = wp.components.Button;
     const attributes = params.attributes;
     const components = [
@@ -52,7 +56,7 @@ wp.blocks.registerBlockType('kunta-api/service-location-service-channel', {
     const languageOptions = languages.map((language) => {
       return { label: __(`language.${language}`, 'kunta_api_core'), value: language };
     });
-
+    
     return (
       <div>
         <div>
@@ -91,8 +95,16 @@ wp.blocks.registerBlockType('kunta-api/service-location-service-channel', {
           
             return names.length ? names[0].value : null;
           }}
-          onSelect={ (data) => { params.setState( { isOpen: false, service: data } ); params.setAttributes({"channelId": data.id}); } }
+          onSelect={ (data) => { 
+            params.setState( { isOpen: false, channelId: data.id } ); 
+            params.setAttributes({"channelId": data.id}); 
+          } }
           onClose={ () => params.setState( { isOpen: false } )}/> 
+
+        <ServiceLocationPageCheckbox 
+          channelId={ params.channelId || attributes.channelId } 
+          onChange={ (isChecked: boolean) => { console.log("isChecked", isChecked); params.setAttributes({"serviceLocationPage": isChecked}) } }/>
+        
         <hr/>
         
         <wp.components.ServerSideRender block="kunta-api/service-location-service-channel" attributes={attributes} urlQueryArgs={{preview: true}} />

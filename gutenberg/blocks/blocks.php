@@ -2,6 +2,7 @@
 namespace KuntaAPI\Gutenberg\Blocks;
 
 require_once (__DIR__ . "/../../core/locale-helper.php" );
+require_once (__DIR__ . "/../../services/service-mapper.php");
 require_once (__DIR__ . "/../../services/service-component-renderer.php");
 require_once (__DIR__ . "/../../services/service-locations/service-location-component-renderer.php" );
 
@@ -19,6 +20,11 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
      * Constructor
      */
     public function __construct() {
+      add_action('init', [$this, "onInit"]);
+      add_action('save_post', [$this, "onSavePost"], 10, 3);
+    }
+
+    public function onInit() {
       wp_register_script('kunta-api-service-block', plugins_url( 'js/service-block.js', __FILE__ ), ['wp-blocks', 'wp-element', 'wp-i18n']);      
       wp_set_script_translations("kunta-api-service-block", "kunta_api_core", dirname(__FILE__) . '/lang/');
 
@@ -32,7 +38,10 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
           ],
           'lang' => [
             'type' => 'string'
-          ]      
+          ],
+          'serviceLocationPage' => [
+            'type' => 'boolean'
+          ]
         ],
         'render_callback' => [ $this, "renderServiceLocationServiceChannelBlock" ]
       ]);
@@ -54,6 +63,43 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
       ]);
     }
 
+    /**
+     * Save post action handler
+     * 
+     * @param int $postId The post ID.
+     * @param \WP_Post $post The post object.
+     * @param bool $update Whether this is an existing post being updated or not.
+     */
+    public function onSavePost($pageId, $post, $update) {
+      if (has_blocks($post->post_content)) {
+        $pageChannelIds = [];
+        $notPageChannelIds = [];
+        $blocks = parse_blocks($post->post_content);
+        $mapper = new \KuntaAPI\Services\Mapper();
+        
+        foreach ($blocks as $block) {
+          if ($block["blockName"] == "kunta-api/service-location-service-channel") {
+            $attrs = $block["attrs"];
+            if (boolval($attrs["serviceLocationPage"])) {
+              $pageChannelIds[] = $attrs["channelId"];
+            } else {
+              $notPageChannelIds[] = $attrs["channelId"];
+            }
+          }
+        }
+
+        foreach (array_unique($notPageChannelIds) as $notPageChannelId) {
+          if ($mapper->getServiceLocationServiceChannelPageId($notPageChannelId) == $pageId) {
+            $mapper->setLocationChannelPageId($notPageChannelId, null);
+          }
+        }
+
+        foreach (array_unique($pageChannelIds) as $pageChannelId) {
+          $mapper->setLocationChannelPageId($pageChannelId, $pageId);
+        }
+      }
+    }
+    
     /**
      * Renders a service block
      * 
@@ -133,8 +179,6 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
 
 }
 
-add_action('init', function () {
-  new Blocks();
-});
+new Blocks();
 
 ?>
