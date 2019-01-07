@@ -22,7 +22,7 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
       wp_register_script('kunta-api-service-block', plugins_url( 'js/service-block.js', __FILE__ ), ['wp-blocks', 'wp-element', 'wp-i18n']);      
       wp_set_script_translations("kunta-api-service-block", "kunta_api_core", dirname(__FILE__) . '/lang/');
 
-      register_block_type( 'kunta-api/service-location-service-channel-block', [
+      register_block_type( 'kunta-api/service-location-service-channel', [
         'attributes' => [    
           'channelId' => [
             'type' => 'string'
@@ -34,7 +34,6 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
             'type' => 'string'
           ]      
         ],
-        'editor_script' => 'kunta-api-service-block',
         'render_callback' => [ $this, "renderServiceLocationServiceChannelBlock" ]
       ]);
 
@@ -98,7 +97,7 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
       $result = '';
 
       $serviceLocationChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceLocationChannelId);
-      if (!serviceLocationChannel) {
+      if (!$serviceLocationChannel) {
         return __("[Failed to load service location service channel]", "kunta_api_core");
       }
 

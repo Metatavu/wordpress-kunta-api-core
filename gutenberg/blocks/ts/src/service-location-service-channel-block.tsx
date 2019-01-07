@@ -61,7 +61,7 @@ wp.blocks.registerBlockType('kunta-api/service-location-service-channel', {
           </div> 
           <div style={{ fontSize: "16px"}}>
           <div style={{ float: "left", paddingRight: "5px" }}>{__( 'Current service location:', 'kunta_api_core' )}</div> 
-            <wp.components.ServerSideRender block="kunta-api/service-location-service-channel-block" attributes={attributes} urlQueryArgs={{displayName: true}} />
+            <wp.components.ServerSideRender block="kunta-api/service-location-service-channel" attributes={attributes} urlQueryArgs={{displayName: true}} />
           </div>
         </div>
 
@@ -95,7 +95,7 @@ wp.blocks.registerBlockType('kunta-api/service-location-service-channel', {
           onClose={ () => params.setState( { isOpen: false } )}/> 
         <hr/>
         
-        <wp.components.ServerSideRender block="kunta-api/service-location-service-channel-block" attributes={attributes} urlQueryArgs={{preview: true}} />
+        <wp.components.ServerSideRender block="kunta-api/service-location-service-channel" attributes={attributes} urlQueryArgs={{preview: true}} />
       </div>
     );
   }),
