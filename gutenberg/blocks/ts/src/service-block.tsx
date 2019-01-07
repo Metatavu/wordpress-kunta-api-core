@@ -46,7 +46,7 @@ wp.blocks.registerBlockType('kunta-api/service', {
 
     const languages = ["fi", "sv", "en"];
 
-    const componetOptions = components.map((component) => {
+    const componentOptions = components.map((component) => {
       return { label: __(`servicecomponent.${component}`, 'kunta_api_core'), value: component };
     });
 
@@ -69,7 +69,7 @@ wp.blocks.registerBlockType('kunta-api/service', {
         <wp.components.SelectControl 
           label={ __("Component", 'kunta_api_core') }
           value={ attributes.component } 
-          options={ componetOptions } 
+          options={ componentOptions } 
           onChange={ ( component: any ) => { params.setAttributes({"component": component}) }} />
 
         <wp.components.SelectControl 

@@ -65,7 +65,15 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
       $component = $attributes["component"];
       $lang = $attributes["lang"];
 
+      if (!$component) {
+        $component = "description";
+      }
+
       if ($_GET["displayName"]) {
+        if (!$serviceId) {
+          return __("No service selected", "kunta_api_core");
+        }
+
         $lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
         $service = \KuntaAPI\Services\Loader::findService($serviceId);
         if ($service) {
@@ -76,7 +84,7 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
       }
 
       $renderer = new \KuntaAPI\Services\ServiceComponentRenderer();
-      $result = $renderer->renderComponent($serviceId, $component, $lang);
+      $result = $serviceId ? $renderer->renderComponent($serviceId, $component, $lang) : "";
       if (empty($result)) {
         return $_GET["preview"] ? __("[Data not available for service]", "kunta_api_core") : "";
       }
@@ -93,24 +101,28 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
     public function renderServiceLocationServiceChannelBlock($attributes) {
       $serviceLocationChannelId = $attributes['channelId'];
       $lang = $attributes['lang'];
-      $serviceComponent = $attributes['component'];
+      $component = $attributes['component'];
       $result = '';
 
-      $serviceLocationChannel = \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceLocationChannelId);
-      if (!$serviceLocationChannel) {
-        return __("[Failed to load service location service channel]", "kunta_api_core");
+      if (!$component) {
+        $component = "description";
       }
 
+      $serviceLocationChannel = $serviceLocationChannelId ? \KuntaAPI\Services\Loader::findServiceLocationServiceChannel($serviceLocationChannelId) : null;
       if ($_GET["displayName"]) {
+        if (!$serviceLocationChannel) {
+          return __("No service location selected", "kunta_api_core");
+        }
+
         $lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
         return \KuntaAPI\Core\LocaleHelper::getLocalizedValue($serviceLocationChannel->getNames(), $lang, "Name");
       }
 
       $renderer = new \KuntaAPI\Services\ServiceLocations\ServiceLocationComponentRenderer();
-      $result = $renderer->renderComponent($lang, $serviceLocationChannel, $serviceComponent);
+      $result = $serviceLocationChannel ? $renderer->renderComponent($lang, $serviceLocationChannel, $component) : "";
     
-      if (empty($result)) {
-        return $_GET["preview"] ? __("[Data not available for service location service channel]", "kunta_api_core") : "";
+      if (empty($result) && $_GET["preview"]) {
+        return __("[Data not available for service location service channel]", "kunta_api_core");
       }
 
       return $result;

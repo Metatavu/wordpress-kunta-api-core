@@ -32,8 +32,8 @@ wp.blocks.registerBlockType('kunta-api/service-location-service-channel', {
     const Button = wp.components.Button;
     const attributes = params.attributes;
     const components = [
-      "adresses",
       "description",
+      "adresses",
       "email",
       "fax",
       "name",
