@@ -24,6 +24,9 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
       add_action('save_post', [$this, "onSavePost"], 10, 3);
     }
 
+    /**
+     * Action executed on init
+     */
     public function onInit() {
       wp_register_script('kunta-api-service-block', plugins_url( 'js/service-block.js', __FILE__ ), ['wp-blocks', 'wp-element', 'wp-i18n']);      
       wp_set_script_translations("kunta-api-service-block", "kunta_api_core", dirname(__FILE__) . '/lang/');
