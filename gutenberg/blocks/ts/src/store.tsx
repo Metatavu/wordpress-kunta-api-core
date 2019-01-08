@@ -52,8 +52,6 @@ registerStore("kunta-api/service-location-service-channel", {
         return block.name === "kunta-api/service-location-service-channel" && attrs && attrs.channelId == channelId && attrs.serviceLocationPage;
       }).length > 0;
 
-      console.log(serviceLocationPage, channelId);
-
       if (serviceLocationPage) {
         return actions.addChannel(channelId);
       } else {

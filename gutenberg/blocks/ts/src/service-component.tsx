@@ -1,24 +1,20 @@
 import React from 'react';
 import { wp } from 'wp';
 import { SearchModal } from './search-modal';
-import ServiceLocationPageCheckbox from './service-location-page-checkbox';
 
 declare var wp: wp;
 const { __ } = wp.i18n;
-const { subscribe } = wp.data;
 
 /**
  * Interface describing component props
  */
 interface Props {
-  channelId: string,
+  serviceId: string,
   component: string,
   lang: string,
-  serviceLocationPage: boolean,
   onComponentChange(component: string) : void;
   onLangChange(lang: string) : void;
-  onChannelIdChange(channelId: string): void;
-  onServiceLocationPageChange(serviceLocationPage: boolean): void;
+  onServiceIdChange(serviceId: string): void;
 }
 
 /**
@@ -26,16 +22,15 @@ interface Props {
  */
 interface State {
   isOpen: boolean,
-  channelId: string,
+  serviceId: string,
   component: string,
-  lang: string,
-  serviceLocationPage: boolean
+  lang: string
 }
 
 /**
  * Service location block
  */
-class ServiceLocationServiceChannelComponent extends React.Component<Props, State> {
+class ServiceComponent extends React.Component<Props, State> {
 
   /*
    * Constructor
@@ -48,16 +43,8 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
       isOpen: false,
       component: this.props.component,
       lang: this.props.lang,
-      channelId: this.props.channelId,
-      serviceLocationPage: this.props.serviceLocationPage
+      serviceId: this.props.serviceId
     };
-
-    subscribe(() => {
-      const { isChannelPage } = wp.data.select("kunta-api/service-location-service-channel");
-      this.setState({
-        serviceLocationPage: isChannelPage(this.state.channelId)
-      });
-    });
   }
 
   /**
@@ -75,12 +62,8 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
       this.props.onLangChange(this.state.lang);
     }
 
-    if (this.state.channelId !== prevState.channelId) {
-      this.props.onChannelIdChange(this.state.channelId);
-    }
-
-    if (this.state.serviceLocationPage !== prevState.serviceLocationPage) {
-      this.props.onServiceLocationPageChange(this.state.serviceLocationPage);
+    if (this.state.serviceId !== prevState.serviceId) {
+      this.props.onServiceIdChange(this.state.serviceId);
     }
   }
 
@@ -91,41 +74,40 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
     const Button = wp.components.Button;
     const components = [
       "description",
-      "adresses",
-      "email",
-      "fax",
-      "name",
-      "phone",
-      "phone-charge-info",
-      "servicehours",
-      "webpages"
+      "userInstruction",
+      "languages",
+      "electronicServiceChannelIds",
+      "phoneServiceChannelIds",
+      "printableFormServiceChannelIds",
+      "serviceLocationServiceChannelIds",
+      "webPageServiceChannelIds",
     ];
-    
+
     const languages = ["fi", "sv", "en"];
 
-    const componetOptions = components.map((component) => {
-      return { label: __(`servicelocationservicechannel.${component}`, 'kunta_api_core'), value: component };
+    const componentOptions = components.map((component) => {
+      return { label: __(`servicecomponent.${component}`, 'kunta_api_core'), value: component };
     });
 
     const languageOptions = languages.map((language) => {
       return { label: __(`language.${language}`, 'kunta_api_core'), value: language };
     });
-    
+
     return (
       <div>
         <div>
           <div style={{ float: "right" }}>
-            <Button className="button" isDefault onClick={ () => this.setState( { isOpen: true } ) }>{__( 'Change service location', 'kunta_api_core' )}</Button>
+            <Button className="button" isDefault onClick={ () => this.setState( { isOpen: true } ) }>{__( 'Change service', 'kunta_api_core' )}</Button>
           </div> 
           <div style={{ fontSize: "16px"}}>
-          <div style={{ float: "left", paddingRight: "5px" }}>{__( 'Current service location:', 'kunta_api_core' )}</div> 
+            <div style={{ float: "left", paddingRight: "5px" }}>{__( 'Current service:', 'kunta_api_core' )}</div> 
             <wp.components.ServerSideRender 
-              block="kunta-api/service-location-service-channel" 
+              block="kunta-api/service" 
               attributes={{
-                channelId: this.state.channelId, 
+                serviceId: this.state.serviceId, 
                 lang: this.state.lang,
                 component: this.state.component
-              }}
+              }} 
               urlQueryArgs={{displayName: true}} />
           </div>
         </div>
@@ -133,24 +115,24 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
         <wp.components.SelectControl 
           label={ __("Component", 'kunta_api_core') }
           value={ this.state.component } 
-          options={ componetOptions } 
+          options={ componentOptions } 
           onChange={ ( component: any ) => { 
             this.setState({ component: component });            
           }} />
 
         <wp.components.SelectControl 
           label={ __("Language", 'kunta_api_core') } 
-          value={ this.state.lang } 
+          value={ this.state.lang }
           options={ languageOptions } 
           onChange={ ( lang: any ) => { 
             this.setState({ lang: lang });            
           }} />
 
         <SearchModal 
-          modalTitle={ __("Search Services Locations", 'kunta_api_core') }
-          inputLabel={ __("Search Services Locations", "kunta_api_core") }
-          inputHelp={ __("Enter some text to search service locations", "kunta_api_core") }
-          searchAction="kunta_api_search_service_location_channels"
+          modalTitle={ __("Search Services", 'kunta_api_core') }
+          inputLabel={ __("Search Services", "kunta_api_core") }
+          inputHelp={ __("Enter some text to search services", "kunta_api_core") }
+          searchAction="kunta_api_search_services"
           open={ this.state.isOpen }
           getDisplayName={ (entity: any) => {
             const names = entity.names || [];
@@ -161,20 +143,15 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
             return names.length ? names[0].value : null;
           }}
           onSelect={ (data) => { 
-            this.setState( { isOpen: false, channelId: data.id } ); 
+            this.setState( { isOpen: false, serviceId: data.id } ); 
           } }
-          onClose={ () => this.setState( { isOpen: false } )}/> 
-
-        <ServiceLocationPageCheckbox 
-          channelId={ this.state.channelId } 
-          onChange={ (isChecked: boolean) => { 
-            this.setState({ serviceLocationPage: isChecked });
-          } }/>
+          onClose={ () => this.setState( { isOpen: false } )}/>
         <hr/>
         
-        <wp.components.ServerSideRender block="kunta-api/service-location-service-channel" 
+        <wp.components.ServerSideRender 
+          block="kunta-api/service" 
           attributes={{
-            channelId: this.state.channelId, 
+            serviceId: this.state.serviceId, 
             lang: this.state.lang,
             component: this.state.component
           }} 
@@ -184,4 +161,4 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
   }
 }
 
-export default ServiceLocationServiceChannelComponent;
+export default ServiceComponent;
