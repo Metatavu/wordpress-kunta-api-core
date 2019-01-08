@@ -160,6 +160,16 @@ module.exports = function(grunt) {
         'prepend': 'tinymce-plugins/kunta-api-service-embed/plugin.js',
         'name': 'WebPageServiceChannelAdditionalDetails'
       }
+    },
+    "shell": {
+      "build-gutenberg": {
+        "command": "npx webpack",
+        "options": {
+          "execOptions": {
+            cwd: "gutenberg/blocks/ts"
+          }
+        }
+      }
     }
   });
   
@@ -182,7 +192,8 @@ module.exports = function(grunt) {
     'metaform:tinymce-printable-form-service-channel',
     'metaform:tinymce-printable-form-service-channel-additional-details',
     'metaform:tinymce-webpage-service-channel',
-    'metaform:tinymce-webpage-service-channel-additional-details'
+    'metaform:tinymce-webpage-service-channel-additional-details',
+    "shell:build-gutenberg"
   ]);
   
 };

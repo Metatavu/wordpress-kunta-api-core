@@ -1,0 +1,38 @@
+version: '3.1'
+services:
+  wordpress:
+    build:
+      context: .
+    restart: always
+    ports:
+      - 80:8080
+    depends_on:
+      - wpdb
+    environment:
+      WORDPRESS_DB_HOST: wpdb
+      WORDPRESS_DB_USER: wp
+      WORDPRESS_DB_PASSWORD: secret
+      WORDPRESS_DB_NAME: wp
+      KUNTA_API_ORGANIZATION_ID: $KUNTA_API_ORGANIZATION_ID
+      KUNTA_API_ORGANIZATION_NAME: $KUNTA_API_ORGANIZATION_NAME
+      KUNTA_API_PASSWORD: $KUNTA_API_PASSWORD
+      KUNTA_API_CLIENT: $KUNTA_API_CLIENT
+      KUNTA_API_HOST: $KUNTA_API_HOST
+    networks:
+      - kanet
+
+  wpdb:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: wp
+      MYSQL_USER: wp
+      MYSQL_PASSWORD: secret
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    networks:
+      - kanet
+
+networks:
+  kanet:
+    external:
+      name: kanet
