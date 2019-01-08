@@ -1,6 +1,6 @@
 import React from 'react';
 import { wp } from 'wp';
-import ServiceLocationServiceBlock from './service-location-service-block';
+import ServiceLocationServiceChannelComponent from './service-location-service-channel-component';
 
 declare var wp: wp;
 const { __ } = wp.i18n;
@@ -33,7 +33,7 @@ wp.blocks.registerBlockType('kunta-api/service-location-service-channel', {
    */
   edit: ((params: any) => {
     return (
-      <ServiceLocationServiceBlock 
+      <ServiceLocationServiceChannelComponent 
         component={params.attributes.component}
         lang={params.attributes.lang}
         channelId={params.attributes.channelId}
