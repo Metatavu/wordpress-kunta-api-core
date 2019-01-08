@@ -1,6 +1,7 @@
 import React from 'react';
 import { wp } from 'wp';
 import { SearchModal } from './search-modal';
+import ServiceEditModal from './service-edit-modal';
 
 declare var wp: wp;
 const { __ } = wp.i18n;
@@ -21,7 +22,8 @@ interface Props {
  * Interface describing component state
  */
 interface State {
-  isOpen: boolean,
+  isSearchOpen: boolean,
+  isEditOpen: boolean,
   serviceId: string,
   component: string,
   lang: string
@@ -40,7 +42,8 @@ class ServiceComponent extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      isOpen: false,
+      isSearchOpen: false,
+      isEditOpen: false,
       component: this.props.component,
       lang: this.props.lang,
       serviceId: this.props.serviceId
@@ -97,7 +100,10 @@ class ServiceComponent extends React.Component<Props, State> {
       <div>
         <div>
           <div style={{ float: "right" }}>
-            <Button className="button" isDefault onClick={ () => this.setState( { isOpen: true } ) }>{__( 'Change service', 'kunta_api_core' )}</Button>
+            <Button className="button" isDefault onClick={ () => this.setState( { isSearchOpen: true } ) }>{__( 'Change service', 'kunta_api_core' )}</Button>
+          </div> 
+          <div style={{ float: "right" }}>
+            <Button className="button" style={{ marginRight: "2px" }} isDefault onClick={ () => this.setState( { isEditOpen: true } ) }>{__( 'Edit service', 'kunta_api_core' )}</Button>
           </div> 
           <div style={{ fontSize: "16px"}}>
             <div style={{ float: "left", paddingRight: "5px" }}>{__( 'Current service:', 'kunta_api_core' )}</div> 
@@ -133,7 +139,7 @@ class ServiceComponent extends React.Component<Props, State> {
           inputLabel={ __("Search Services", "kunta_api_core") }
           inputHelp={ __("Enter some text to search services", "kunta_api_core") }
           searchAction="kunta_api_search_services"
-          open={ this.state.isOpen }
+          open={ this.state.isSearchOpen }
           getDisplayName={ (entity: any) => {
             const names = entity.names || [];
             names.sort((a: any, b: any) => {
@@ -143,9 +149,14 @@ class ServiceComponent extends React.Component<Props, State> {
             return names.length ? names[0].value : null;
           }}
           onSelect={ (data) => { 
-            this.setState( { isOpen: false, serviceId: data.id } ); 
+            this.setState( { isSearchOpen: false, serviceId: data.id } ); 
           } }
-          onClose={ () => this.setState( { isOpen: false } )}/>
+          onClose={ () => this.setState( { isSearchOpen: false } )}/>
+
+        <ServiceEditModal 
+          serviceId={ this.state.serviceId }
+          open={ this.state.isEditOpen }
+          onClose={ () => this.setState( { isEditOpen: false } )}/>          
         <hr/>
         
         <wp.components.ServerSideRender 

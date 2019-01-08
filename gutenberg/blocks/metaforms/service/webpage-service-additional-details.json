@@ -1,0 +1,12 @@
+{
+  "title": "Lisätiedot",
+  "sections": [{
+    "title": "Lisätiedot",
+    "fields": [{
+      "name": "languages",
+      "type": "autocomplete-multiple",
+      "title": "Kielet, joilla puhelinpalvelu palvelee",
+      "required": true
+    }]
+  }]
+}

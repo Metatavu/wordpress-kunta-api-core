@@ -1,0 +1,1 @@
+declare function mfRender (params:{ viewModel: any, formValues?: any }): string;
