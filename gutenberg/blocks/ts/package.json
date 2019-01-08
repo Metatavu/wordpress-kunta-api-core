@@ -1,16 +1,11 @@
 {
-  "name": "ptv-test-data-migrator",
-  "description": "PTV test-data-migrator",
+  "name": "gutenberg-blocks",
+  "description": "gutenberg-blocks",
   "version": "0.0.1",
   "private": true,
   "author": {
     "name": "Metatavu",
     "email": "devs@metatavu.fi"
-  },
-  "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "build-ts": "tsc",
-    "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -29,8 +24,5 @@
       "@babel/preset-env",
       "@babel/preset-react"
     ]
-  },
-  "dependencies": {
-    "@wordpress/components": "^7.0.5"
   }
 }
