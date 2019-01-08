@@ -7,6 +7,8 @@ const { __ } = wp.i18n;
 
 /**
  * Registers block type
+ * 
+ * Icon from: https://fontawesome.com/v4.7.0/icon/building
  */
 wp.blocks.registerBlockType('kunta-api/service-location-service-channel', {
   title: __( 'Kunta API Service Location', 'kunta_api_core' ),
