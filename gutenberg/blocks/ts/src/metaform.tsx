@@ -81,7 +81,9 @@ export default class Metaform extends React.Component<Props, State> {
    * Component will unmount life-cycle event
    */
   public componentWillUnmount() {
-    this.$metaform.metaform('destroy');
+    if (this.$metaform) {
+      this.$metaform.metaform('destroy');
+    }
   }
 
   /**

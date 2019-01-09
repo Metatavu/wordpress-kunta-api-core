@@ -69,11 +69,11 @@ export default class ServiceAdapter extends AbstractAdapter {
     const processingTimeAdditionalInfo = this.getTypedLocalizedValue(service.descriptions, locale, 'ProcessingTime');
     const validityTimeAdditionalInfo = this.getTypedLocalizedValue(service.descriptions, locale, 'ValidityTime');
     const requirements = this.getLocalizedValue(service.requirements, locale);
-    const vouchers = service.vouchers.filter((voucher: any) => {
+    const vouchers = (service.vouchers || []).filter((voucher: any) => {
       return voucher.value && voucher.language === locale;
     });
     
-    const legislation = service.legislation
+    const legislation = (service.legislation || [])
       .map((legistation: any) => {
         return {
           name: this.getLocalizedValue(legistation.names, locale),

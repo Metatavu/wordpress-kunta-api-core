@@ -5,6 +5,7 @@ import ServiceEditModal from './service-edit-modal';
 
 declare var wp: wp;
 const { __ } = wp.i18n;
+const { withSelect } = wp.data;
 
 /**
  * Interface describing component props
@@ -13,6 +14,7 @@ interface Props {
   serviceId: string,
   component: string,
   lang: string,
+  service: any,
   onComponentChange(component: string) : void;
   onLangChange(lang: string) : void;
   onServiceIdChange(serviceId: string): void;
@@ -26,7 +28,8 @@ interface State {
   isEditOpen: boolean,
   serviceId: string,
   component: string,
-  lang: string
+  lang: string,
+  version: number
 }
 
 /**
@@ -46,7 +49,8 @@ class ServiceComponent extends React.Component<Props, State> {
       isEditOpen: false,
       component: this.props.component,
       lang: this.props.lang,
-      serviceId: this.props.serviceId
+      serviceId: this.props.serviceId,
+      version: 0
     };
   }
 
@@ -67,6 +71,12 @@ class ServiceComponent extends React.Component<Props, State> {
 
     if (this.state.serviceId !== prevState.serviceId) {
       this.props.onServiceIdChange(this.state.serviceId);
+    }
+
+    if ((JSON.stringify(this.props.service) !== JSON.stringify(prevProps.service))) {
+      this.setState({
+        version: this.state.version + 1
+      });
     }
   }
 
@@ -114,7 +124,7 @@ class ServiceComponent extends React.Component<Props, State> {
                 lang: this.state.lang,
                 component: this.state.component
               }} 
-              urlQueryArgs={{displayName: true}} />
+              urlQueryArgs={{displayName: true, version: this.state.version }} />
           </div>
         </div>
 
@@ -166,10 +176,17 @@ class ServiceComponent extends React.Component<Props, State> {
             lang: this.state.lang,
             component: this.state.component
           }} 
-          urlQueryArgs={{preview: true}} />
+          urlQueryArgs={{preview: true, version: this.state.version}} />
       </div>
     );
   }
 }
 
-export default ServiceComponent;
+export default withSelect((select: any, ownProps: any) => {
+  const { getService } = select("kunta-api/service");
+  const { serviceId } = ownProps;
+
+  return {
+		service: serviceId ? getService(serviceId) : {}
+	};
+})(ServiceComponent);

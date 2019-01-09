@@ -6,6 +6,7 @@ import ServiceAdapter from './adapters/service-adapter';
 declare var wp: wp;
 declare var ajaxurl: string;
 
+const { withSelect } = wp.data;
 const { __, sprintf } = wp.i18n;
 const locales = ["fi", "sv", "en"];
 
@@ -14,6 +15,7 @@ const locales = ["fi", "sv", "en"];
  */
 interface Props {
   serviceId: string,
+  service: any,
   open: boolean,
   onClose: () => void
 }
@@ -23,7 +25,6 @@ interface Props {
  */
 interface State {
   locale: string,
-  service: any,
   values: any,
   saving: boolean,
   saveError: string
@@ -32,7 +33,7 @@ interface State {
 /**
  * Service edit modal component
  */
-export default class ServiceEditModal extends React.Component<Props, State> {
+class ServiceEditModal extends React.Component<Props, State> {
 
   /**
    * Constructor
@@ -43,7 +44,6 @@ export default class ServiceEditModal extends React.Component<Props, State> {
     super(props);
     this.state = {
       locale: "fi",
-      service: null,
       values: {},
       saving: false,
       saveError: null
@@ -51,10 +51,24 @@ export default class ServiceEditModal extends React.Component<Props, State> {
   }
 
   /**
-   * Component will mount life-cycle event
+   * Component did update life-cycle event
+   * 
+   * @param prevProps previous props
+   * @param prevState previous state
    */
-  public componentWillMount() {
-    this.loadService();
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if ((JSON.stringify(this.props.service) !== JSON.stringify(prevProps.service))) {
+      const values: any = {};
+      const serviceAdapter = new ServiceAdapter();
+
+      locales.forEach((locale) => {
+        values[locale] = serviceAdapter.serviceToForm(locale, this.props.service);
+      });
+
+      this.setState({ 
+        values: values
+      });
+    }
   }
 
   /**
@@ -114,31 +128,6 @@ export default class ServiceEditModal extends React.Component<Props, State> {
   }
 
   /**
-   * Loads service data
-   */
-  private loadService() {
-    const apiFetch = wp.apiFetch;
-    const body = new URLSearchParams();
-    body.append("action", "kunta_api_load_service");
-    body.append("serviceId", this.props.serviceId);
-
-    apiFetch({ url: ajaxurl, method: "POST", body: body })
-      .then((service: any) => {
-        const values: any = {};
-        const serviceAdapter = new ServiceAdapter();
-
-        locales.forEach((locale) => {
-          values[locale] = serviceAdapter.serviceToForm(locale, service);
-        });
-
-        this.setState({ 
-          service: service,
-          values: values
-        });
-      });
-  }
-
-  /**
    * Saves the service
    */
   private saveService() {
@@ -150,13 +139,16 @@ export default class ServiceEditModal extends React.Component<Props, State> {
     const serviceAdapter = new ServiceAdapter();    
     const body = new URLSearchParams();
     body.append("action", "kunta_api_save_service");
-    body.append("service", JSON.stringify(serviceAdapter.applyToService(this.state.values, this.state.service)));
+    body.append("service", JSON.stringify(serviceAdapter.applyToService(this.state.values, this.props.service)));
 
     apiFetch({ url: ajaxurl, method: "POST", body: body })
       .then((updatedService: any) => {
+        wp.data.dispatch("kunta-api/service").setService(this.props.serviceId, updatedService);
+
         this.setState({
-          service: updatedService
-        });  
+          saving: false,
+          saveError: null
+        });
 
         this.props.onClose();
       })
@@ -164,11 +156,17 @@ export default class ServiceEditModal extends React.Component<Props, State> {
         this.setState({
           saving: false,
           saveError: JSON.stringify(err)
-        });  
+        });
       });
   }
 
 }
 
-
+export default withSelect((select: any, ownProps: any) => {
+  const { getService } = select("kunta-api/service");
+  const { serviceId } = ownProps;
   
+  return {
+		service: serviceId ? getService(serviceId) : {}
+	};
+})(ServiceEditModal);

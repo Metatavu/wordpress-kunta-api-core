@@ -111,10 +111,6 @@ export default class MetaformModal extends React.Component<Props, State> {
     })
   }
 
-  private close() {
-
-  }
-
 }
 
 
