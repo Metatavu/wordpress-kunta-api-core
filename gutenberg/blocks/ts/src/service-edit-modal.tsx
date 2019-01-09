@@ -6,7 +6,7 @@ import ServiceAdapter from './adapters/service-adapter';
 declare var wp: wp;
 declare var ajaxurl: string;
 
-const { __ } = wp.i18n;
+const { __, sprintf } = wp.i18n;
 const locales = ["fi", "sv", "en"];
 
 /**
@@ -24,7 +24,9 @@ interface Props {
 interface State {
   locale: string,
   service: any,
-  values: any
+  values: any,
+  saving: boolean,
+  saveError: string
 }
 
 /**
@@ -42,7 +44,9 @@ export default class ServiceEditModal extends React.Component<Props, State> {
     this.state = {
       locale: "fi",
       service: null,
-      values: {}
+      values: {},
+      saving: false,
+      saveError: null
     };
   }
 
@@ -60,44 +64,22 @@ export default class ServiceEditModal extends React.Component<Props, State> {
     if (!this.props.open) {
       return null;
     }
-    
-    switch (this.state.locale) {
-      case "fi":
-        return (<MetaformModal
-          locales={ locales }
-          locale="fi"
-          onLocaleChange={ (locale) => { this.changeLocale(locale) } }
-          onValuesChange={ (locale, values) => {this.updateValues(locale, values) } }
-          form="service/service"
-          values={ this.getValues("fi") } 
-          title={ __("Edit service fi", "kunta_api_core") } 
-          open={this.props.open} 
-          onClose={ this.props.onClose }/>);
-      case "sv":
-        return (<MetaformModal
-          locales={ locales }
-          locale="sv"
-          onLocaleChange={ (locale) => { this.changeLocale(locale) } }
-          onValuesChange={ (locale, values) => {this.updateValues(locale, values) } }
-          form="service/service" 
-          values={ this.getValues("sv") } 
-          title={ __("Edit service sv", "kunta_api_core") } 
-          open={this.props.open} 
-          onClose={ this.props.onClose }/>);
-      case "en":
-        return (<MetaformModal
-          locales={ locales }
-          locale="en"
-          onLocaleChange={ (locale) => { this.changeLocale(locale) } }
-          onValuesChange={ (locale, values) => {this.updateValues(locale, values) } }
-          form="service/service" 
-          values={ this.getValues("en") } 
-          title={ __("Edit service en", "kunta_api_core") } 
-          open={this.props.open} 
-          onClose={ this.props.onClose }/>);
-      default:
-        return null;
-    };
+
+    return (
+      <MetaformModal
+        locales={ locales }
+        locale={ this.state.locale }
+        onLocaleChange={ (locale) => { this.changeLocale(locale) } }
+        onValuesChange={ (locale, values) => { this.updateValues(locale, values) } }
+        form="service/service" 
+        values={ this.getValues(this.state.locale) } 
+        title={ sprintf(__(`Edit service (%s)`, "kunta_api_core"), this.state.locale) } 
+        saveError={ this.state.saveError }
+        saving={ this.state.saving }
+        open={ this.props.open } 
+        onSave={ () => { this.saveService() } }
+        onClose={ () => { this.setState({saving: false, saveError: null}); this.props.onClose(); } }/>
+    );
   }
 
   /**
@@ -136,24 +118,54 @@ export default class ServiceEditModal extends React.Component<Props, State> {
    */
   private loadService() {
     const apiFetch = wp.apiFetch;
-
     const body = new URLSearchParams();
     body.append("action", "kunta_api_load_service");
     body.append("serviceId", this.props.serviceId);
 
-    apiFetch({ url: ajaxurl, method: "POST", body: body }).then((service: any) => {
-      const values: any = {};
-      const serviceAdapter = new ServiceAdapter();
+    apiFetch({ url: ajaxurl, method: "POST", body: body })
+      .then((service: any) => {
+        const values: any = {};
+        const serviceAdapter = new ServiceAdapter();
 
-      locales.forEach((locale) => {
-        values[locale] = serviceAdapter.serviceToForm(locale, service);
-      });
+        locales.forEach((locale) => {
+          values[locale] = serviceAdapter.serviceToForm(locale, service);
+        });
 
-      this.setState({ 
-        service: service,
-        values: values
+        this.setState({ 
+          service: service,
+          values: values
+        });
       });
+  }
+
+  /**
+   * Saves the service
+   */
+  private saveService() {
+    const apiFetch = wp.apiFetch;
+    this.setState({ 
+      saving: true
     });
+
+    const serviceAdapter = new ServiceAdapter();    
+    const body = new URLSearchParams();
+    body.append("action", "kunta_api_save_service");
+    body.append("service", JSON.stringify(serviceAdapter.applyToService(this.state.values, this.state.service)));
+
+    apiFetch({ url: ajaxurl, method: "POST", body: body })
+      .then((updatedService: any) => {
+        this.setState({
+          service: updatedService
+        });  
+
+        this.props.onClose();
+      })
+      .catch((err: any) => {
+        this.setState({
+          saving: false,
+          saveError: JSON.stringify(err)
+        });  
+      });
   }
 
 }

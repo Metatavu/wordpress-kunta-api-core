@@ -14,7 +14,7 @@
      * 
      * @author Antti Leppä
      */  
-     class Api {
+    class Api {
       
       /**
        * Returns new instance of AnnouncementsApi
@@ -233,11 +233,12 @@
       }
       
       private function getConfiguration() {
-       $result = \KuntaAPI\Configuration::getDefaultConfiguration();
-       $result->setHost(\KuntaAPI\Core\CoreSettings::getValue("apiUrl"));
-       $result->setUsername(\KuntaAPI\Core\CoreSettings::getValue("apiUser"));
-       $result->setPassword(\KuntaAPI\Core\CoreSettings::getValue("apiPassword"));
-       return $result;
+        $result = \KuntaAPI\Configuration::getDefaultConfiguration();
+        $result->setHost(\KuntaAPI\Core\CoreSettings::getValue("apiUrl"));
+        $result->setUsername(\KuntaAPI\Core\CoreSettings::getValue("apiUser"));
+        $result->setPassword(\KuntaAPI\Core\CoreSettings::getValue("apiPassword"));
+        $result->addDefaultHeader("Kunta-API-PTV7-Compatibility", "false");
+        return $result;
       }
       
       private function getClient() {

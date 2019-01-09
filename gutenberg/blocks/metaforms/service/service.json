@@ -9,10 +9,10 @@
         "name": "Service",
         "text": "Palvelu"
       }, {
-        "name": "PermissionAndObligation",
+        "name": "PermitOrObligation",
         "text": "Lupa tai muu velvoite"
       }, {
-        "name": "ProfessionalQualifications",
+        "name": "ProfessionalQualification",
         "text": "Ammattipätevyys"
       }]
     }, {
@@ -46,14 +46,16 @@
       "title": "Tiivistelmä",
       "required": true,
       "contexts": "FORM",
-      "placeholder": "Kirjoita lyhyt tiivistelmä hakukoneita varten."
+      "placeholder": "Kirjoita lyhyt tiivistelmä hakukoneita varten.",
+      "todo": "Validate 5 characters"
     }, {
       "name": "description",
       "type": "memo",
       "title": "Kuvaus",
       "required": true,
       "contexts": "FORM",
-      "placeholder": "Kirjoita selkeä ja ymmärrettävä kuvausteksti."
+      "placeholder": "Kirjoita selkeä ja ymmärrettävä kuvausteksti.",
+      "todo": "Validate 5 characters"
     }, {
       "name": "requirements",
       "type": "memo",
@@ -73,62 +75,62 @@
         "type": "radio",
         "name": "serviceChargeType",
         "options": [{
-          "name": "Charged",
+          "name": "Chargeable",
           "text": "Maksullinen"
         }, {
-          "name": "Free",
+          "name": "FreeOfCharge",
           "text": "Maksuton"
         }]
+    }, {
+      "title": "Maksullisuuden lisätieto",
+      "type": "text",
+      "name": "chargeTypeAdditionalInfo",
+      "required": false,
+      "placeholder": "Kirjoita maksullisuuden tiedot"
+    }, {
+      "title": "Palvelussa on käytössä palveluseteli.",
+      "type": "radio",
+      "name": "serviceVouchersInUse",
+      "options": [{
+        "name": "false",
+        "text": "Ei"
       }, {
-        "title": "Maksullisuuden lisätieto",
+        "name": "true",
+        "text": "Kyllä"
+      }]
+    }, {
+      "visible-if": {
+        "field": "serviceVouchersInUse",
+        "equals": "true"
+      },
+      "name": "serviceVouchers",
+      "type": "table",
+      "title": "Käyntiosoite",
+      "required": false,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
         "type": "text",
-        "name": "chargeTypeAdditionalInfo",
-        "required": false,
-        "placeholder": "Kirjoita maksullisuuden tiedot"
+        "name": "value",
+        "title": "Nimi",
+        "placeholder": "Kirjoita verkkosivun nimi"
       }, {
-        "title": "Palvelussa on käytössä palveluseteli.",
-        "type": "radio",
-        "name": "serviceVouchersInUse",
-        "options": [{
-          "name": "false",
-          "text": "Ei"
-        }, {
-          "name": "true",
-          "text": "Kyllä"
+        "type": "text",
+        "name": "url",
+        "title": "Verkko-osoite",
+        "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://."
+      }, {
+        "type": "text",
+        "name": "additionalInformation",
+        "title": "Lisätieto",
+        "placeholder": "Kirjoita lisätietoa palvelusetelistä."
+      }, {
+        "column-width": 63,
+        "type": "button",
+        "text": "Poista",
+        "class": "btn-warning",
+        "action": "delete-row"
         }]
-      }, {
-        "visible-if": {
-          "field": "serviceVouchersInUse",
-          "equals": "true"
-        },
-        "name": "serviceVouchers",
-        "type": "table",
-        "title": "Käyntiosoite",
-        "required": false,
-        "contexts": "FORM",
-        "addRows": true,
-        "columns": [{
-          "type": "text",
-          "name": "value",
-          "title": "Nimi",
-          "placeholder": "Kirjoita verkkosivun nimi"
-        }, {
-          "type": "text",
-          "name": "url",
-          "title": "Verkko-osoite",
-          "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://."
-        }, {
-          "type": "text",
-          "name": "additionalInformation",
-          "title": "Lisätieto",
-          "placeholder": "Kirjoita lisätietoa palvelusetelistä."
-        }, {
-          "column-width": 63,
-          "type": "button",
-          "text": "Poista",
-          "class": "btn-warning",
-          "action": "delete-row"
-         }]
       }, {
         "name": "legislation",
         "type": "table",

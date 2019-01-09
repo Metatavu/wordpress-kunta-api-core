@@ -26,6 +26,7 @@ declare module "wp" {
     SelectControl: any;
     Placeholder: any;
     CheckboxControl: any;
+    Notice: any;
   }
 
   export interface WPCompose {
@@ -46,6 +47,7 @@ declare module "wp" {
 
   export interface WPI18n {
     __: any;
+    sprintf: any;
   }
   
   export interface wp {
