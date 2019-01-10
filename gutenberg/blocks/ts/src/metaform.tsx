@@ -15,7 +15,8 @@ interface Props {
   form: string,
   values: any,
   title: string,
-  onValuesChange: (values: any) => void
+  onValuesChange: (values: any) => void,
+  afterFormRender: (metaform: Metaform, $metaform: any) => void
 }
 
 /**
@@ -74,6 +75,10 @@ export default class Metaform extends React.Component<Props, State> {
       this.$metaform = jQuery(this.refs.el).find('form.metaform')
         .metaform()
         .on("change", "input,select,textarea", this.onMetaformChange.bind(this));
+
+      if (this.props.afterFormRender) {
+        this.props.afterFormRender(this, this.$metaform);
+      }
     }
   }
 
@@ -142,7 +147,7 @@ export default class Metaform extends React.Component<Props, State> {
   /**
    * Trigger value change
    */
-  private triggerChange() {
+  public triggerChange() {
     this.props.onValuesChange(this.getValues());
   }
 

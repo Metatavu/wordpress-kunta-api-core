@@ -2,10 +2,12 @@ import React from 'react';
 import { wp } from 'wp';
 import MetaformModal from "./metaform-modal";
 import ServiceAdapter from './adapters/service-adapter';
+import Metaform from './metaform';
+import ServiceAdditionDetailsEditModal from './service-addition-details-edit-modal';
 
 declare var wp: wp;
 declare var ajaxurl: string;
-
+declare var jQuery: any;
 const { withSelect } = wp.data;
 const { __, sprintf } = wp.i18n;
 const locales = ["fi", "sv", "en"];
@@ -27,8 +29,15 @@ interface State {
   locale: string,
   values: any,
   saving: boolean,
-  saveError: string
+  saveError: string,
+  additionalDetailsOpen: boolean
 }
+
+/**
+ * TODO:
+ * 
+ * shortDescription, description should be at least 5 characters long
+ */
 
 /**
  * Service edit modal component
@@ -46,7 +55,8 @@ class ServiceEditModal extends React.Component<Props, State> {
       locale: "fi",
       values: {},
       saving: false,
-      saveError: null
+      saveError: null,
+      additionalDetailsOpen: false
     };
   }
 
@@ -58,15 +68,18 @@ class ServiceEditModal extends React.Component<Props, State> {
    */
   componentDidUpdate(prevProps: Props, prevState: State) {
     if ((JSON.stringify(this.props.service) !== JSON.stringify(prevProps.service))) {
-      const values: any = {};
       const serviceAdapter = new ServiceAdapter();
 
-      locales.forEach((locale) => {
-        values[locale] = serviceAdapter.serviceToForm(locale, this.props.service);
-      });
+      Promise.all(locales.map((locale) => { return serviceAdapter.serviceToForm(locale, this.props.service); })).then((results) => {
+        const values: any = {};
 
-      this.setState({ 
-        values: values
+        for (let i = 0; i < locales.length; i++) {
+          values[locales[i]] = results[i];
+        }
+
+        this.setState({ 
+          values: values
+        });
       });
     }
   }
@@ -77,6 +90,12 @@ class ServiceEditModal extends React.Component<Props, State> {
   public render() {
     if (!this.props.open) {
       return null;
+    }
+
+    if (this.state.additionalDetailsOpen) {
+      return (
+        <ServiceAdditionDetailsEditModal serviceId={ this.props.serviceId } open = { this.state.additionalDetailsOpen } onClose={ () => { this.setState({additionalDetailsOpen: false }); } }/>
+      );
     }
 
     return (
@@ -91,9 +110,25 @@ class ServiceEditModal extends React.Component<Props, State> {
         saveError={ this.state.saveError }
         saving={ this.state.saving }
         open={ this.props.open } 
+        afterFormRender={ (metaform: Metaform, $metaform: any) => this.afterFormRender(metaform, $metaform) }
         onSave={ () => { this.saveService() } }
         onClose={ () => { this.setState({saving: false, saveError: null}); this.props.onClose(); } }/>
     );
+  }
+
+  /**
+   * Event run after the form is rendered
+   * 
+   * @param $metaform metaform
+   */
+  async afterFormRender(metaform: Metaform, $metaform: any) {
+    $metaform.on("click", ".edit-additional-details", this.onEditAdditionalDetailsClick.bind(this));
+  }
+
+  private onEditAdditionalDetailsClick(event: any) {
+    this.setState({
+      additionalDetailsOpen: true
+    });
   }
 
   /**
