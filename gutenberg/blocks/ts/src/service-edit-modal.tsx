@@ -38,6 +38,7 @@ interface State {
  * TODO:
  * 
  * shortDescription, description should be at least 5 characters long
+ * An error occurred: {"ServiceClasses":["All the service classes are main service classes. Not allowed!"]}.
  */
 
 /**
@@ -76,12 +77,12 @@ class ServiceEditModal extends React.Component<Props, State> {
       const values: any = {};
 
       locales.forEach((locale: string) => {
-        values[locale] = serviceAdapter.serviceToForm(locale, this.props.service);
+        values[locale] = this.props.service ? serviceAdapter.serviceToForm(locale, this.props.service) : {};
       });
       
       this.setState({ 
         values: values,
-        additionalValues: serviceAdapter.serviceAdditinalToForm(this.props.service)
+        additionalValues: this.props.service ? serviceAdapter.serviceAdditinalToForm(this.props.service) : {}
       });
     }
   }

@@ -21,6 +21,7 @@
         
         if ($mode == 'edit' && empty($content)) {
           switch ($component) {
+            case 'addresses':
             case 'adresses':
               $content = __( 'Placeholder for adresses (Currently empty, not visible on webpage)', 'kunta_api_core' );
             break;

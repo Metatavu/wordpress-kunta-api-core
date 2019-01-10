@@ -1,5 +1,6 @@
 import { wp } from 'wp';
 import AbstractAdapter from "./abstract-adapter";
+import Utils from "../utils";
 
 declare var wp: wp;
 declare var ajaxurl: string;
@@ -51,9 +52,10 @@ export default class ServiceAdapter extends AbstractAdapter {
 
     result.areaType = additionalValues.areaType;
     result.languages = (additionalValues.languages||'').split(',');
+    service.areas = this.areasFromForm(additionalValues.areaType, additionalValues.areas);
 
     /**
-    service.areas = this.areasFromForm(additionalValue.areaType, additionalValue.areas);
+    
     service.organizations = service.organizations.filter((serviceOrganization: any) => {
       return serviceOrganization.roleType !== 'Producer';
     });
@@ -97,7 +99,7 @@ export default class ServiceAdapter extends AbstractAdapter {
    * 
    * @param locale locale
    * @param service service
-   */
+   */ 
   serviceToForm(locale: string, service: any): any {
     const type = service.type;
     const chargeType = service.chargeType;
@@ -111,7 +113,7 @@ export default class ServiceAdapter extends AbstractAdapter {
     const deadLineAdditionalInfo = this.getTypedLocalizedValue(service.descriptions, locale, 'DeadLine');
     const processingTimeAdditionalInfo = this.getTypedLocalizedValue(service.descriptions, locale, 'ProcessingTime');
     const validityTimeAdditionalInfo = this.getTypedLocalizedValue(service.descriptions, locale, 'ValidityTime');
-    const requirements = this.getLocalizedValue(service.requirements, locale);
+    const requirements = Utils.getLocalizedValue(service.requirements, locale);
     const vouchers = (service.vouchers || []).filter((voucher: any) => {
       return voucher.value && voucher.language === locale;
     });
@@ -119,8 +121,8 @@ export default class ServiceAdapter extends AbstractAdapter {
     const legislation = (service.legislation || [])
       .map((legistation: any) => {
         return {
-          name: this.getLocalizedValue(legistation.names, locale),
-          webPage: this.getLocalizedValue(legistation.webPages, locale, 'url')
+          name: Utils.getLocalizedValue(legistation.names, locale),
+          webPage: Utils.getLocalizedValue(legistation.webPages, locale, 'url')
         };
       })
       .filter((legistation: any) => {
@@ -149,7 +151,9 @@ export default class ServiceAdapter extends AbstractAdapter {
 
   serviceAdditinalToForm(service: any): any {
     return {
-      languages: (service.languages || []).join(",")
+      languages: (service.languages || []).join(","),
+      areas: this.getAreaIds(service.areas || []).join(","),
+      areaType: service.areaType,
     };
   }
 
@@ -195,6 +199,28 @@ export default class ServiceAdapter extends AbstractAdapter {
     }
   }
 
+  /**
+   * Translates areas to be suitable for form
+   * 
+   * @param areas areas
+   * @returns area items
+   */
+  private getAreaIds(areas: any[]): any[] {
+    const areaCodes: any = [];
+
+    areas.forEach((area) => {
+      if (area.type !== 'Municipality') {
+        areaCodes.push(`${area.type}:${area.code}`);
+      } else {
+        area.municipalities.forEach((municipality: any) => {
+          areaCodes.push(`Municipality:${municipality.code}`);
+        });
+      }
+    });
+
+    return areaCodes;
+  }
+
  /**
    * Translates areas to be suitable for form
    * 
@@ -203,17 +229,18 @@ export default class ServiceAdapter extends AbstractAdapter {
    */
   private areasToForm(areas: any[]): any[] {
     const areaCodes: any = [];
+
     areas.forEach((area) => {
       if (area.type !== 'Municipality') {
         areaCodes.push({
           value: `${area.type}:${area.code}`,
-          label: this.getCodeNameWithType(area)
+          label: Utils.getCodeNameWithType(area)
         });
       } else {
         area.municipalities.forEach((municipality: any) => {
           areaCodes.push({
             value: `Municipality:${municipality.code}`,
-            label: this.getMunicipalityNameWithType(municipality)
+            label: Utils.getMunicipalityNameWithType(municipality)
           });
         });
       }
@@ -222,51 +249,5 @@ export default class ServiceAdapter extends AbstractAdapter {
     return areaCodes;
   }
 
-  /**
-   * Returns code name with type
-   * 
-   * @param codeItem item
-   */
-  private getCodeNameWithType(codeItem: any): string {
-    const name = this.getLocalizedValue(codeItem.name || codeItem.names, 'fi');
-    const type = this.getCodeTypeName(codeItem.type);
-    return `${name} (${type})`;
-  }
-  
-  /**
-   * Returns nunicipality name with type
-   * 
-   * @param codeItem item
-   */
-  private getMunicipalityNameWithType(municipality: any): string {
-    const name = this.getLocalizedValue(municipality.names, 'fi');
-    const type = this.getCodeTypeName('Municipality');
-    return `${name} (${type})`;
-  }
-
-  /**
-   * Returns name for type
-   * 
-   * @param type type
-   * @returns name
-   */
-  private getCodeTypeName(type: string): string {
-    switch (type) {
-      case 'Municipality':
-        return 'kunta';
-      case 'Province':
-        return 'maakunta';
-      case 'HospitalRegions':
-        return 'sairaanhoitopiiri';
-      case 'BusinessRegions':
-        return 'yrityspalvelujen seutualue';
-      case 'Country':
-        return 'maa';
-      case 'Language':
-        return 'kieli';
-      case 'Postal':
-        return 'postinumero';
-    }
-  }
 
 }

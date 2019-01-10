@@ -2,6 +2,7 @@ import React from 'react';
 import { wp } from 'wp';
 import MetaformModal from "./metaform-modal";
 import Metaform from './metaform';
+import Utils from './utils';
 
 declare var wp: wp;
 declare var ajaxurl: string;
@@ -72,8 +73,57 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
    */
   private async afterFormRender(metaform: Metaform, $metaform: any) {
     this.createLanguagesAutocomplete($metaform.find('*[data-name="languages"]'), (this.state.values.languages || []).split(","));
+    this.createAreasAutocomplete($metaform.find('*[data-name="areas"]'), (this.state.values.areas || []).split(","));
     this.createServiceProducersAutocomplete(metaform, $metaform.find('*[data-name="serviceProducersPurchaseServices"]'), (this.state.values.serviceProducersPurchaseServices || '').split(",").filter((value:string) => !!value));
     this.createServiceProducersAutocomplete(metaform, $metaform.find('*[data-name="serviceProducersOthers"]'), (this.state.values.serviceProducersOthers || '').split(",").filter((value:string) => !!value));
+  }
+
+  /**
+   * Creates autocomplete field for selecting areas
+   * 
+   * @param element autocomplete element
+   * @param areas area codes
+   */
+  async createAreasAutocomplete(element: any, areaIds: string[]) {
+    const areas = await Utils.loadAreas(areaIds);
+    
+    const values = areas.map((area: any) => {
+      const areaCode: string = `${area.type}:${area.code}`;
+      
+      if (area.type == "Municipality") {
+        return {
+          value: areaCode,
+          label: Utils.getMunicipalityNameWithType(area)
+        };
+      } else {
+        return {
+          value: areaCode,
+          label: Utils.getCodeNameWithType(area)
+        };
+      }
+    });
+
+    element
+      .autocomplete("option", "open", () => {
+        jQuery('.ui-autocomplete').css('z-index', 999999);
+      })
+      .metaformMultivalueAutocomplete('val', values, false)
+      .metaformMultivalueAutocomplete('option', 'customSource', (input: any, callback: any) => {
+        Utils.searchCodes("Municipality,Province,HospitalRegions,BusinessRegions", input.term + '*')
+          .then((codes) => {
+            callback(codes.map((areaCode: any) => {
+              return {
+                value: `${areaCode.type}:${areaCode.code}`,
+                label: Utils.getCodeNameWithType(areaCode)
+              };
+            }));
+          })
+          .catch((err) => {
+            // TODO: Proper error handling
+            alert(err);
+          });
+      })
+      .val("");
   }
 
   /**
@@ -91,12 +141,12 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
       })
       .metaformMultivalueAutocomplete('val', values, false)
       .metaformMultivalueAutocomplete('option', 'customSource', (input: any, callback: any) => {
-        this.searchCodes("Language", input.term + '*')
+        Utils.searchCodes("Language", input.term + '*')
           .then((codes: any[]) => {
             callback(codes.map((codeItem: any) => {
               return {
                 value: codeItem.code,
-                label: this.getLocalizedValue(codeItem.names, 'fi')
+                label: Utils.getLocalizedValue(codeItem.names, 'fi')
               };
             }));
           })
@@ -116,10 +166,10 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
    */
   private async createServiceProducersAutocomplete(metaform: Metaform, element: any, organizationIds: any[]) {
     const values = await Promise.all(organizationIds.map(async (organizationId: string) => {
-      const organization = await this.findOrganization(organizationId);
+      const organization = await Utils.findOrganization(organizationId);
       return {
         value: organization.id,
-        label: this.getLocalizedValue(organization.names, 'fi')
+        label: Utils.getLocalizedValue(organization.names, 'fi')
       };
     }));
 
@@ -132,17 +182,17 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
         metaform.triggerChange();
       })
       .metaformMultivalueAutocomplete('option', 'customSource', (input: any, callback: any) => {
-        const search = this.splitSearchTerms(input.term);
+        const search = Utils.splitSearchTerms(input.term);
         if (!search) {
           callback([]);
           return;
         }
         
-        this.searchOrganizations(search).then((organizations) => {
+        Utils.searchOrganizations(search).then((organizations) => {
           callback(organizations.map((organization: any) => {
             return {
               value: organization.id,
-              label: this.getLocalizedValue(organization.names, 'fi')
+              label: Utils.getLocalizedValue(organization.names, 'fi')
             };
           }));
         })
@@ -165,11 +215,11 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
       return `code:${language}`;
     }).join(' ');
 
-    const languageQueryResult = await this.searchCodes("Language", `+(${languageQuery})`);
+    const languageQueryResult = await Utils.searchCodes("Language", `+(${languageQuery})`);
     
     const languageMap: any = {};
     languageQueryResult.forEach((queryResult: any) => {
-      languageMap[queryResult.code] = this.getLocalizedValue(queryResult.names, 'fi');
+      languageMap[queryResult.code] = Utils.getLocalizedValue(queryResult.names, 'fi');
     });
     
     return languages.map((language) => {
@@ -178,87 +228,6 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
         label: languageMap[language] || language
       };
     });
-  }
-
-  /**
-   * Search codes
-   * 
-   * @param types types
-   * @param search search
-   * @returns promise for search results
-   */
-  private searchCodes(types: string, search: string): Promise<any> {
-    const body = new URLSearchParams();
-    body.append("action", "kunta_api_search_codes");
-    body.append("types", types);
-    body.append("search", search);
-
-    return wp.apiFetch({ url: ajaxurl, method: "POST", body: body });
-  }
-
-  /**
-   * Searches organizations
-   * 
-   * @param search search term
-   */
-  searchOrganizations(search: string): Promise<any[]> {
-    const body = new URLSearchParams();
-    body.append("action", "kunta_api_search_organizations");
-    body.append("search", this.splitSearchTerms(search));
-    return wp.apiFetch({ url: ajaxurl, method: "POST", body: body });
-  }
-
-  /**
-   * Returns localized value
-   * 
-   * @param values array containing localized values
-   * @param locale Locale
-   * @param property property containing value. Defaults to 'value'
-   * @returns value
-   */
-  getLocalizedValue(values: any[], locale: string, property?: string) {
-    if (!values) {
-      return null;
-    }
-    
-    for (let i = 0; i < values.length; i++) {
-      if (locale === values[i].language) {
-        return values[i][property || 'value'];
-      }
-    }
-    
-    return null;
-  }
-
-  /**
-   * Splits search into terms
-   * 
-   * @param search search
-   * @return search terms
-   */
-  splitSearchTerms(search: string) {
-    if (!search) {
-      return null;
-    }
-
-    const searchTerms = search.replace(/\ {1,}/g, ' ').split(' ').map((term: string) => {
-      return `+(${term}*)`;
-    });
-
-    return searchTerms.join(' ');
-  }
-
-  /**
-   * Finds an organization by id
-   * 
-   * @param id organization id
-   * @returns promise for organization
-   */
-  private findOrganization(id: string): Promise<any> {
-    const body = new URLSearchParams();
-    body.append("action", "kunta_api_find_organization");
-    body.append("id", id);
-    return wp.apiFetch({ url: ajaxurl, method: "POST", body: body });
   }
 
   /**

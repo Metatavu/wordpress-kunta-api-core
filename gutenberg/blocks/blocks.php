@@ -157,6 +157,10 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
       $component = $attributes['component'];
       $result = '';
 
+      if (!$lang) {
+        $lang = 'fi';
+      }
+
       if (!$component) {
         $component = "description";
       }
@@ -173,7 +177,7 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
 
       $renderer = new \KuntaAPI\Services\ServiceLocations\ServiceLocationComponentRenderer();
       $result = $serviceLocationChannel ? $renderer->renderComponent($lang, $serviceLocationChannel, $component) : "";
-    
+
       if (empty($result) && $_GET["preview"]) {
         return __("[Service location does not have data for given component]", "kunta_api_core");
       }

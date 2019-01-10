@@ -91,7 +91,7 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
     const Button = wp.components.Button;
     const components = [
       "description",
-      "adresses",
+      "addresses",
       "email",
       "fax",
       "name",
