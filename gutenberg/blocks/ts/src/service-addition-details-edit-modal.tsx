@@ -2,7 +2,6 @@ import React from 'react';
 import { wp } from 'wp';
 import MetaformModal from "./metaform-modal";
 import Metaform from './metaform';
-import ServiceAdapter from './adapters/service-adapter';
 
 declare var wp: wp;
 declare var ajaxurl: string;
@@ -15,8 +14,9 @@ const { __ } = wp.i18n;
  */
 interface Props {
   serviceId: string,
-  service: any,
   open: boolean,
+  values: any,
+  applyValues: (values: any) => void,
   onClose: () => void
 }
 
@@ -40,7 +40,7 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      values: (new ServiceAdapter()).serviceAdditinalToForm(this.props.service)
+      values: props.values
     };
   }
 
@@ -59,25 +59,10 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
         values={ this.getValues() } 
         title={ __(`Service details`, "kunta_api_core") } 
         open={ this.props.open } 
-        onSave={ () => { } }
+        onSave={ () => { this.props.applyValues(this.state.values) } }
         onClose={ () => { this.props.onClose(); } }
         afterFormRender= { (metaform: Metaform, $metaform: any) => { this.afterFormRender(metaform, $metaform) } }/>
     );
-  }
-
-  /**
-   * Component did update life-cycle event
-   * 
-   * @param prevProps previous props
-   * @param prevState previous state
-   */
-  componentDidUpdate(prevProps: Props, prevState: State) {
-    if ((JSON.stringify(this.props.service) !== JSON.stringify(prevProps.service))) {
-      const serviceAdapter = new ServiceAdapter();
-      this.setState({ 
-        values: serviceAdapter.serviceAdditinalToForm(this.props.service)
-      });
-    }
   }
 
   /**

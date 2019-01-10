@@ -58,7 +58,7 @@ export default class ServiceAdapter extends AbstractAdapter {
    * @param locale locale
    * @param service service
    */
-  async serviceToForm(locale: string, service: any): Promise<any> {
+  serviceToForm(locale: string, service: any): any {
     const type = service.type;
     const chargeType = service.chargeType;
     const fundingType = service.fundingType;

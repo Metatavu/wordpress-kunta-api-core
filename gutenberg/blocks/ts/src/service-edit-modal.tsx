@@ -28,6 +28,7 @@ interface Props {
 interface State {
   locale: string,
   values: any,
+  additionalValues: any,
   saving: boolean,
   saveError: string,
   additionalDetailsOpen: boolean
@@ -51,12 +52,14 @@ class ServiceEditModal extends React.Component<Props, State> {
    */
   constructor(props: Props) {
     super(props);
+
     this.state = {
       locale: "fi",
-      values: {},
       saving: false,
       saveError: null,
-      additionalDetailsOpen: false
+      additionalDetailsOpen: false,
+      values: {},
+      additionalValues: {}
     };
   }
 
@@ -69,17 +72,15 @@ class ServiceEditModal extends React.Component<Props, State> {
   componentDidUpdate(prevProps: Props, prevState: State) {
     if ((JSON.stringify(this.props.service) !== JSON.stringify(prevProps.service))) {
       const serviceAdapter = new ServiceAdapter();
+      const values: any = {};
 
-      Promise.all(locales.map((locale) => { return serviceAdapter.serviceToForm(locale, this.props.service); })).then((results) => {
-        const values: any = {};
-
-        for (let i = 0; i < locales.length; i++) {
-          values[locales[i]] = results[i];
-        }
-
-        this.setState({ 
-          values: values
-        });
+      locales.forEach((locale: string) => {
+        values[locale] = serviceAdapter.serviceToForm(locale, this.props.service);;
+      });
+      
+      this.setState({ 
+        values: values,
+        additionalValues: serviceAdapter.serviceAdditinalToForm(this.props.service)
       });
     }
   }
@@ -94,7 +95,7 @@ class ServiceEditModal extends React.Component<Props, State> {
 
     if (this.state.additionalDetailsOpen) {
       return (
-        <ServiceAdditionDetailsEditModal serviceId={ this.props.serviceId } open = { this.state.additionalDetailsOpen } onClose={ () => { this.setState({additionalDetailsOpen: false }); } }/>
+        <ServiceAdditionDetailsEditModal serviceId={ this.props.serviceId } open = { this.state.additionalDetailsOpen } values={ this.state.additionalValues } applyValues={ (additionalValues: any) => this.setState({ additionalDetailsOpen: false, additionalValues: additionalValues  }) } onClose={ () => { this.setState({additionalDetailsOpen: false }); } }/>
       );
     }
 
