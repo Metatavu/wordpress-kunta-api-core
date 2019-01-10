@@ -66,18 +66,16 @@ export default class Metaform extends React.Component<Props, State> {
    * @param prevProps previous props
    * @param prevState previous state
    */
-  public componentDidUpdate(prevProps: Props, prevState: State) {
+  public async componentDidUpdate(prevProps: Props, prevState: State) {
     if ((JSON.stringify(this.state.json) !== JSON.stringify(prevState.json)) || (this.props.values !== prevProps.values)) {
-      if (this.$metaform) {
-        this.$metaform.metaform('destroy');
-      }
+      this.destroyForm();
 
       this.$metaform = jQuery(this.refs.el).find('form.metaform')
         .metaform()
         .on("change", "input,select,textarea", this.onMetaformChange.bind(this));
 
       if (this.props.afterFormRender) {
-        this.props.afterFormRender(this, this.$metaform);
+        await this.props.afterFormRender(this, this.$metaform);
       }
     }
   }
@@ -86,9 +84,7 @@ export default class Metaform extends React.Component<Props, State> {
    * Component will unmount life-cycle event
    */
   public componentWillUnmount() {
-    if (this.$metaform) {
-      this.$metaform.metaform('destroy');
-    }
+    this.destroyForm();
   }
 
   /**
@@ -106,6 +102,15 @@ export default class Metaform extends React.Component<Props, State> {
         <div dangerouslySetInnerHTML={{__html: this.renderForm() }}/>
       </div>
     )
+  }
+
+  /**
+   * Destroys form component
+   */
+  private destroyForm() {
+    if (this.$metaform) {
+      this.$metaform.metaform('destroy');
+    }
   }
 
   /**

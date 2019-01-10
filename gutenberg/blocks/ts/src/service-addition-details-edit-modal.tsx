@@ -2,6 +2,7 @@ import React from 'react';
 import { wp } from 'wp';
 import MetaformModal from "./metaform-modal";
 import Metaform from './metaform';
+import ServiceAdapter from './adapters/service-adapter';
 
 declare var wp: wp;
 declare var ajaxurl: string;
@@ -39,7 +40,7 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      values: {}
+      values: (new ServiceAdapter()).serviceAdditinalToForm(this.props.service)
     };
   }
 
@@ -65,14 +66,62 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
   }
 
   /**
+   * Component did update life-cycle event
+   * 
+   * @param prevProps previous props
+   * @param prevState previous state
+   */
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if ((JSON.stringify(this.props.service) !== JSON.stringify(prevProps.service))) {
+      const serviceAdapter = new ServiceAdapter();
+      this.setState({ 
+        values: serviceAdapter.serviceAdditinalToForm(this.props.service)
+      });
+    }
+  }
+
+  /**
    * Event run after the form is rendered
    * 
    * @param $metaform metaform
    */
   private async afterFormRender(metaform: Metaform, $metaform: any) {
+    this.createLanguagesAutocomplete($metaform.find('*[data-name="languages"]'), (this.state.values.languages || []).split(","));
     this.createServiceProducersAutocomplete(metaform, $metaform.find('*[data-name="serviceProducersPurchaseServices"]'), (this.state.values.serviceProducersPurchaseServices || '').split(",").filter((value:string) => !!value));
     this.createServiceProducersAutocomplete(metaform, $metaform.find('*[data-name="serviceProducersOthers"]'), (this.state.values.serviceProducersOthers || '').split(",").filter((value:string) => !!value));
-  } 
+  }
+
+  /**
+   * Creates autocomplete field for selecting languages
+   * 
+   * @param element autocomplete element
+   * @param languageCodes language codes
+   */
+  private async createLanguagesAutocomplete(element: any, languages: string[]) {
+    const values = await this.loadLanguageCodes(languages);
+
+    element
+      .autocomplete("option", "open", () => {
+        jQuery('.ui-autocomplete').css('z-index', 999999);
+      })
+      .metaformMultivalueAutocomplete('val', values, false)
+      .metaformMultivalueAutocomplete('option', 'customSource', (input: any, callback: any) => {
+        this.searchCodes("Language", input.term + '*')
+          .then((codes: any[]) => {
+            callback(codes.map((codeItem: any) => {
+              return {
+                value: codeItem.code,
+                label: this.getLocalizedValue(codeItem.names, 'fi')
+              };
+            }));
+          })
+          .catch((err: any) => {
+            // TODO: Proper error handling
+            alert(err);
+          });
+      })
+      .val("");
+  }
 
   /**
    * Creates autocomplete field for selecting service producers 
@@ -90,12 +139,12 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
     }));
 
     element
+      .autocomplete("option", "open", () => {
+        jQuery('.ui-autocomplete').css('z-index', 999999);
+      })
       .metaformMultivalueAutocomplete('val', values, false) 
       .metaformMultivalueAutocomplete("option", 'onchange', () => {
         metaform.triggerChange();
-      })
-      .autocomplete("option", "open", () => {
-        jQuery('.ui-autocomplete').css('z-index', 999999);
       })
       .metaformMultivalueAutocomplete('option', 'customSource', (input: any, callback: any) => {
         const search = this.splitSearchTerms(input.term);
@@ -118,6 +167,48 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
         });
       })
       .val('');
+  }
+
+  /**
+   * Translates language list to be suitable for form
+   * 
+   * @param languages language codes
+   * @returns Promise for language items
+   */
+  private async loadLanguageCodes(languages: string[]): Promise<any> {
+    const languageQuery = languages.map((language) => {
+      return `code:${language}`;
+    }).join(' ');
+
+    const languageQueryResult = await this.searchCodes("Language", `+(${languageQuery})`);
+    
+    const languageMap: any = {};
+    languageQueryResult.forEach((queryResult: any) => {
+      languageMap[queryResult.code] = this.getLocalizedValue(queryResult.names, 'fi');
+    });
+    
+    return languages.map((language) => {
+      return {
+        value: language,
+        label: languageMap[language] || language
+      };
+    });
+  }
+
+  /**
+   * Search codes
+   * 
+   * @param types types
+   * @param search search
+   * @returns promise for search results
+   */
+  private searchCodes(types: string, search: string): Promise<any> {
+    const body = new URLSearchParams();
+    body.append("action", "kunta_api_search_codes");
+    body.append("types", types);
+    body.append("search", search);
+
+    return wp.apiFetch({ url: ajaxurl, method: "POST", body: body });
   }
 
   /**

@@ -107,6 +107,12 @@ export default class ServiceAdapter extends AbstractAdapter {
     };
   }
 
+  serviceAdditinalToForm(service: any): any {
+    return {
+      languages: (service.languages || []).join(",")
+    };
+  }
+
   /**
    * Translates areas from form to be suitable for REST
    * 
@@ -224,32 +230,6 @@ export default class ServiceAdapter extends AbstractAdapter {
   }
 
   /**
-   * Translates language list to be suitable for form
-   * 
-   * @param languages language codes
-   * @returns Promise for language items
-   */
-  private async loadLanguageCodes(languages: string[]): Promise<any> {
-    const languageQuery = languages.map((language) => {
-      return `code:${language}`;
-    }).join(' ');
-
-    const languageQueryResult = await this.searchCodes("Language", `+(${languageQuery})`);
-    
-    const languageMap: any = {};
-    languageQueryResult.forEach((queryResult: any) => {
-      languageMap[queryResult.code] = this.getLocalizedValue(queryResult.names, 'fi');
-    });
-    
-    return languages.map((language) => {
-      return {
-        value: language,
-        label: languageMap[language] || language
-      };
-    });
-  }
-
-  /**
    * Finds an organization by id
    * 
    * @param id organization id
@@ -259,22 +239,6 @@ export default class ServiceAdapter extends AbstractAdapter {
     const body = new URLSearchParams();
     body.append("action", "kunta_api_find_organization");
     body.append("id", id);
-    return wp.apiFetch({ url: ajaxurl, method: "POST", body: body });
-  }
-
-  /**
-   * Search codes
-   * 
-   * @param types types
-   * @param search search
-   * @returns promise for search results
-   */
-  private searchCodes(types: string, search: string): Promise<any> {
-    const body = new URLSearchParams();
-    body.append("action", "kunta_api_search_codes");
-    body.append("types", types);
-    body.append("search", search);
-
     return wp.apiFetch({ url: ajaxurl, method: "POST", body: body });
   }
   
