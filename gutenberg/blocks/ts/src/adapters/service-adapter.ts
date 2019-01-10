@@ -16,7 +16,7 @@ export default class ServiceAdapter extends AbstractAdapter {
     super();
   }
 
-  applyToService(formValues: any, service: any) {
+  applyToService(formValues: any, additionalValues: any, service: any) {
     const result = JSON.parse(JSON.stringify(service));
 
     result.names = [];
@@ -49,6 +49,46 @@ export default class ServiceAdapter extends AbstractAdapter {
       });
     });
 
+    result.areaType = additionalValues.areaType;
+    result.languages = (additionalValues.languages||'').split(',');
+
+    /**
+    service.areas = this.areasFromForm(additionalValue.areaType, additionalValue.areas);
+    service.organizations = service.organizations.filter((serviceOrganization: any) => {
+      return serviceOrganization.roleType !== 'Producer';
+    });
+    
+    const responsibleOrganizations = service.organizations.filter((serviceOrganization: any) => {
+      return serviceOrganization.roleType === 'Responsible';
+    });
+    
+    const formProducersPurchaseServices =  (additionalValue.serviceProducersPurchaseServices||'').split(',');
+    const formProducersOthers =  (additionalValue.serviceProducersOthers||'').split(',');
+    
+    const serviceProducersPurchaseServices = formProducersPurchaseServices.forEach((organizationId) => {
+      service.organizations.push({
+        provisionType: 'PurchaseServices',
+        roleType: 'Producer',
+        organizationId: organizationId
+      });
+    });
+    
+    const serviceProducersPurchaseOthers = formProducersOthers.forEach((organizationId) => {
+      service.organizations.push({
+        provisionType: 'Other',
+        roleType: 'Producer',
+        organizationId: organizationId
+      });
+    });
+    
+    if (additionalValue.serviceProducersSelfProduced) {
+      service.organizations.push({
+        provisionType: 'SelfProduced',
+        roleType: 'Producer',
+        organizationId: responsibleOrganizations.length > 0 ? responsibleOrganizations[0].organizationId : null
+      });
+    }
+ */
     return result;
   }
 
@@ -229,17 +269,4 @@ export default class ServiceAdapter extends AbstractAdapter {
     }
   }
 
-  /**
-   * Finds an organization by id
-   * 
-   * @param id organization id
-   * @returns promise for organization
-   */
-  private findOrganization(id: string): Promise<any> {
-    const body = new URLSearchParams();
-    body.append("action", "kunta_api_find_organization");
-    body.append("id", id);
-    return wp.apiFetch({ url: ajaxurl, method: "POST", body: body });
-  }
-  
 }

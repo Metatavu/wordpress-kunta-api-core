@@ -70,12 +70,13 @@ class ServiceEditModal extends React.Component<Props, State> {
    * @param prevState previous state
    */
   componentDidUpdate(prevProps: Props, prevState: State) {
+
     if ((JSON.stringify(this.props.service) !== JSON.stringify(prevProps.service))) {
       const serviceAdapter = new ServiceAdapter();
       const values: any = {};
 
       locales.forEach((locale: string) => {
-        values[locale] = serviceAdapter.serviceToForm(locale, this.props.service);;
+        values[locale] = serviceAdapter.serviceToForm(locale, this.props.service);
       });
       
       this.setState({ 
@@ -95,7 +96,14 @@ class ServiceEditModal extends React.Component<Props, State> {
 
     if (this.state.additionalDetailsOpen) {
       return (
-        <ServiceAdditionDetailsEditModal serviceId={ this.props.serviceId } open = { this.state.additionalDetailsOpen } values={ this.state.additionalValues } applyValues={ (additionalValues: any) => this.setState({ additionalDetailsOpen: false, additionalValues: additionalValues  }) } onClose={ () => { this.setState({additionalDetailsOpen: false }); } }/>
+        <ServiceAdditionDetailsEditModal 
+          serviceId={ this.props.serviceId } 
+          open = { this.state.additionalDetailsOpen } 
+          values={ this.state.additionalValues } 
+          applyValues={ (additionalValues: any) => { this.applyAdditionalValues(additionalValues); } } 
+          onClose={ () => { 
+            this.setState({additionalDetailsOpen: false }); 
+          } }/>
       );
     }
 
@@ -115,6 +123,16 @@ class ServiceEditModal extends React.Component<Props, State> {
         onSave={ () => { this.saveService() } }
         onClose={ () => { this.setState({saving: false, saveError: null}); this.props.onClose(); } }/>
     );
+  }
+
+  /**
+   * Applies additional values into state and closes additinaol details dialog
+   */
+  private applyAdditionalValues(additionalValues: any) {
+    this.setState({ 
+      additionalValues: additionalValues,
+      additionalDetailsOpen: false,
+    });
   }
 
   /**
@@ -172,10 +190,13 @@ class ServiceEditModal extends React.Component<Props, State> {
       saving: true
     });
 
-    const serviceAdapter = new ServiceAdapter();    
+    const serviceAdapter = new ServiceAdapter();
+    const serviceData = serviceAdapter.applyToService(this.state.values, this.state.additionalValues, this.props.service);    
     const body = new URLSearchParams();
     body.append("action", "kunta_api_save_service");
-    body.append("service", JSON.stringify(serviceAdapter.applyToService(this.state.values, this.props.service)));
+    body.append("service", JSON.stringify(serviceData));
+
+    console.log("serviceData", serviceData);
 
     apiFetch({ url: ajaxurl, method: "POST", body: body })
       .then((updatedService: any) => {
