@@ -10,6 +10,9 @@ export default class AbstractAdapter {
     
   }
 
+  /**
+   * Returns array of supported locales 
+   */
   protected getSupportedLocales(): string[] {
     return ["fi", "sv", "en"];
   }
