@@ -72,8 +72,8 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
    * @param $metaform metaform
    */
   private async afterFormRender(metaform: Metaform, $metaform: any) {
-    this.createLanguagesAutocomplete($metaform.find('*[data-name="languages"]'), (this.state.values.languages || []).split(","));
-    this.createAreasAutocomplete($metaform.find('*[data-name="areas"]'), (this.state.values.areas || []).split(","));
+    this.createLanguagesAutocomplete($metaform.find('*[data-name="languages"]'), (this.state.values.languages || '').split(","));
+    this.createAreasAutocomplete($metaform.find('*[data-name="areas"]'), (this.state.values.areas || '').split(","));
     this.createServiceProducersAutocomplete(metaform, $metaform.find('*[data-name="serviceProducersPurchaseServices"]'), (this.state.values.serviceProducersPurchaseServices || '').split(",").filter((value:string) => !!value));
     this.createServiceProducersAutocomplete(metaform, $metaform.find('*[data-name="serviceProducersOthers"]'), (this.state.values.serviceProducersOthers || '').split(",").filter((value:string) => !!value));
   }
@@ -85,6 +85,7 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
    * @param areas area codes
    */
   async createAreasAutocomplete(element: any, areaIds: string[]) {
+    element.val("");
     const areas = await Utils.loadAreas(areaIds);
     
     const values = areas.map((area: any) => {
@@ -122,8 +123,7 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
             // TODO: Proper error handling
             alert(err);
           });
-      })
-      .val("");
+      });
   }
 
   /**
@@ -133,6 +133,7 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
    * @param languageCodes language codes
    */
   private async createLanguagesAutocomplete(element: any, languages: string[]) {
+    element.val("");
     const values = await this.loadLanguageCodes(languages);
 
     element
@@ -154,8 +155,7 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
             // TODO: Proper error handling
             alert(err);
           });
-      })
-      .val("");
+      });
   }
 
   /**
@@ -165,6 +165,8 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
    * @param organizationItems organizationItem to be loaded
    */
   private async createServiceProducersAutocomplete(metaform: Metaform, element: any, organizationIds: any[]) {
+    element.val('');
+
     const values = await Promise.all(organizationIds.map(async (organizationId: string) => {
       const organization = await Utils.findOrganization(organizationId);
       return {
@@ -200,8 +202,7 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
           // TODO: Proper error handling
           alert(err);
         });
-      })
-      .val('');
+      });
   }
 
   /**
@@ -210,6 +211,7 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
    * @param languages language codes
    * @returns Promise for language items
    */
+
   private async loadLanguageCodes(languages: string[]): Promise<any> {
     const languageQuery = languages.map((language) => {
       return `code:${language}`;

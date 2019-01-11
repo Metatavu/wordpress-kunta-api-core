@@ -197,8 +197,6 @@ class ServiceEditModal extends React.Component<Props, State> {
     body.append("action", "kunta_api_save_service");
     body.append("service", JSON.stringify(serviceData));
 
-    console.log("serviceData", serviceData);
-
     apiFetch({ url: ajaxurl, method: "POST", body: body })
       .then((updatedService: any) => {
         wp.data.dispatch("kunta-api/service").setService(this.props.serviceId, updatedService);

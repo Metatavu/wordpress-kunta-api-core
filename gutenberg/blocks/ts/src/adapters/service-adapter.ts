@@ -17,6 +17,13 @@ export default class ServiceAdapter extends AbstractAdapter {
     super();
   }
 
+  /**
+   * Applies form values into service and returns altered copy. Does not alter original service
+   * 
+   * @param formValues form values
+   * @param additionalValues additional values
+   * @param service service
+   */
   applyToService(formValues: any, additionalValues: any, service: any) {
     const result = JSON.parse(JSON.stringify(service));
 
@@ -52,55 +59,58 @@ export default class ServiceAdapter extends AbstractAdapter {
 
     result.areaType = additionalValues.areaType;
     result.languages = (additionalValues.languages||'').split(',');
-    service.areas = this.areasFromForm(additionalValues.areaType, additionalValues.areas);
+    result.areas = this.areasFromForm(additionalValues.areaType, additionalValues.areas);
 
-    /**
-    
-    service.organizations = service.organizations.filter((serviceOrganization: any) => {
-      return serviceOrganization.roleType !== 'Producer';
-    });
-    
-    const responsibleOrganizations = service.organizations.filter((serviceOrganization: any) => {
+    result.organizations = result.organizations.filter((serviceOrganization: any) => {
       return serviceOrganization.roleType === 'Responsible';
     });
+
+    const responsibleOrganizationId = result.organizations
+      .filter((serviceOrganization: any) => {
+        return serviceOrganization.roleType === 'Responsible' && serviceOrganization.organizationId;
+      })
+      .map((serviceOrganization: any) => {
+        return serviceOrganization.organizationId;
+      })[0];
+
+    if (responsibleOrganizationId && additionalValues.serviceProducersSelfProduced) {
+      result.organizations.push({
+        provisionType: 'SelfProducedServices',
+        roleType: 'Producer',
+        organizationId: responsibleOrganizationId
+      });
+    }
+
+    const formProducersPurchaseServices =  (additionalValues.serviceProducersPurchaseServices||'').split(',');
+    const formProducersOthers =  (additionalValues.serviceProducersOthers||'').split(',');
     
-    const formProducersPurchaseServices =  (additionalValue.serviceProducersPurchaseServices||'').split(',');
-    const formProducersOthers =  (additionalValue.serviceProducersOthers||'').split(',');
-    
-    const serviceProducersPurchaseServices = formProducersPurchaseServices.forEach((organizationId) => {
-      service.organizations.push({
-        provisionType: 'PurchaseServices',
+    formProducersPurchaseServices.forEach((organizationId: string) => {
+      result.organizations.push({
+        provisionType: 'ProcuredServices',
         roleType: 'Producer',
         organizationId: organizationId
       });
     });
     
-    const serviceProducersPurchaseOthers = formProducersOthers.forEach((organizationId) => {
-      service.organizations.push({
+    formProducersOthers.forEach((organizationId: string) => {
+      result.organizations.push({
         provisionType: 'Other',
         roleType: 'Producer',
         organizationId: organizationId
       });
     });
-    
-    if (additionalValue.serviceProducersSelfProduced) {
-      service.organizations.push({
-        provisionType: 'SelfProduced',
-        roleType: 'Producer',
-        organizationId: responsibleOrganizations.length > 0 ? responsibleOrganizations[0].organizationId : null
-      });
-    }
- */
+
     return result;
   }
 
   /**
-   * Converts REST data into form data
+   * Extracts service form data from REST service
    * 
-   * @param locale locale
-   * @param service service
+   * @param locale locale locale
+   * @param service service service
+   * @returns service form data
    */ 
-  serviceToForm(locale: string, service: any): any {
+  public serviceToForm(locale: string, service: any): any {
     const type = service.type;
     const chargeType = service.chargeType;
     const fundingType = service.fundingType;
@@ -149,14 +159,46 @@ export default class ServiceAdapter extends AbstractAdapter {
     };
   }
 
-  serviceAdditinalToForm(service: any): any {
-    return {
+  /**
+   * Extracts service additional form data from REST service
+   * 
+   * @param service service service
+   * @returns service additional form data
+   */ 
+  public serviceAdditinalToForm(service: any): any {
+    const result = {
       languages: (service.languages || []).join(","),
       areas: this.getAreaIds(service.areas || []).join(","),
       areaType: service.areaType,
-    };
+      serviceProducersSelfProduced: (service.organizations||[]).filter((serviceOrganization: any) => {
+        return serviceOrganization.roleType === "Producer" && serviceOrganization.provisionType === "SelfProducedServices";
+      }).length > 0,
+      serviceProducersPurchaseServices: this.getServiceProducerOrganizationIds(service, "ProcuredServices").join(","),
+      serviceProducersOthers: this.getServiceProducerOrganizationIds(service, "Other").join(",")
+    }
+
+    return result;
   }
 
+  /**
+   * Returns service producer organization ids by provision type
+   * 
+   * @param service service
+   * @param provisionType provision type
+   */
+  private getServiceProducerOrganizationIds(service: any, provisionType: string) {
+    const serviceOrganizations = service.organizations || [];
+
+    return serviceOrganizations
+      .filter((serviceOrganization: any) => {
+        return serviceOrganization.organizationId && serviceOrganization.roleType === "Producer" && serviceOrganization.provisionType === provisionType;
+      })
+      .map((serviceOrganization: any) => {
+        return serviceOrganization.organizationId;
+      });
+
+  }
+  
   /**
    * Translates areas from form to be suitable for REST
    * 
@@ -165,7 +207,7 @@ export default class ServiceAdapter extends AbstractAdapter {
    * @returns result
    */
   private areasFromForm(areaType: string, areas: string): any[] {
-    if (areaType === 'AreaType') {
+    if (areaType === 'LimitedType') {
       let mucicipalitiesIndex = -1;
       const result: any[] = [];
       
@@ -220,34 +262,5 @@ export default class ServiceAdapter extends AbstractAdapter {
 
     return areaCodes;
   }
-
- /**
-   * Translates areas to be suitable for form
-   * 
-   * @param areas areas
-   * @returns area items
-   */
-  private areasToForm(areas: any[]): any[] {
-    const areaCodes: any = [];
-
-    areas.forEach((area) => {
-      if (area.type !== 'Municipality') {
-        areaCodes.push({
-          value: `${area.type}:${area.code}`,
-          label: Utils.getCodeNameWithType(area)
-        });
-      } else {
-        area.municipalities.forEach((municipality: any) => {
-          areaCodes.push({
-            value: `Municipality:${municipality.code}`,
-            label: Utils.getMunicipalityNameWithType(municipality)
-          });
-        });
-      }
-    });
-
-    return areaCodes;
-  }
-
 
 }

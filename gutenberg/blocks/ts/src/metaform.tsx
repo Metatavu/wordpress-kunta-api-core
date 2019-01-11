@@ -72,6 +72,9 @@ export default class Metaform extends React.Component<Props, State> {
 
       this.$metaform = jQuery(this.refs.el).find('form.metaform')
         .metaform()
+        .css({
+          paddingBottom: "20px"
+        })
         .on("change", "input,select,textarea", this.onMetaformChange.bind(this));
 
       if (this.props.afterFormRender) {
@@ -98,7 +101,7 @@ export default class Metaform extends React.Component<Props, State> {
     }
 
     return (
-      <div ref="el" style={{ overflow: "scroll", marginTop:"-20px", marginLeft: "0px", marginRight:"0px" }}>
+      <div ref="el" style={{ maxHeight: "calc(80vh - 120px)", overflow: "scroll", marginTop:"-10px", marginLeft: "0px", marginRight:"0px", marginBottom: "0px" }}>
         <div dangerouslySetInnerHTML={{__html: this.renderForm() }}/>
       </div>
     )
