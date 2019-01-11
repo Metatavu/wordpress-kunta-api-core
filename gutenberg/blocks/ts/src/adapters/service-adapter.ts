@@ -29,13 +29,13 @@ export default class ServiceAdapter extends AbstractAdapter {
 
     result.names = [];
     result.descriptions = [];
-    result.vouchers = []; 
-
-    // TODO: legislation
-  
+    result.vouchers = [];
+    result.legislation = [];
+    
     this.getSupportedLocales().forEach((locale: string) => {
       const localeValues = formValues[locale];
-      
+      const legistationValues = Array.isArray(localeValues.legislation) ? localeValues.legislation : localeValues.legislation ? JSON.parse(localeValues.legislation) : [];
+
       result.type = localeValues.type || result.type;
       result.chargeType = localeValues.serviceChargeType || result.chargeType;
       result.fundingType = localeValues.fundingType || result.fundingType;
@@ -55,6 +55,24 @@ export default class ServiceAdapter extends AbstractAdapter {
       this.setLocalizedTableValues(result, 'vouchers', localeValues, 'serviceVouchers', locale, (voucher: any) => {
         return voucher.value && voucher.url;
       });
+
+      result.legislation = result.legislation.concat(legistationValues
+        .filter((legislation: any) => {
+          return legislation.name && legislation.webPage;
+        })
+        .map((legislation: any) => {
+          return {
+            names: [{
+              language: locale,
+              value: legislation.name
+            }],
+            webPages: [{
+              url: legislation.webPage,
+              type: "url",
+              language: locale
+            }]
+          }
+        }));
     });
 
     result.areaType = additionalValues.areaType;
