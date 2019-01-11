@@ -4,6 +4,7 @@ import MetaformModal from "./metaform-modal";
 import ServiceAdapter from './adapters/service-adapter';
 import Metaform from './metaform';
 import ServiceAdditionDetailsEditModal from './service-addition-details-edit-modal';
+import ServiceChannelsEditModal from './service-channels-edit-modal';
 
 declare var wp: wp;
 declare var ajaxurl: string;
@@ -31,7 +32,8 @@ interface State {
   additionalValues: any,
   saving: boolean,
   saveError: string,
-  additionalDetailsOpen: boolean
+  additionalDetailsOpen: boolean,
+  channelsOpen: boolean
 }
 
 /**
@@ -59,6 +61,7 @@ class ServiceEditModal extends React.Component<Props, State> {
       saving: false,
       saveError: null,
       additionalDetailsOpen: false,
+      channelsOpen: false,
       values: {},
       additionalValues: {}
     };
@@ -108,6 +111,17 @@ class ServiceEditModal extends React.Component<Props, State> {
       );
     }
 
+    if (this.state.channelsOpen) {
+      return (
+        <ServiceChannelsEditModal 
+          serviceId={ this.props.serviceId } 
+          open = { this.state.channelsOpen } 
+          onClose={ () => { 
+            this.setState({channelsOpen: false }); 
+          } }/>
+      );
+    }
+
     return (
       <MetaformModal
         locales={ locales }
@@ -143,11 +157,28 @@ class ServiceEditModal extends React.Component<Props, State> {
    */
   async afterFormRender(metaform: Metaform, $metaform: any) {
     $metaform.on("click", ".edit-additional-details", this.onEditAdditionalDetailsClick.bind(this));
+    $metaform.on("click", ".edit-channels", this.onEditChannelsClick.bind(this));
   }
 
+  /**
+   * Event handler for additional details button click
+   * 
+   * @param event event
+   */
   private onEditAdditionalDetailsClick(event: any) {
     this.setState({
       additionalDetailsOpen: true
+    });
+  }
+
+  /**
+   * Event handler for edit channel button click
+   * 
+   * @param event event
+   */
+  private onEditChannelsClick(event: any) {
+    this.setState({
+      channelsOpen: true
     });
   }
 
@@ -199,7 +230,7 @@ class ServiceEditModal extends React.Component<Props, State> {
 
     apiFetch({ url: ajaxurl, method: "POST", body: body })
       .then((updatedService: any) => {
-        wp.data.dispatch("kunta-api/service").setService(this.props.serviceId, updatedService);
+        wp.data.dispatch("kunta-api/data").setService(this.props.serviceId, updatedService);
 
         this.setState({
           saving: false,
@@ -219,7 +250,7 @@ class ServiceEditModal extends React.Component<Props, State> {
 }
 
 export default withSelect((select: any, ownProps: any) => {
-  const { getService } = select("kunta-api/service");
+  const { getService } = select("kunta-api/data");
   const { serviceId } = ownProps;
   
   return {

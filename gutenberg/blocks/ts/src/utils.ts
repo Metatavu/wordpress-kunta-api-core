@@ -22,6 +22,22 @@ export default class Utils {
   }
 
   /**
+   * Finds a service channel by type and id
+   * 
+   * @param type channel type
+   * @param channelId channel id
+   */
+  public static findServiceChannel(type: string, channelId: string) {
+    const apiFetch = wp.apiFetch;
+    const body = new URLSearchParams();
+    
+    body.append("action", `kunta_api_load_${type}_service_channel`);
+    body.append("id", channelId);
+
+    return apiFetch({ url: ajaxurl, method: "POST", body: body });
+  }
+
+  /**
    * Searches organizations
    * 
    * @param search search term

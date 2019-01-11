@@ -45,9 +45,9 @@ class ServiceLocationPageCheckbox extends React.Component<Props, State> {
       checked={ this.props.isChecked }
       onChange={ ( isChecked: boolean ) => {
         if (isChecked) {
-          wp.data.dispatch("kunta-api/service-location-service-channel").addChannel(this.props.channelId);
+          wp.data.dispatch("kunta-api/data").addPageChannel(this.props.channelId);
         } else {
-          wp.data.dispatch("kunta-api/service-location-service-channel").removeChannel(this.props.channelId);
+          wp.data.dispatch("kunta-api/data").removePageChannel(this.props.channelId);
         }
     } }/>);
   }
@@ -55,10 +55,10 @@ class ServiceLocationPageCheckbox extends React.Component<Props, State> {
 }
 
 export default withSelect((select: any, ownProps: any) => {
-  const { isChannelPage } = select("kunta-api/service-location-service-channel");
+  const { isPageChannel } = select("kunta-api/data");
   const { channelId } = ownProps;
 
   return {
-		isChecked: isChannelPage(channelId)
+		isChecked: isPageChannel(channelId)
 	};
 })(ServiceLocationPageCheckbox);

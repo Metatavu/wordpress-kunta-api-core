@@ -53,9 +53,9 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
     };
 
     subscribe(() => {
-      const { isChannelPage } = wp.data.select("kunta-api/service-location-service-channel");
+      const { isPageChannel } = wp.data.select("kunta-api/data");
       this.setState({
-        serviceLocationPage: isChannelPage(this.state.channelId)
+        serviceLocationPage: isPageChannel(this.state.channelId)
       });
     });
   }

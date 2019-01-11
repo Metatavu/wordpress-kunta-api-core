@@ -183,7 +183,7 @@ class ServiceComponent extends React.Component<Props, State> {
 }
 
 export default withSelect((select: any, ownProps: any) => {
-  const { getService } = select("kunta-api/service");
+  const { getService } = select("kunta-api/data");
   const { serviceId } = ownProps;
 
   return {

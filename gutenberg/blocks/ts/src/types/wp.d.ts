@@ -27,6 +27,9 @@ declare module "wp" {
     Placeholder: any;
     CheckboxControl: any;
     Notice: any;
+    Panel: any;
+    PanelBody: any;
+    PanelRow: any;
   }
 
   export interface WPCompose {
@@ -56,7 +59,7 @@ declare module "wp" {
     element: WPElement;
     blocks: WPBlocks;
     editor: WPEditor;
-    components: WPComponents;
+    components: WPComponents; 
     compose: WPCompose;
     i18n: WPI18n,
     apiFetch: any;
