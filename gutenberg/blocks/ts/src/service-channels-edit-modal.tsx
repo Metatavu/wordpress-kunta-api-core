@@ -48,7 +48,7 @@ const channelTypes: { [key: string]: { title: string, emptyMessage: string, sear
   },
   "webpage":  { 
     title: __("Web page Service Channels", "kunta_api_core"),
-    emptyMessage: __("No attached webpage service channels", "kunta_api_core"),
+    emptyMessage: __("No attached web page service channels", "kunta_api_core"),
     searchAction: "search_web_page_service_channels" 
   },
   "serviceLocation":  { 
@@ -162,7 +162,12 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
         .map((channel: any) => {
           return ( 
             <wp.components.PanelRow>
-              <div> { this.getChannelDisplayName(channel) } </div>
+              <div> 
+                { this.getChannelDisplayName(channel) } 
+              </div>
+              <div style={{ float: "right" }}> 
+                <wp.components.Button className="button" onClick={ () => { this.onRemoveChannelClick(channelType, channel) } }>{ __("Remove", "kunta_api_core") }</wp.components.Button>
+              </div>
             </wp.components.PanelRow>
           )
         })
@@ -207,6 +212,38 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
     this.setState({
       channels: channels,
       channelAddOpen: false
+    });
+  }
+
+  /**
+   * Event handler for remove channel click
+   * 
+   * @param channelType channel type
+   * @param channel channel
+   */
+  private onRemoveChannelClick(channelType: string, channel: any) {
+    const channels: ServiceChannels = this.state.channels;
+
+    switch (channelType) {
+      case "electronic":
+        channels.electronic = channels.electronic.filter((c) => c.id !== channel.id);
+      break; 
+      case "phone":
+        channels.phone = channels.phone.filter((c) => c.id !== channel.id);
+      break; 
+      case "printableForm":
+        channels.printableForm = channels.printableForm.filter((c) => c.id !== channel.id);
+      break; 
+      case "webpage":
+        channels.webpage = channels.webpage.filter((c) => c.id !== channel.id);
+      break; 
+      case "serviceLocation":
+        channels.serviceLocation = channels.serviceLocation.filter((c) => c.id !== channel.id);
+      break; 
+    }
+
+    this.setState({
+      channels: channels
     });
   }
 

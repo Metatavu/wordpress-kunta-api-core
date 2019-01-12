@@ -100,7 +100,7 @@ class ServiceEditModal extends React.Component<Props, State> {
           phone: this.props.service.phoneServiceChannelIds,
           printableForm: this.props.service.printableFormServiceChannelIds,
           serviceLocation: this.props.service.serviceLocationServiceChannelIds,
-          webpage: this.props.service.webpageServiceChannelIds
+          webpage: this.props.service.webPageServiceChannelIds
         }
       });
     }
