@@ -1,6 +1,7 @@
 import { wp } from 'wp';
 import AbstractAdapter from "./abstract-adapter";
 import Utils from "../utils";
+import ServiceChannelIds from 'src/service-channel-ids';
 
 declare var wp: wp;
 declare var ajaxurl: string;
@@ -22,9 +23,10 @@ export default class ServiceAdapter extends AbstractAdapter {
    * 
    * @param formValues form values
    * @param additionalValues additional values
+   * @param channelIds service channel ids
    * @param service service
    */
-  applyToService(formValues: any, additionalValues: any, service: any) {
+  applyToService(formValues: any, additionalValues: any, channelIds: ServiceChannelIds, service: any) {
     const result = JSON.parse(JSON.stringify(service));
 
     result.names = [];
@@ -117,6 +119,12 @@ export default class ServiceAdapter extends AbstractAdapter {
         organizationId: organizationId
       });
     });
+
+    result.electronicServiceChannelIds = channelIds.electronic;
+    result.phoneServiceChannelIds = channelIds.phone;
+    result.printableFormServiceChannelIds = channelIds.printableForm;
+    result.serviceLocationServiceChannelIds = channelIds.serviceLocation;
+    result.webPageServiceChannelIds = channelIds.webpage;
 
     return result;
   }

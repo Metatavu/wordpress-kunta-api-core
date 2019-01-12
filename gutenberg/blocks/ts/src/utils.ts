@@ -30,8 +30,15 @@ export default class Utils {
   public static findServiceChannel(type: string, channelId: string) {
     const apiFetch = wp.apiFetch;
     const body = new URLSearchParams();
+    const actionTypeMap: any = {
+      electronic: "electronic",
+      phone: "phone",
+      printableForm: "printable_form",
+      webpage: "webpage",
+      serviceLocation: "service_location"
+    };
     
-    body.append("action", `kunta_api_load_${type}_service_channel`);
+    body.append("action", `kunta_api_load_${actionTypeMap[type]}_service_channel`);
     body.append("id", channelId);
 
     return apiFetch({ url: ajaxurl, method: "POST", body: body });

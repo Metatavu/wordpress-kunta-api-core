@@ -1,5 +1,6 @@
 import React from 'react';
 import { wp } from 'wp';
+import Utils from './utils';
 
 const { __ } = wp.i18n;
 
@@ -61,7 +62,7 @@ export class SearchInput extends React.Component<Props, State> {
 
     const body = new URLSearchParams();
     body.append("action", this.props.searchAction);
-    body.append("data", value);
+    body.append("search", Utils.splitSearchTerms(value));
 
     this.setState({ searching: true });
 

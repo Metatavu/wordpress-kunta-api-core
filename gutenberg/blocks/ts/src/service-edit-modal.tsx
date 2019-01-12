@@ -5,10 +5,11 @@ import ServiceAdapter from './adapters/service-adapter';
 import Metaform from './metaform';
 import ServiceAdditionDetailsEditModal from './service-addition-details-edit-modal';
 import ServiceChannelsEditModal from './service-channels-edit-modal';
+import ServiceChannelIds from './service-channel-ids';
+import ServiceChannels from './service-channels';
 
 declare var wp: wp;
 declare var ajaxurl: string;
-declare var jQuery: any;
 const { withSelect } = wp.data;
 const { __, sprintf } = wp.i18n;
 const locales = ["fi", "sv", "en"];
@@ -30,6 +31,7 @@ interface State {
   locale: string,
   values: any,
   additionalValues: any,
+  channelIds: ServiceChannelIds,
   saving: boolean,
   saveError: string,
   additionalDetailsOpen: boolean,
@@ -63,7 +65,14 @@ class ServiceEditModal extends React.Component<Props, State> {
       additionalDetailsOpen: false,
       channelsOpen: false,
       values: {},
-      additionalValues: {}
+      additionalValues: {},
+      channelIds: {
+        electronic: [],
+        phone: [],
+        printableForm: [],
+        serviceLocation: [],
+        webpage: []
+      }
     };
   }
 
@@ -85,7 +94,14 @@ class ServiceEditModal extends React.Component<Props, State> {
       
       this.setState({ 
         values: values,
-        additionalValues: this.props.service ? serviceAdapter.serviceAdditinalToForm(this.props.service) : {}
+        additionalValues: this.props.service ? serviceAdapter.serviceAdditinalToForm(this.props.service) : {},
+        channelIds: {
+          electronic: this.props.service.electronicServiceChannelIds,
+          phone: this.props.service.phoneServiceChannelIds,
+          printableForm: this.props.service.printableFormServiceChannelIds,
+          serviceLocation: this.props.service.serviceLocationServiceChannelIds,
+          webpage: this.props.service.webpageServiceChannelIds
+        }
       });
     }
   }
@@ -98,6 +114,19 @@ class ServiceEditModal extends React.Component<Props, State> {
       return null;
     }
 
+    if (this.state.channelsOpen) {
+      return (
+        <ServiceChannelsEditModal 
+          serviceId={ this.props.serviceId }
+          channelIds={ this.state.channelIds }
+          open= { this.state.channelsOpen }
+          applyValues= { (channels: ServiceChannels) => this.applyChannelValues(channels) }
+          onClose={ () => { 
+            this.setState({channelsOpen: false }); 
+          } }/>
+      );
+    }
+
     if (this.state.additionalDetailsOpen) {
       return (
         <ServiceAdditionDetailsEditModal 
@@ -107,17 +136,6 @@ class ServiceEditModal extends React.Component<Props, State> {
           applyValues={ (additionalValues: any) => { this.applyAdditionalValues(additionalValues); } } 
           onClose={ () => { 
             this.setState({additionalDetailsOpen: false }); 
-          } }/>
-      );
-    }
-
-    if (this.state.channelsOpen) {
-      return (
-        <ServiceChannelsEditModal 
-          serviceId={ this.props.serviceId } 
-          open = { this.state.channelsOpen } 
-          onClose={ () => { 
-            this.setState({channelsOpen: false }); 
           } }/>
       );
     }
@@ -141,12 +159,30 @@ class ServiceEditModal extends React.Component<Props, State> {
   }
 
   /**
-   * Applies additional values into state and closes additinaol details dialog
+   * Applies additional values into state and closes adiitional details dialog
    */
   private applyAdditionalValues(additionalValues: any) {
     this.setState({ 
       additionalValues: additionalValues,
       additionalDetailsOpen: false,
+    });
+  }
+
+  /**
+   * Applies channels into state and closes channels dialog
+   * 
+   * @param channels channels
+   */
+  private applyChannelValues(channels: ServiceChannels) {
+    this.setState({ 
+      channelIds: {
+        electronic: channels.electronic.map((channel) => channel.id),
+        phone: channels.phone.map((channel) => channel.id),
+        printableForm: channels.printableForm.map((channel) => channel.id),
+        serviceLocation: channels.serviceLocation.map((channel) => channel.id),
+        webpage: channels.webpage.map((channel) => channel.id),
+      },
+      channelsOpen: false
     });
   }
 
@@ -179,6 +215,32 @@ class ServiceEditModal extends React.Component<Props, State> {
   private onEditChannelsClick(event: any) {
     this.setState({
       channelsOpen: true
+    });
+  }
+
+  private onChannelAdd(channelType: string, channel: any) {
+    const channelIds: ServiceChannelIds = this.state.channelIds;
+
+    switch (channelType) {
+      case "electronic":
+        channelIds.electronic = channelIds.electronic.concat(channel.id);
+      break; 
+      case "phone":
+        channelIds.phone = channelIds.phone.concat(channel.id);
+      break; 
+      case "printableForm":
+        channelIds.printableForm = channelIds.printableForm.concat(channel.id);
+      break; 
+      case "webpage":
+        channelIds.webpage = channelIds.webpage.concat(channel.id);
+      break; 
+      case "serviceLocation":
+        channelIds.serviceLocation = channelIds.serviceLocation.concat(channel.id);
+      break; 
+    }
+
+    this.setState({
+      channelIds: channelIds
     });
   }
 
@@ -223,7 +285,7 @@ class ServiceEditModal extends React.Component<Props, State> {
     });
 
     const serviceAdapter = new ServiceAdapter();
-    const serviceData = serviceAdapter.applyToService(this.state.values, this.state.additionalValues, this.props.service);    
+    const serviceData = serviceAdapter.applyToService(this.state.values, this.state.additionalValues, this.state.channelIds, this.props.service);    
     const body = new URLSearchParams();
     body.append("action", "kunta_api_save_service");
     body.append("service", JSON.stringify(serviceData));

@@ -27,68 +27,14 @@ const actions = {
   /**
    * Setter action for electronic service channel
    * 
+   * @param channelType channel type
    * @param channelId channel id
    * @param channel channel
    */
-  setElectronicServiceChannel(channelId: string, channel: any) {
+  setServiceChannel(channelType: string, channelId: string, channel: any) {
     return {
-      type: 'SET_ELECTRONIC_SERVICE_CHANNEL',
-      channelId,
-      channel
-    };
-  },
-  
-  /**
-   * Setter action for phone service channel
-   * 
-   * @param channelId channel id
-   * @param channel channel
-   */
-  setPhoneServiceChannel(channelId: string, channel: any) {
-    return {
-      type: 'SET_PHONE_SERVICE_CHANNEL',
-      channelId,
-      channel
-    };
-  },
-  
-  /**
-   * Setter action for printable form service channel
-   * 
-   * @param channelId channel id
-   * @param channel channel
-   */
-  setPrintableFormServiceChannel(channelId: string, channel: any) {
-    return {
-      type: 'SET_PRINTABLE_FORM_SERVICE_CHANNEL',
-      channelId,
-      channel
-    };
-  },
-  
-  /**
-   * Setter action for webpage service channel
-   * 
-   * @param channelId channel id
-   * @param channel channel
-   */
-  setWebpageServiceChannel(channelId: string, channel: any) {
-    return {
-      type: 'SET_WEBPAGE_SERVICE_CHANNEL',
-      channelId,
-      channel
-    };
-  },
-
-  /**
-   * Setter action for service location service channel
-   * 
-   * @param channelId channel id
-   * @param channel channel
-   */
-  setServiceLocationServiceChannel(channelId: string, channel: any) {
-    return {
-      type: 'SET_SERVICE_LOCATION_SERVICE_CHANNEL',
+      type: 'SET_SERVICE_CHANNEL',
+      channelType,
       channelId,
       channel
     };
@@ -119,14 +65,22 @@ const actions = {
   }
 };
 
+interface ServiceChannelMap { 
+  [ channelId : string]: any
+}
+
+interface ServiceChannelTypeMap { 
+  electronic: ServiceChannelMap,
+  phone: ServiceChannelMap,
+  printableForm: ServiceChannelMap,
+  webpage: ServiceChannelMap,
+  serviceLocation: ServiceChannelMap
+}
+
 interface StateStore {
   services: { [s: string]: any },
   pageChannelIds: string[],
-  electronicServiceChannels: { [s: string]: any },
-  phoneServiceChannels: { [s: string]: any },
-  printableFormServiceChannels: { [s: string]: any },
-  webpageServiceChannels: { [s: string]: any },
-  serviceLocationServiceChannels: { [s: string]: any }
+  serviceChannelTypeMap: ServiceChannelTypeMap
 }
 
 /**
@@ -137,32 +91,17 @@ registerStore("kunta-api/data", {
   /**
    * Store reducer
    */
-  reducer: (storeState: StateStore = { services: {}, pageChannelIds: [], electronicServiceChannels: {}, phoneServiceChannels: {}, printableFormServiceChannels: {}, webpageServiceChannels: {}, serviceLocationServiceChannels: {} }, action: any) => {
+  reducer: (storeState: StateStore = { services: {}, pageChannelIds: [], serviceChannelTypeMap: { electronic: {}, phone: {}, printableForm: {}, webpage: {}, serviceLocation: {} } }, action: any) => {
     switch (action.type) {
       case "SET_SERVICE":
         const services = { ... storeState.services };
         services[action.serviceId] = action.service;
         return { ...storeState, services: services };
-      case "SET_ELECTRONIC_SERVICE_CHANNEL":
-        const electronicServiceChannels = { ... storeState.electronicServiceChannels };
-        electronicServiceChannels[action.channelId] = action.channel;
-        return { ...storeState, electronicServiceChannels: electronicServiceChannels };
-      case "SET_PHONE_SERVICE_CHANNEL":
-        const phoneServiceChannels = { ... storeState.phoneServiceChannels };
-        phoneServiceChannels[action.channelId] = action.channel;
-        return { ...storeState, phoneServiceChannels: phoneServiceChannels };
-      case "SET_PRINTABLE_FORM_SERVICE_CHANNEL":
-        const printableFormServiceChannels = { ... storeState.printableFormServiceChannels };
-        printableFormServiceChannels[action.channelId] = action.channel;
-        return { ...storeState, printableFormServiceChannels: printableFormServiceChannels };
-      case "SET_WEBPAGE_SERVICE_CHANNEL":
-        const webpageServiceChannels = { ... storeState.webpageServiceChannels };
-        webpageServiceChannels[action.channelId] = action.channel;
-        return { ...storeState, webpageServiceChannels: webpageServiceChannels };
-      case "SET_SERVICE_LOCATION_SERVICE_CHANNEL":
-        const serviceLocationServiceChannels = { ... storeState.serviceLocationServiceChannels };
-        serviceLocationServiceChannels[action.channelId] = action.channel;
-        return { ...storeState, serviceLocationServiceChannels: serviceLocationServiceChannels };
+      case "SET_SERVICE_CHANNEL":
+        const serviceChannelTypeMap: ServiceChannelTypeMap = { ... storeState.serviceChannelTypeMap };
+        const serviceChannelMap: ServiceChannelMap = (serviceChannelTypeMap as any)[action.channelType];
+        serviceChannelMap[action.channelId] = action.channel;
+        return { ...storeState, serviceChannelTypeMap: serviceChannelTypeMap };
       case "ADD_PAGE_CHANNEL":
         return { ...storeState, pageChannelIds: (storeState.pageChannelIds||[]).concat(action.pageChannelId)};
       case "REMOVE_PAGE_CHANNEL":
@@ -192,48 +131,8 @@ registerStore("kunta-api/data", {
      * @param storeState store state
      * @param serviceId service id
      */
-    getElectronicServiceChannel(storeState: any, channelId: string) {
-      return storeState.electronicServiceChannels[channelId];
-    },
-
-    /**
-     * Returns webpage service channel from store by id
-     * 
-     * @param storeState store state
-     * @param serviceId service id
-     */
-    getWebpageServiceChannel(storeState: any, channelId: string) {
-      return storeState.webPageServiceChannels[channelId];
-    },
-
-    /**
-     * Returns printable form service channel from store by id
-     * 
-     * @param storeState store state
-     * @param serviceId service id
-     */
-    getPrintableFormServiceChannel(storeState: any, channelId: string) {
-      return storeState.printableFormServiceChannels[channelId];
-    },
-
-    /**
-     * Returns phone service channel from store by id
-     * 
-     * @param storeState store state
-     * @param serviceId service id
-     */
-    getPhoneServiceChannel(storeState: any, channelId: string) {
-      return storeState.phoneServiceChannels[channelId];
-    },
-
-    /**
-     * Returns service location service channel from store by id
-     * 
-     * @param storeState store state
-     * @param serviceId service id
-     */
-    getServiceLocationServiceChannel(storeState: any, channelId: string) {
-      return storeState.serviceLocationServiceChannels[channelId];
+    getServiceChannel(storeState: any, channelType: string, channelId: string) {
+      return storeState.serviceChannelTypeMap[channelType][channelId];
     },
 
     /**
@@ -269,51 +168,12 @@ registerStore("kunta-api/data", {
     /**
      * Loads initial service channel into store from server
      * 
+     * @param channelType channel type
      * @param channelId channel id
      * @returns channel setter action
      */
-		async getElectronicServiceChannel(channelId: string) {
-      return actions.setElectronicServiceChannel(channelId, await Utils.findServiceChannel("electronic", channelId));
-    },
-
-    /**
-     * Loads initial service channel into store from server
-     * 
-     * @param channelId channel id
-     * @returns channel setter action
-     */
-		async getWebpageServiceChannel(channelId: string) {
-      return actions.setWebpageServiceChannel(channelId, await Utils.findServiceChannel("webpage", channelId));
-    },
-
-    /**
-     * Loads initial service channel into store from server
-     * 
-     * @param channelId channel id
-     * @returns channel setter action
-     */
-		async getPrintableFormServiceChannel(channelId: string) {
-      return actions.setPrintableFormServiceChannel(channelId, await Utils.findServiceChannel("printable_form", channelId));
-    },
-
-    /**
-     * Loads initial service channel into store from server
-     * 
-     * @param channelId channel id
-     * @returns channel setter action
-     */
-		async getPhoneServiceChannel(channelId: string) {
-      return actions.setPhoneServiceChannel(channelId, await Utils.findServiceChannel("phone", channelId));
-    },
-
-    /**
-     * Loads initial service channel into store from server
-     * 
-     * @param channelId channel id
-     * @returns channel setter action
-     */
-		async getServiceLocationServiceChannel(channelId: string) {
-      return actions.setServiceLocationServiceChannel(channelId, await Utils.findServiceChannel("service_location", channelId));
+		async getServiceChannel(channelType: string, channelId: string) {
+      return actions.setServiceChannel(channelType, channelId, await Utils.findServiceChannel(channelType, channelId));
     },
 
     /**
