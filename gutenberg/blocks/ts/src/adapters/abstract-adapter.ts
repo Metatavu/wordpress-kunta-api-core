@@ -1,7 +1,9 @@
+import Utils from "../utils";
+
 /**
  * Base class for form <> REST resource adapters
  */
-export default class AbstractAdapter {
+export default abstract class AbstractAdapter {
 
   /**
    * Constructor
@@ -15,6 +17,31 @@ export default class AbstractAdapter {
    */
   protected getSupportedLocales(): string[] {
     return ["fi", "sv", "en"];
+  }
+
+  /**
+   * Returns localized value
+   * 
+   * @param values array containing localized values
+   * @param locale Locale
+   * @param property property containing value. Defaults to 'value'
+   * @returns value
+   */
+  protected getLocalizedValue(values: any[], locale: string, property?: string) {
+    return Utils.getLocalizedValue(values, locale, property);
+  }
+
+  /**
+   * Returns list of values in specified locale
+   * 
+   * @param values values
+   * @param locale locale
+   * @returns list of values in specified locale
+   */
+  protected getLocalizedValues(values: any[], locale: string): any[] {
+    return (values || []).filter((value) => {
+      return value.value && value.language === locale;
+    });
   }
 
   /**

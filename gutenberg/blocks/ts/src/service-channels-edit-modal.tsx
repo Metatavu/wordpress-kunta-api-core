@@ -4,6 +4,7 @@ import { SearchModal } from './search-modal';
 import ServiceChannelIds from './service-channel-ids';
 import ServiceChannels from './service-channels';
 import { ElectronicServiceChannel, PhoneServiceChannel, PrintableFormServiceChannel, WebPageServiceChannel, ServiceLocationServiceChannel } from './kunta-api/models';
+import ServiceChannelEditModal from './service-channel-edit-modal';
 
 declare var wp: wp;
 const { withSelect } = wp.data;
@@ -28,7 +29,10 @@ interface Props {
 interface State {
   channelAddType: string,
   channelAddOpen: boolean,
-  channels: ServiceChannels
+  channels: ServiceChannels,
+  channelEditOpen: boolean,
+  channelEditType: string,
+  channelEditId: string
 }
 
 const channelTypes: { [key: string]: { title: string, emptyMessage: string, searchAction: string }  } = {
@@ -75,7 +79,10 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
     this.state = {
       channelAddOpen: false,
       channelAddType: null,
-      channels: props.channels
+      channels: props.channels,
+      channelEditOpen: false,
+      channelEditType: null,
+      channelEditId: null
     };
   }
 
@@ -112,6 +119,16 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
           getDisplayName={ this.getChannelDisplayName }
           onSelect={ (channel) => { this.onAddChannelSelect(channel); } }
           onClose={ () => this.setState( { channelAddOpen: false } )}/>
+      );
+    }
+
+    if (this.state.channelEditOpen) {
+      return (
+        <ServiceChannelEditModal
+          channelId={ this.state.channelEditId }
+          channelType={ this.state.channelEditType }
+          open={ this.state.channelEditOpen }
+          onClose={ () => this.setState( { channelEditOpen: false } )}/>
       );
     }
 
@@ -167,6 +184,7 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
                 { this.getChannelDisplayName(channel) } 
               </div>
               <div style={{ float: "right" }}> 
+                <wp.components.Button className="button" onClick={ () => { this.onEditChannelClick(channelType, channel) } }>{ __("Edit", "kunta_api_core") }</wp.components.Button>
                 <wp.components.Button className="button" onClick={ () => { this.onRemoveChannelClick(channelType, channel) } }>{ __("Remove", "kunta_api_core") }</wp.components.Button>
               </div>
             </wp.components.PanelRow>
@@ -245,6 +263,20 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
 
     this.setState({
       channels: channels
+    });
+  }
+
+  /**
+   * Event handler for edit channel click
+   * 
+   * @param channelType channel type
+   * @param channel channel
+   */
+  private onEditChannelClick(channelType: string, channel: ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel) {
+    this.setState({
+      channelEditId: channel.id,
+      channelEditType: channelType,
+      channelEditOpen: true
     });
   }
 

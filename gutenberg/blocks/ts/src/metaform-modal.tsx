@@ -72,7 +72,7 @@ export default class MetaformModal extends React.Component<Props, State> {
    */
   private renderContent() {
     if (!this.props.values) {
-      return (<wp.components.Spinner />);
+      return (<wp.components.Placeholder style={{ height: "300px" }}><wp.components.Spinner /></wp.components.Placeholder>);
     }
 
     if (this.props.saveError) {

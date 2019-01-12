@@ -97,7 +97,7 @@ export default class Metaform extends React.Component<Props, State> {
    */
   public render() {
     if (!this.state.json || !this.props.values) {
-      return (<wp.components.Spinner />);
+      return (<wp.components.Placeholder style={{ height: "300px" }}><wp.components.Spinner /></wp.components.Placeholder>);
     }
 
     return (

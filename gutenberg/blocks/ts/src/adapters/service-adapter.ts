@@ -149,7 +149,7 @@ export default class ServiceAdapter extends AbstractAdapter {
     const deadLineAdditionalInfo = this.getTypedLocalizedValue(service.descriptions, locale, 'DeadLine');
     const processingTimeAdditionalInfo = this.getTypedLocalizedValue(service.descriptions, locale, 'ProcessingTime');
     const validityTimeAdditionalInfo = this.getTypedLocalizedValue(service.descriptions, locale, 'ValidityTime');
-    const requirements = Utils.getLocalizedValue(service.requirements, locale);
+    const requirements = this.getLocalizedValue(service.requirements, locale);
     const vouchers = (service.vouchers || []).filter((voucher: any) => {
       return voucher.value && voucher.language === locale;
     });
@@ -157,8 +157,8 @@ export default class ServiceAdapter extends AbstractAdapter {
     const legislation = (service.legislation || [])
       .map((legistation: any) => {
         return {
-          name: Utils.getLocalizedValue(legistation.names, locale),
-          webPage: Utils.getLocalizedValue(legistation.webPages, locale, 'url')
+          name: this.getLocalizedValue(legistation.names, locale),
+          webPage: this.getLocalizedValue(legistation.webPages, locale, 'url')
         };
       })
       .filter((legistation: any) => {
