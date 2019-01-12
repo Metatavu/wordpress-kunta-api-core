@@ -1,10 +1,10 @@
 import { wp } from 'wp';
 import AbstractAdapter from "./abstract-adapter";
 import Utils from "../utils";
-import ServiceChannelIds from 'src/service-channel-ids';
+import ServiceChannelIds from '../service-channel-ids';
+import { Service, ServiceOrganization, Area, Municipality } from '../kunta-api/models';
 
 declare var wp: wp;
-declare var ajaxurl: string;
 
 /**
  * Adapter for transforming service data between form and REST forms
@@ -26,8 +26,8 @@ export default class ServiceAdapter extends AbstractAdapter {
    * @param channelIds service channel ids
    * @param service service
    */
-  applyToService(formValues: any, additionalValues: any, channelIds: ServiceChannelIds, service: any) {
-    const result = JSON.parse(JSON.stringify(service));
+  applyToService(formValues: any, additionalValues: any, channelIds: ServiceChannelIds, service: Service) {
+    const result: Service = JSON.parse(JSON.stringify(service));
 
     result.names = [];
     result.descriptions = [];
@@ -136,7 +136,7 @@ export default class ServiceAdapter extends AbstractAdapter {
    * @param service service service
    * @returns service form data
    */ 
-  public serviceToForm(locale: string, service: any): any {
+  public serviceToForm(locale: string, service: Service): any {
     const type = service.type;
     const chargeType = service.chargeType;
     const fundingType = service.fundingType;
@@ -191,7 +191,7 @@ export default class ServiceAdapter extends AbstractAdapter {
    * @param service service service
    * @returns service additional form data
    */ 
-  public serviceAdditinalToForm(service: any): any {
+  public serviceAdditinalToForm(service: Service): any {
     const result = {
       languages: (service.languages || []).join(","),
       areas: this.getAreaIds(service.areas || []).join(","),
@@ -212,14 +212,14 @@ export default class ServiceAdapter extends AbstractAdapter {
    * @param service service
    * @param provisionType provision type
    */
-  private getServiceProducerOrganizationIds(service: any, provisionType: string) {
-    const serviceOrganizations = service.organizations || [];
+  private getServiceProducerOrganizationIds(service: Service, provisionType: string) {
+    const serviceOrganizations: ServiceOrganization[] = service.organizations || [];
 
     return serviceOrganizations
-      .filter((serviceOrganization: any) => {
+      .filter((serviceOrganization: ServiceOrganization) => {
         return serviceOrganization.organizationId && serviceOrganization.roleType === "Producer" && serviceOrganization.provisionType === provisionType;
       })
-      .map((serviceOrganization: any) => {
+      .map((serviceOrganization: ServiceOrganization) => {
         return serviceOrganization.organizationId;
       });
 
@@ -232,7 +232,7 @@ export default class ServiceAdapter extends AbstractAdapter {
    * @param areas array of area values
    * @returns result
    */
-  private areasFromForm(areaType: string, areas: string): any[] {
+  private areasFromForm(areaType: string, areas: string): Area[] {
     if (areaType === 'LimitedType') {
       let mucicipalitiesIndex = -1;
       const result: any[] = [];
@@ -273,14 +273,14 @@ export default class ServiceAdapter extends AbstractAdapter {
    * @param areas areas
    * @returns area items
    */
-  private getAreaIds(areas: any[]): any[] {
-    const areaCodes: any = [];
+  private getAreaIds(areas: Area[]): string[] {
+    const areaCodes: string[] = [];
 
-    areas.forEach((area) => {
+    areas.forEach((area: Area) => {
       if (area.type !== 'Municipality') {
         areaCodes.push(`${area.type}:${area.code}`);
       } else {
-        area.municipalities.forEach((municipality: any) => {
+        area.municipalities.forEach((municipality: Municipality) => {
           areaCodes.push(`Municipality:${municipality.code}`);
         });
       }

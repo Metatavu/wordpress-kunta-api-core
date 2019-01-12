@@ -3,6 +3,7 @@ import { wp } from 'wp';
 import { SearchModal } from './search-modal';
 import ServiceChannelIds from './service-channel-ids';
 import ServiceChannels from './service-channels';
+import { ElectronicServiceChannel, PhoneServiceChannel, PrintableFormServiceChannel, WebPageServiceChannel, ServiceLocationServiceChannel } from './kunta-api/models';
 
 declare var wp: wp;
 const { withSelect } = wp.data;
@@ -158,8 +159,8 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
 
     return (
       channels
-        .filter((channel: any) => channel)
-        .map((channel: any) => {
+        .filter((channel: ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel) => channel)
+        .map((channel: ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel) => {
           return ( 
             <wp.components.PanelRow>
               <div> 
@@ -188,7 +189,7 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
    * 
    * @param channel channel
    */
-  private onAddChannelSelect(channel: any) {
+  private onAddChannelSelect(channel: ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel) {
     const channels: ServiceChannels = this.state.channels;
 
     switch (this.state.channelAddType) {
@@ -221,7 +222,7 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
    * @param channelType channel type
    * @param channel channel
    */
-  private onRemoveChannelClick(channelType: string, channel: any) {
+  private onRemoveChannelClick(channelType: string, channel: ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel) {
     const channels: ServiceChannels = this.state.channels;
 
     switch (channelType) {
@@ -253,7 +254,7 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
    * @param channel channel
    * @return display name
    */
-  private getChannelDisplayName(channel: any): string {
+  private getChannelDisplayName(channel: ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel): string {
     const names = channel.names || [];
     names.sort((a: any, b: any) => {
       return a.language === 'fi' ? -1 : 1;
