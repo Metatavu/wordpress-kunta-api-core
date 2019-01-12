@@ -58,7 +58,8 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
         onValuesChange={ (locale, values) => { this.updateValues(values) } }
         form="service/additionaldetails" 
         values={ this.getValues() } 
-        title={ __(`Service details`, "kunta_api_core") } 
+        title={ __(`Service details`, "kunta_api_core") }
+        saveButtonText={ __("Apply", "kunta_api_core") } 
         open={ this.props.open } 
         onSave={ () => { this.props.applyValues(this.state.values) } }
         onClose={ () => { this.props.onClose(); } }

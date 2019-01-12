@@ -14,6 +14,7 @@ interface Props {
   form: string,
   values: any,
   title: string,
+  saveButtonText: string,
   locales?: string[],
   locale?: string,
   saving?: boolean,
@@ -91,7 +92,7 @@ export default class MetaformModal extends React.Component<Props, State> {
         { !this.props.locales ? null : <div style={{ whiteSpace: "nowrap", position: "absolute", top: "0px", paddingTop: "10px", paddingBottom: "5px", width: "150px", right: "0px", height: "25px", background: "#fff", textAlign: "right", zIndex: 1 }}>{ this.renderLocales() }</div> }
         <Metaform title={ this.props.title } form={ this.props.form } values={ this.props.values } onValuesChange={ (values: any) => this.props.onValuesChange(this.props.locale, values ) } afterFormRender={ this.props.afterFormRender }/>
         <div style={{ position: "absolute", bottom: "0px", left: "0px", right: "0px", height: "25px", paddingTop: "5px", background: "#fff", zIndex: 1 }}>
-          <button onClick={ () => { this.props.onSave(); }}> { __("Save", "kunta_api_core") } </button>
+          <button onClick={ () => { this.props.onSave(); }}> { this.props.saveButtonText } </button>
           <button style={{ marginLeft: "3px" }} onClick={ () => { this.props.onClose(); }}> { __("Cancel", "kunta_api_core") } </button>
         </div>
       </div>

@@ -144,6 +144,7 @@ class ServiceEditModal extends React.Component<Props, State> {
       <MetaformModal
         locales={ locales }
         locale={ this.state.locale }
+        saveButtonText={ __("Save", "kunta_api_core") } 
         onLocaleChange={ (locale) => { this.changeLocale(locale) } }
         onValuesChange={ (locale, values) => { this.updateValues(locale, values) } }
         form="service/service" 

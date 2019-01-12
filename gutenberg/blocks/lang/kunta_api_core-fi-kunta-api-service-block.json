@@ -17,6 +17,10 @@
         "Vaihda palvelua"
       ],
 
+      "Edit service": [
+        "Muokkaa palvelua"
+      ],
+
       "Current service:": [
         "Valittu palvelu:"
       ],
@@ -139,6 +143,18 @@
       
       "servicelocationservicechannel.webpages": [
         "Verkkosivut"
+      ],
+
+      "Save": [
+        "Tallenna"
+      ],
+
+      "Apply": [
+        "Käytä"
+      ],
+
+      "Cancel": [
+        "Peruuta"
       ]
       
     }
