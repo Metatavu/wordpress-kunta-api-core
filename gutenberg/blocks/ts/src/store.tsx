@@ -1,5 +1,6 @@
 import { wp } from 'wp';
 import Utils from './utils';
+import { ElectronicServiceChannel, PhoneServiceChannel, PrintableFormServiceChannel, WebPageServiceChannel, ServiceLocationServiceChannel } from './kunta-api/models';
 
 declare var wp: wp;
 const { registerStore } = wp.data;
@@ -31,7 +32,7 @@ const actions = {
    * @param channelId channel id
    * @param channel channel
    */
-  setServiceChannel(channelType: string, channelId: string, channel: any) {
+  setServiceChannel(channelType: string, channelId: string, channel: ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel) {
     return {
       type: 'SET_SERVICE_CHANNEL',
       channelType,

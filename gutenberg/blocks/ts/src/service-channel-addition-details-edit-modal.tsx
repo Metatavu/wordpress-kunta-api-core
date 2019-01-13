@@ -5,7 +5,6 @@ import Metaform from './metaform';
 import Utils from './utils';
 
 declare var wp: wp;
-declare var ajaxurl: string;
 declare var jQuery: any;
 const { withSelect } = wp.data;
 const { __ } = wp.i18n;
@@ -14,7 +13,8 @@ const { __ } = wp.i18n;
  * Interface describing component props
  */
 interface Props {
-  serviceId: string,
+  channelId: string,
+  channelType: string,
   open: boolean,
   values: any,
   applyValues: (values: any) => void,
@@ -29,9 +29,9 @@ interface State {
 }
 
 /**
- * Service edit modal component
+ * Service channel edit modal component
  */
-class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
+class ServiceChannelAdditionDetailsEditModal extends React.Component<Props, State> {
 
   /**
    * Constructor
@@ -56,9 +56,9 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
     return (
       <MetaformModal
         onValuesChange={ (locale, values) => { this.updateValues(values) } }
-        form="service/additionaldetails" 
+        form={ `servicechannel/${this.getForm()}` } 
         values={ this.getValues() } 
-        title={ __(`Service details`, "kunta_api_core") }
+        title={ __(`Channel details`, "kunta_api_core") }
         saveButtonText={ __("Apply", "kunta_api_core") } 
         open={ this.props.open } 
         onSave={ () => { this.props.applyValues(this.state.values) } }
@@ -68,15 +68,35 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
   }
 
   /**
+   * Returns form for this channel type
+   * 
+   * @return form for this channel type
+   */
+  private getForm(): string {
+    switch (this.props.channelType) {
+      case "electronic":
+        return "electronic-additionaldetails";
+      case "phone":
+        return "phone-additionaldetails";
+      case "printableForm":
+        return "printable-form-additionaldetails";
+      case "webpage":
+        return "webpage-additionaldetails";
+      case "serviceLocation":
+        return "service-location-additionaldetails"; 
+    }
+
+    return this.props.channelType;
+  }
+
+  /**
    * Event run after the form is rendered
    * 
    * @param $metaform metaform
    */
   private async afterFormRender(metaform: Metaform, $metaform: any) {
-    this.createLanguagesAutocomplete($metaform.find('*[data-name="languages"]'), (this.state.values.languages || '').split(","));
     this.createAreasAutocomplete($metaform.find('*[data-name="areas"]'), (this.state.values.areas || '').split(","));
-    this.createServiceProducersAutocomplete(metaform, $metaform.find('*[data-name="serviceProducersPurchaseServices"]'), (this.state.values.serviceProducersPurchaseServices || '').split(",").filter((value:string) => !!value));
-    this.createServiceProducersAutocomplete(metaform, $metaform.find('*[data-name="serviceProducersOthers"]'), (this.state.values.serviceProducersOthers || '').split(",").filter((value:string) => !!value));
+    this.createLanguagesAutocomplete($metaform.find('*[data-name="languages"]'), (this.state.values.languages || '').split(","));
   }
 
   /**
@@ -160,53 +180,6 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
   }
 
   /**
-   * Creates autocomplete field for selecting service producers 
-   * 
-   * @param element autocomplete element
-   * @param organizationItems organizationItem to be loaded
-   */
-  private async createServiceProducersAutocomplete(metaform: Metaform, element: any, organizationIds: any[]) {
-    element.val('');
-
-    const values = await Promise.all(organizationIds.map(async (organizationId: string) => {
-      const organization = await Utils.findOrganization(organizationId);
-      return {
-        value: organization.id,
-        label: Utils.getLocalizedValue(organization.names, 'fi')
-      };
-    }));
-
-    element
-      .autocomplete("option", "open", () => {
-        jQuery('.ui-autocomplete').css('z-index', 999999);
-      })
-      .metaformMultivalueAutocomplete('val', values, false) 
-      .metaformMultivalueAutocomplete("option", 'onchange', () => {
-        metaform.triggerChange();
-      })
-      .metaformMultivalueAutocomplete('option', 'customSource', (input: any, callback: any) => {
-        const search = Utils.splitSearchTerms(input.term);
-        if (!search) {
-          callback([]);
-          return;
-        }
-        
-        Utils.searchOrganizations(search).then((organizations) => {
-          callback(organizations.map((organization: any) => {
-            return {
-              value: organization.id,
-              label: Utils.getLocalizedValue(organization.names, 'fi')
-            };
-          }));
-        })
-        .catch((err: any) => {
-          // TODO: Proper error handling
-          alert(err);
-        });
-      });
-  }
-
-  /**
    * Updates form values for locale
    * 
    * @param locale locale
@@ -228,10 +201,11 @@ class ServiceAdditionDetailsEditModal extends React.Component<Props, State> {
 }
 
 export default withSelect((select: any, ownProps: any) => {
-  const { getService } = select("kunta-api/data");
-  const { serviceId } = ownProps;
+  const { getServiceChannel } = select("kunta-api/data");
+  const { channelType, channelId } = ownProps;
+  const channel = getServiceChannel(channelType, channelId);
   
   return {
-		service: serviceId ? getService(serviceId) : {}
+		channel: channel || {}
 	};
-})(ServiceAdditionDetailsEditModal);
+})(ServiceChannelAdditionDetailsEditModal);

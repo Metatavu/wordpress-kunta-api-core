@@ -27,24 +27,8 @@
     "fields": [{
       "title": "Verkko-osoite",
       "type": "text",
-      "name": "url",
+      "name": "webPage",
       "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://."
-    }, {  
-      "title": "Verkkoasiointi vaatii sähköisen tunnistautumisen",
-      "name": "requiresAuthentication",
-      "type": "boolean"
-    }, {  
-      "title": "Verkkoasiointi vaatii sähköisen allekirjoituksen",
-      "name": "requiresSignature",
-      "type": "boolean"
-    }, { 
-      "visible-if": {
-        "field": "requiresSignature",
-        "equals": true
-      },  
-      "title": "Allekirjoitusten lukumäärä?",
-      "name": "signatureQuantity",
-      "type": "number"
     }, {
       "name": "supportPhones",
       "type": "table",
@@ -79,10 +63,10 @@
         "type": "enum",
         "name": "serviceChargeType",
         "values": [{
-          "value": "Charged",
+          "value": "Chargeable",
           "text": "Maksullinen"
         }, {
-          "value": "Free",
+          "value": "FreeOfCharge",
           "text": "Maksuton"
         }, {
           "value": "Other",

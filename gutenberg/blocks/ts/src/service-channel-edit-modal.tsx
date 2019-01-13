@@ -5,6 +5,7 @@ import Metaform from './metaform';
 import { ElectronicServiceChannel, PhoneServiceChannel, PrintableFormServiceChannel, WebPageServiceChannel, ServiceLocationServiceChannel } from './kunta-api/models';
 import AbstractServiceChannelAdapter from './adapters/abstract-service-channel-adapter';
 import ElectronicServiceChannelAdapter from './adapters/electronic-service-channel-adapter';
+import ServiceChannelAdditionDetailsEditModal from './service-channel-addition-details-edit-modal';
 
 declare var wp: wp;
 declare var ajaxurl: string;
@@ -62,7 +63,7 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
       saveError: null,
       additionalDetailsOpen: false,
       values: values,
-      additionalValues: {}
+      additionalValues: props.channel ? this.getAdapter().additionalToForm(props.channel) : {}
     };
   }
 
@@ -80,11 +81,9 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
         values[locale] = this.getAdapter().channelToForm(locale, this.props.channel)
       });
 
-      const additionalValues: any = {};
-
       this.setState({ 
         values: values,
-        additionalValues: additionalValues
+        additionalValues: this.props.channel ? this.getAdapter().additionalToForm(this.props.channel) : {}
       });
     }
   }
@@ -99,16 +98,15 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
 
     if (this.state.additionalDetailsOpen) {
       return (
-        <div>TODO</div>
-        /**
-        <ServiceAdditionDetailsEditModal 
-          serviceId={ this.props.serviceId } 
+        <ServiceChannelAdditionDetailsEditModal 
+          channelId = { this.props.channelId }
+          channelType = {this.props.channelType }
           open = { this.state.additionalDetailsOpen } 
           values={ this.state.additionalValues } 
           applyValues={ (additionalValues: any) => { this.applyAdditionalValues(additionalValues); } } 
           onClose={ () => { 
             this.setState({additionalDetailsOpen: false }); 
-          } }/> */
+          } }/>
       );
     }
 
@@ -148,11 +146,10 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
    * Applies additional values into state and closes adiitional details dialog
    */
   private applyAdditionalValues(additionalValues: any) {
-    /**
     this.setState({ 
       additionalValues: additionalValues,
       additionalDetailsOpen: false,
-    }); */
+    });
   }
 
   /**
@@ -175,6 +172,28 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
     }
 
     return this.props.channelType;
+  }
+
+  /**
+   * Returns save action channel type
+   * 
+   * @return save action this channel type
+   */
+  private getSaveAction(): string {
+    switch (this.props.channelType) {
+      case "electronic":
+        return "kunta_api_save_electronic_service_channel";
+      case "phone":
+        return "kunta_api_save_phone_service_channel";
+      case "printableForm":
+        return "kunta_api_save_printable_form_service_channel";
+      case "webpage":
+        return "kunta_api_save_webpage_service_channel";
+      case "serviceLocation":
+        return "kunta_api_save_service_location_service_channel"; 
+    }
+
+    return null;
   }
 
   /**
@@ -229,24 +248,24 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
   }
 
   /**
-   * Saves the service
+   * Saves the service channel
    */
   private saveServiceChannel() {
-    /**
     const apiFetch = wp.apiFetch;
     this.setState({ 
       saving: true
     });
 
-    const serviceAdapter = new ServiceAdapter();
-    const serviceData = serviceAdapter.applyToService(this.state.values, this.state.additionalValues, this.state.channelIds, this.props.service);    
+    const adapter: AbstractServiceChannelAdapter<ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel> = this.getAdapter();
+    const data = adapter.applyToChannel(this.state.values, this.state.additionalValues, this.props.channel);
+
     const body = new URLSearchParams();
-    body.append("action", "kunta_api_save_service");
-    body.append("service", JSON.stringify(serviceData));
+    body.append("action", this.getSaveAction());
+    body.append("serviceChannel", JSON.stringify(data));
 
     apiFetch({ url: ajaxurl, method: "POST", body: body })
-      .then((updatedService: any) => {
-        wp.data.dispatch("kunta-api/data").setService(this.props.serviceId, updatedService);
+      .then((updatedChannel: ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel) => {
+        wp.data.dispatch("kunta-api/data").setServiceChannel(this.props.channelType, this.props.channelId, updatedChannel);
 
         this.setState({
           saving: false,
@@ -260,7 +279,7 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
           saving: false,
           saveError: JSON.stringify(err)
         });
-      }); */
+      });
   }
 
 }

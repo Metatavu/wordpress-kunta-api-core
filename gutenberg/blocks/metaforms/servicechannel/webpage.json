@@ -63,10 +63,10 @@
         "type": "enum",
         "name": "serviceChargeType",
         "values": [{
-          "value": "Charged",
+          "value": "Chargeable",
           "text": "Maksullinen"
         }, {
-          "value": "Free",
+          "value": "FreeOfCharge",
           "text": "Maksuton"
         }, {
           "value": "Other",

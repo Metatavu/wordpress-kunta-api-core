@@ -131,6 +131,39 @@ export default class Utils {
     return null;
   }
 
+  /**
+   * Translates language list to be suitable for form
+   * 
+   * @param languages language codes
+   * @returns Promise for language items
+   */
+
+  public static async loadLanguageCodes(languages: string[]): Promise<any> {
+    const languageQuery = languages
+      .filter((language) => !!language)
+      .map((language) => {
+        return `code:${language}`;
+      }).join(' ');
+
+    if (!languageQuery) {
+      return [];
+    }
+
+    const languageQueryResult = await Utils.searchCodes("Language", `+(${languageQuery})`);
+    
+    const languageMap: any = {};
+    languageQueryResult.forEach((queryResult: any) => {
+      languageMap[queryResult.code] = Utils.getLocalizedValue(queryResult.names, 'fi');
+    });
+    
+    return languages.map((language) => {
+      return {
+        value: language,
+        label: languageMap[language] || language
+      };
+    });
+  }
+
  /**
   * Translates language list to be suitable for form
   * 

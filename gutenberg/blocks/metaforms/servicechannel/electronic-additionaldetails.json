@@ -2,7 +2,23 @@
   "title": "Lisätiedot",
   "sections": [{
     "title": "Lisätiedot",
-    "fields": [{
+    "fields": [{  
+      "title": "Verkkoasiointi vaatii sähköisen tunnistautumisen",
+      "name": "requiresAuthentication",
+      "type": "boolean"
+    }, {  
+      "title": "Verkkoasiointi vaatii sähköisen allekirjoituksen",
+      "name": "requiresSignature",
+      "type": "boolean"
+    }, { 
+      "visible-if": {
+        "field": "requiresSignature",
+        "equals": true
+      },  
+      "title": "Allekirjoitusten lukumäärä?",
+      "name": "signatureQuantity",
+      "type": "number"
+    }, {
       "title": "Alue, jolla palvelupaikka palvelee",
       "name": "areaType",
       "type": "radio",
