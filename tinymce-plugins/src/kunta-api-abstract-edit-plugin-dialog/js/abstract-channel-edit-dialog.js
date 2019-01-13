@@ -194,11 +194,11 @@
     serviceHourFromForm(formValues) {
       const serviceHourType = formValues.type;
       switch (serviceHourType) {
-        case "Exception":
+        case "Exceptional":
           return this.serviceHourFromFormException(formValues);
-        case "Standard":
+        case "DaysOfTheWeek":
           return this.serviceHourFromFormStandard(formValues);
-        case "Special":
+        case "OverMidnight":
           return this.serviceHourFromFormSpecial(formValues);
       }
     }
@@ -229,7 +229,7 @@
       });
       
       switch (type) {
-        case 'Standard':
+        case 'DaysOfTheWeek':
           return {
             'type': type,
             'Standard-validForNow': validForNow,
@@ -238,7 +238,7 @@
             'Standard-open24h': open24h,
             'Standard-openinghours': openingHours
           };
-        case 'Special':
+        case 'OverMidnight':
           return {
             'type': type,
             'Special-validForNow': validForNow,
@@ -249,7 +249,7 @@
             'Special-to-date': openingHour ? openingHour.dayTo : null,
             'Special-to-time': openingHour ? openingHour.to : null
           };
-        case 'Exception':
+        case 'Exceptional':
           const openFrom = openingHour ? openingHour.from : null;
           const openTo = openingHour ? openingHour.to : null;
           const exceptionType = !validTo ? !openFrom && !openTo ? 'closed-all-day' : 'single' : 'range';
@@ -311,7 +311,7 @@
         
         const updatedChannel = this.serviceChannelFromForm(this.serviceChannel, newFormValues);
         const validationError = this.validate(updatedChannel);
-        
+
         if (validationError !== null) {
           this.showError('Virheellinen syöte', validationError);
         } else {

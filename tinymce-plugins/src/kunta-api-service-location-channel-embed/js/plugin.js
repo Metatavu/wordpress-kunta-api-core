@@ -261,7 +261,7 @@
    
     serviceChannelToForm(locale) {
       const name = this.getTypedLocalizedValue(this.serviceChannel.names, locale, 'Name');
-      const shortDescription = this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'ShortDescription');
+      const shortDescription = this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'Summary');
       const description = this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'Description');
       const visitAddresses = this.serviceChannel.addresses.filter((address) => {
         return address.subtype !== 'Abroad';

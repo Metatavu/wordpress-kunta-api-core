@@ -25,7 +25,7 @@
     serviceChannelToForm(locale) {
       return {
         name: this.getTypedLocalizedValue(this.serviceChannel.names, locale, 'Name'),
-        shortDescription: this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'ShortDescription'),
+        shortDescription: this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'Summary'),
         description: this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'Description'),
         supportPhones: this.getLocalizedPhoneNumbers(this.serviceChannel.supportPhones, locale),
         supportEmails: this.getLocalizedEmails(this.serviceChannel.supportEmails, locale),
@@ -82,7 +82,7 @@
         result.publishingStatus = localeValues.publishingStatus || result.publishingStatus;
         
         this.setTypedLocalizedValue(result, 'names', localeValues, 'name', locale, 'Name');
-        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'shortDescription', locale, 'ShortDescription');
+        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'shortDescription', locale, 'Summary');
         this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'description', locale, 'Description');
 
         this.setLocalizedTableValues(result, 'supportPhones', localeValues, 'supportPhones', locale, (supportPhone) => {

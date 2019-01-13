@@ -27,7 +27,7 @@
     "fields": [{
       "title": "Verkko-osoite",
       "type": "text",
-      "name": "url",
+      "name": "webPage",
       "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://."
     }, {  
       "title": "Verkkoasiointi vaatii sähköisen tunnistautumisen",
@@ -79,10 +79,10 @@
         "type": "enum",
         "name": "serviceChargeType",
         "values": [{
-          "value": "Charged",
+          "value": "Chargeable",
           "text": "Maksullinen"
         }, {
-          "value": "Free",
+          "value": "FreeOfCharge",
           "text": "Maksuton"
         }, {
           "value": "Other",

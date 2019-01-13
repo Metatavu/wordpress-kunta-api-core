@@ -19,9 +19,9 @@
       };
       
       this.serviceHourTypeNames = {
-        'Special': 'Päivystys',
-        'Standard': 'Normaali',
-        'Exception': 'Poikkeus'
+        'OverMidnight': 'Päivystys',
+        'DaysOfTheWeek': 'Normaali',
+        'Exceptional': 'Poikkeus'
       };
       
       this.dayNames = {
@@ -58,7 +58,7 @@
     formatServiceHour(serviceHour) {
       const type = this.getServiceHourTypeName(serviceHour.serviceHourType);
       
-      if (serviceHour.serviceHourType === 'Exception') {
+      if (serviceHour.serviceHourType === 'Exceptional') {
         let result = `(${type})`;
         
         if (serviceHour.isClosed) {
@@ -634,6 +634,70 @@
         return webPage.url && webPage.language === locale;
       });
     }
+
+    /**
+     * Returns web page url by locale
+     * 
+     * @param {Array} webPages web pages
+     * @param {String} locale locale
+     * @return {String} web page url or null if not found
+     */
+    getLocalizedWebPageUrl(webPages, locale) {
+      const localeWebPages = this.getLocalizedWebPages(webPages, locale);
+      if (localeWebPages && localeWebPages.length) {
+        return localeWebPages[0].url;
+      }
+
+      return null;
+    }
+
+    /**
+     * Sets localized value (e.g. service requirements) value
+     * 
+     * @param result result object
+     * @param resultProperty result object property
+     * @param localeValues locale values from form
+     * @param formProperty form property
+     * @param language locale
+     */
+    setLocalizedWebPages(result, resultProperty, localeValues, formProperty, language) {
+      this.setLocalizedPropertyValue(result, resultProperty, "url", localeValues, formProperty, language);
+    }
+
+    /**
+     * Sets localized property value
+     * 
+     * @param result result object
+     * @param resultProperty result object property
+     * @param resultField value field in result item
+     * @param localeValues locale values from form
+     * @param formProperty form property
+     * @param language locale
+     */
+    setLocalizedPropertyValue(result, resultProperty, resultField, localeValues, formProperty, language) {
+      if (!result[resultProperty]) {
+        result[resultProperty] = [];
+      }
+      
+      const value = localeValues[formProperty];
+      if (!value) {
+        return;
+      }
+      
+      for (let i = 0; i < result[resultProperty].length; i++) {
+        if (result[resultProperty][i].language === language) {
+          result[resultProperty][i].value = value;
+          return;
+        }
+      }
+
+      const resultItem = {
+        language: language
+      };
+
+      resultItem[resultField] = value;
+      result[resultProperty].push(resultItem);
+    }
     
     /**
      * Converts boolean from form into boolean
@@ -662,26 +726,7 @@
      * @param {type} language locale
      */
     setLocalizedValue(result, resultProperty, localeValues, formProperty, language) {
-      if (!result[resultProperty]) {
-        result[resultProperty] = [];
-      }
-      
-      const value = localeValues[formProperty];
-      if (!value) {
-        return;
-      }
-      
-      for (let i = 0; i < result[resultProperty].length; i++) {
-        if (result[resultProperty][i].language === language) {
-          result[resultProperty][i].value = value;
-          return;
-        }
-      }
-      
-      result[resultProperty].push({
-        value: value,
-        language: language
-      });
+      this.setLocalizedPropertyValue(result, resultProperty, "value", localeValues, formProperty, language);
     }
     
     /**
