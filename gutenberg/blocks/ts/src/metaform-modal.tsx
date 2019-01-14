@@ -31,6 +31,7 @@ interface Props {
  * Interface describing component state
  */
 interface State {
+  formValid: boolean
 }
 
 /**
@@ -45,7 +46,9 @@ export default class MetaformModal extends React.Component<Props, State> {
    */
   constructor(props: Props) {
     super(props);
-    this.state = { };
+    this.state = { 
+      formValid: false
+    };
   }
 
   /**
@@ -95,11 +98,13 @@ export default class MetaformModal extends React.Component<Props, State> {
           title={ this.props.title } 
           form={ this.props.form } 
           values={ this.props.values } 
+          valid={this.state.formValid }
+          onValidityChage={ (valid: boolean) => { this.onValidityChage(valid); } }
           onValuesChange={ (values: any) => { this.onValuesChange(values) } } 
           afterFormRender={ this.props.afterFormRender }/>
 
         <div style={{ position: "absolute", bottom: "0px", left: "0px", right: "0px", height: "25px", paddingTop: "5px", background: "#fff", zIndex: 1 }}>
-          <button onClick={ () => { this.props.onSave(); }}> { this.props.saveButtonText } </button>
+          <button disabled={ !this.state.formValid } onClick={ () => { this.props.onSave(); }}> { this.props.saveButtonText } </button>
           <button style={{ marginLeft: "3px" }} onClick={ () => { this.props.onClose(); }}> { __("Cancel", "kunta_api_core") } </button>
         </div>
       </div>
@@ -115,6 +120,17 @@ export default class MetaformModal extends React.Component<Props, State> {
     return this.props.locales.map((locale) => {
       return <button style={{ marginLeft: "3px" }} onClick={ () => { this.props.onLocaleChange(locale) }}> { locale } </button>
     })
+  }
+
+  /**
+   * Event handler for form validity change
+   * 
+   * @param valid is form valid
+   */
+  private onValidityChage(valid: boolean) {
+    this.setState({
+      formValid: valid
+    });
   }
 
   /**

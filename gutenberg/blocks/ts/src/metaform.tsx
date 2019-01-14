@@ -15,6 +15,8 @@ interface Props {
   form: string,
   values: any,
   title: string,
+  valid: boolean,
+  onValidityChage: (valid: boolean) => void,
   onValuesChange: (values: any) => void,
   afterFormRender: (metaform: Metaform, $metaform: any) => void
 }
@@ -46,7 +48,6 @@ export default class Metaform extends React.Component<Props, State> {
     this.state = {
       json: null
     };
-
   }
   
   /**
@@ -67,7 +68,10 @@ export default class Metaform extends React.Component<Props, State> {
    * @param prevState previous state
    */
   public async componentDidUpdate(prevProps: Props, prevState: State) {
-    if ((JSON.stringify(this.state.json) !== JSON.stringify(prevState.json)) || (this.props.values !== prevProps.values)) {
+    const formChanged = JSON.stringify(this.state.json) !== JSON.stringify(prevState.json);
+    const valueChanged = this.props.values !== prevProps.values;
+
+    if (formChanged || valueChanged) {
       this.destroyForm();
 
       this.$metaform = jQuery(this.refs.el).find('form.metaform')
@@ -81,6 +85,8 @@ export default class Metaform extends React.Component<Props, State> {
         await this.props.afterFormRender(this, this.$metaform);
       }
     }
+
+    this.checkValidity();
   }
 
   /**
@@ -105,6 +111,26 @@ export default class Metaform extends React.Component<Props, State> {
         <div dangerouslySetInnerHTML={{__html: this.renderForm() }}/>
       </div>
     )
+  }
+
+  /**
+   * Trigger value change
+   */
+  public triggerChange() {
+    this.checkValidity();
+    this.props.onValuesChange(this.getValues());
+  }
+
+  /**
+   * Checks whether form is valid or not 
+   */
+  private checkValidity() {
+    if (this.props.onValidityChage) {
+      const isValid = this.$metaform[0].checkValidity();
+      if (isValid !== this.props.valid) {
+        this.props.onValidityChage(isValid);
+      }
+    }
   }
 
   /**
@@ -150,13 +176,6 @@ export default class Metaform extends React.Component<Props, State> {
    */
   private onMetaformChange(event: any) {
     this.triggerChange();
-  }
-
-  /**
-   * Trigger value change
-   */
-  public triggerChange() {
-    this.props.onValuesChange(this.getValues());
   }
 
   /**

@@ -1,7 +1,7 @@
 import { wp } from 'wp';
 import AbstractAdapter from "./abstract-adapter";
 import { ServiceHour, Service } from '../kunta-api/models';
-import Utils from 'src/utils';
+import Utils from '../utils';
 
 declare var wp: wp;
 declare var moment: any;
@@ -143,7 +143,7 @@ export default abstract class AbstractServiceChannelAdapter <T> extends Abstract
     const validForNow = formValues[`${formValues.type}-validForNow`] === "true";
     const additionalInformation: any[] = [];
     const serviceHours = formValues['Standard-openinghours'];
-    const openingHour = formValues['Standard-open24h'] ? [] : serviceHours.map((serviceHour: any) => {
+    const openingHour = formValues['Standard-open24h'] ? [] : (serviceHours || []).map((serviceHour: any) => {
       return {
         dayFrom: parseInt(serviceHour.day),
         dayTo: parseInt(serviceHour.day),

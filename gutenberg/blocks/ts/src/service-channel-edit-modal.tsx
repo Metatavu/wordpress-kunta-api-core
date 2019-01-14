@@ -164,16 +164,20 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
    * @param serviceHour 
    */
   private onServiceHourApply(serviceHour: any) {
+    const serviceHours = (this.state.serviceHours || []).concat(serviceHour).filter((serviceHour) => {
+      return !!serviceHour && !!serviceHour.type;
+    });
+
     this.setState({
       addServiceHourOpen: false,
-      serviceHours: (this.state.serviceHours || []).concat(serviceHour)
+      serviceHours: serviceHours
     });  
   }
 
   /**
    * Renders service hours into the form
    */
-  renderServiceHours() {  
+  renderServiceHours() {
     const serviceHours: any[] = this.getAdapter().serviceHoursFromForm(this.state.serviceHours);
     const serviceHourTexts: string[] = serviceHours.map((serviceHour: any): string => {
       return this.formatServiceHour(serviceHour);
