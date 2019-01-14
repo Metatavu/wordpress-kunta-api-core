@@ -190,9 +190,17 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
     if (serviceHourTexts.length) {
       serviceHourTexts.forEach((serviceHourText: string) => {
         const row = jQuery('<tr>').appendTo(tableBody);
+        const removeButton = jQuery('<a>')
+          .css("margin-right", "4px")
+          .addClass('btn btn-sm btn-warning remove-service-hour')
+          .html(__("Remove", "kunta_api_core"));
+          
+        const editButton = jQuery('<a>')
+          .addClass('btn btn-sm btn-success edit-service-hour')
+          .html(__("Edit", "kunta_api_core"));
+
         jQuery('<td>').html(serviceHourText).appendTo(row);
-        jQuery('<td>').css({"width": "80px", "text-align": "right"}).append(jQuery('<a>').addClass('btn btn-sm btn-warning remove-service-hour').html('Poista')).appendTo(row);
-        jQuery('<td>').css({"width": "80px", "text-align": "right"}).append(jQuery('<a>').addClass('btn btn-sm btn-success edit-service-hour').html('Muokkaa')).appendTo(row);
+        jQuery('<td>').css({"text-align": "right"}).append(removeButton, editButton).appendTo(row);
       });
     } else {
       const row = jQuery('<tr>').appendTo(tableBody);
@@ -376,6 +384,8 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
     this.$metaform = $metaform;
     $metaform.on("click", ".edit-additional-details", this.onEditAdditionalDetailsClick.bind(this));
     $metaform.on("click", ".btn.add-service-hour", this.onAddServiceHourClick.bind(this));
+    $metaform.on("click", ".btn.remove-service-hour", this.onRemoveServiceHourClick.bind(this));
+
     this.renderServiceHours();
   }
 
@@ -399,6 +409,22 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
     this.setState({
       addServiceHourOpen: true
     });
+  }
+
+  /**
+   * Event handler for add service hour button click
+   * 
+   * @param event event
+   */
+  private onRemoveServiceHourClick(event: any) {
+    const index = jQuery(event.target).closest("tr").index();
+    const serviceHours = [].concat(this.state.serviceHours);
+    serviceHours.splice(index, 1);
+
+    this.setState({
+      addServiceHourOpen: false,
+      serviceHours: serviceHours
+    }); 
   }
 
   /**
