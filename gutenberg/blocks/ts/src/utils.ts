@@ -2,6 +2,8 @@ import { wp } from 'wp';
 
 declare var wp: wp;
 declare var ajaxurl: string;
+declare var moment: any;
+const { __ } = wp.i18n;
 
 export default class Utils {
 
@@ -132,6 +134,27 @@ export default class Utils {
   }
 
   /**
+   * Returns first matching locale value
+   * 
+   * @param values array containing localized values
+   */
+  public static getAnyLocalizedValue(values: any[]) {
+    const locales: string[] = values.map((value: { locale: string }): string => {
+      return value.locale;
+    });
+
+
+    for (let i = 0; i < locales.length; i++) {
+      const result = this.getLocalizedValue(values, locales[i]);
+      if (result) {
+        return result;
+      }
+    }
+    
+    return null;
+  }
+
+  /**
    * Translates language list to be suitable for form
    * 
    * @param languages language codes
@@ -209,6 +232,89 @@ export default class Utils {
       case 'Postal':
         return 'postinumero';
     }
+  }
+
+  /**
+   * Returns day's name by index (0 = sunday)
+   * 
+   * @param index day index
+   * @param short whether to return short or long name
+   */
+  public static getDayName(index: number, short: boolean) {
+    const longDayNames: any = {
+      0: __("Sunday", "kunta_api_core"),
+      1: __("Monday", "kunta_api_core"),
+      2: __("Tuesday", "kunta_api_core"),
+      3: __("Wednesday", "kunta_api_core"),
+      4: __("Thursday", "kunta_api_core"),
+      5: __("Friday", "kunta_api_core"),
+      6: __("Saturday", "kunta_api_core"),
+    };
+
+    const shortDayNames: any = {
+      0: __("Sun.", "kunta_api_core"),
+      1: __("Mon.", "kunta_api_core"),
+      2: __("Tue.", "kunta_api_core"),
+      3: __("Wed.", "kunta_api_core"),
+      4: __("Thu.", "kunta_api_core"),
+      5: __("Fri.", "kunta_api_core"),
+      6: __("Sat.", "kunta_api_core"),
+    };
+
+    return short ? shortDayNames[index] : longDayNames[index];
+  }
+  
+  /**
+   * Formats date for displaying
+   * 
+   * @param date date
+   * @returns formatted date
+   */
+  public static formatDate(date: Date) {
+    return moment(date).locale('fi').format('ll');
+  }
+  
+  /**
+   * Formats date and time for displaying
+   * 
+   * @param date date
+   * @param time time
+   * @returns formatted date time
+   */
+  public static formatDateWithTime(date: Date, time: string) {
+    const result = this.formatDate(date);
+    if (time) {
+      return `${result} ${time}`;
+    }
+    
+    return result;
+  }
+    
+  /**
+   * Formats date and time range for displaying
+   * 
+   * @param date date
+   * @param startTime start time
+   * @param endTime end time
+   * @returns formatted date and time range
+   */
+  public static formatDateWithTimes(date: Date, startTime: string, endTime: string) {
+    const start = this.formatDateWithTime(date, startTime);
+    return endTime ? `${start} - ${endTime}` : start;
+  }
+
+  /**
+   * Parses ISO date string into Date object
+   * 
+   * @param string ISO date string
+   * @returns Date object
+   */
+  public static parseIsoDate(string: string): Date {
+    if (!string) {
+      return null;
+    }
+    
+    return new Date(Date.parse(string));
   }
 
 }

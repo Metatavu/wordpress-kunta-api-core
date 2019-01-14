@@ -6,9 +6,12 @@ import { ElectronicServiceChannel, PhoneServiceChannel, PrintableFormServiceChan
 import AbstractServiceChannelAdapter from './adapters/abstract-service-channel-adapter';
 import ElectronicServiceChannelAdapter from './adapters/electronic-service-channel-adapter';
 import ServiceChannelAdditionDetailsEditModal from './service-channel-addition-details-edit-modal';
+import ServiceHourModal from './servicehour-modal';
+import Utils from './utils';
 
 declare var wp: wp;
 declare var ajaxurl: string;
+declare var jQuery: any;
 const { withSelect } = wp.data;
 const { __, sprintf } = wp.i18n;
 const locales = ["fi", "sv", "en"];
@@ -33,13 +36,17 @@ interface State {
   additionalValues: any,
   saving: boolean,
   saveError: string,
-  additionalDetailsOpen: boolean
+  additionalDetailsOpen: boolean,
+  addServiceHourOpen: boolean,
+  serviceHours: any[]
 }
 
 /**
  * Service channel edit modal component
  */
 class ServiceChannelEditModal extends React.Component<Props, State> {
+
+  private $metaform: any;
 
   /**
    * Constructor
@@ -49,13 +56,14 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
+    const adapter: AbstractServiceChannelAdapter<ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel> = this.getAdapter();
     const values: any = {};
 
     if (props.channel) {
       locales.forEach((locale: string) => {
-        values[locale] = this.getAdapter().channelToForm(locale, props.channel)
+        values[locale] = adapter.channelToForm(locale, props.channel)
       });
-    }
+    };
 
     this.state = {
       locale: "fi",
@@ -63,7 +71,9 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
       saveError: null,
       additionalDetailsOpen: false,
       values: values,
-      additionalValues: props.channel ? this.getAdapter().additionalToForm(props.channel) : {}
+      additionalValues: props.channel ? adapter.additionalToForm(props.channel) : {},
+      addServiceHourOpen: false,
+      serviceHours: adapter.serviceHoursToForm(props.channel)
     };
   }
 
@@ -75,6 +85,7 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
    */
   componentDidUpdate(prevProps: Props, prevState: State) {
     if ((JSON.stringify(this.props.channel) !== JSON.stringify(prevProps.channel))) {
+      const adapter: AbstractServiceChannelAdapter<ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel> = this.getAdapter();
       const values: any = {};
 
       locales.forEach((locale: string) => {
@@ -83,9 +94,14 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
 
       this.setState({ 
         values: values,
-        additionalValues: this.props.channel ? this.getAdapter().additionalToForm(this.props.channel) : {}
+        additionalValues: this.props.channel ? adapter.additionalToForm(this.props.channel) : {},
+        serviceHours: adapter.serviceHoursToForm(this.props.channel)
       });
     }
+
+    if ((JSON.stringify(this.state.serviceHours) !== JSON.stringify(prevState.serviceHours))) {
+      this.renderServiceHours();
+    }    
   }
 
   /**
@@ -94,6 +110,19 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
   public render() {
     if (!this.props.open) {
       return null;
+    }
+
+    if (this.state.addServiceHourOpen) {
+      return (
+        <ServiceHourModal 
+          adapter={ this.getAdapter() }
+          onApply={ (values: any) => {
+            this.onServiceHourApply(values);
+          }}
+          onClose={ () => { 
+            this.setState({addServiceHourOpen: false }); 
+          } }/>
+      )
     }
 
     if (this.state.additionalDetailsOpen) {
@@ -129,6 +158,144 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
     );
   }
 
+  /**
+   * Event triggered 
+   * 
+   * @param serviceHour 
+   */
+  private onServiceHourApply(serviceHour: any) {
+    this.setState({
+      addServiceHourOpen: false,
+      serviceHours: (this.state.serviceHours || []).concat(serviceHour)
+    });  
+  }
+
+  /**
+   * Renders service hours into the form
+   */
+  renderServiceHours() {  
+    const serviceHours: any[] = this.getAdapter().serviceHoursFromForm(this.state.serviceHours);
+    const serviceHourTexts: string[] = serviceHours.map((serviceHour: any): string => {
+      return this.formatServiceHour(serviceHour);
+    });
+
+    const tableBody = this.$metaform.find('table.serviceHours tbody');
+    
+    tableBody.empty();
+    
+    if (serviceHourTexts.length) {
+      serviceHourTexts.forEach((serviceHourText: string) => {
+        const row = jQuery('<tr>').appendTo(tableBody);
+        jQuery('<td>').html(serviceHourText).appendTo(row);
+        jQuery('<td>').css({"width": "80px", "text-align": "right"}).append(jQuery('<a>').addClass('btn btn-sm btn-warning remove-service-hour').html('Poista')).appendTo(row);
+        jQuery('<td>').css({"width": "80px", "text-align": "right"}).append(jQuery('<a>').addClass('btn btn-sm btn-success edit-service-hour').html('Muokkaa')).appendTo(row);
+      });
+    } else {
+      const row = jQuery('<tr>').appendTo(tableBody);
+      jQuery('<td>')
+        .html('Palveluaikoja ei ole vielä määritelty')
+        .appendTo(row);
+    }
+  }
+
+  /**
+   * Formats service hour for displaying
+   * 
+   * @param serviceHour 
+   * @return formatted service hour
+   */
+  private formatServiceHour(serviceHour: any): string {
+    const type = this.getServiceHourTypeName(serviceHour.serviceHourType);
+    
+    if (serviceHour.serviceHourType === 'Exceptional') {
+      let result = `(${type})`;
+      
+      if (serviceHour.isClosed) {
+        result += ' Suljettu';
+      }
+      
+      const openingHour = serviceHour.openingHour && serviceHour.openingHour.length ? serviceHour.openingHour[0] : null;
+      const openFrom = openingHour ? openingHour.from : null;
+      const openTo = openingHour ? openingHour.to : null;
+      
+      if (serviceHour.validFrom && serviceHour.validTo) {
+        result += ` ${Utils.formatDateWithTime(serviceHour.validFrom, openFrom)} - ${Utils.formatDateWithTime(serviceHour.validTo, openTo)}`;
+      } else if (serviceHour.validFrom) {
+        result += ` ${Utils.formatDateWithTimes(serviceHour.validFrom, openFrom, openTo)}`;
+      }
+      
+      const additionalInformation = Utils.getAnyLocalizedValue(serviceHour.additionalInformation);
+      if (additionalInformation) {
+        return `${result} - ${additionalInformation}`;
+      }
+      
+      return result;
+    } else {
+      if (serviceHour.openingHour.length === 0 && !serviceHour.isClosed) {
+        return `(${type}) Aina avoinna (24/7)`;
+      }
+      
+      const openingHours = (serviceHour.openingHour||[]).map((openingHour: any) => {
+        return this.formatOpeningHour(openingHour);
+      });
+
+      return `(${type}) ${openingHours.join(',')}`;
+    }
+  }
+
+  /**
+   * Formats opening hour for displaying
+   * 
+   * @param dailyOpeningTime daily opening time 
+   * @return formatted opening hour
+   */
+  private formatOpeningHour(dailyOpeningTime: any) {
+    if (!dailyOpeningTime) {
+      return null;
+    }
+    
+    if (dailyOpeningTime.dayFrom === null) {
+      return '';
+    } else {
+      let result = Utils.getDayName(dailyOpeningTime.dayFrom, true);
+
+      if (dailyOpeningTime.dayTo && dailyOpeningTime.dayTo !== dailyOpeningTime.dayFrom) {
+        result += ' - ' + Utils.getDayName(dailyOpeningTime.dayTo, true);
+      }
+
+      if (dailyOpeningTime.from) {
+        result += ' ' + dailyOpeningTime.from;
+      }
+
+      if (dailyOpeningTime.to) {
+        result += ' - ' + dailyOpeningTime.to;
+      }
+
+      return result;
+    }
+  }
+
+  /**
+   * Returns service hour type name
+   * 
+   * @param type type 
+   * @return service hour type name
+   */
+  private getServiceHourTypeName(type: string): string {
+    const serviceHourTypeNames: any = {
+      'OverMidnight': 'Päivystys',
+      'DaysOfTheWeek': 'Normaali',
+      'Exceptional': 'Poikkeus'
+    };
+
+    return serviceHourTypeNames[type];
+  }
+  
+  /**
+   * Returns adapter for this channel type
+   * 
+   * @retrn adapter for this channel type
+   */
   private getAdapter(): AbstractServiceChannelAdapter<ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel> {
     switch (this.props.channelType) {
       case "electronic":
@@ -202,7 +369,10 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
    * @param $metaform metaform
    */
   private afterFormRender(metaform: Metaform, $metaform: any) {
+    this.$metaform = $metaform;
     $metaform.on("click", ".edit-additional-details", this.onEditAdditionalDetailsClick.bind(this));
+    $metaform.on("click", ".btn.add-service-hour", this.onAddServiceHourClick.bind(this));
+    this.renderServiceHours();
   }
 
   /**
@@ -213,6 +383,17 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
   private onEditAdditionalDetailsClick(event: any) {
     this.setState({
       additionalDetailsOpen: true
+    });
+  }
+
+  /**
+   * Event handler for add service hour button click
+   * 
+   * @param event event
+   */
+  private onAddServiceHourClick(event: any) {
+    this.setState({
+      addServiceHourOpen: true
     });
   }
 

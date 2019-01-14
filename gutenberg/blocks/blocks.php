@@ -30,6 +30,7 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
     public function onInit() {
       wp_register_script('kunta-api-service-block', plugins_url( 'js/service-block.js', __FILE__ ), ['wp-blocks', 'wp-element', 'wp-i18n']);      
       wp_set_script_translations("kunta-api-service-block", "kunta_api_core", dirname(__FILE__) . '/lang/');
+      wp_enqueue_style("kunta-api-service-block", plugins_url( 'css/styles.css', __FILE__ ));
 
       wp_localize_script('kunta-api-service-block', 'kuntaApiBlocks', array(
         'metaformsUrl' => plugin_dir_url( __FILE__ ) . "metaforms",
