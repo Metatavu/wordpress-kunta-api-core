@@ -142,16 +142,18 @@ export default abstract class AbstractServiceChannelAdapter <T> extends Abstract
     const isClosed = false;
     const validForNow = formValues[`${formValues.type}-validForNow`] === "true";
     const additionalInformation: any[] = [];
-    const serviceHours = formValues['Standard-openinghours'];
-    const openingHour = formValues['Standard-open24h'] ? [] : (serviceHours || []).map((serviceHour: any) => {
-      return {
-        dayFrom: parseInt(serviceHour.day),
-        dayTo: parseInt(serviceHour.day),
-        from: serviceHour.from,
-        to: serviceHour.to,
-        isExtra: false
-      };
-    });
+    const serviceHours = formValues['Standard-open24h'] ? [] : formValues['Standard-openinghours'] || [];
+
+    const openingHour = (Array.isArray(serviceHours) ? serviceHours  : JSON.parse(serviceHours))
+      .map((serviceHour: any) => {
+        return {
+          dayFrom: parseInt(serviceHour.day),
+          dayTo: parseInt(serviceHour.day),
+          from: serviceHour.from,
+          to: serviceHour.to,
+          isExtra: false
+        };
+      });
     
     return {
       serviceHourType: formValues.type,
