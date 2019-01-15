@@ -133,6 +133,62 @@
         "Puhelin"
       ],
       
+      "Sunday": [
+        "Sunnuntai"
+      ],
+      
+      "Monday": [
+        "Maanantai"
+      ],
+      
+      "Tuesday": [
+        "Tiistai"
+      ],
+      
+      "Wednesday": [
+        "Keskiviikko"
+      ],
+      
+      "Thursday": [
+        "Torstai"
+      ],
+      
+      "Friday": [
+        "Perjantai"
+      ],
+      
+      "Saturday": [
+        "Lauantai"
+      ],
+      
+      "Sun.": [
+        "Sunnuntai"
+      ],
+      
+      "Mon.": [
+        "ma"
+      ],
+      
+      "Tue.": [
+        "ti"
+      ],
+      
+      "Wed.": [
+        "ke"
+      ],
+      
+      "Thu.": [
+        "to"
+      ],
+      
+      "Fri.": [
+        "pe"
+      ],
+
+      "Sat.": [
+        "la"
+      ],
+      
       "servicelocationservicechannel.phone-charge-info": [
         "Puhelun hintatiedot"
       ],
@@ -183,6 +239,10 @@
 
       "Service hour": [
         "Palveluaika"
+      ],
+
+      "Closed": [
+        "Suljettu"
       ],
 
       "Add channel": [
