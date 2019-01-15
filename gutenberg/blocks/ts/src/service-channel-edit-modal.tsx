@@ -9,6 +9,7 @@ import ServiceChannelAdditionDetailsEditModal from './service-channel-addition-d
 import ServiceHourModal from './servicehour-modal';
 import Utils from './utils';
 import PhoneServiceChannelAdapter from './adapters/phone-service-channel-adapter';
+import PrintableFormServiceChannelAdapter from './adapters/printable-form-service-channel-adapter';
 
 declare var wp: wp;
 declare var ajaxurl: string;
@@ -327,6 +328,7 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
       case "phone":
         return new PhoneServiceChannelAdapter();
       case "printableForm":
+        return new PrintableFormServiceChannelAdapter();
       case "webpage":
       case "serviceLocation":
     }

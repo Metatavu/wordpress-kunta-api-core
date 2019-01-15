@@ -136,8 +136,8 @@
         const addressType = localeValues.addressType; 
         if (!result.deliveryAddress.subtype) {
           result.deliveryAddress.subtype = addressType;
-          result.deliveryAddress.streetNumber = localeValues.streetNumber || result.streetNumber;
-          result.deliveryAddress.postalCode = localeValues.postalCode || result.postalCode;
+          result.deliveryAddress.streetNumber = localeValues.streetNumber || result.deliveryAddress.streetNumber;
+          result.deliveryAddress.postalCode = localeValues.postalCode || result.deliveryAddress.postalCode;
         }
       
         this.setLocalizedValue(result.deliveryAddress, 'streetAddress', localeValues, 'streetAddress', locale);
