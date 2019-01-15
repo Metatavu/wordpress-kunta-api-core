@@ -32,12 +32,11 @@
         signatureQuantity: this.serviceChannel.signatureQuantity,
         supportPhones: this.getLocalizedPhoneNumbers(this.serviceChannel.supportPhones, locale),
         supportEmails: this.getLocalizedEmails(this.serviceChannel.supportEmails, locale),
-        webPage: this.getLocalizedValue(this.serviceChannel.urls, locale),
+        webPage: this.getLocalizedWebPageUrl(this.serviceChannel.webPages, locale),
         languages: this.serviceChannel.languages,
         attachments: (this.serviceChannel.attachments || []).filter((attachment) => {
           return attachment.url && attachment.language === locale;
         }),
-        webPages: this.getLocalizedWebPages(this.serviceChannel.webPages, locale),
         serviceHours: null,
         publishingStatus: this.serviceChannel.publishingStatus
       };
@@ -71,13 +70,12 @@
       
       result.names = [];
       result.descriptions = [];
-      result.urls = [];
+      result.webPages = [];
       result.attachments = [];
       result.requiresSignature = false;
       result.requiresAuthentication = false;
       result.supportPhones = [];
       result.supportEmails = [];
-      result.urls = [];
       result.attachments = [];
   
       this.supportedLocales.forEach((locale) => {
@@ -106,7 +104,7 @@
           return !!supportEmail.value;
         });
         
-        this.setLocalizedValue(result, 'urls', localeValues, 'url', locale);
+        this.setLocalizedWebPages(result, 'webPages', localeValues, 'webPage', locale);
         this.setLocalizedTableValues(result, 'attachments', localeValues, 'attachments', locale, (attachment) => {
           return !!attachment.url;
         }, (attachment) => {

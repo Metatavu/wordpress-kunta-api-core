@@ -29,7 +29,7 @@
         description: this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'Description'),
         supportPhones: this.getLocalizedPhoneNumbers(this.serviceChannel.supportPhones, locale),
         supportEmails: this.getLocalizedEmails(this.serviceChannel.supportEmails, locale),
-        url: this.getLocalizedValue(this.serviceChannel.urls, locale),
+        webPage: this.getLocalizedWebPageUrl(this.serviceChannel.webPages, locale),
         languages: this.serviceChannel.languages,
         publishingStatus: this.serviceChannel.publishingStatus
       };
@@ -71,10 +71,9 @@
       
       result.names = [];
       result.descriptions = [];
-      result.urls = [];
+      result.webPages = [];
       result.supportPhones = [];
       result.supportEmails = [];
-      result.urls = [];
   
       this.supportedLocales.forEach((locale) => {
         const localeValues = formValues[locale];
@@ -99,7 +98,7 @@
           return !!supportEmail.value;
         });
         
-        this.setLocalizedValue(result, 'urls', localeValues, 'url', locale);
+        this.setLocalizedWebPages(result, 'webPages', localeValues, 'webPage', locale);
       });
       
       return result;
