@@ -22,20 +22,22 @@
      * @param {String} locale locale
      * @returns {Object} form data
      */
-    serviceChannelToForm(locale) {
+    serviceChannelToForm(locale) {      
+      const deliveryAddress = this.serviceChannel.deliveryAddress || {};
+
       return {
         name: this.getTypedLocalizedValue(this.serviceChannel.names, locale, 'Name'),
         shortDescription: this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'Summary'),
         description: this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'Description'),
         formIdentifier: this.getLocalizedValue(this.serviceChannel.formIdentifier, locale),
         formReceiver: this.getLocalizedValue(this.serviceChannel.formReceiver, locale),
-        addressType: this.serviceChannel.deliveryAddress.subtype,
-        streetAddress: this.getLocalizedValue(this.serviceChannel.deliveryAddress.streetAddress, locale),
-        postOfficeBox: this.getLocalizedValue(this.serviceChannel.deliveryAddress.postOfficeBox, locale),
-        streetNumber: this.serviceChannel.deliveryAddress.streetNumber,
-        postalCode: this.serviceChannel.deliveryAddress.postalCode,
-        addressAdditionalInformation: this.getLocalizedValue(this.serviceChannel.deliveryAddress.additionalInformations, locale),
-        addressAdditionalInformationNoAddress: this.getLocalizedValue(this.serviceChannel.deliveryAddress.additionalInformations, locale),
+        addressType: deliveryAddress.subtype,
+        streetAddress: this.getLocalizedValue(deliveryAddress.streetAddress, locale),
+        postOfficeBox: this.getLocalizedValue(deliveryAddress.postOfficeBox, locale),
+        streetNumber: deliveryAddress.streetNumber,
+        postalCode: deliveryAddress.postalCode,
+        addressAdditionalInformation: this.getLocalizedValue(deliveryAddress.additionalInformations, locale),
+        addressAdditionalInformationNoAddress: this.getLocalizedValue(deliveryAddress.additionalInformations, locale),
         channelUrls: this.getLocalizedValues(this.serviceChannel.channelUrls, locale),
         attachments: (this.serviceChannel.attachments || []).filter((attachment) => {
           return attachment.url && attachment.language === locale;
@@ -78,7 +80,9 @@
       result.formReceiver = [];
       result.channelUrls = [];
       result.deliveryAddress = {};
-      
+      result.supportPhones = [];
+      result.attachments = [];
+
       this.supportedLocales.forEach((locale) => {
         const localeValues = formValues[locale];
         
@@ -129,17 +133,18 @@
           });
         });
         
-        const addressType = localeValues.addressType;
-        
-        result.deliveryAddress.subtype = addressType;
-        result.deliveryAddress.streetNumber = localeValues.streetNumber || result.streetNumber;
-        result.deliveryAddress.postalCode = localeValues.postalCode || result.postalCode;
-        
+        const addressType = localeValues.addressType; 
+        if (!result.deliveryAddress.subtype) {
+          result.deliveryAddress.subtype = addressType;
+          result.deliveryAddress.streetNumber = localeValues.streetNumber || result.streetNumber;
+          result.deliveryAddress.postalCode = localeValues.postalCode || result.postalCode;
+        }
+      
         this.setLocalizedValue(result.deliveryAddress, 'streetAddress', localeValues, 'streetAddress', locale);
         this.setLocalizedValue(result.deliveryAddress, 'postOfficeBox', localeValues, 'postOfficeBox', locale);
-        this.setLocalizedValue(result.deliveryAddress, 'additionalInformations', localeValues, 'NoAddress' ? 'addressAdditionalInformationNoAddress' : 'addressAdditionalInformation', locale);
+        this.setLocalizedValue(result.deliveryAddress, 'additionalInformations', localeValues, addressType === 'NoAddress' ? 'addressAdditionalInformationNoAddress' : 'addressAdditionalInformation', locale);
       });
-      
+
       return result;
     }
     
