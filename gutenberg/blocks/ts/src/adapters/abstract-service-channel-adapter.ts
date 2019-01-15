@@ -40,10 +40,11 @@ export default abstract class AbstractServiceChannelAdapter <T> extends Abstract
    * 
    * @param values form values
    * @param additionalValues additional form values
+   * @param serviceHours service hours
    * @param channel channel
    * @return modified channel
    */ 
-  public abstract applyToChannel(values: any, additionalValues: any, channel: T): T;
+  public abstract applyToChannel(values: any, additionalValues: any, serviceHours: any, channel: T): T;
   
   /**
    * Extract form service hours from channel REST resource 

@@ -61,11 +61,12 @@ export default class ElectronicServiceChannelAdapter extends AbstractServiceChan
    * 
    * @param values form values
    * @param additionalValues additional form values
+   * @param serviceHours service hours
    * @param channel channel
    * @return modified channel
    */ 
-  public applyToChannel(values: any, additionalValues: any, channel: ElectronicServiceChannel): ElectronicServiceChannel {
-    const result = JSON.parse(JSON.stringify(channel));
+  public applyToChannel(values: any, additionalValues: any, serviceHours: any, channel: ElectronicServiceChannel): ElectronicServiceChannel {
+    const result: ElectronicServiceChannel = JSON.parse(JSON.stringify(channel));
       
     result.names = [];
     result.descriptions = [];
@@ -76,6 +77,7 @@ export default class ElectronicServiceChannelAdapter extends AbstractServiceChan
     result.supportPhones = [];
     result.supportEmails = [];
     result.attachments = [];
+    result.serviceHours = this.serviceHoursFromForm(serviceHours);
 
     this.getSupportedLocales().forEach((locale: string) => {
       const localeValues: any = values[locale];

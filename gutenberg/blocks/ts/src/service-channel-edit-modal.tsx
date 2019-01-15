@@ -37,7 +37,8 @@ interface State {
   saving: boolean,
   saveError: string,
   additionalDetailsOpen: boolean,
-  addServiceHourOpen: boolean,
+  editServiceHourOpen: boolean,
+  editServiceHourIndex: number,
   serviceHours: any[]
 }
 
@@ -72,8 +73,9 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
       additionalDetailsOpen: false,
       values: values,
       additionalValues: props.channel ? adapter.additionalToForm(props.channel) : {},
-      addServiceHourOpen: false,
-      serviceHours: adapter.serviceHoursToForm(props.channel)
+      editServiceHourOpen: false,
+      serviceHours: adapter.serviceHoursToForm(props.channel),
+      editServiceHourIndex: -1
     };
   }
 
@@ -112,15 +114,17 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
       return null;
     }
 
-    if (this.state.addServiceHourOpen) {
+    if (this.state.editServiceHourOpen) {
       return (
         <ServiceHourModal 
           adapter={ this.getAdapter() }
-          onApply={ (values: any) => {
-            this.onServiceHourApply(values);
+          values={ this.state.editServiceHourIndex > -1 ? this.state.serviceHours[this.state.editServiceHourIndex] : {} }
+          okButtonText={ this.state.editServiceHourIndex > -1 ? __("Apply", "kunta_api_core") : __("Add", "kunta_api_core") } 
+          onOkClick={ (values: any) => {
+            this.onServiceHourOk(values);
           }}
           onClose={ () => { 
-            this.setState({addServiceHourOpen: false }); 
+            this.setState({editServiceHourOpen: false }); 
           } }/>
       )
     }
@@ -163,14 +167,21 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
    * 
    * @param serviceHour 
    */
-  private onServiceHourApply(serviceHour: any) {
-    const serviceHours = (this.state.serviceHours || []).concat(serviceHour).filter((serviceHour) => {
-      return !!serviceHour && !!serviceHour.type;
-    });
+  private onServiceHourOk(serviceHour: any) {
+    const serviceHours = [].concat(this.state.serviceHours);
+
+    if (this.state.editServiceHourIndex > -1) {
+      serviceHours[this.state.editServiceHourIndex] = serviceHour;
+    } else {
+      serviceHours.push(serviceHour);
+    }
 
     this.setState({
-      addServiceHourOpen: false,
-      serviceHours: serviceHours
+      editServiceHourIndex: -1,
+      editServiceHourOpen: false,
+      serviceHours: serviceHours.filter((serviceHour) => {
+        return !!serviceHour && !!serviceHour.type;
+      })
     });  
   }
 
@@ -223,7 +234,7 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
       let result = `(${type})`;
       
       if (serviceHour.isClosed) {
-        result += ' Suljettu';
+        result += ` ${__("Closed", "kunta_api_core")}`;
       }
       
       const openingHour = serviceHour.openingHour && serviceHour.openingHour.length ? serviceHour.openingHour[0] : null;
@@ -385,6 +396,7 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
     $metaform.on("click", ".edit-additional-details", this.onEditAdditionalDetailsClick.bind(this));
     $metaform.on("click", ".btn.add-service-hour", this.onAddServiceHourClick.bind(this));
     $metaform.on("click", ".btn.remove-service-hour", this.onRemoveServiceHourClick.bind(this));
+    $metaform.on("click", ".btn.edit-service-hour", this.onEditServiceHourClick.bind(this));
 
     this.renderServiceHours();
   }
@@ -407,12 +419,12 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
    */
   private onAddServiceHourClick(event: any) {
     this.setState({
-      addServiceHourOpen: true
+      editServiceHourOpen: true
     });
   }
 
   /**
-   * Event handler for add service hour button click
+   * Event handler for remove service hour button click
    * 
    * @param event event
    */
@@ -422,8 +434,21 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
     serviceHours.splice(index, 1);
 
     this.setState({
-      addServiceHourOpen: false,
       serviceHours: serviceHours
+    }); 
+  }
+
+  /**
+   * Event handler for edit service hour button click
+   * 
+   * @param event event
+   */
+  private onEditServiceHourClick(event: any) {
+    const index = jQuery(event.target).closest("tr").index();
+    
+    this.setState({
+      editServiceHourOpen: true,
+      editServiceHourIndex: index
     }); 
   }
 
@@ -468,7 +493,7 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
     });
 
     const adapter: AbstractServiceChannelAdapter<ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel> = this.getAdapter();
-    const data = adapter.applyToChannel(this.state.values, this.state.additionalValues, this.props.channel);
+    const data = adapter.applyToChannel(this.state.values, this.state.additionalValues, this.state.serviceHours, this.props.channel);
 
     const body = new URLSearchParams();
     body.append("action", this.getSaveAction());

@@ -7,14 +7,14 @@ import AbstractServiceChannelAdapter from './adapters/abstract-service-channel-a
 declare var wp: wp;
 const { __ } = wp.i18n;
 
-/**declare var jQuery: any;
-const { withSelect } = wp.data;
-
+/**
  * Interface describing component props
  */
 interface Props {
+  okButtonText: string,
+  values: any,
   adapter: AbstractServiceChannelAdapter<any>,
-  onApply: (serviceHour: any) => void,
+  onOkClick: (serviceHour: any) => void,
   onClose: () => void
 }
 
@@ -38,7 +38,7 @@ export default class ServiceHourModal extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { 
-      values: {}
+      values: props.values
     };
   }
 
@@ -51,10 +51,10 @@ export default class ServiceHourModal extends React.Component<Props, State> {
         form={ "general/servicehour" } 
         values={ this.state.values } 
         title={ __(`Service hour`, "kunta_api_core") }
-        saveButtonText={ __("Add", "kunta_api_core") } 
+        saveButtonText={ this.props.okButtonText } 
         open={ true } 
         onValuesChange={ (locale: string, values: any) => { this.setState({ values: values }) } }
-        onSave={ () => { this.props.onApply(this.state.values) } }
+        onSave={ () => { this.props.onOkClick(this.state.values) } }
         onClose={ () => { this.props.onClose(); } }
         afterFormRender= { (metaform: Metaform, $metaform: any) => { this.afterFormRender(metaform, $metaform) } }/>
     );
