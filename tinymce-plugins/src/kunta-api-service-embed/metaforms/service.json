@@ -73,10 +73,10 @@
         "type": "radio",
         "name": "serviceChargeType",
         "options": [{
-          "name": "Charged",
+          "value": "Chargeable",
           "text": "Maksullinen"
         }, {
-          "name": "Free",
+          "value": "FreeOfCharge",
           "text": "Maksuton"
         }]
       }, {
