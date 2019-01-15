@@ -928,7 +928,7 @@
      * @returns {Array} result
      */
     areasFromForm(areaType, areas) {
-      if (areaType === 'AreaType') {
+      if (areaType === 'LimitedType') {
         let mucicipalitiesIndex = -1;
         const result = [];
         

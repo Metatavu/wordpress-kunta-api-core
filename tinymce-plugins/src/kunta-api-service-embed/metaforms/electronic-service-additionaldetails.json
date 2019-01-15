@@ -8,14 +8,14 @@
       "type": "radio",
       "required": true,
       "options":  [{
-        "name": "WholeCountry",
+        "name": "Nationwide",
         "text": "Koko maa"
       }, {
-        "name": "WholeCountryExceptAlandIslands",
+        "name": "NationwideExceptAlandIslands",
         "text": "Koko maa paitsi ei Ahvenanmaa",
         "checked": true
       }, {
-        "name": "AreaType",
+        "name": "LimitedType",
         "text": "Rajattu alue"
       }],
       "contexts": ["FORM"],
@@ -23,7 +23,7 @@
     }, {
       "visible-if": {
         "field": "areaType",
-        "equals": "AreaType"
+        "equals": "LimitedType"
       },
       "name": "areas",
       "type": "autocomplete-multiple",

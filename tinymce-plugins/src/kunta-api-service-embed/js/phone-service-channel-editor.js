@@ -114,6 +114,7 @@
     
     additionalDetailsFromForm(newFormValues) {
       this.serviceChannel.areaType = newFormValues.areaType;
+      this.serviceChannel.languages = newFormValues.languages.split(",");
       this.serviceChannel.areas = this.areasFromForm(newFormValues.areaType, newFormValues.areas);
     }
     

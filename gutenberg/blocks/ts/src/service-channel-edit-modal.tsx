@@ -8,6 +8,7 @@ import ElectronicServiceChannelAdapter from './adapters/electronic-service-chann
 import ServiceChannelAdditionDetailsEditModal from './service-channel-addition-details-edit-modal';
 import ServiceHourModal from './servicehour-modal';
 import Utils from './utils';
+import PhoneServiceChannelAdapter from './adapters/phone-service-channel-adapter';
 
 declare var wp: wp;
 declare var ajaxurl: string;
@@ -94,7 +95,7 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
         values[locale] = this.getAdapter().channelToForm(locale, this.props.channel)
       });
 
-      this.setState({ 
+      this.setState({
         values: values,
         additionalValues: this.props.channel ? adapter.additionalToForm(this.props.channel) : {},
         serviceHours: adapter.serviceHoursToForm(this.props.channel)
@@ -324,6 +325,7 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
       case "electronic":
         return new ElectronicServiceChannelAdapter();
       case "phone":
+        return new PhoneServiceChannelAdapter();
       case "printableForm":
       case "webpage":
       case "serviceLocation":
