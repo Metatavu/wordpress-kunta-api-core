@@ -252,7 +252,7 @@
        * @param boolean $ptv7Compatibility whether to use PTV 7 compatibility mode
        * @return \KuntaAPI\Api\CodesApi CodesApi
        */
-      public function getCodesApi($ptv7Compatibility = true) {
+      public static function getCodesApi($ptv7Compatibility = true) {
         return new \KuntaAPI\Api\CodesApi(self::getClient($ptv7Compatibility));
       }
       
