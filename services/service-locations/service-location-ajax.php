@@ -9,8 +9,8 @@
       $response = [];
 
       foreach (\KuntaAPI\Core\CoreSettings::getOrganizationIds() as $organizationId) {
-        $serviceLocationChannels = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi()->listServiceLocationServiceChannels($organizationId, $_POST['data']);
-         foreach ($serviceLocationChannels as $serviceLocationChannel) {
+        $serviceLocationChannels = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi(false)->listServiceLocationServiceChannels($organizationId, $_POST['data']);
+        foreach ($serviceLocationChannels as $serviceLocationChannel) {
           $response[] = $serviceLocationChannel -> __toString();
         }
       }
@@ -76,7 +76,7 @@
     try {
       $data = stripslashes($_POST['serviceChannel']);
       $serviceLocationServiceChannel = new \KuntaAPI\Model\ServiceLocationServiceChannel(json_decode($data, true));
-      $result = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi()->updateServiceLocationServiceChannel($serviceLocationServiceChannel->getId(), $serviceLocationServiceChannel);
+      $result = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi(false)->updateServiceLocationServiceChannel($serviceLocationServiceChannel->getId(), $serviceLocationServiceChannel);
       $json = $result->__toString();
       echo $json;
       wp_die();

@@ -9,7 +9,7 @@
     $responce = [];
     
     foreach (\KuntaAPI\Core\CoreSettings::getOrganizationIds() as $organizationId) {
-      $services = \KuntaAPI\Core\Api::getServicesApi()->listServices($organizationId, $_POST['data']);
+      $services = \KuntaAPI\Core\Api::getServicesApi(false)->listServices($organizationId, $_POST['data']);
       foreach ($services as $service) {
         $responce[] = $service -> __toString();
       }
@@ -56,7 +56,7 @@
     try {
       $data = stripslashes($_POST['service']);
       $service = new \KuntaAPI\Model\Service(json_decode($data, true));
-      $result = \KuntaAPI\Core\Api::getServicesApi()->updateService($service->getId(), $service);
+      $result = \KuntaAPI\Core\Api::getServicesApi(false)->updateService($service->getId(), $service);
       $json = $result->__toString();
       echo $json;
       wp_die();
@@ -71,7 +71,7 @@
   add_action( 'wp_ajax_kunta_api_load_electronic_service_channel', function () {
     try {
       $id = $_POST['id'];
-      $channel = \KuntaAPI\Core\Api::getElectronicServiceChannelsApi()->findElectronicServiceChannel($id);
+      $channel = \KuntaAPI\Core\Api::getElectronicServiceChannelsApi(false)->findElectronicServiceChannel($id);
       $json = $channel->__toString();
       echo $json;
       wp_die();
@@ -86,7 +86,7 @@
   add_action( 'wp_ajax_kunta_api_load_webpage_service_channel', function () {
     try {
       $id = $_POST['id'];
-      $channel = \KuntaAPI\Core\Api::getWebPageServiceChannelsApi()->findWebPageServiceChannel($id);
+      $channel = \KuntaAPI\Core\Api::getWebPageServiceChannelsApi(false)->findWebPageServiceChannel($id);
       $json = $channel->__toString();
       echo $json;
       wp_die();
@@ -101,7 +101,7 @@
   add_action( 'wp_ajax_kunta_api_load_printable_form_service_channel', function () {
     try {
       $id = $_POST['id'];
-      $channel = \KuntaAPI\Core\Api::getPrintableFormServiceChannelsApi()->findPrintableFormServiceChannel($id);
+      $channel = \KuntaAPI\Core\Api::getPrintableFormServiceChannelsApi(false)->findPrintableFormServiceChannel($id);
       $json = $channel->__toString();
       echo $json;
       wp_die();
@@ -116,7 +116,7 @@
   add_action( 'wp_ajax_kunta_api_load_phone_service_channel', function () {
     try {
       $id = $_POST['id'];
-      $channel = \KuntaAPI\Core\Api::getPhoneServiceChannelsApi()->findPhoneServiceChannel($id);
+      $channel = \KuntaAPI\Core\Api::getPhoneServiceChannelsApi(false)->findPhoneServiceChannel($id);
       $json = $channel->__toString();
       echo $json;
       wp_die();
@@ -131,7 +131,7 @@
   add_action( 'wp_ajax_kunta_api_load_service_location_service_channel', function () {
     try {
       $id = $_POST['id'];
-      $channel = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi()->findServiceLocationServiceChannel($id);
+      $channel = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi(false)->findServiceLocationServiceChannel($id);
       $json = $channel->__toString();
       echo $json;
       wp_die();
@@ -148,7 +148,7 @@
       $search = $_POST['search'];
       $organizationId = $_POST['organizationId'];
       $results = [];
-      $organizations = \KuntaAPI\Core\Api::getElectronicServiceChannelsApi()->listElectronicServiceChannels($organizationId, $search, null, null, null, 10);
+      $organizations = \KuntaAPI\Core\Api::getElectronicServiceChannelsApi(false)->listElectronicServiceChannels($organizationId, $search, null, null, null, 10);
       
       foreach ($organizations as $organization) {
         $results[] = $organization->__toString();
@@ -172,7 +172,7 @@
       $search = $_POST['search'];
       $organizationId = $_POST['organizationId'];
       $results = [];
-      $items = \KuntaAPI\Core\Api::getPhoneServiceChannelsApi()->listPhoneServiceChannels($organizationId, $search, null, null, null, 10);
+      $items = \KuntaAPI\Core\Api::getPhoneServiceChannelsApi(false)->listPhoneServiceChannels($organizationId, $search, null, null, null, 10);
       
       foreach ($items as $item) {
         $results[] = $item->__toString();
@@ -196,7 +196,7 @@
       $search = $_POST['search'];
       $organizationId = $_POST['organizationId'];
       $results = [];
-      $items = \KuntaAPI\Core\Api::getPrintableFormServiceChannelsApi()->listPrintableFormServiceChannels($organizationId, $search, null, null, null, 10);
+      $items = \KuntaAPI\Core\Api::getPrintableFormServiceChannelsApi(false)->listPrintableFormServiceChannels($organizationId, $search, null, null, null, 10);
       
       foreach ($items as $item) {
         $results[] = $item->__toString();
@@ -220,7 +220,7 @@
       $search = $_POST['search'];
       $organizationId = $_POST['organizationId'];
       $results = [];
-      $items = \KuntaAPI\Core\Api::getWebPageServiceChannelsApi()->listWebPageServiceChannels($organizationId, $search, null, null, null, 10);
+      $items = \KuntaAPI\Core\Api::getWebPageServiceChannelsApi(false)->listWebPageServiceChannels($organizationId, $search, null, null, null, 10);
       
       foreach ($items as $item) {
         $results[] = $item->__toString();
@@ -243,7 +243,7 @@
     try {
       $data = stripslashes($_POST['serviceChannel']);
       $serviceChannel = new \KuntaAPI\Model\ElectronicServiceChannel(json_decode($data, true));
-      $result = \KuntaAPI\Core\Api::getElectronicServiceChannelsApi()->updateElectronicServiceChannel($serviceChannel->getId(), $serviceChannel);
+      $result = \KuntaAPI\Core\Api::getElectronicServiceChannelsApi(false)->updateElectronicServiceChannel($serviceChannel->getId(), $serviceChannel);
       $json = $result->__toString();
       echo $json;
       wp_die();
@@ -259,7 +259,7 @@
     try {
       $data = stripslashes($_POST['serviceChannel']);
       $serviceChannel = new \KuntaAPI\Model\PhoneServiceChannel(json_decode($data, true));
-      $result = \KuntaAPI\Core\Api::getPhoneServiceChannelsApi()->updatePhoneServiceChannel ($serviceChannel->getId(), $serviceChannel);
+      $result = \KuntaAPI\Core\Api::getPhoneServiceChannelsApi(false)->updatePhoneServiceChannel ($serviceChannel->getId(), $serviceChannel);
       $json = $result->__toString();
       echo $json;
       wp_die();
@@ -275,7 +275,7 @@
     try {
       $data = stripslashes($_POST['serviceChannel']);
       $serviceChannel = new \KuntaAPI\Model\PrintableFormServiceChannel(json_decode($data, true));
-      $result = \KuntaAPI\Core\Api::getPrintableFormServiceChannelsApi()->updatePrintableFormServiceChannel ($serviceChannel->getId(), $serviceChannel);
+      $result = \KuntaAPI\Core\Api::getPrintableFormServiceChannelsApi(false)->updatePrintableFormServiceChannel ($serviceChannel->getId(), $serviceChannel);
       $json = $result->__toString();
       echo $json;
       wp_die();
@@ -291,7 +291,7 @@
     try {
       $data = stripslashes($_POST['serviceChannel']);
       $serviceChannel = new \KuntaAPI\Model\WebPageServiceChannel(json_decode($data, true));
-      $result = \KuntaAPI\Core\Api::getWebPageServiceChannelsApi()->updateWebPageServiceChannel ($serviceChannel->getId(), $serviceChannel);
+      $result = \KuntaAPI\Core\Api::getWebPageServiceChannelsApi(false)->updateWebPageServiceChannel ($serviceChannel->getId(), $serviceChannel);
       $json = $result->__toString();
       echo $json;
       wp_die();
