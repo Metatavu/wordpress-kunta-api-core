@@ -33,6 +33,7 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
       wp_register_script('kunta-api-service-block', plugins_url( 'js/service-block.js', __FILE__ ), ['wp-blocks', 'wp-element', 'wp-i18n']);      
       wp_set_script_translations("kunta-api-service-block", "kunta_api_core", dirname(__FILE__) . '/lang/');
       wp_enqueue_style("kunta-api-service-block", plugins_url( 'css/styles.css', __FILE__ ));
+      add_filter("block_categories", [ $this, "blockCategoriesFilter"], 10, 2);
 
       wp_localize_script('kunta-api-service-block', 'kuntaApiBlocks', array(
         'metaformsUrl' => plugin_dir_url( __FILE__ ) . "metaforms",
@@ -188,6 +189,21 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
 
       return $result;
 
+    }
+
+    /**
+     * Filter method for block categories. Used to add custom category for Kunta API
+     * 
+     * @param array $categories categories
+     * @param \WP_Post post being loaded
+     */
+    public function blockCategoriesFilter($categories, $post) {
+      $categories[] = [
+        'slug' => 'kunta-api',
+        'title' => __( 'Kunta API', 'kunta_api_core' ),
+      ];
+
+      return $categories;
     }
 
   }
