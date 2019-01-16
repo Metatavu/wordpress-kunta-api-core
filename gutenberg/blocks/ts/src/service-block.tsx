@@ -13,7 +13,7 @@ const { __ } = wp.i18n;
 wp.blocks.registerBlockType('kunta-api/service', {
   title: __( 'Kunta API Service', 'kunta_api_core' ),
   icon: <svg aria-hidden="true" width="0.46em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 640 1408"><path d="M640 1216v128q0 26-19 45t-45 19H64q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h64V768H64q-26 0-45-19T0 704V576q0-26 19-45t45-19h384q26 0 45 19t19 45v576h64q26 0 45 19t19 45zM512 64v192q0 26-19 45t-45 19H192q-26 0-45-19t-19-45V64q0-26 19-45t45-19h256q26 0 45 19t19 45z" fill="#626262"/></svg>,
-  category: 'layout',
+  category: 'kunta-api',
 
   attributes: {
     serviceId: {
