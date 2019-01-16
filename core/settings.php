@@ -317,7 +317,7 @@
         echo '<div class="wrap">';
         echo '<h1 class="wp-heading-inline">' . $tableSettings['title'] . '</h1>';
         echo '<a class="page-title-action add-settings-table-row" data-table-name="' . $tableName . '">' . __( 'Add new', KUNTA_API_CORE_I18N_DOMAIN) . '</a>';
-        echo '<table class="wp-list-table widefat fixed striped settings-table" data-table-name="' . $tableName . '">';
+        echo '<table data-table-settings="' .  htmlentities(json_encode($tableSettings)) . '" class="wp-list-table widefat fixed striped settings-table" data-table-name="' . $tableName . '">';
         echo '<thead>';
         echo '<tr>';
         
