@@ -216,22 +216,7 @@ export default class Utils {
    * @returns name
    */
   public static getCodeTypeName(type: string): string {
-    switch (type) {
-      case 'Municipality':
-        return 'kunta';
-      case 'Province':
-        return 'maakunta';
-      case 'HospitalRegions':
-        return 'sairaanhoitopiiri';
-      case 'BusinessRegions':
-        return 'yrityspalvelujen seutualue';
-      case 'Country':
-        return 'maa';
-      case 'Language':
-        return 'kieli';
-      case 'Postal':
-        return 'postinumero';
-    }
+    return __(`codetype.${type}`, "kunta_api_core");
   }
 
   /**

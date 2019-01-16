@@ -87,6 +87,34 @@
       
       "servicelocationservicechannel.webpages": [
         "Web pages"
+      ],
+
+      "codetype.Municipality": [
+        "Municipality"
+      ],
+
+      "codetype.Province": [
+        "Province"
+      ],
+
+      "codetype.HospitalRegions": [
+        "HospitalRegions"
+      ],
+
+      "codetype.BusinessRegions": [
+        "Business Regions"
+      ],
+
+      "codetype.Country": [
+        "Country"
+      ],
+
+      "codetype.Language": [
+        "Language"
+      ],
+
+      "codetype.Postal": [
+        "Postal"
       ]
     }
   }

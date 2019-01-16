@@ -275,6 +275,34 @@
 
       "Edit": [
         "Muokkaa"
+      ],
+
+      "codetype.Municipality": [
+        "kunta"
+      ],
+
+      "codetype.Province": [
+        "maakunta"
+      ],
+
+      "codetype.HospitalRegions": [
+        "sairaanhoitopiiri"
+      ],
+
+      "codetype.BusinessRegions": [
+        "yrityspalvelujen seutualue"
+      ],
+
+      "codetype.Country": [
+        "maa"
+      ],
+
+      "codetype.Language": [
+        "kieli"
+      ],
+
+      "codetype.Postal": [
+        "postinumero"
       ]
       
     }
