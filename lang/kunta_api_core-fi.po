@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Kunta API Core 0.7.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-kunta-"
 "api-core\n"
-"POT-Creation-Date: 2019-01-07T06:15:43+02:00\n"
-"PO-Revision-Date: 2019-01-07 06:19+0200\n"
+"POT-Creation-Date: 2019-01-16T14:07:14+02:00\n"
+"PO-Revision-Date: 2019-01-16 14:07+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -122,7 +122,7 @@ msgid "No Fragments in trash"
 msgstr "Ei paloja roskakorissa"
 
 #: services/service-component-renderer.php:52
-#: services/service-locations/service-location-component-renderer.php:28
+#: services/service-locations/service-location-component-renderer.php:29
 msgid "Placeholder for description (Currently empty, not visible on webpage)"
 msgstr ""
 "Paikanpitäjä upotetulle kuvaukselle (tällä hetkellä tyhjä, tämä teksti ei "
@@ -181,25 +181,25 @@ msgstr ""
 "Paikanpitäjä upotetuille verkkosivu palvelukanaville (tällä hetkellä tyhjä, "
 "tämä teksti ei näy verkkosivulla)"
 
-#: services/service-locations/service-location-component-renderer.php:25
+#: services/service-locations/service-location-component-renderer.php:26
 msgid "Placeholder for adresses (Currently empty, not visible on webpage)"
 msgstr ""
 "Paikanpitäjä upotetuille osoitteille (tällä hetkellä tyhjä, tämä teksti ei "
 "näy verkkosivulla)"
 
-#: services/service-locations/service-location-component-renderer.php:31
+#: services/service-locations/service-location-component-renderer.php:32
 msgid "Placeholder for email (Currently empty, not visible on webpage)"
 msgstr ""
 "Paikanpitäjä upotetuille sähköpostiosoitteelle (tällä hetkellä tyhjä, tämä "
 "teksti ei näy verkkosivulla)"
 
-#: services/service-locations/service-location-component-renderer.php:34
+#: services/service-locations/service-location-component-renderer.php:35
 msgid "Placeholder for fax (Currently empty, not visible on webpage)"
 msgstr ""
 "Paikanpitäjä upotetuille faksille (tällä hetkellä tyhjä, tämä teksti ei näy "
 "verkkosivulla)"
 
-#: services/service-locations/service-location-component-renderer.php:37
+#: services/service-locations/service-location-component-renderer.php:38
 msgid ""
 "Placeholder for service location name (Currently empty, not visible on "
 "webpage)"
@@ -207,26 +207,26 @@ msgstr ""
 "Paikanpitäjä upotetulle palvelukanavan nimelle (tällä hetkellä tyhjä, tämä "
 "teksti ei näy verkkosivulla)"
 
-#: services/service-locations/service-location-component-renderer.php:40
+#: services/service-locations/service-location-component-renderer.php:41
 msgid "Placeholder for phonenumbers (Currently empty, not visible on webpage)"
 msgstr ""
 "Paikanpitäjä upotetuille puhelinnumeroille (tällä hetkellä tyhjä, tämä "
 "teksti ei näy verkkosivulla)"
 
-#: services/service-locations/service-location-component-renderer.php:43
+#: services/service-locations/service-location-component-renderer.php:44
 msgid ""
 "Placeholder for phone charge info (Currently empty, not visible on webpage)"
 msgstr ""
 "Paikanpitäjä upotetuille puhelujen maksutiedoille (tällä hetkellä tyhjä, "
 "tämä teksti ei näy verkkosivulla)"
 
-#: services/service-locations/service-location-component-renderer.php:46
+#: services/service-locations/service-location-component-renderer.php:47
 msgid "Placeholder for servicehours (Currently empty, not visible on webpage)"
 msgstr ""
 "Paikanpitäjä upotetuille palveluajoille (tällä hetkellä tyhjä, tämä teksti "
 "ei näy verkkosivulla)"
 
-#: services/service-locations/service-location-component-renderer.php:49
+#: services/service-locations/service-location-component-renderer.php:50
 msgid ""
 "Placeholder for service location webpages (Currently empty, not visible on "
 "webpage)"
@@ -238,7 +238,7 @@ msgstr ""
 msgid "Use sidebar plugin"
 msgstr "Käytä sivupalkki lisäosaa"
 
-#: services/tinymce-settings.php:30
+#: services/tinymce-settings.php:30 gutenberg/settings.php:23
 msgid "Use embed plugin"
 msgstr "Käytä upotuslisäosaa"
 
@@ -254,25 +254,33 @@ msgstr "Banneri"
 msgid "Incidents enabled"
 msgstr "Hätätiedotteet käytössä"
 
-#: gutenberg/blocks/blocks.php:74
+#: gutenberg/settings.php:30
+msgid "Allow service and service channel edit"
+msgstr "Salli palveluiden ja palvelupisteiden muokkaus"
+
+#: gutenberg/blocks/blocks.php:132
 msgid "No service selected"
 msgstr "Ei valittua palvelua"
 
-#: gutenberg/blocks/blocks.php:82
+#: gutenberg/blocks/blocks.php:140
 msgid "[Failed to load service]"
 msgstr "[Palvelun lataaminen epäonnistui]"
 
-#: gutenberg/blocks/blocks.php:89
+#: gutenberg/blocks/blocks.php:147
 msgid "[Service does not have data for given component]"
 msgstr "[Palvelulla ei ole saatavilla tietoja pyydetylle komponentille]"
 
-#: gutenberg/blocks/blocks.php:114
+#: gutenberg/blocks/blocks.php:176
 msgid "No service location selected"
 msgstr "Ei valittua palvelupistettä"
 
-#: gutenberg/blocks/blocks.php:125
+#: gutenberg/blocks/blocks.php:187
 msgid "[Service location does not have data for given component]"
 msgstr "[Palvelupisteelle ei ole saatavilla tietoja pyydetylle komponentille]"
+
+#: gutenberg/blocks/blocks.php:203
+msgid "Kunta API"
+msgstr "Kunta API"
 
 #: shortlinks/shortlinks-settings.php:14
 msgid "Shortlinks enabled"
@@ -385,9 +393,6 @@ msgstr "Sivupalkki"
 #~ msgid "[Data not available for service]"
 #~ msgstr "[Pyydettyä dataa ei löynyt palvelulle]"
 
-#~ msgid "[Failed to load service location service channel]"
-#~ msgstr "[Palvelupisteen lataaminen epäonnistui]"
-
 #~ msgid "[Data not available for service location service channel]"
 #~ msgstr "[Pyydettyä dataa ei löytynyt palvelupisteelle]"
 
@@ -477,9 +482,6 @@ msgstr "Sivupalkki"
 
 #~ msgid "You do not have sufficient permissions to access this page."
 #~ msgstr "Sinulle ei ole tarvittavia pääsyoikeuksia."
-
-#~ msgid "Kunta API"
-#~ msgstr "Kunta API"
 
 #~ msgid "Add new"
 #~ msgstr "Lisää uusi"
