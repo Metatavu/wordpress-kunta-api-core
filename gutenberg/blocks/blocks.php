@@ -20,8 +20,10 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
      * Constructor
      */
     public function __construct() {
-      add_action('init', [$this, "onInit"]);
-      add_action('save_post', [$this, "onSavePost"], 10, 3);
+      if (\KuntaAPI\Core\CoreSettings::getBooleanValue('gutenbergUsePlugin')) {
+        add_action('init', [$this, "onInit"]);
+        add_action('save_post', [$this, "onSavePost"], 10, 3);
+      }
     }
 
     /**
@@ -34,6 +36,7 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
 
       wp_localize_script('kunta-api-service-block', 'kuntaApiBlocks', array(
         'metaformsUrl' => plugin_dir_url( __FILE__ ) . "metaforms",
+        'allowEdit' => \KuntaAPI\Core\CoreSettings::getBooleanValue('gutenbergAllowEdit')
       ));
 
       register_block_type( 'kunta-api/service-location-service-channel', [

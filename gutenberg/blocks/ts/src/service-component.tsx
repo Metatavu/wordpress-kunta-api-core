@@ -4,8 +4,11 @@ import { SearchModal } from './search-modal';
 import ServiceEditModal from './service-edit-modal';
 
 declare var wp: wp;
+declare var kuntaApiBlocks: any;
 const { __ } = wp.i18n;
 const { withSelect } = wp.data;
+const { allowEdit } = kuntaApiBlocks;
+
 
 /**
  * Interface describing component props
@@ -84,7 +87,6 @@ class ServiceComponent extends React.Component<Props, State> {
    * Component render method
    */
   render() {
-    const Button = wp.components.Button;
     const components = [
       "description",
       "userInstruction",
@@ -109,12 +111,8 @@ class ServiceComponent extends React.Component<Props, State> {
     return (
       <div>
         <div>
-          <div style={{ float: "right" }}>
-            <Button className="button" isDefault onClick={ () => this.setState( { isSearchOpen: true } ) }>{__( 'Change service', 'kunta_api_core' )}</Button>
-          </div> 
-          <div style={{ float: "right" }}>
-            <Button className="button" style={{ marginRight: "2px" }} isDefault onClick={ () => this.setState( { isEditOpen: true } ) }>{__( 'Edit service', 'kunta_api_core' )}</Button>
-          </div> 
+          { this.renderChangeButton() }
+          { this.renderEditButton() }
           <div style={{ fontSize: "16px"}}>
             <div style={{ float: "left", paddingRight: "5px" }}>{__( 'Current service:', 'kunta_api_core' )}</div> 
             <wp.components.ServerSideRender 
@@ -180,6 +178,33 @@ class ServiceComponent extends React.Component<Props, State> {
       </div>
     );
   }
+
+  /**
+   * Renders change button if needed
+   */
+  private renderChangeButton() {
+    return (
+      <div style={{ float: "right" }}>
+        <wp.components.Button className="button" isDefault onClick={ () => this.setState( { isSearchOpen: true } ) }>{__( 'Change service', 'kunta_api_core' )}</wp.components.Button>
+      </div> 
+    );
+  }
+
+  /**
+   * Renders edit button if needed
+   */
+  private renderEditButton() {
+    if (!allowEdit) {
+      return null;
+    }
+
+    return (
+      <div style={{ float: "right" }}>
+        <wp.components.Button className="button" style={{ marginRight: "2px" }} isDefault onClick={ () => this.setState( { isEditOpen: true } ) }>{__( 'Edit service', 'kunta_api_core' )}</wp.components.Button>
+      </div> 
+    );
+  }
+
 }
 
 export default withSelect((select: any, ownProps: any) => {
