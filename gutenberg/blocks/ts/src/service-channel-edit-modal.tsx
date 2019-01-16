@@ -11,6 +11,7 @@ import Utils from './utils';
 import PhoneServiceChannelAdapter from './adapters/phone-service-channel-adapter';
 import PrintableFormServiceChannelAdapter from './adapters/printable-form-service-channel-adapter';
 import WebPageServiceChannelAdapter from './adapters/webpage-service-channel-adapter';
+import ServiceLocationServiceChannelAdapter from './adapters/service-location-service-channel-adapter';
 
 declare var wp: wp;
 declare var ajaxurl: string;
@@ -333,6 +334,7 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
       case "webpage":
         return new WebPageServiceChannelAdapter();
       case "serviceLocation":
+        return new ServiceLocationServiceChannelAdapter();
     }
 
     return null;

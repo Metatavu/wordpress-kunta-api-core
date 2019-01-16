@@ -249,12 +249,16 @@ export default abstract class AbstractAdapter {
    * @param locale locale
    * @returns list of phones in specified locale
    */
-  protected getLocalizedPhoneNumbers(phones: Phone[], locale: string): Phone[] {
+  protected getLocalizedPhoneNumbers(phones: Phone[], locale: string, type?: string): Phone[] {
     return (phones || [])
-      .filter((phone) => {
+      .filter((phone: Phone) => {
+        if (type && phone.type !== type) {
+          return false;
+        }
+
         return phone.number && phone.language === locale;
       })
-      .map((phone) => {
+      .map((phone: Phone) => {
         return Object.assign({}, phone, {
           isFinnishServiceNumber: phone.isFinnishServiceNumber ? "true" : "false"
         });
