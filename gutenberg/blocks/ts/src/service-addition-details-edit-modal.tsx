@@ -5,7 +5,6 @@ import Metaform from './metaform';
 import Utils from './utils';
 
 declare var wp: wp;
-declare var ajaxurl: string;
 declare var jQuery: any;
 const { withSelect } = wp.data;
 const { __ } = wp.i18n;

@@ -218,32 +218,6 @@ class ServiceEditModal extends React.Component<Props, State> {
     });
   }
 
-  private onChannelAdd(channelType: string, channel: any) {
-    const channelIds: ServiceChannelIds = this.state.channelIds;
-
-    switch (channelType) {
-      case "electronic":
-        channelIds.electronic = channelIds.electronic.concat(channel.id);
-      break; 
-      case "phone":
-        channelIds.phone = channelIds.phone.concat(channel.id);
-      break; 
-      case "printableForm":
-        channelIds.printableForm = channelIds.printableForm.concat(channel.id);
-      break; 
-      case "webpage":
-        channelIds.webpage = channelIds.webpage.concat(channel.id);
-      break; 
-      case "serviceLocation":
-        channelIds.serviceLocation = channelIds.serviceLocation.concat(channel.id);
-      break; 
-    }
-
-    this.setState({
-      channelIds: channelIds
-    });
-  }
-
   /**
    * Changes locale
    * 
