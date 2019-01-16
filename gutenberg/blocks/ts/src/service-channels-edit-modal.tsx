@@ -140,7 +140,7 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
               const details: any = channelTypes[channelType];
 
               return (
-                <wp.components.PanelBody title={ details.title } initialOpen={ true }>
+                <wp.components.PanelBody title={ details.title } initialOpen={ false }>
                   { this.renderChannels(channelType) }
                   <wp.components.PanelRow>
                     <wp.components.Button className="button" onClick={ () => { this.setState({ channelAddType: channelType, channelAddOpen: true }) } }>{ __("Add channel", "kunta_api_core") }</wp.components.Button>

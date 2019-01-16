@@ -83,7 +83,7 @@ class ServiceEditModal extends React.Component<Props, State> {
    * @param prevState previous state
    */
   componentDidUpdate(prevProps: Props, prevState: State) {
-    if ((JSON.stringify(this.props.service) !== JSON.stringify(prevProps.service))) {
+    if ((JSON.stringify(this.props.service || {}) !== JSON.stringify(prevProps.service || {}))) {
       const serviceAdapter = new ServiceAdapter();
       const values: any = {};
 
