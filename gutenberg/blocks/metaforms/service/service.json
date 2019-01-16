@@ -1,0 +1,197 @@
+{
+  "title": "Palvelu",
+  "sections": [{
+    "fields": [{
+      "title": "Palvelun tyyppi",
+      "type": "radio",
+      "name": "type",
+      "options": [{
+        "name": "Service",
+        "text": "Palvelu"
+      }, {
+        "name": "PermissionAndObligation",
+        "text": "Lupa tai muu velvoite"
+      }, {
+        "name": "ProfessionalQualifications",
+        "text": "Ammattipätevyys"
+      }]
+    }, {
+      "title": "Rahoitustyyppi",
+      "type": "radio",
+      "name": "fundingType",
+      "options": [{
+        "name": "PubliclyFunded",
+        "text": "Julkinen palvelu"
+      }, {
+        "name": "MarketFunded",
+        "text": "Yksityinen palvelu"
+      }]
+    }, {
+      "name": "name",
+      "type": "text",
+      "title": "Nimi",
+      "required": true,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita palvelua kuvaava, asiakaslähtöinen nimi."
+    }, {
+      "name": "alternateName",
+      "type": "text",
+      "title": "Vaihtoehtoinen nimi",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita palvelulle tarvittaessa muu nimi."
+    }, {
+      "name": "shortDescription",
+      "type": "memo",
+      "title": "Tiivistelmä",
+      "required": true,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita lyhyt tiivistelmä hakukoneita varten."
+    }, {
+      "name": "description",
+      "type": "memo",
+      "title": "Kuvaus",
+      "required": true,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita selkeä ja ymmärrettävä kuvausteksti."
+    }, {
+      "name": "requirements",
+      "type": "memo",
+      "title": "Ehdot ja kriteerit",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita lyhyesti, jos palveluun liittyy ehtoja, edellytyksiä tai kriteerejä."
+    }, {
+      "name": "userInstruction",
+      "type": "memo",
+      "title": "Toimintaohjeet",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita ohjeistus, miten asiakkaan on toimittava palvelun saamiseksi."
+    }, {
+        "title": "Maksullisuus",
+        "type": "radio",
+        "name": "serviceChargeType",
+        "options": [{
+          "name": "Chargeable",
+          "text": "Maksullinen"
+        }, {
+          "name": "FreeOfCharge",
+          "text": "Maksuton"
+        }]
+      }, {
+        "title": "Maksullisuuden lisätieto",
+        "type": "text",
+        "name": "chargeTypeAdditionalInfo",
+        "required": false,
+        "placeholder": "Kirjoita maksullisuuden tiedot"
+      }, {
+        "title": "Palvelussa on käytössä palveluseteli.",
+        "type": "radio",
+        "name": "serviceVouchersInUse",
+        "options": [{
+          "name": "false",
+          "text": "Ei"
+        }, {
+          "name": "true",
+          "text": "Kyllä"
+        }]
+      }, {
+        "visible-if": {
+          "field": "serviceVouchersInUse",
+          "equals": "true"
+        },
+        "name": "serviceVouchers",
+        "type": "table",
+        "title": "Käyntiosoite",
+        "required": false,
+        "contexts": "FORM",
+        "addRows": true,
+        "columns": [{
+          "type": "text",
+          "name": "value",
+          "title": "Nimi",
+          "placeholder": "Kirjoita verkkosivun nimi"
+        }, {
+          "type": "text",
+          "name": "url",
+          "title": "Verkko-osoite",
+          "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://."
+        }, {
+          "type": "text",
+          "name": "additionalInformation",
+          "title": "Lisätieto",
+          "placeholder": "Kirjoita lisätietoa palvelusetelistä."
+        }, {
+          "column-width": 63,
+          "type": "button",
+          "text": "Poista",
+          "class": "btn-warning",
+          "action": "delete-row"
+         }]
+      }, {
+        "name": "legislation",
+        "type": "table",
+        "title": "Linkki lakitietoihin",
+        "required": false,
+        "contexts": "FORM",
+        "addRows": true,
+        "columns": [{
+          "type": "text",
+          "name": "name",
+          "title": "Nimi",
+          "placeholder": "Kirjoita verkkoasiointikanavan nimi."
+        }, {
+          "type": "text",
+          "name": "webPage",
+          "title": "Verkko-osoite",
+          "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://."
+        }, {
+          "column-width": 63,
+          "type": "button",
+          "text": "Poista",
+          "class": "btn-warning",
+          "action": "delete-row"
+         }]
+      }]
+  }, {
+    "title": "Ammattipätevyyden, luvan tai muun velvoitteen lisätiedot",
+    "visible-if": {
+      "field": "type",
+      "equals": "ProfessionalQualifications",
+      "or": [{
+        "field": "type",
+        "equals": "PermissionAndObligation"
+      }]
+    },
+    "fields": [{
+      "name": "deadLineAdditionalInfo",
+      "type": "memo",
+      "title": "Määräaika",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita määräaikaan liittyvät tiedot."
+    }, {
+      "name": "processingTimeAdditionalInfo",
+      "type": "memo",
+      "title": "Käsittelyaika",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita käsittelyaikaan liittyvät tiedot."
+    }, {
+      "name": "validityTimeAdditionalInfo",
+      "type": "memo",
+      "title": "Voimassaoloaika",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita voimassaoloaikaan liittyvät tiedot."
+    }]
+  }, {
+    "title": "",
+    "fields": [{
+      "name": "edit-additional-details",
+      "type": "html",
+      "html":"<p><a class=\"btn btn-sm btn-success edit-additional-details\">Muokkaa muita lisätietoja</a>&nbsp;<a class=\"btn btn-sm btn-success edit-channels\">Muokkaa liitettyjä kanavia</a></p>"
+    }]
+  }]
+}

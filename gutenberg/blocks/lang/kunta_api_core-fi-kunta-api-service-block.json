@@ -17,6 +17,10 @@
         "Vaihda palvelua"
       ],
 
+      "Edit service": [
+        "Muokkaa palvelua"
+      ],
+
       "Current service:": [
         "Valittu palvelu:"
       ],
@@ -105,8 +109,8 @@
         "Englanti"
       ],
 
-      "servicelocationservicechannel.adresses": [
-        "Osoite"
+      "servicelocationservicechannel.addresses": [
+        "Osoiteet"
       ],
 
       "servicelocationservicechannel.description": [
@@ -129,6 +133,62 @@
         "Puhelin"
       ],
       
+      "Sunday": [
+        "Sunnuntai"
+      ],
+      
+      "Monday": [
+        "Maanantai"
+      ],
+      
+      "Tuesday": [
+        "Tiistai"
+      ],
+      
+      "Wednesday": [
+        "Keskiviikko"
+      ],
+      
+      "Thursday": [
+        "Torstai"
+      ],
+      
+      "Friday": [
+        "Perjantai"
+      ],
+      
+      "Saturday": [
+        "Lauantai"
+      ],
+      
+      "Sun.": [
+        "Sunnuntai"
+      ],
+      
+      "Mon.": [
+        "ma"
+      ],
+      
+      "Tue.": [
+        "ti"
+      ],
+      
+      "Wed.": [
+        "ke"
+      ],
+      
+      "Thu.": [
+        "to"
+      ],
+      
+      "Fri.": [
+        "pe"
+      ],
+
+      "Sat.": [
+        "la"
+      ],
+      
       "servicelocationservicechannel.phone-charge-info": [
         "Puhelun hintatiedot"
       ],
@@ -139,6 +199,110 @@
       
       "servicelocationservicechannel.webpages": [
         "Verkkosivut"
+      ],      
+      
+      "Edit service (%s)": [
+        "Muokkaa palvelua (%s)"
+      ],
+
+      "Edit service channel (%s)": [
+        "Muokkaa palvelukanavaa (%s)"
+      ],
+
+      "Service channels": [
+        "Palvelukanavat"
+      ],
+
+      "Service Channels": [
+        "Palvelukanavat"
+      ],
+
+      "Electronic Service Channels": [
+        "Verkkoasiointi"
+      ],
+
+      "Phone Service Channels": [
+        "Puhelinasiointi"
+      ],
+
+      "Printable form Service Channels": [
+        "Tulostettava lomake"
+      ],
+
+      "Web page Service Channels": [
+        "Verkkosivu"
+      ],
+      
+      "Service Location Service Channels": [
+        "Palvelupaikka"
+      ],
+
+      "Service hour": [
+        "Palveluaika"
+      ],
+
+      "Closed": [
+        "Suljettu"
+      ],
+
+      "Add channel": [
+        "Lisää kanava"
+      ],
+
+      "Save": [
+        "Tallenna"
+      ],
+
+      "Apply changes": [
+        "Käytä"
+      ],
+
+      "Apply": [
+        "Käytä"
+      ],
+
+      "Cancel": [
+        "Peruuta"
+      ],
+
+      "Add": [
+        "Lisää"
+      ],
+
+      "Remove": [
+        "Poista"
+      ],
+
+      "Edit": [
+        "Muokkaa"
+      ],
+
+      "codetype.Municipality": [
+        "kunta"
+      ],
+
+      "codetype.Province": [
+        "maakunta"
+      ],
+
+      "codetype.HospitalRegions": [
+        "sairaanhoitopiiri"
+      ],
+
+      "codetype.BusinessRegions": [
+        "yrityspalvelujen seutualue"
+      ],
+
+      "codetype.Country": [
+        "maa"
+      ],
+
+      "codetype.Language": [
+        "kieli"
+      ],
+
+      "codetype.Postal": [
+        "postinumero"
       ]
       
     }

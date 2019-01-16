@@ -8,14 +8,14 @@
       "type": "radio",
       "required": true,
       "options":  [{
-        "name": "Standard",
+        "name": "DaysOfTheWeek",
         "text": "Normaalit palveluajat: viikonpäivät",
         "checked": true
       }, {
-        "name": "Special",
+        "name": "OverMidnight",
         "text": "Normaalit palveluajat: vuorokauden yli (päivystys)"
       }, {
-          "name": "Exception",
+          "name": "Exceptional",
           "text": "Poikkeavat palveluajat"
       }],
       "contexts": ["FORM"],
@@ -24,7 +24,7 @@
   }, {
     "visible-if": {
       "field": "type",
-      "equals": "Standard"
+      "equals": "DaysOfTheWeek"
     },  
     "title": "Normaalit palveluajat: viikonpäivät",
     "fields": [{
@@ -121,7 +121,7 @@
   }, {
     "visible-if": {
       "field": "type",
-      "equals": "Special"
+      "equals": "OverMidnight"
     },  
     "title": "Normaalit palveluajat: vuorokauden yli (päivystys)",
     "fields": [{
@@ -143,7 +143,7 @@
   }, {
     "visible-if": {
       "field": "type",
-      "equals": "Special"
+      "equals": "OverMidnight"
     },  
     "fields": [{
       "visible-if": {
@@ -237,7 +237,7 @@
   }, {
     "visible-if": {
       "field": "type",
-      "equals": "Exception"
+      "equals": "Exceptional"
     },  
     "title": "Poikkeavat palveluajat",
     "fields": [{

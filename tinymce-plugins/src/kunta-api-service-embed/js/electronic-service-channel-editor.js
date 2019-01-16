@@ -25,19 +25,18 @@
     serviceChannelToForm(locale) {
       return {
         name: this.getTypedLocalizedValue(this.serviceChannel.names, locale, 'Name'),
-        shortDescription: this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'ShortDescription'),
+        shortDescription: this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'Summary'),
         description: this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'Description'),
         requiresAuthentication: this.serviceChannel.requiresAuthentication,
         requiresSignature: this.serviceChannel.requiresSignature,
         signatureQuantity: this.serviceChannel.signatureQuantity,
         supportPhones: this.getLocalizedPhoneNumbers(this.serviceChannel.supportPhones, locale),
         supportEmails: this.getLocalizedEmails(this.serviceChannel.supportEmails, locale),
-        url: this.getLocalizedValue(this.serviceChannel.urls, locale),
+        webPage: this.getLocalizedWebPageUrl(this.serviceChannel.webPages, locale),
         languages: this.serviceChannel.languages,
         attachments: (this.serviceChannel.attachments || []).filter((attachment) => {
           return attachment.url && attachment.language === locale;
         }),
-        webPages: this.getLocalizedWebPages(this.serviceChannel.webPages, locale),
         serviceHours: null,
         publishingStatus: this.serviceChannel.publishingStatus
       };
@@ -71,13 +70,12 @@
       
       result.names = [];
       result.descriptions = [];
-      result.urls = [];
+      result.webPages = [];
       result.attachments = [];
       result.requiresSignature = false;
       result.requiresAuthentication = false;
       result.supportPhones = [];
       result.supportEmails = [];
-      result.urls = [];
       result.attachments = [];
   
       this.supportedLocales.forEach((locale) => {
@@ -89,7 +87,7 @@
         result.requiresAuthentication = this.getFormBooleanValue(localeValues.requiresAuthentication, result.requiresAuthentication);
         
         this.setTypedLocalizedValue(result, 'names', localeValues, 'name', locale, 'Name');
-        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'shortDescription', locale, 'ShortDescription');
+        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'shortDescription', locale, 'Summary');
         this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'description', locale, 'Description');
 
         this.setLocalizedTableValues(result, 'supportPhones', localeValues, 'supportPhones', locale, (supportPhone) => {
@@ -106,7 +104,7 @@
           return !!supportEmail.value;
         });
         
-        this.setLocalizedValue(result, 'urls', localeValues, 'url', locale);
+        this.setLocalizedWebPages(result, 'webPages', localeValues, 'webPage', locale);
         this.setLocalizedTableValues(result, 'attachments', localeValues, 'attachments', locale, (attachment) => {
           return !!attachment.url;
         }, (attachment) => {

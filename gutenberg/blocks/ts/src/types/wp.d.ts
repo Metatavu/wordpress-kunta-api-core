@@ -26,6 +26,10 @@ declare module "wp" {
     SelectControl: any;
     Placeholder: any;
     CheckboxControl: any;
+    Notice: any;
+    Panel: any;
+    PanelBody: any;
+    PanelRow: any;
   }
 
   export interface WPCompose {
@@ -46,6 +50,7 @@ declare module "wp" {
 
   export interface WPI18n {
     __: any;
+    sprintf: any;
   }
   
   export interface wp {
@@ -54,7 +59,7 @@ declare module "wp" {
     element: WPElement;
     blocks: WPBlocks;
     editor: WPEditor;
-    components: WPComponents;
+    components: WPComponents; 
     compose: WPCompose;
     i18n: WPI18n,
     apiFetch: any;

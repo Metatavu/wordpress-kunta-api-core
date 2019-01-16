@@ -12,12 +12,12 @@
       private static $pages = [];
     	 
       public static function listOrganizationChildPages($organizationId, $parentId) {
-        return \KuntaAPI\Core\Api::getPagesApi()->listOrganizationPages($organizationId, $parentId);
+        return \KuntaAPI\Core\Api::getPagesApi(true)->listOrganizationPages($organizationId, $parentId);
       }
       
       public static function findOrganizationPage($organizationId, $pageId) {
       	if (!isset(static::$pages[$pageId])) {
-      	  static::$pages[$pageId] = \KuntaAPI\Core\Api::getPagesApi()->findOrganizationPage($organizationId, $pageId);
+      	  static::$pages[$pageId] = \KuntaAPI\Core\Api::getPagesApi(true)->findOrganizationPage($organizationId, $pageId);
       	}
         
       	return static::$pages[$pageId];

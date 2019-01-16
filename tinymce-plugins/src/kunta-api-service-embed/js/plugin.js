@@ -103,7 +103,7 @@
       const fundingType = this.service.fundingType;
       const name = this.getTypedLocalizedValue(this.service.names, locale, 'Name');
       const alternateName = this.getTypedLocalizedValue(this.service.names, locale, 'AlternateName');
-      const shortDescription = this.getTypedLocalizedValue(this.service.descriptions, locale, 'ShortDescription');
+      const shortDescription = this.getTypedLocalizedValue(this.service.descriptions, locale, 'Summary');
       const description = this.getTypedLocalizedValue(this.service.descriptions, locale, 'Description');
       const chargeTypeAdditionalInfo = this.getTypedLocalizedValue(this.service.descriptions, locale, 'ChargeTypeAdditionalInfo');
       const userInstruction = this.getTypedLocalizedValue(this.service.descriptions, locale, 'ServiceUserInstruction');
@@ -241,8 +241,8 @@
         result.fundingType = localeValues.fundingType || result.fundingType;
         
         this.setTypedLocalizedValue(result, 'names', localeValues, 'name', locale, 'Name');
-        this.setTypedLocalizedValue(result, 'names', localeValues, 'alternateName', locale, 'AlternateName');
-        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'shortDescription', locale, 'ShortDescription');
+        this.setTypedLocalizedValue(result, 'names', localeValues, 'alternateName', locale, 'AlternativeName');
+        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'shortDescription', locale, 'Summary');
         this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'description', locale, 'Description');
         this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'chargeTypeAdditionalInfo', locale, 'ChargeTypeAdditionalInfo');
         this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'userInstruction', locale, 'ServiceUserInstruction');

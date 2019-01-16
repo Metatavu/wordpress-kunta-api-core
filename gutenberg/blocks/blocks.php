@@ -20,8 +20,10 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
      * Constructor
      */
     public function __construct() {
-      add_action('init', [$this, "onInit"]);
-      add_action('save_post', [$this, "onSavePost"], 10, 3);
+      if (\KuntaAPI\Core\CoreSettings::getBooleanValue('gutenbergUsePlugin')) {
+        add_action('init', [$this, "onInit"]);
+        add_action('save_post', [$this, "onSavePost"], 10, 3);
+      }
     }
 
     /**
@@ -30,6 +32,12 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
     public function onInit() {
       wp_register_script('kunta-api-service-block', plugins_url( 'js/service-block.js', __FILE__ ), ['wp-blocks', 'wp-element', 'wp-i18n']);      
       wp_set_script_translations("kunta-api-service-block", "kunta_api_core", dirname(__FILE__) . '/lang/');
+      wp_enqueue_style("kunta-api-service-block", plugins_url( 'css/styles.css', __FILE__ ));
+
+      wp_localize_script('kunta-api-service-block', 'kuntaApiBlocks', array(
+        'metaformsUrl' => plugin_dir_url( __FILE__ ) . "metaforms",
+        'allowEdit' => \KuntaAPI\Core\CoreSettings::getBooleanValue('gutenbergAllowEdit')
+      ));
 
       register_block_type( 'kunta-api/service-location-service-channel', [
         'attributes' => [    
@@ -153,6 +161,10 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
       $component = $attributes['component'];
       $result = '';
 
+      if (!$lang) {
+        $lang = 'fi';
+      }
+
       if (!$component) {
         $component = "description";
       }
@@ -169,7 +181,7 @@ if (!class_exists( 'KuntaAPI\Gutenberg\Blocks' ) ) {
 
       $renderer = new \KuntaAPI\Services\ServiceLocations\ServiceLocationComponentRenderer();
       $result = $serviceLocationChannel ? $renderer->renderComponent($lang, $serviceLocationChannel, $component) : "";
-    
+
       if (empty($result) && $_GET["preview"]) {
         return __("[Service location does not have data for given component]", "kunta_api_core");
       }

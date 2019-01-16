@@ -1,9 +1,14 @@
 import React from 'react';
 import { wp } from 'wp';
 import { SearchModal } from './search-modal';
+import ServiceEditModal from './service-edit-modal';
 
 declare var wp: wp;
+declare var kuntaApiBlocks: any;
 const { __ } = wp.i18n;
+const { withSelect } = wp.data;
+const { allowEdit } = kuntaApiBlocks;
+
 
 /**
  * Interface describing component props
@@ -12,6 +17,7 @@ interface Props {
   serviceId: string,
   component: string,
   lang: string,
+  service: any,
   onComponentChange(component: string) : void;
   onLangChange(lang: string) : void;
   onServiceIdChange(serviceId: string): void;
@@ -21,10 +27,12 @@ interface Props {
  * Interface describing component state
  */
 interface State {
-  isOpen: boolean,
+  isSearchOpen: boolean,
+  isEditOpen: boolean,
   serviceId: string,
   component: string,
-  lang: string
+  lang: string,
+  version: number
 }
 
 /**
@@ -40,10 +48,12 @@ class ServiceComponent extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      isOpen: false,
+      isSearchOpen: false,
+      isEditOpen: false,
       component: this.props.component,
       lang: this.props.lang,
-      serviceId: this.props.serviceId
+      serviceId: this.props.serviceId,
+      version: 0
     };
   }
 
@@ -65,13 +75,18 @@ class ServiceComponent extends React.Component<Props, State> {
     if (this.state.serviceId !== prevState.serviceId) {
       this.props.onServiceIdChange(this.state.serviceId);
     }
+
+    if ((JSON.stringify(this.props.service) !== JSON.stringify(prevProps.service))) {
+      this.setState({
+        version: this.state.version + 1
+      });
+    }
   }
 
   /**
    * Component render method
    */
   render() {
-    const Button = wp.components.Button;
     const components = [
       "description",
       "userInstruction",
@@ -96,9 +111,8 @@ class ServiceComponent extends React.Component<Props, State> {
     return (
       <div>
         <div>
-          <div style={{ float: "right" }}>
-            <Button className="button" isDefault onClick={ () => this.setState( { isOpen: true } ) }>{__( 'Change service', 'kunta_api_core' )}</Button>
-          </div> 
+          { this.renderChangeButton() }
+          { this.renderEditButton() }
           <div style={{ fontSize: "16px"}}>
             <div style={{ float: "left", paddingRight: "5px" }}>{__( 'Current service:', 'kunta_api_core' )}</div> 
             <wp.components.ServerSideRender 
@@ -108,7 +122,7 @@ class ServiceComponent extends React.Component<Props, State> {
                 lang: this.state.lang,
                 component: this.state.component
               }} 
-              urlQueryArgs={{displayName: true}} />
+              urlQueryArgs={{displayName: true, version: this.state.version }} />
           </div>
         </div>
 
@@ -133,7 +147,7 @@ class ServiceComponent extends React.Component<Props, State> {
           inputLabel={ __("Search Services", "kunta_api_core") }
           inputHelp={ __("Enter some text to search services", "kunta_api_core") }
           searchAction="kunta_api_search_services"
-          open={ this.state.isOpen }
+          open={ this.state.isSearchOpen }
           getDisplayName={ (entity: any) => {
             const names = entity.names || [];
             names.sort((a: any, b: any) => {
@@ -143,9 +157,14 @@ class ServiceComponent extends React.Component<Props, State> {
             return names.length ? names[0].value : null;
           }}
           onSelect={ (data) => { 
-            this.setState( { isOpen: false, serviceId: data.id } ); 
+            this.setState( { isSearchOpen: false, serviceId: data.id } ); 
           } }
-          onClose={ () => this.setState( { isOpen: false } )}/>
+          onClose={ () => this.setState( { isSearchOpen: false } )}/>
+
+        <ServiceEditModal 
+          serviceId={ this.state.serviceId }
+          open={ this.state.isEditOpen }
+          onClose={ () => this.setState( { isEditOpen: false } )}/>          
         <hr/>
         
         <wp.components.ServerSideRender 
@@ -155,10 +174,44 @@ class ServiceComponent extends React.Component<Props, State> {
             lang: this.state.lang,
             component: this.state.component
           }} 
-          urlQueryArgs={{preview: true}} />
+          urlQueryArgs={{preview: true, version: this.state.version}} />
       </div>
     );
   }
+
+  /**
+   * Renders change button if needed
+   */
+  private renderChangeButton() {
+    return (
+      <div style={{ float: "right" }}>
+        <wp.components.Button className="button" isDefault onClick={ () => this.setState( { isSearchOpen: true } ) }>{__( 'Change service', 'kunta_api_core' )}</wp.components.Button>
+      </div> 
+    );
+  }
+
+  /**
+   * Renders edit button if needed
+   */
+  private renderEditButton() {
+    if (!allowEdit) {
+      return null;
+    }
+
+    return (
+      <div style={{ float: "right" }}>
+        <wp.components.Button className="button" style={{ marginRight: "2px" }} isDefault onClick={ () => this.setState( { isEditOpen: true } ) }>{__( 'Edit service', 'kunta_api_core' )}</wp.components.Button>
+      </div> 
+    );
+  }
+
 }
 
-export default ServiceComponent;
+export default withSelect((select: any, ownProps: any) => {
+  const { getService } = select("kunta-api/data");
+  const { serviceId } = ownProps;
+
+  return {
+		service: serviceId ? getService(serviceId) : {}
+	};
+})(ServiceComponent);

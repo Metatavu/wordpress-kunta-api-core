@@ -8,7 +8,7 @@
       $types = $_POST['types'];
       $search = $_POST['search'];
       $results = [];
-      $codes = \KuntaAPI\Core\Api::getCodesApi()->listCodes($types, $search);
+      $codes = \KuntaAPI\Core\Api::getCodesApi(false)->listCodes($types, $search);
       
       foreach ($codes as $code) {
         $results[] = $code->__toString();
@@ -30,7 +30,7 @@
   add_action( 'wp_ajax_kunta_api_find_organization', function () {
     try {
       $organizationId = $_POST['id'];
-      $organization = \KuntaAPI\Core\Api::getOrganizationsApi()->findOrganization($organizationId);
+      $organization = \KuntaAPI\Core\Api::getOrganizationsApi(false)->findOrganization($organizationId);
       echo $organization->__toString();
       wp_die();
     } catch (\KuntaAPI\ApiException $e) {
@@ -45,7 +45,7 @@
     try {
       $search = $_POST['search'];
       $results = [];
-      $organizations = \KuntaAPI\Core\Api::getOrganizationsApi()->listOrganizations(null, null, $search, null, null, null, 10);
+      $organizations = \KuntaAPI\Core\Api::getOrganizationsApi(false)->listOrganizations(null, null, $search, null, null, null, 10);
       
       foreach ($organizations as $organization) {
         $results[] = $organization->__toString();

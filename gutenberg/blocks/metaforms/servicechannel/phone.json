@@ -1,0 +1,129 @@
+{
+  "title": "Puhelinasiointikanava",
+  "sections": [{
+    "fields": [{
+      "name": "name",
+      "type": "text",
+      "title": "Nimi",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita puhelinasiointikanavan nimi."
+    }, {
+      "name": "shortDescription",
+      "type": "memo",
+      "title": "Tiivistelmä",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita lyhyt tiivistelmä hakukoneita varten."
+    }, {
+      "name": "description",
+      "type": "memo",
+      "title": "Kuvaus",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita selkeä ja ymmärrettävä kuvausteksti."
+    }]
+  }, {
+    "fields": [{
+      "name": "phoneNumbers",
+      "type": "table",
+      "title": "Puhelinnumerot",
+      "required": false,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
+        "title": "Puhelinkanavan tyyppi",
+        "type": "enum",
+        "name": "type",
+        "values": [{
+          "value": "Phone",
+          "text": "Puhelu"
+        }, {
+          "value": "Sms",
+          "text": "Tekstiviesti"
+        }, {
+          "value": "Fax",
+          "text": "Faksi"
+        }]
+      }, {
+        "title": "Maan suuntanumero",
+        "type": "text",
+        "name": "prefixNumber",
+        "placeholder": "esim. +358",
+        "column-width": 150
+      }, {
+        "title": "Puhelinnumero",
+        "type": "text",
+        "name": "number",
+        "placeholder": "esim. 45123467"
+      }, {
+        "title": "Voi soittaa ulkomailta",
+        "type": "enum",
+        "name": "isFinnishServiceNumber",
+        "values": [{
+          "value": "true",
+          "text": "Ei"
+        }, {
+          "value": "false",
+          "text": "Kyllä"
+        }]
+      }, {
+        "title": "Maksullisuus",
+        "type": "enum",
+        "name": "serviceChargeType",
+        "values": [{
+          "value": "Chargeable",
+          "text": "Maksullinen"
+        }, {
+          "value": "FreeOfCharge",
+          "text": "Maksuton"
+        }, {
+          "value": "Other",
+          "text": "Muu"
+        }]
+      }, {
+        "title": "Hintatiedot sanallisesti",
+        "type": "text",
+        "name": "chargeDescription",
+        "placeholder": "esim. jonotusajalta peritään normaali puhelumaksu."
+      }, {
+        "title": "Lisätieto",
+        "type": "text",
+        "name": "additionalInformation",
+        "placeholder": "esim. Vaihde"
+      }]
+    }, {
+      "title": "Verkko-osoite",
+      "type": "text",
+      "name": "webPages",
+      "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://."
+    }, {
+      "name": "supportEmails",
+      "type": "table",
+      "title": "Käytön tuen sähköpostiosoitteet",
+      "required": false,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
+        "type": "text",
+        "name": "value",
+        "placeholder": "esim. osoite@organisaatio.fi"
+      }]
+    }, {
+      "name": "serviceHours",
+      "type": "html",
+      "title": "Palveluajat",
+      "required": false,
+      "contexts": "FORM",
+      "html": "<table class=\"serviceHours\" style=\"width: 100%;\"><tbody></tbody></table>"
+    }, {
+      "name": "add-service-hour",
+      "type": "html",
+      "html":"<a class=\"btn btn-sm btn-success add-service-hour\">Lisää palveluaika</a>"
+    }, {
+      "name": "edit-additional-details",
+      "type": "html",
+      "html":"<p><a class=\"btn btn-sm btn-success edit-additional-details\">Muokkaa lisätietoja</a></p>"
+    }]
+  }]
+}

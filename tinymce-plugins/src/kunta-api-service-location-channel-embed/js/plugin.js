@@ -85,14 +85,19 @@
     }
     
     serviceChannelFromForm(existingLocationServiceChannel, formValues) {
-      const serviceLocationServiceChannel = JSON.parse(JSON.stringify(existingLocationServiceChannel));
-      serviceLocationServiceChannel.addresses = [];
-      serviceLocationServiceChannel.descriptions = [];
-      serviceLocationServiceChannel.emails = [];
-      serviceLocationServiceChannel.phoneNumbers = [];
+      const result = JSON.parse(JSON.stringify(existingLocationServiceChannel));
+      result.addresses = [];
+      result.descriptions = [];
+      result.emails = [];
+      result.phoneNumbers = [];
+      result.webPages = [];
       
       this.supportedLocales.forEach((locale) => {
         const localeValues = formValues[locale];
+
+        this.setTypedLocalizedValue(result, 'names', localeValues, 'name', locale, 'Name');
+        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'shortDescription', locale, 'Summary');
+        this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'description', locale, 'Description');
         
         const localeAddresses = JSON.parse(localeValues.addresses).filter((address) => {
           return !!address.street && !!address.street.trim();
@@ -100,7 +105,7 @@
         
         localeAddresses.forEach((localeAddress, addressIndex) => {
           let address;
-          if (serviceLocationServiceChannel.addresses.length - 1 < addressIndex) {
+          if (result.addresses.length - 1 < addressIndex) {
             address = {
               additionalInformations: [],
               streetAddress: [],
@@ -109,9 +114,9 @@
               country: 'FI'
             };
             
-            serviceLocationServiceChannel.addresses.push(address);
+            result.addresses.push(address);
           } else {
-            address = serviceLocationServiceChannel.addresses[addressIndex];
+            address = result.addresses[addressIndex];
           }
           
           if (localeAddress.additionalInformation) {
@@ -142,15 +147,15 @@
           const addressIndex = localeAddresses.length + foreignAddressIndex;
           
           let address;
-          if (serviceLocationServiceChannel.addresses.length - 1 < addressIndex) {
+          if (result.addresses.length - 1 < addressIndex) {
             address = {
               subtype: 'Abroad',
               type: 'Location',
               locationAbroad: []
             };            
-            serviceLocationServiceChannel.addresses.push(address);
+            result.addresses.push(address);
           } else {
-            address = serviceLocationServiceChannel.addresses[addressIndex];
+            address = result.addresses[addressIndex];
           }
           
           address.locationAbroad.push({
@@ -159,50 +164,37 @@
           });
         });
         
-        serviceLocationServiceChannel.emails = serviceLocationServiceChannel.emails.concat(
-          JSON.parse(localeValues.emails)
-            .filter((email) => {
-              return !!email.email;
-            })
-            .map((email) => {
-              return {
-                "language": locale,
-                "value": email.email
-              };
-            })
-        );
+        this.setLocalizedTableValues(result, 'emails', localeValues, 'emails', locale, (email) => {
+          return !!email.value;
+        });
+        
+        this.setLocalizedTableValues(result, 'phoneNumbers', localeValues, 'phoneNumbers', locale, 
+          (phoneNumber) => {
+            return phoneNumber.prefixNumber || phoneNumber.number;
+          }, 
+          (phoneNumber) => {
+            return Object.assign(phoneNumber, {
+              "type": "Phone",
+              "language": locale,
+              "isFinnishServiceNumber": phoneNumber.isFinnishServiceNumber === "true"
+            });
+          });
 
-        serviceLocationServiceChannel.phoneNumbers = serviceLocationServiceChannel.phoneNumbers.concat(
-          JSON.parse(localeValues.phoneNumbers)
-            .filter((phoneNumber) => {
-              return !!phoneNumber.prefixNumber && !!phoneNumber.number;
-            })
-            .map((phoneNumber) => {
-              return Object.assign(phoneNumber, {
-                "type": "Phone",
-                "language": locale,
-                "isFinnishServiceNumber": phoneNumber.isFinnishServiceNumber === "true"
-              });
-            })
-        );
+        this.setLocalizedTableValues(result, 'phoneNumbers', localeValues, 'faxes', locale, 
+          (phoneNumber) => {
+            return phoneNumber.prefixNumber || phoneNumber.number;
+          }, 
+          (phoneNumber) => {
+            return Object.assign(phoneNumber, {
+              "type": "Fax",
+              "language": locale,
+              "number": phoneNumber.number,
+              "prefixNumber": phoneNumber.prefixNumber,
+              "isFinnishServiceNumber": false
+            });
+          });
 
-        serviceLocationServiceChannel.phoneNumbers = serviceLocationServiceChannel.phoneNumbers.concat(
-          JSON.parse(localeValues.faxes)
-            .filter((fax) => {
-              return !!fax.prefixNumber && !!fax.number;
-            })
-            .map((fax) => {
-              return {
-                "type": "Fax",
-                "language": locale,
-                "number": fax.number,
-                "prefixNumber": fax.prefixNumber,
-                "isFinnishServiceNumber": false
-              };
-            })
-        );
-
-        serviceLocationServiceChannel.webPages = serviceLocationServiceChannel.webPages.concat(
+        result.webPages = result.webPages.concat(
           JSON.parse(localeValues.webPages)
             .filter((webPage) => {
               return !!webPage.url;
@@ -211,36 +203,14 @@
               return Object.assign(webPage, {
                 "language": locale
               });
-            })
+            }) 
         );
-        
-        if (localeValues.description) {
-          localeValues.description = localeValues.description.trim();
-        }
-        
-        if (localeValues.description) {
-          serviceLocationServiceChannel.descriptions.push({
-            "language": locale,
-            "value": localeValues.description,
-            "type": "Description"
-          });
-        }
-        
-        if (localeValues.shortDescription) {
-          localeValues.shortDescription = localeValues.shortDescription.trim();
-        }
-      
-        if (localeValues.shortDescription) {
-          serviceLocationServiceChannel.descriptions.push({
-            "language": locale,
-            "value": localeValues.shortDescription,
-            "type": "ShortDescription"
-          });
-        }
       });
-      
-      return serviceLocationServiceChannel;
+
+      return result;
     }
+
+
     
     additionalDetailsToForm(serviceLocationServiceChannel) {
       return this.languagesToForm(serviceLocationServiceChannel.languages)
@@ -261,7 +231,7 @@
    
     serviceChannelToForm(locale) {
       const name = this.getTypedLocalizedValue(this.serviceChannel.names, locale, 'Name');
-      const shortDescription = this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'ShortDescription');
+      const shortDescription = this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'Summary');
       const description = this.getTypedLocalizedValue(this.serviceChannel.descriptions, locale, 'Description');
       const visitAddresses = this.serviceChannel.addresses.filter((address) => {
         return address.subtype !== 'Abroad';
@@ -271,20 +241,6 @@
         return address.subtype === 'Abroad';
       });
       
-      const emails = this.serviceChannel.emails.filter((email) => {
-        return locale === email.language;
-      });
-      
-      const faxes = this.serviceChannel.phoneNumbers.filter((phoneNumber) => {
-        return phoneNumber.type === 'Fax' && locale === phoneNumber.language;
-      });
-      
-      const phoneNumbers = this.serviceChannel.phoneNumbers.filter((phoneNumber) => {
-        return phoneNumber.type === 'Phone' && locale === phoneNumber.language;
-      });
-      
-      const webPages = this.getLocalizedWebPages(this.serviceChannel.webPages, locale);
-      
       const addresses = visitAddresses.map((address) => {
         return {
           street: this.getLocalizedValue(address.streetAddress, locale),
@@ -293,29 +249,21 @@
           additionalInformation: this.getLocalizedValue(address.additionalInformations, locale) 
         };
       });
-      
+
       return {
         name: name,
         description: description,
         shortDescription: shortDescription,
         addresses: addresses,
-        emails: emails.map((email) => {
-          return {
-            email: email.value
-          };
-        }),
-        phoneNumbers: phoneNumbers.map((phoneNumber) => {
-          return Object.assign(phoneNumber, {
-            isFinnishServiceNumber: phoneNumber.isFinnishServiceNumber ? 'true' : 'false'
-          });
-        }),
-        faxes: faxes,
+        emails: this.getLocalizedEmails(this.serviceChannel.emails, locale),
+        phoneNumbers: this.getLocalizedPhoneNumbers(this.serviceChannel.phoneNumbers, locale, "Phone"),
+        faxes: this.getLocalizedPhoneNumbers(this.serviceChannel.phoneNumbers, locale, "Fax"),
         foreignAddresses: foreignAddresses.map((foreignAddress) => {
           return {
             foreign: this.getLocalizedValue(foreignAddress.locationAbroad, locale)
           };
         }),
-        webPages: webPages
+        webPages: this.getLocalizedWebPages(this.serviceChannel.webPages, locale)
       };
     }
     
