@@ -586,9 +586,13 @@
      * @param {String} locale locale
      * @returns {Array} list of phones in specified locale
      */
-    getLocalizedPhoneNumbers(phones, locale) {
+    getLocalizedPhoneNumbers(phones, locale, type) {
       return (phones || [])
         .filter((phone) => {
+          if (type && phone.type !== type) {
+            return false;
+          }
+
           return phone.number && phone.language === locale;
         })
         .map((phone) => {
@@ -686,7 +690,7 @@
       
       for (let i = 0; i < result[resultProperty].length; i++) {
         if (result[resultProperty][i].language === language) {
-          result[resultProperty][i].value = value;
+          result[resultProperty][i][resultProperty] = value;
           return;
         }
       }

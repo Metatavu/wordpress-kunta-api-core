@@ -82,7 +82,7 @@
       "addRows": true,
       "columns": [{
         "type": "text",
-        "name": "email",
+        "name": "value",
         "placeholder": "esim. osoite@organisaatio.fi"
       }]
     }, {

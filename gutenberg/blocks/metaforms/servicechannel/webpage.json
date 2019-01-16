@@ -27,9 +27,9 @@
     "fields": [{
       "title": "Verkko-osoite",
       "type": "text",
-      "name": "url",
+      "name": "webPage",
       "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://."
-    }, {
+    },{
       "name": "supportPhones",
       "type": "table",
       "title": "Käytön tuen puhelinnumerot",

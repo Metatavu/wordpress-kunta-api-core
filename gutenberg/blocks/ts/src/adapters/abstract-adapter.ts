@@ -325,7 +325,7 @@ export default abstract class AbstractAdapter {
     
     for (let i = 0; i < result[resultProperty].length; i++) {
       if (result[resultProperty][i].language === language) {
-        result[resultProperty][i].value = value;
+        result[resultProperty][i][resultProperty] = value;
         return;
       }
     }
