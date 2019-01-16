@@ -96,11 +96,12 @@ export default class ServiceLocationServiceChannelAdapter extends AbstractServic
 
     this.getSupportedLocales().forEach((locale: string) => {
       const localeValues = values[locale];
+
       this.setTypedLocalizedValue(result, 'names', localeValues, 'name', locale, 'Name');
       this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'shortDescription', locale, 'Summary');
       this.setTypedLocalizedValue(result, 'descriptions', localeValues, 'description', locale, 'Description');
       
-      const localeAddresses = localeValues.addresses.filter((address: any) => {
+      const localeAddresses = this.getFormArray(localeValues, "addresses").filter((address: any) => {
         return !!address.street && !!address.street.trim();
       });
 
@@ -140,7 +141,7 @@ export default class ServiceLocationServiceChannelAdapter extends AbstractServic
         address.streetNumber = localeAddress.streetNumber;
       });
       
-      const foreignAddresses = localeValues.foreignAddresses.filter((address: any) => {
+      const foreignAddresses = this.getFormArray(localeValues, "foreignAddresses").filter((address: any) => {
         return !!address.foreign;
       });
       
@@ -195,7 +196,7 @@ export default class ServiceLocationServiceChannelAdapter extends AbstractServic
           });
         });
 
-      result.webPages = result.webPages.concat(localeValues.webPages
+      result.webPages = result.webPages.concat(this.getFormArray(localeValues, "webPages")
         .filter((webPage: any) => {
           return !!webPage.url;
         })

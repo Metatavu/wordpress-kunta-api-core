@@ -341,5 +341,23 @@ export default abstract class AbstractAdapter {
     resultItem[resultField] = value;
     result[resultProperty].push(resultItem);
   }
+
+  /**
+   * Returns array value from form
+   * 
+   * @param sourceObject 
+   * @param sourceProperty 
+   */
+  protected getFormArray(sourceObject: any, sourceProperty: string): any[] {
+    if (!sourceObject || sourceObject[sourceProperty]) {
+      return [];
+    }
+
+    if (Array.isArray(sourceObject[sourceProperty])) {
+      return sourceObject[sourceProperty];
+    }
+
+    return JSON.parse(sourceObject[sourceProperty]);
+  }
 }
 

@@ -2,16 +2,21 @@ import React from 'react';
 import { wp } from 'wp';
 import { SearchModal } from './search-modal';
 import ServiceLocationPageCheckbox from './service-location-page-checkbox';
+import ServiceChannelEditModal from './service-channel-edit-modal';
+import { ServiceLocationServiceChannel } from './kunta-api/models';
 
 declare var wp: wp;
+declare var kuntaApiBlocks: any;
 const { __ } = wp.i18n;
-const { subscribe } = wp.data;
+const { withSelect, subscribe } = wp.data;
+const { allowEdit } = kuntaApiBlocks;
 
 /**
  * Interface describing component props
  */
 interface Props {
   channelId: string,
+  channel?: ServiceLocationServiceChannel,
   component: string,
   lang: string,
   serviceLocationPage: boolean,
@@ -29,7 +34,9 @@ interface State {
   channelId: string,
   component: string,
   lang: string,
-  serviceLocationPage: boolean
+  serviceLocationPage: boolean,
+  isEditOpen: boolean,
+  version: number
 }
 
 /**
@@ -49,7 +56,9 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
       component: this.props.component,
       lang: this.props.lang,
       channelId: this.props.channelId,
-      serviceLocationPage: this.props.serviceLocationPage
+      serviceLocationPage: this.props.serviceLocationPage,
+      isEditOpen: false,
+      version: 0
     };
 
     subscribe(() => {
@@ -82,13 +91,18 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
     if (this.state.serviceLocationPage !== prevState.serviceLocationPage) {
       this.props.onServiceLocationPageChange(this.state.serviceLocationPage);
     }
+
+    if ((JSON.stringify(this.props.channel || {}) !== JSON.stringify(prevProps.channel || {}))) {
+      this.setState({
+        version: this.state.version + 1
+      });
+    }
   }
 
   /**
    * Component render method
    */
   render() {
-    const Button = wp.components.Button;
     const components = [
       "description",
       "addresses",
@@ -114,9 +128,8 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
     return (
       <div>
         <div>
-          <div style={{ float: "right" }}>
-            <Button className="button" isDefault onClick={ () => this.setState( { isOpen: true } ) }>{__( 'Change service location', 'kunta_api_core' )}</Button>
-          </div> 
+          { this.renderChangeButton() }
+          { this.renderEditButton() }
           <div style={{ fontSize: "16px"}}>
           <div style={{ float: "left", paddingRight: "5px" }}>{__( 'Current service location:', 'kunta_api_core' )}</div> 
             <wp.components.ServerSideRender 
@@ -126,7 +139,7 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
                 lang: this.state.lang,
                 component: this.state.component
               }}
-              urlQueryArgs={{displayName: true}} />
+              urlQueryArgs={{displayName: true, version: this.state.version }} />
           </div>
         </div>
 
@@ -172,16 +185,55 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
           } }/>
         <hr/>
         
+        <ServiceChannelEditModal
+          channelId={ this.state.channelId }
+          channelType={ "serviceLocation" }
+          open={ this.state.isEditOpen }
+          onClose={ () => this.setState( { isEditOpen: false } )}/>
+
         <wp.components.ServerSideRender block="kunta-api/service-location-service-channel" 
           attributes={{
             channelId: this.state.channelId, 
             lang: this.state.lang,
             component: this.state.component
           }} 
-          urlQueryArgs={{preview: true}} />
+          urlQueryArgs={{ preview: true, version: this.state.version }} />
       </div>
     );
   }
-}
 
-export default ServiceLocationServiceChannelComponent;
+  /**
+   * Renders change button if needed
+   */
+  private renderChangeButton() {
+    return (
+      <div style={{ float: "right" }}>
+        <wp.components.Button className="button" isDefault onClick={ () => this.setState( { isOpen: true } ) }>{__( 'Change service location', 'kunta_api_core' )}</wp.components.Button>
+      </div> 
+
+    );
+  }
+
+  /**
+   * Renders edit button if needed
+   */
+  private renderEditButton() {
+    if (!this.state.channelId || !allowEdit) {
+      return null;
+    }
+
+    return (
+      <div style={{ float: "right" }}>
+        <wp.components.Button className="button" style={{ marginRight: "2px" }} isDefault onClick={ () => this.setState( { isEditOpen: true } ) }>{__( 'Edit service location', 'kunta_api_core' )}</wp.components.Button>
+      </div> 
+    );
+  }
+}
+export default withSelect((select: any, ownProps: any) => {
+  const { getServiceChannel } = select("kunta-api/data");
+  const { channelId } = ownProps;
+
+  return {
+		channel: channelId ? getServiceChannel("serviceLocation", channelId) : {}
+	};
+})(ServiceLocationServiceChannelComponent);

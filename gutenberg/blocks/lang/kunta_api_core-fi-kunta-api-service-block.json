@@ -40,6 +40,10 @@
       "Change service location": [
         "Vaihda palvelupaikkaa"
       ],
+
+      "Edit service location": [
+        "Muokkaa palvelupaikkaa"
+      ],
       
       "Current service location:": [
         "Valittu palvelupaikka:"

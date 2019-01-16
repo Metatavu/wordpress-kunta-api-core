@@ -194,7 +194,7 @@ class ServiceComponent extends React.Component<Props, State> {
    * Renders edit button if needed
    */
   private renderEditButton() {
-    if (!allowEdit) {
+    if (!this.state.serviceId || !allowEdit) {
       return null;
     }
 

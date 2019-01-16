@@ -26,7 +26,7 @@ const locales = ["fi", "sv", "en"];
 interface Props {
   channelId: string,
   channelType: string,
-  channel: ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel,
+  channel?: ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel,
   open: boolean,
   onClose: () => void
 }
@@ -78,7 +78,7 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
       values: values,
       additionalValues: props.channel ? adapter.additionalToForm(props.channel) : {},
       editServiceHourOpen: false,
-      serviceHours: adapter.serviceHoursToForm(props.channel),
+      serviceHours: props.channel ? adapter.serviceHoursToForm(props.channel) : [],
       editServiceHourIndex: -1
     };
   }
@@ -101,7 +101,7 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
       this.setState({
         values: values,
         additionalValues: this.props.channel ? adapter.additionalToForm(this.props.channel) : {},
-        serviceHours: adapter.serviceHoursToForm(this.props.channel)
+        serviceHours: this.props.channel ? adapter.serviceHoursToForm(this.props.channel) : [],
       });
     }
 
@@ -534,6 +534,6 @@ export default withSelect((select: any, ownProps: any) => {
   const channel = getServiceChannel(channelType, channelId);
   
   return {
-		channel: channel || {}
+		channel: channel || null
 	};
 })(ServiceChannelEditModal);
