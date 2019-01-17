@@ -30,6 +30,10 @@ export default class Utils {
    * @param channelId channel id
    */
   public static findServiceChannel(type: string, channelId: string) {
+    if (!channelId) {
+      return null;
+    }
+
     const apiFetch = wp.apiFetch;
     const body = new URLSearchParams();
     const actionTypeMap: any = {

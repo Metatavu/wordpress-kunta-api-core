@@ -93,7 +93,7 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
    * @param prevState previous state
    */
   componentDidUpdate(prevProps: Props, prevState: State) {
-    if ((JSON.stringify(prevProps.channels) !== JSON.stringify(this.props.channels))) {
+    if ((JSON.stringify(prevProps.channels || {}) !== JSON.stringify(this.props.channels || {}))) {
       this.setState({
         channels: this.props.channels
       });
@@ -302,12 +302,20 @@ export default withSelect((select: any, ownProps: any) => {
   const channels: any = {}; 
 
   Object.keys(channelTypes).forEach((channelType: string) => {
-    channels[channelType] = (channelIds[channelType] || []).map((channelId: string) => {
-      return getServiceChannel(channelType, channelId);
-    });
+    channels[channelType] = (channelIds[channelType] || [])
+      .filter((channelId: string) => {
+        return !!channelId;
+      })
+      .map((channelId: string) => {
+        return getServiceChannel(channelType, channelId);
+      })
+      .filter((channel: string) => {
+        return !!channel;
+      });
   });
 
   return {
     channels: channels
-	};
+  };
+  
 })(ServiceChannelsEditModal);

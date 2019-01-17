@@ -195,6 +195,10 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
    * Renders service hours into the form
    */
   renderServiceHours() {
+    if (!this.$metaform) {
+      return;
+    }
+
     const serviceHours: any[] = this.getAdapter().serviceHoursFromForm(this.state.serviceHours);
     const serviceHourTexts: string[] = serviceHours.map((serviceHour: any): string => {
       return this.formatServiceHour(serviceHour);
@@ -402,13 +406,15 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
    * @param $metaform metaform
    */
   private afterFormRender(metaform: Metaform, $metaform: any) {
-    this.$metaform = $metaform;
-    $metaform.on("click", ".edit-additional-details", this.onEditAdditionalDetailsClick.bind(this));
-    $metaform.on("click", ".btn.add-service-hour", this.onAddServiceHourClick.bind(this));
-    $metaform.on("click", ".btn.remove-service-hour", this.onRemoveServiceHourClick.bind(this));
-    $metaform.on("click", ".btn.edit-service-hour", this.onEditServiceHourClick.bind(this));
+    if ($metaform) {
+      this.$metaform = $metaform;
+      $metaform.on("click", ".edit-additional-details", this.onEditAdditionalDetailsClick.bind(this));
+      $metaform.on("click", ".btn.add-service-hour", this.onAddServiceHourClick.bind(this));
+      $metaform.on("click", ".btn.remove-service-hour", this.onRemoveServiceHourClick.bind(this));
+      $metaform.on("click", ".btn.edit-service-hour", this.onEditServiceHourClick.bind(this));
 
-    this.renderServiceHours();
+      this.renderServiceHours();
+    }
   }
 
   /**
@@ -533,7 +539,7 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
 export default withSelect((select: any, ownProps: any) => {
   const { getServiceChannel } = select("kunta-api/data");
   const { channelType, channelId } = ownProps;
-  const channel = getServiceChannel(channelType, channelId);
+  const channel = channelId ? getServiceChannel(channelType, channelId) : null;
   
   return {
 		channel: channel || null
