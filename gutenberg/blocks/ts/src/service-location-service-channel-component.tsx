@@ -208,7 +208,7 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
   private renderChangeButton() {
     return (
       <div style={{ float: "right" }}>
-        <wp.components.Button className="button" isDefault onClick={ () => this.setState( { isOpen: true } ) }>{__( 'Change service location', 'kunta_api_core' )}</wp.components.Button>
+        <wp.components.Button isDefault onClick={ () => this.setState( { isOpen: true } ) }>{__( 'Change service location', 'kunta_api_core' )}</wp.components.Button>
       </div> 
 
     );
@@ -224,7 +224,7 @@ class ServiceLocationServiceChannelComponent extends React.Component<Props, Stat
 
     return (
       <div style={{ float: "right" }}>
-        <wp.components.Button className="button" style={{ marginRight: "2px" }} isDefault onClick={ () => this.setState( { isEditOpen: true } ) }>{__( 'Edit service location', 'kunta_api_core' )}</wp.components.Button>
+        <wp.components.Button style={{ marginRight: "2px" }} isDefault onClick={ () => this.setState( { isEditOpen: true } ) }>{__( 'Edit service location', 'kunta_api_core' )}</wp.components.Button>
       </div> 
     );
   }

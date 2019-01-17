@@ -185,7 +185,7 @@ class ServiceComponent extends React.Component<Props, State> {
   private renderChangeButton() {
     return (
       <div style={{ float: "right" }}>
-        <wp.components.Button className="button" isDefault onClick={ () => this.setState( { isSearchOpen: true } ) }>{__( 'Change service', 'kunta_api_core' )}</wp.components.Button>
+        <wp.components.Button isDefault onClick={ () => this.setState( { isSearchOpen: true } ) }>{__( 'Change service', 'kunta_api_core' )}</wp.components.Button>
       </div> 
     );
   }
@@ -200,7 +200,7 @@ class ServiceComponent extends React.Component<Props, State> {
 
     return (
       <div style={{ float: "right" }}>
-        <wp.components.Button className="button" style={{ marginRight: "2px" }} isDefault onClick={ () => this.setState( { isEditOpen: true } ) }>{__( 'Edit service', 'kunta_api_core' )}</wp.components.Button>
+        <wp.components.Button style={{ marginRight: "2px" }} isDefault onClick={ () => this.setState( { isEditOpen: true } ) }>{__( 'Edit service', 'kunta_api_core' )}</wp.components.Button>
       </div> 
     );
   }
