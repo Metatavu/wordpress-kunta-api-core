@@ -94,9 +94,11 @@ class ServiceChannelEditModal extends React.Component<Props, State> {
       const adapter: AbstractServiceChannelAdapter<ElectronicServiceChannel|PhoneServiceChannel|PrintableFormServiceChannel|WebPageServiceChannel|ServiceLocationServiceChannel> = this.getAdapter();
       const values: any = {};
 
-      locales.forEach((locale: string) => {
-        values[locale] = this.getAdapter().channelToForm(locale, this.props.channel)
-      });
+      if (this.props.channel) {
+        locales.forEach((locale: string) => {
+          values[locale] = this.getAdapter().channelToForm(locale, this.props.channel)
+        });
+      }
 
       this.setState({
         values: values,
