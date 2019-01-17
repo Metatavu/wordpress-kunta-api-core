@@ -185,7 +185,7 @@ export default class ServiceLocationServiceChannelAdapter extends AbstractServic
       this.setLocalizedTableValues(result, 'phoneNumbers', localeValues, 'faxes', locale, 
         (phoneNumber: any) => {
           return phoneNumber.prefixNumber || phoneNumber.number;
-        }, 
+        },
         (phoneNumber: any) => {
           return Object.assign(phoneNumber, {
             "type": "Fax",

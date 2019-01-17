@@ -83,23 +83,24 @@ class ServiceEditModal extends React.Component<Props, State> {
    * @param prevState previous state
    */
   componentDidUpdate(prevProps: Props, prevState: State) {
-    if ((JSON.stringify(this.props.service || {}) !== JSON.stringify(prevProps.service || {}))) {
+    const service = this.props.service;    
+    if ((JSON.stringify(service || {}) !== JSON.stringify(prevProps.service || {}))) {
       const serviceAdapter = new ServiceAdapter();
       const values: any = {};
 
       locales.forEach((locale: string) => {
-        values[locale] = this.props.service ? serviceAdapter.serviceToForm(locale, this.props.service) : {};
+        values[locale] = service ? serviceAdapter.serviceToForm(locale, service) : {};
       });
       
       this.setState({ 
         values: values,
-        additionalValues: this.props.service ? serviceAdapter.serviceAdditinalToForm(this.props.service) : {},
+        additionalValues: service ? serviceAdapter.serviceAdditinalToForm(service) : {},
         channelIds: {
-          electronic: this.props.service.electronicServiceChannelIds,
-          phone: this.props.service.phoneServiceChannelIds,
-          printableForm: this.props.service.printableFormServiceChannelIds,
-          serviceLocation: this.props.service.serviceLocationServiceChannelIds,
-          webpage: this.props.service.webPageServiceChannelIds
+          electronic: service ? service.electronicServiceChannelIds : [],
+          phone: service ? service.phoneServiceChannelIds : [],
+          printableForm: service ? service.printableFormServiceChannelIds : [],
+          serviceLocation: service ? service.serviceLocationServiceChannelIds : [],
+          webpage: service ? service.webPageServiceChannelIds : []
         }
       });
     }

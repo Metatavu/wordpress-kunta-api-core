@@ -203,7 +203,7 @@ class ServiceChannelAdditionDetailsEditModal extends React.Component<Props, Stat
 export default withSelect((select: any, ownProps: any) => {
   const { getServiceChannel } = select("kunta-api/data");
   const { channelType, channelId } = ownProps;
-  const channel = getServiceChannel(channelType, channelId);
+  const channel = channelId ? getServiceChannel(channelType, channelId) : null;
   
   return {
 		channel: channel || {}
