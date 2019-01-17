@@ -143,7 +143,7 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
                 <wp.components.PanelBody title={ details.title } initialOpen={ false }>
                   { this.renderChannels(channelType) }
                   <wp.components.PanelRow>
-                    <wp.components.Button className="button" onClick={ () => { this.setState({ channelAddType: channelType, channelAddOpen: true }) } }>{ __("Add channel", "kunta_api_core") }</wp.components.Button>
+                    <wp.components.Button className="is-button" onClick={ () => { this.setState({ channelAddType: channelType, channelAddOpen: true }) } }>{ __("Add channel", "kunta_api_core") }</wp.components.Button>
                   </wp.components.PanelRow>
                 </wp.components.PanelBody>
               )
@@ -151,8 +151,8 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
           }
         </wp.components.Panel>
 
-        <div>
-          <wp.components.Button className="button" isDefault onClick={ () => { this.props.applyValues(this.state.channels ); } }>{__( 'Apply changes', 'kunta_api_core' )}</wp.components.Button>
+        <div style={{ paddingTop: "15px" }}>
+          <wp.components.Button className="is-button" isDefault onClick={ () => { this.props.applyValues(this.state.channels ); } }>{__( 'Apply changes', 'kunta_api_core' )}</wp.components.Button>
         </div>
       </wp.components.Modal>
     );
@@ -184,8 +184,8 @@ class ServiceChannelsEditModal extends React.Component<Props, State> {
                 { this.getChannelDisplayName(channel) } 
               </div>
               <div style={{ float: "right" }}> 
-                <wp.components.Button className="button" onClick={ () => { this.onEditChannelClick(channelType, channel) } }>{ __("Edit", "kunta_api_core") }</wp.components.Button>
-                <wp.components.Button className="button" onClick={ () => { this.onRemoveChannelClick(channelType, channel) } }>{ __("Remove", "kunta_api_core") }</wp.components.Button>
+                <wp.components.Button className="is-button" style={{ marginRight: "4px" }} onClick={ () => { this.onEditChannelClick(channelType, channel) } }>{ __("Edit", "kunta_api_core") }</wp.components.Button>
+                <wp.components.Button className="is-button" onClick={ () => { this.onRemoveChannelClick(channelType, channel) } }>{ __("Remove", "kunta_api_core") }</wp.components.Button>
               </div>
             </wp.components.PanelRow>
           )
