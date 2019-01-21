@@ -13,8 +13,6 @@ All components are rendered through templates. This allows plugin and theme deve
 
 Templates are written as [Twig](https://twig.symfony.com/) templates 
 
-Default templates can be found from [Project's GitHub project templates folder](https://github.com/Metatavu/wordpress-kunta-api-core/tree/develop/templates)
-
 #### Registering custom templates folder
 
 You can register your own templates folder by using ``kunta_api_register_templates`` -action. 
@@ -27,3 +25,9 @@ For example:
     });
 
 This allows the template system to lookup template-files under the new specified folder and allows the plugin or theme to override default templates.
+
+### Default templates
+
+Default templates can be found from [Project's GitHub project templates folder](https://github.com/Metatavu/wordpress-kunta-api-core/tree/develop/templates)
+
+All templates can be overriden and more templates can be added just by placing them in plugin's or theme's templates folder.
