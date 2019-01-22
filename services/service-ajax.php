@@ -24,7 +24,7 @@
   add_action( 'wp_ajax_kunta_api_load_service', function () {
     try {
       $serviceId = $_POST['serviceId'];
-      $service = \KuntaAPI\Services\Loader::findService($serviceId);
+      $service = \KuntaAPI\Core\Api::getServicesApi(false)->findService($serviceId);
       $json = $service->__toString();
       echo $json;
       wp_die();
