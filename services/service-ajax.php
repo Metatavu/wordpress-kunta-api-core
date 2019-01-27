@@ -7,9 +7,13 @@
   
   add_action( 'wp_ajax_kunta_api_search_services', function () {
     $responce = [];
-    
+    $search = $_POST['data'];
+    if (!$search) {
+      $search = $_POST['search'];
+    }
+
     foreach (\KuntaAPI\Core\CoreSettings::getOrganizationIds() as $organizationId) {
-      $services = \KuntaAPI\Core\Api::getServicesApi(false)->listServices($organizationId, $_POST['data']);
+      $services = \KuntaAPI\Core\Api::getServicesApi(false)->listServices($organizationId, $search);
       foreach ($services as $service) {
         $responce[] = $service -> __toString();
       }

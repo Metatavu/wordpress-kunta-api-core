@@ -7,9 +7,13 @@
   add_action( 'wp_ajax_kunta_api_search_service_location_channels', function () {
     try {
       $response = [];
+      $search = $_POST['data'];
+      if (!$search) {
+        $search = $_POST['search'];
+      }
 
       foreach (\KuntaAPI\Core\CoreSettings::getOrganizationIds() as $organizationId) {
-        $serviceLocationChannels = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi(false)->listServiceLocationServiceChannels($organizationId, $_POST['data']);
+        $serviceLocationChannels = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi(false)->listServiceLocationServiceChannels($organizationId, $search);
         foreach ($serviceLocationChannels as $serviceLocationChannel) {
           $response[] = $serviceLocationChannel -> __toString();
         }
