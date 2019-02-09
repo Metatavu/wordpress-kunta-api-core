@@ -5,21 +5,21 @@
       "name": "name",
       "type": "text",
       "title": "Nimi",
-      "required": false,
+      "required": true,
       "contexts": "FORM",
       "placeholder": "Kirjoita tulostettavan lomakkeen nimi."
     }, {
       "name": "shortDescription",
       "type": "memo",
       "title": "Tiivistelmä",
-      "required": false,
+      "required": true,
       "contexts": "FORM",
       "placeholder": "Kirjoita lyhyt tiivistelmä hakukoneita varten."
     }, {
       "name": "description",
       "type": "memo",
       "title": "Kuvaus",
-      "required": false,
+      "required": true,
       "contexts": "FORM",
       "placeholder": "Kirjoita selkeä ja ymmärrettävä kuvausteksti."
     }]
@@ -33,13 +33,14 @@
       "name": "channelUrls",
       "type": "table",
       "title": "Lomaketiedostot",
-      "required": false,
+      "required": true,
       "contexts": "FORM",
       "addRows": true,
       "columns": [{
         "title": "Tiedostomuoto",
         "type": "enum",
         "name": "type",
+        "required": true,
         "values": [{
           "value": "PDF",
           "text": "PDF"
@@ -58,9 +59,10 @@
         }]
       }, {
         "title": "Verkko-osoite",
-        "type": "text",
+        "type": "url",
         "name": "value",
-        "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://."
+        "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://.",
+        "required": true
       }]
     }, {
       "title": "Lomakkeen vastaanottaja",
@@ -235,7 +237,7 @@
         "placeholder": "Kirjoita tarvittaessa kuvausteksti"
       }, {
         "title": "Verkko-osoite",
-        "type": "text",
+        "type": "url",
         "name": "url",
         "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://"
       }]
