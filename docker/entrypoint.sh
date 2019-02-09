@@ -8,6 +8,8 @@ WP_ADMIN_PASS=${WP_ADMIN_PASS:-secret}
 ORG_ID=${KUNTA_API_ORGANIZATION_ID:-00000000-0000-0000-0000-000000000000}
 ORG_NAME=${KUNTA_API_ORGANIZATION_NAME:-$KUNTA_API_ORGANIZATION_ID}
 TINY_MCE_EMBED=${TINY_MCE_EMBED:-0}
+GUTENBERG_EMBED=${KUNTA_API_GUTENBERG_EMBED:-0}
+GUTENBERG_EDIT=${KUNTA_API_GUTENBERG_EDIT:-0}
 
 echo "Waiting MySQL..."
 
@@ -28,5 +30,6 @@ else
 fi
 
 wp plugin activate wordpress-kunta-api-core
-wp option update kunta_api_core_settings "{ \"useServiceEmbedPluginTinymce\": \"${TINY_MCE_EMBED}\", \"apiUrl\": \"${KA_HOST}\", \"apiUser\": \"${KA_USER}\", \"apiPassword\": \"${KA_PASS}\", \"organizations\": [{ \"name\":\"${ORG_NAME}\", \"organizationId\": \"${ORG_ID}\", \"serviceLocationChannnelsPath\": \"/servicelocations\", \"synchronizeServices\": \"0\", \"synchronizeServiceLocationServiceChannels\": \"0\", \"webhooks\":\"1\" }] }" --format=json
+wp option update kunta_api_core_settings "{ \"gutenbergUsePlugin\": \"${GUTENBERG_EMBED}\", \"gutenbergAllowEdit\": \"${GUTENBERG_EDIT}\", \"useServiceEmbedPluginTinymce\": \"${TINY_MCE_EMBED}\", \"apiUrl\": \"${KA_HOST}\", \"apiUser\": \"${KA_USER}\", \"apiPassword\": \"${KA_PASS}\", \"organizations\": [{ \"name\":\"${ORG_NAME}\", \"organizationId\": \"${ORG_ID}\", \"serviceLocationChannnelsPath\": \"/servicelocations\", \"synchronizeServices\": \"0\", \"synchronizeServiceLocationServiceChannels\": \"0\", \"webhooks\":\"1\" }] }" --format=json
 wp server --host=0.0.0.0
+
