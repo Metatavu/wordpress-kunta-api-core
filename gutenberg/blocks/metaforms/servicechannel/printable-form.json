@@ -167,7 +167,7 @@
         "column-width": 150
       }, {
         "title": "Numero",
-        "type": "text",
+        "type": "number",
         "name": "number",
         "placeholder": "esim. 45123467"
       }, {
@@ -214,7 +214,7 @@
       "contexts": "FORM",
       "addRows": true,
       "columns": [{
-        "type": "text",
+        "type": "email",
         "name": "value",
         "placeholder": "esim. osoite@organisaatio.fi"
       }]

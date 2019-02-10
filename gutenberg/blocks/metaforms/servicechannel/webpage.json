@@ -1,32 +1,33 @@
-{
+{ 
   "title": "Verkkosivu",
   "sections": [{
     "fields": [{
       "name": "name",
       "type": "text",
       "title": "Nimi",
-      "required": false,
+      "required": true,
       "contexts": "FORM",
       "placeholder": "Kirjoita verkkoasiointikanavan nimi."
     }, {
       "name": "shortDescription",
       "type": "memo",
       "title": "Tiivistelmä",
-      "required": false,
+      "required": true,
       "contexts": "FORM",
       "placeholder": "Kirjoita lyhyt tiivistelmä hakukoneita varten."
     }, {
       "name": "description",
       "type": "memo",
       "title": "Kuvaus",
-      "required": false,
+      "required": true,
       "contexts": "FORM",
       "placeholder": "Kirjoita selkeä ja ymmärrettävä kuvausteksti."
     }]
   }, {
     "fields": [{
       "title": "Verkko-osoite",
-      "type": "text",
+      "type": "url",
+      "required": true,
       "name": "webPage",
       "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://."
     },{
@@ -44,7 +45,7 @@
         "column-width": 150
       }, {
         "title": "Numero",
-        "type": "text",
+        "type": "number",
         "name": "number",
         "placeholder": "esim. 45123467"
       }, {
@@ -91,7 +92,7 @@
       "contexts": "FORM",
       "addRows": true,
       "columns": [{
-        "type": "text",
+        "type": "email",
         "name": "value",
         "placeholder": "esim. osoite@organisaatio.fi"
       }]

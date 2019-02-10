@@ -5,29 +5,30 @@
       "name": "name",
       "type": "text",
       "title": "Nimi",
-      "required": false,
+      "required": true,
       "contexts": "FORM",
       "placeholder": "Kirjoita verkkoasiointikanavan nimi."
     }, {
       "name": "shortDescription",
       "type": "memo",
       "title": "Tiivistelmä",
-      "required": false,
+      "required": true,
       "contexts": "FORM",
       "placeholder": "Kirjoita lyhyt tiivistelmä hakukoneita varten."
     }, {
       "name": "description",
       "type": "memo",
       "title": "Kuvaus",
-      "required": false,
+      "required": true,
       "contexts": "FORM",
       "placeholder": "Kirjoita selkeä ja ymmärrettävä kuvausteksti."
     }]
   }, {
     "fields": [{
       "title": "Verkko-osoite",
-      "type": "text",
+      "type": "url",
       "name": "webPage",
+      "required": true,
       "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://."
     }, {
       "name": "supportPhones",
