@@ -3,8 +3,8 @@
   
   if (is_admin()) {
   	add_action('init', function() {
-      $metaformUrl = '//cdn.metatavu.io/libs/metaform-fields/0.7.0';
-      
+      $metaformUrl = '//cdn.metatavu.io/libs/metaform-fields/0.8.0'; 
+
       add_filter('mce_external_plugins', function($plugins) {
         $plugins['noneditable'] = '//cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.10/plugins/noneditable/plugin.min.js';
         $plugins['magicline'] = '//cdn.metatavu.io/libs/tinymce-plugins/magicline/1.2.3/plugin.min.js';
