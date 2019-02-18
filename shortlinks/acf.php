@@ -1,7 +1,7 @@
 <?php
-if(function_exists("register_field_group"))
+if(function_exists("acf_add_local_field_group"))
 {
-	register_field_group(array (
+	acf_add_local_field_group(array (
 		'id' => 'acf_shortlinks',
 		'title' => 'Shortlinks',
 		'fields' => array (
