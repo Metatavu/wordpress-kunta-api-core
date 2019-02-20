@@ -158,7 +158,7 @@
         $synchronizeServices = $organization['synchronizeServices'] == '1';
         $synchronizeServiceLocationServiceChannels = $organization['synchronizeServiceLocationServiceChannels'] == '1';
         
-        if ($synchronizeServices == true || $synchronizeServiceLocationServiceChannels == true) {
+        if ($synchronizeServices == true || $synchronizeServiceLocationServiceChannels == true) {
           $result[] = $organization['organizationId'];
         }
       }
