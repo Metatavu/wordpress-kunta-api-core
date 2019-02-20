@@ -1,4 +1,5 @@
 FROM php
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 USER root
 RUN apt update
