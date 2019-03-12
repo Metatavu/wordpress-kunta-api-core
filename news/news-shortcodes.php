@@ -26,6 +26,7 @@
        * <li>
        *   <ul><b>tag:</b> news by this tag will be listed inside the div</ul>
        *   <ul><b>max-results:</b> maximum amount of news</ul>
+       *   <ul><b>classes:</b> extra classes to be added into the list div</ul>
        * </li>
        * 
        * @param type $tagAttrs tag attributes
@@ -34,14 +35,16 @@
       public function newsListShortcode($tagAttrs) {
         $attrs = shortcode_atts([
           'tag' => '',
-          'max-results' => ''
+          'max-results' => '10',
+          'classes' => ''
         ], $tagAttrs);
         
         $html = '';
         $tag = $attrs['tag'];
         $maxResults = $attrs['max-results'];
+        $classes = 'kunta-api-news-list' . ($attrs['classes'] ? ' ' . $attrs['classes'] : '');
         
-        $html = '<div class="kunta-api-news-list" data-tag="'.$tag.'" data-max-results="'.$maxResults.'"></div>';
+        $html = '<div class="' . $classes . '" data-tag="'.$tag.'" data-max-results="'.$maxResults.'"></div>';
         
         return $html;
       }
