@@ -27,6 +27,7 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
     public function getFilters() {
       return [
         new \Twig_SimpleFilter('localizedValue', array($this, 'localizedValueFilter')),
+        new \Twig_SimpleFilter('localizedValues', array($this, 'localizedValuesFilter')),
         new \Twig_SimpleFilter('shortDay', array($this, 'shortDayFilter')),
         new \Twig_SimpleFilter('serviceLocationPath', array($this, 'serviceLocationPathFilter')),
         new \Twig_SimpleFilter('pagePath', array($this, 'pagePathFilter')),
@@ -220,6 +221,28 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
       }
         
       return '';
+    }
+
+    /**
+     * Returns values from localized array matching lang and optionally type if given
+     * 
+     * @param Array $localizedItems localized values
+     * @param string $lang language
+     * @param string $type (optional) filter by type
+     * @return Array array of matching values 
+     */
+    public function localizedValuesFilter($localizedItems, $lang, $type = null) {
+      $result = [];
+
+      if (is_array($localizedItems)) {
+        foreach ($localizedItems as $localizedItem) {
+          if (($localizedItem->getLanguage() == $lang) && (!$type || ($type == $localizedItem->getType()))) {
+            $result[] = $localizedItem->getValue();
+          }
+        }
+      }
+        
+      return $result;
     }
 
     public function formatWeekDaysFilter($days, $returnMondayFirst) {
