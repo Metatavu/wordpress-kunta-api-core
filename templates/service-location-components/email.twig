@@ -1,4 +1,6 @@
 {% if serviceLocationChannel.emails %}
-<h4>Sähköposti</h4>
-<div class="email">{{ serviceLocationChannel.emails|localizedValue(lang)|raw }}</div>
+<h4>Sähköpostit</h4>
+{% for email in serviceLocationChannel.emails|localizedValues(lang) %}
+<div class="email">{{ email|raw }}</div>
+{% endfor %}
 {% endif %}
