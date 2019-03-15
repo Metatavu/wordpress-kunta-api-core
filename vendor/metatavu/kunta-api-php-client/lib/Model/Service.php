@@ -69,22 +69,24 @@ class Service implements ArrayAccess
         'id' => 'string',
         'type' => 'string',
         'statutoryDescriptionId' => 'string',
+        'chargeType' => 'string',
+        'fundingType' => 'string',
+        'names' => '\KuntaAPI\Model\LocalizedValue[]',
+        'areaType' => 'string',
+        'areas' => '\KuntaAPI\Model\Area[]',
+        'descriptions' => '\KuntaAPI\Model\LocalizedValue[]',
+        'languages' => 'string[]',
         'serviceClasses' => '\KuntaAPI\Model\OntologyItem[]',
         'ontologyTerms' => '\KuntaAPI\Model\OntologyItem[]',
         'targetGroups' => '\KuntaAPI\Model\OntologyItem[]',
         'lifeEvents' => '\KuntaAPI\Model\OntologyItem[]',
         'industrialClasses' => '\KuntaAPI\Model\OntologyItem[]',
-        'names' => '\KuntaAPI\Model\LocalizedValue[]',
-        'descriptions' => '\KuntaAPI\Model\LocalizedValue[]',
-        'languages' => 'string[]',
-        'keywords' => '\KuntaAPI\Model\LocalizedValue[]',
         'legislation' => '\KuntaAPI\Model\Law[]',
-        'coverageType' => 'string',
-        'municipalities' => '\KuntaAPI\Model\Municipality[]',
+        'keywords' => '\KuntaAPI\Model\LocalizedValue[]',
         'requirements' => '\KuntaAPI\Model\LocalizedValue[]',
         'publishingStatus' => 'string',
-        'chargeType' => 'string',
         'organizations' => '\KuntaAPI\Model\ServiceOrganization[]',
+        'vouchers' => '\KuntaAPI\Model\ServiceVoucher[]',
         'electronicServiceChannelIds' => 'string[]',
         'phoneServiceChannelIds' => 'string[]',
         'printableFormServiceChannelIds' => 'string[]',
@@ -105,22 +107,24 @@ class Service implements ArrayAccess
         'id' => 'id',
         'type' => 'type',
         'statutoryDescriptionId' => 'statutoryDescriptionId',
+        'chargeType' => 'chargeType',
+        'fundingType' => 'fundingType',
+        'names' => 'names',
+        'areaType' => 'areaType',
+        'areas' => 'areas',
+        'descriptions' => 'descriptions',
+        'languages' => 'languages',
         'serviceClasses' => 'serviceClasses',
         'ontologyTerms' => 'ontologyTerms',
         'targetGroups' => 'targetGroups',
         'lifeEvents' => 'lifeEvents',
         'industrialClasses' => 'industrialClasses',
-        'names' => 'names',
-        'descriptions' => 'descriptions',
-        'languages' => 'languages',
-        'keywords' => 'keywords',
         'legislation' => 'legislation',
-        'coverageType' => 'coverageType',
-        'municipalities' => 'municipalities',
+        'keywords' => 'keywords',
         'requirements' => 'requirements',
         'publishingStatus' => 'publishingStatus',
-        'chargeType' => 'chargeType',
         'organizations' => 'organizations',
+        'vouchers' => 'vouchers',
         'electronicServiceChannelIds' => 'electronicServiceChannelIds',
         'phoneServiceChannelIds' => 'phoneServiceChannelIds',
         'printableFormServiceChannelIds' => 'printableFormServiceChannelIds',
@@ -141,22 +145,24 @@ class Service implements ArrayAccess
         'id' => 'setId',
         'type' => 'setType',
         'statutoryDescriptionId' => 'setStatutoryDescriptionId',
+        'chargeType' => 'setChargeType',
+        'fundingType' => 'setFundingType',
+        'names' => 'setNames',
+        'areaType' => 'setAreaType',
+        'areas' => 'setAreas',
+        'descriptions' => 'setDescriptions',
+        'languages' => 'setLanguages',
         'serviceClasses' => 'setServiceClasses',
         'ontologyTerms' => 'setOntologyTerms',
         'targetGroups' => 'setTargetGroups',
         'lifeEvents' => 'setLifeEvents',
         'industrialClasses' => 'setIndustrialClasses',
-        'names' => 'setNames',
-        'descriptions' => 'setDescriptions',
-        'languages' => 'setLanguages',
-        'keywords' => 'setKeywords',
         'legislation' => 'setLegislation',
-        'coverageType' => 'setCoverageType',
-        'municipalities' => 'setMunicipalities',
+        'keywords' => 'setKeywords',
         'requirements' => 'setRequirements',
         'publishingStatus' => 'setPublishingStatus',
-        'chargeType' => 'setChargeType',
         'organizations' => 'setOrganizations',
+        'vouchers' => 'setVouchers',
         'electronicServiceChannelIds' => 'setElectronicServiceChannelIds',
         'phoneServiceChannelIds' => 'setPhoneServiceChannelIds',
         'printableFormServiceChannelIds' => 'setPrintableFormServiceChannelIds',
@@ -177,22 +183,24 @@ class Service implements ArrayAccess
         'id' => 'getId',
         'type' => 'getType',
         'statutoryDescriptionId' => 'getStatutoryDescriptionId',
+        'chargeType' => 'getChargeType',
+        'fundingType' => 'getFundingType',
+        'names' => 'getNames',
+        'areaType' => 'getAreaType',
+        'areas' => 'getAreas',
+        'descriptions' => 'getDescriptions',
+        'languages' => 'getLanguages',
         'serviceClasses' => 'getServiceClasses',
         'ontologyTerms' => 'getOntologyTerms',
         'targetGroups' => 'getTargetGroups',
         'lifeEvents' => 'getLifeEvents',
         'industrialClasses' => 'getIndustrialClasses',
-        'names' => 'getNames',
-        'descriptions' => 'getDescriptions',
-        'languages' => 'getLanguages',
-        'keywords' => 'getKeywords',
         'legislation' => 'getLegislation',
-        'coverageType' => 'getCoverageType',
-        'municipalities' => 'getMunicipalities',
+        'keywords' => 'getKeywords',
         'requirements' => 'getRequirements',
         'publishingStatus' => 'getPublishingStatus',
-        'chargeType' => 'getChargeType',
         'organizations' => 'getOrganizations',
+        'vouchers' => 'getVouchers',
         'electronicServiceChannelIds' => 'getElectronicServiceChannelIds',
         'phoneServiceChannelIds' => 'getPhoneServiceChannelIds',
         'printableFormServiceChannelIds' => 'getPrintableFormServiceChannelIds',
@@ -224,22 +232,24 @@ class Service implements ArrayAccess
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
         $this->container['statutoryDescriptionId'] = isset($data['statutoryDescriptionId']) ? $data['statutoryDescriptionId'] : null;
+        $this->container['chargeType'] = isset($data['chargeType']) ? $data['chargeType'] : null;
+        $this->container['fundingType'] = isset($data['fundingType']) ? $data['fundingType'] : null;
+        $this->container['names'] = isset($data['names']) ? $data['names'] : null;
+        $this->container['areaType'] = isset($data['areaType']) ? $data['areaType'] : null;
+        $this->container['areas'] = isset($data['areas']) ? $data['areas'] : null;
+        $this->container['descriptions'] = isset($data['descriptions']) ? $data['descriptions'] : null;
+        $this->container['languages'] = isset($data['languages']) ? $data['languages'] : null;
         $this->container['serviceClasses'] = isset($data['serviceClasses']) ? $data['serviceClasses'] : null;
         $this->container['ontologyTerms'] = isset($data['ontologyTerms']) ? $data['ontologyTerms'] : null;
         $this->container['targetGroups'] = isset($data['targetGroups']) ? $data['targetGroups'] : null;
         $this->container['lifeEvents'] = isset($data['lifeEvents']) ? $data['lifeEvents'] : null;
         $this->container['industrialClasses'] = isset($data['industrialClasses']) ? $data['industrialClasses'] : null;
-        $this->container['names'] = isset($data['names']) ? $data['names'] : null;
-        $this->container['descriptions'] = isset($data['descriptions']) ? $data['descriptions'] : null;
-        $this->container['languages'] = isset($data['languages']) ? $data['languages'] : null;
-        $this->container['keywords'] = isset($data['keywords']) ? $data['keywords'] : null;
         $this->container['legislation'] = isset($data['legislation']) ? $data['legislation'] : null;
-        $this->container['coverageType'] = isset($data['coverageType']) ? $data['coverageType'] : null;
-        $this->container['municipalities'] = isset($data['municipalities']) ? $data['municipalities'] : null;
+        $this->container['keywords'] = isset($data['keywords']) ? $data['keywords'] : null;
         $this->container['requirements'] = isset($data['requirements']) ? $data['requirements'] : null;
         $this->container['publishingStatus'] = isset($data['publishingStatus']) ? $data['publishingStatus'] : null;
-        $this->container['chargeType'] = isset($data['chargeType']) ? $data['chargeType'] : null;
         $this->container['organizations'] = isset($data['organizations']) ? $data['organizations'] : null;
+        $this->container['vouchers'] = isset($data['vouchers']) ? $data['vouchers'] : null;
         $this->container['electronicServiceChannelIds'] = isset($data['electronicServiceChannelIds']) ? $data['electronicServiceChannelIds'] : null;
         $this->container['phoneServiceChannelIds'] = isset($data['phoneServiceChannelIds']) ? $data['phoneServiceChannelIds'] : null;
         $this->container['printableFormServiceChannelIds'] = isset($data['printableFormServiceChannelIds']) ? $data['printableFormServiceChannelIds'] : null;
@@ -329,6 +339,153 @@ class Service implements ArrayAccess
     public function setStatutoryDescriptionId($statutoryDescriptionId)
     {
         $this->container['statutoryDescriptionId'] = $statutoryDescriptionId;
+
+        return $this;
+    }
+
+    /**
+     * Gets chargeType
+     * @return string
+     */
+    public function getChargeType()
+    {
+        return $this->container['chargeType'];
+    }
+
+    /**
+     * Sets chargeType
+     * @param string $chargeType
+     * @return $this
+     */
+    public function setChargeType($chargeType)
+    {
+        $this->container['chargeType'] = $chargeType;
+
+        return $this;
+    }
+
+    /**
+     * Gets fundingType
+     * @return string
+     */
+    public function getFundingType()
+    {
+        return $this->container['fundingType'];
+    }
+
+    /**
+     * Sets fundingType
+     * @param string $fundingType Service funding type. Possible values are: PubliclyFunded or MarketFunded.
+     * @return $this
+     */
+    public function setFundingType($fundingType)
+    {
+        $this->container['fundingType'] = $fundingType;
+
+        return $this;
+    }
+
+    /**
+     * Gets names
+     * @return \KuntaAPI\Model\LocalizedValue[]
+     */
+    public function getNames()
+    {
+        return $this->container['names'];
+    }
+
+    /**
+     * Sets names
+     * @param \KuntaAPI\Model\LocalizedValue[] $names
+     * @return $this
+     */
+    public function setNames($names)
+    {
+        $this->container['names'] = $names;
+
+        return $this;
+    }
+
+    /**
+     * Gets areaType
+     * @return string
+     */
+    public function getAreaType()
+    {
+        return $this->container['areaType'];
+    }
+
+    /**
+     * Sets areaType
+     * @param string $areaType Area type (WholeCountry, WholeCountryExceptAlandIslands, AreaType).
+     * @return $this
+     */
+    public function setAreaType($areaType)
+    {
+        $this->container['areaType'] = $areaType;
+
+        return $this;
+    }
+
+    /**
+     * Gets areas
+     * @return \KuntaAPI\Model\Area[]
+     */
+    public function getAreas()
+    {
+        return $this->container['areas'];
+    }
+
+    /**
+     * Sets areas
+     * @param \KuntaAPI\Model\Area[] $areas List of service areas.
+     * @return $this
+     */
+    public function setAreas($areas)
+    {
+        $this->container['areas'] = $areas;
+
+        return $this;
+    }
+
+    /**
+     * Gets descriptions
+     * @return \KuntaAPI\Model\LocalizedValue[]
+     */
+    public function getDescriptions()
+    {
+        return $this->container['descriptions'];
+    }
+
+    /**
+     * Sets descriptions
+     * @param \KuntaAPI\Model\LocalizedValue[] $descriptions
+     * @return $this
+     */
+    public function setDescriptions($descriptions)
+    {
+        $this->container['descriptions'] = $descriptions;
+
+        return $this;
+    }
+
+    /**
+     * Gets languages
+     * @return string[]
+     */
+    public function getLanguages()
+    {
+        return $this->container['languages'];
+    }
+
+    /**
+     * Sets languages
+     * @param string[] $languages
+     * @return $this
+     */
+    public function setLanguages($languages)
+    {
+        $this->container['languages'] = $languages;
 
         return $this;
     }
@@ -439,90 +596,6 @@ class Service implements ArrayAccess
     }
 
     /**
-     * Gets names
-     * @return \KuntaAPI\Model\LocalizedValue[]
-     */
-    public function getNames()
-    {
-        return $this->container['names'];
-    }
-
-    /**
-     * Sets names
-     * @param \KuntaAPI\Model\LocalizedValue[] $names
-     * @return $this
-     */
-    public function setNames($names)
-    {
-        $this->container['names'] = $names;
-
-        return $this;
-    }
-
-    /**
-     * Gets descriptions
-     * @return \KuntaAPI\Model\LocalizedValue[]
-     */
-    public function getDescriptions()
-    {
-        return $this->container['descriptions'];
-    }
-
-    /**
-     * Sets descriptions
-     * @param \KuntaAPI\Model\LocalizedValue[] $descriptions
-     * @return $this
-     */
-    public function setDescriptions($descriptions)
-    {
-        $this->container['descriptions'] = $descriptions;
-
-        return $this;
-    }
-
-    /**
-     * Gets languages
-     * @return string[]
-     */
-    public function getLanguages()
-    {
-        return $this->container['languages'];
-    }
-
-    /**
-     * Sets languages
-     * @param string[] $languages
-     * @return $this
-     */
-    public function setLanguages($languages)
-    {
-        $this->container['languages'] = $languages;
-
-        return $this;
-    }
-
-    /**
-     * Gets keywords
-     * @return \KuntaAPI\Model\LocalizedValue[]
-     */
-    public function getKeywords()
-    {
-        return $this->container['keywords'];
-    }
-
-    /**
-     * Sets keywords
-     * @param \KuntaAPI\Model\LocalizedValue[] $keywords List of localized service keywords.
-     * @return $this
-     */
-    public function setKeywords($keywords)
-    {
-        $this->container['keywords'] = $keywords;
-
-        return $this;
-    }
-
-    /**
      * Gets legislation
      * @return \KuntaAPI\Model\Law[]
      */
@@ -544,43 +617,22 @@ class Service implements ArrayAccess
     }
 
     /**
-     * Gets coverageType
-     * @return string
+     * Gets keywords
+     * @return \KuntaAPI\Model\LocalizedValue[]
      */
-    public function getCoverageType()
+    public function getKeywords()
     {
-        return $this->container['coverageType'];
+        return $this->container['keywords'];
     }
 
     /**
-     * Sets coverageType
-     * @param string $coverageType Service coverage type. Valid values are: Local or Nationwide.
+     * Sets keywords
+     * @param \KuntaAPI\Model\LocalizedValue[] $keywords List of localized service keywords.
      * @return $this
      */
-    public function setCoverageType($coverageType)
+    public function setKeywords($keywords)
     {
-        $this->container['coverageType'] = $coverageType;
-
-        return $this;
-    }
-
-    /**
-     * Gets municipalities
-     * @return \KuntaAPI\Model\Municipality[]
-     */
-    public function getMunicipalities()
-    {
-        return $this->container['municipalities'];
-    }
-
-    /**
-     * Sets municipalities
-     * @param \KuntaAPI\Model\Municipality[] $municipalities
-     * @return $this
-     */
-    public function setMunicipalities($municipalities)
-    {
-        $this->container['municipalities'] = $municipalities;
+        $this->container['keywords'] = $keywords;
 
         return $this;
     }
@@ -628,27 +680,6 @@ class Service implements ArrayAccess
     }
 
     /**
-     * Gets chargeType
-     * @return string
-     */
-    public function getChargeType()
-    {
-        return $this->container['chargeType'];
-    }
-
-    /**
-     * Sets chargeType
-     * @param string $chargeType
-     * @return $this
-     */
-    public function setChargeType($chargeType)
-    {
-        $this->container['chargeType'] = $chargeType;
-
-        return $this;
-    }
-
-    /**
      * Gets organizations
      * @return \KuntaAPI\Model\ServiceOrganization[]
      */
@@ -665,6 +696,27 @@ class Service implements ArrayAccess
     public function setOrganizations($organizations)
     {
         $this->container['organizations'] = $organizations;
+
+        return $this;
+    }
+
+    /**
+     * Gets vouchers
+     * @return \KuntaAPI\Model\ServiceVoucher[]
+     */
+    public function getVouchers()
+    {
+        return $this->container['vouchers'];
+    }
+
+    /**
+     * Sets vouchers
+     * @param \KuntaAPI\Model\ServiceVoucher[] $vouchers List of service vouchers.
+     * @return $this
+     */
+    public function setVouchers($vouchers)
+    {
+        $this->container['vouchers'] = $vouchers;
 
         return $this;
     }

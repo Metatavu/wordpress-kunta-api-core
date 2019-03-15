@@ -1,48 +1,7 @@
 {% if serviceLocationChannel.serviceHours %}
-<h3>Palveluajat</h3>
-{% if serviceLocationChannel.serviceHours %}
-{% spaceless %}
-  {% for serviceHour in serviceLocationChannel.serviceHours|serviceHourSort %}
-    {% if serviceHour.serviceHourType == 'Standard' or serviceHour.serviceHourType == 'Special' %}
-      <div class="service-hour">
-      {% if serviceHour.isClosed %}Suljettu{% endif %}
-      {% if serviceHour.additionalInformation %}
-        <b>{{ serviceHour.additionalInformation|localizedValue(lang)|nl2p|raw }}</b>
-      {% else %}
-        {% if serviceHour.serviceHourType == 'Standard' %}
-          <h4><span>Aukioloajat</span>{% if serviceHour.validFrom %}<span class="service-hour-valid"> {{ serviceHour.validFrom|dateTimeFormat }}{% if serviceHour.validTo %} - {{ serviceHour.validTo|dateTimeFormat }}{% endif %}</span>{% endif %}</h4>
-        {% else %}
-          <b>Vuorokauden yli menevät palveluajat</b>
-        {% endif %}
-      {% endif %}
-      {% if serviceHour.openingHour %}
-        {% for openingHour in serviceHour.openingHour %}
-          <div class="opening-hour">{{ openingHour|openingHoursFormat }}</div>
-        {% endfor %}
-      {% else %}
-        {% if not serviceHour.isClosed %}
-          <div class="opening-hour">Avoinna ympäri vuorokauden</div>
-        {% endif %}
-      {% endif %}
-      </div>      
-    {% endif %}
-    {% if serviceHour.serviceHourType == 'Exception' %}
-      <div class="service-hour service-hour-exception">
-        <h4>Poikkeusaukioloajat</h4>
-        <h4>{% if serviceHour.validFrom %}<span class="service-hour-valid"> {{ serviceHour.validFrom|dateTimeFormat }}{% if serviceHour.validTo %} - {{ serviceHour.validTo|dateTimeFormat }}{% endif %}</span>{% endif %}</h4>
-        {% if serviceHour.additionalInformation %}
-        <div class="service-hour-additional-info">{{ serviceHour.additionalInformation|localizedValue(lang)|nl2p|raw }}</div>
-        {% endif %}{% if serviceHour.isClosed %}<div class="service-hour-closed">Suljettu</div>{% endif %}{% if serviceHour.validForNow %}<div class="service-hour-valid-for-now">Voimassa toistaiseksi</div>{% endif %}
-        {% if serviceHour.openingHour %}
-          {% for openingHour in serviceHour.openingHour %}
-            <div class="opening-hour">
-              {% if openingHour.from %}{{ openingHour.from|formatServiceHour }}{% endif %}{% if openingHour.to %} - {{ openingHour.to|formatServiceHour }}{% endif %}
-            </div>
-          {% endfor %}
-        {% endif %}
-      </div>
-    {% endif %}
-  {% endfor %}
-{% endspaceless %}
-{% endif %}
+  {% spaceless %}
+    {% for serviceHour in serviceLocationChannel.serviceHours|serviceHourSort %}
+      {% include 'generic-components/service-hour.twig' %}
+    {% endfor %}
+  {% endspaceless %}
 {% endif %}

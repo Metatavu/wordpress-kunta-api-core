@@ -7,10 +7,10 @@
   
   require_once('core-setting.php');  
   
-  define(KUNTA_API_CORE_SETTINGS, 'kunta_api_core');
-  define(KUNTA_API_CORE_SETTINGS_GROUP, 'kunta_api_core');
-  define(KUNTA_API_CORE_SETTINGS_PAGE, 'kunta_api_core_settings');
-  define(KUNTA_API_CORE_SETTINGS_OPTION, 'kunta_api_core_settings');
+  define('KUNTA_API_CORE_SETTINGS', 'kunta_api_core');
+  define('KUNTA_API_CORE_SETTINGS_GROUP', 'kunta_api_core');
+  define('KUNTA_API_CORE_SETTINGS_PAGE', 'kunta_api_core_settings');
+  define('KUNTA_API_CORE_SETTINGS_OPTION', 'kunta_api_core_settings');
       
   class CoreSettings {
     
@@ -158,7 +158,7 @@
         $synchronizeServices = $organization['synchronizeServices'] == '1';
         $synchronizeServiceLocationServiceChannels = $organization['synchronizeServiceLocationServiceChannels'] == '1';
         
-        if ($synchronizeServices || $synchronizeServiceLocationServiceChannels) {
+        if ($synchronizeServices == true || $synchronizeServiceLocationServiceChannels == true) {
           $result[] = $organization['organizationId'];
         }
       }
@@ -317,7 +317,7 @@
         echo '<div class="wrap">';
         echo '<h1 class="wp-heading-inline">' . $tableSettings['title'] . '</h1>';
         echo '<a class="page-title-action add-settings-table-row" data-table-name="' . $tableName . '">' . __( 'Add new', KUNTA_API_CORE_I18N_DOMAIN) . '</a>';
-        echo '<table class="wp-list-table widefat fixed striped settings-table" data-table-name="' . $tableName . '">';
+        echo '<table data-table-settings="' .  htmlentities(json_encode($tableSettings)) . '" class="wp-list-table widefat fixed striped settings-table" data-table-name="' . $tableName . '">';
         echo '<thead>';
         echo '<tr>';
         

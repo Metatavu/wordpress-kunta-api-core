@@ -2,11 +2,11 @@
   defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
   
   if (!defined('KUNTA_API_CORE_SETTINGS_OPTION')) {
-    define(KUNTA_API_CORE_SETTINGS_OPTION, 'kunta_api_core_settings');
+    define('KUNTA_API_CORE_SETTINGS_OPTION', 'kunta_api_core_settings');
   }
   
   if (!defined('KUNTA_API_CORE_PLUGIN_VERSION_SETTING')) {
-    define(KUNTA_API_CORE_PLUGIN_VERSION_SETTING, 'kunta_api_core_plugin_version');
+    define('KUNTA_API_CORE_PLUGIN_VERSION_SETTING', 'kunta_api_core_plugin_version');
   }
   
   function upgrade_060to070() {

@@ -1,0 +1,248 @@
+{
+  "title": "Tulostettava lomake",
+  "sections": [{
+    "fields": [{
+      "name": "name",
+      "type": "text",
+      "title": "Nimi",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita tulostettavan lomakkeen nimi."
+    }, {
+      "name": "shortDescription",
+      "type": "memo",
+      "title": "Tiivistelmä",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita lyhyt tiivistelmä hakukoneita varten."
+    }, {
+      "name": "description",
+      "type": "memo",
+      "title": "Kuvaus",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Kirjoita selkeä ja ymmärrettävä kuvausteksti."
+    }]
+  }, {
+    "fields": [{
+      "title": "Lomaketunnus",
+      "type": "text",
+      "name": "formIdentifier",
+      "placeholder": "Anna lomaketunnus tarvittaessa"
+    }, {
+      "name": "channelUrls",
+      "type": "table",
+      "title": "Lomaketiedostot",
+      "required": false,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
+        "title": "Tiedostomuoto",
+        "type": "enum",
+        "name": "type",
+        "values": [{
+          "value": "PDF",
+          "text": "PDF"
+        }, {
+          "value": "DOC",
+          "text": "DOC/DOCX"
+        }, {
+          "value": "Excel",
+          "text": "XLS/XLSX"
+        }, {
+          "value": "rtf",
+          "text": "RTF"
+        }, {
+          "value": "odt",
+          "text": "ODT"
+        }]
+      }, {
+        "title": "Verkko-osoite",
+        "type": "text",
+        "name": "value",
+        "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://."
+      }]
+    }, {
+      "title": "Lomakkeen vastaanottaja",
+      "name": "formReceiver",
+      "type": "text",
+      "placeholder": "Kirjoita lomakkeen vastaanottaja."
+    }, {
+      "title": "Osoitetyyppi",
+      "name": "addressType",
+      "type": "radio",
+      "required": true,
+      "options":  [{
+        "name": "Street",
+        "text": "Katuosoite"
+      }, {
+        "name": "PostOfficeBox",
+        "text": "Postilokero-osoite",
+        "checked": true
+      }, {
+        "name": "NoAddress",
+        "text": "Toimitustieto sanallisesti"
+      }],
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "title": "Katuosoite",
+      "type": "text",
+      "name": "streetAddress",
+      "placeholder": "esim. Mannerheimintie",
+      "visible-if": {
+        "field": "addressType",
+        "equals": "Street"
+      }
+    }, {
+      "title": "Postilokero-osoite",
+      "type": "text",
+      "name": "postOfficeBox",
+      "placeholder": "esim. PL 205",
+      "visible-if": {
+        "field": "addressType",
+        "equals": "PostOfficeBox"
+      }
+    }, {
+      "title": "Osoitenumero",
+      "type": "text",
+      "name": "streetNumber",
+      "placeholder": "esim. 12 A 23",
+      "visible-if": {
+        "field": "addressType",
+        "equals": "Street"
+      }
+    }, {
+      "title": "Postinumero",
+      "type": "text",
+      "name": "postalCode",
+      "placeholder": "esim. 50100",
+      "visible-if": {
+        "field": "addressType",
+        "equals": "Street",
+        "or": [{
+          "field": "addressType",
+          "equals": "PostOfficeBox"
+        }]
+      }
+    }, {
+      "name": "addressAdditionalInformation",
+      "type": "memo",
+      "title": "Osoitteen lisätieto",
+      "required": false,
+      "contexts": "FORM",
+      "placeholder": "Anna tarvittaessa osoitetta täsmentävä tieto tekstinä.",
+      "visible-if": {
+        "field": "addressType",
+        "equals": "Street",
+        "or": [{
+          "field": "addressType",
+          "equals": "PostOfficeBox"
+        }]
+      }
+    }, {
+      "name": "addressAdditionalInformationNoAddress",
+      "type": "memo",
+      "title": "Toimitustieto sanallisesti",
+      "required": true,
+      "placeholder": "Anna toimitustieto sanallisesti.",
+      "visible-if": {
+        "field": "addressType",
+        "equals": "NoAddress"
+      }
+    }, {
+      "name": "supportPhones",
+      "type": "table",
+      "title": "Käytön tuen puhelinnumerot",
+      "required": false,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
+        "title": "Maan suuntanumero",
+        "type": "text",
+        "name": "prefixNumber",
+        "placeholder": "esim. +358",
+        "column-width": 150
+      }, {
+        "title": "Numero",
+        "type": "text",
+        "name": "number",
+        "placeholder": "esim. 45123467"
+      }, {
+        "title": "Voi soittaa ulkomailta",
+        "type": "enum",
+        "name": "isFinnishServiceNumber",
+        "values": [{
+          "value": "true",
+          "text": "Ei"
+        }, {
+          "value": "false",
+          "text": "Kyllä"
+        }]
+      }, {
+        "title": "Maksullisuus",
+        "type": "enum",
+        "name": "serviceChargeType",
+        "values": [{
+          "value": "Chargeable",
+          "text": "Maksullinen"
+        }, {
+          "value": "FreeOfCharge",
+          "text": "Maksuton"
+        }, {
+          "value": "Other",
+          "text": "Muu"
+        }]
+      }, {
+        "title": "Hintatiedot sanallisesti",
+        "type": "text",
+        "name": "chargeDescription",
+        "placeholder": "esim. jonotusajalta peritään normaali puhelumaksu."
+      }, {
+        "title": "Lisätieto",
+        "type": "text",
+        "name": "additionalInformation",
+        "placeholder": "esim. Vaihde"
+      }]
+    }, {
+      "name": "supportEmails",
+      "type": "table",
+      "title": "Käytön tuen sähköpostiosoitteet",
+      "required": false,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
+        "type": "text",
+        "name": "value",
+        "placeholder": "esim. osoite@organisaatio.fi"
+      }]
+    }, {
+      "name": "attachments",
+      "type": "table",
+      "title": "Liiteet ja lisätietolinkit",
+      "required": false,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
+        "title": "Nimi",
+        "type": "text",
+        "name": "name",
+        "placeholder": "Kirjoita nimi"
+      }, {
+        "title": "Kuvaus",
+        "type": "text",
+        "name": "description",
+        "placeholder": "Kirjoita tarvittaessa kuvausteksti"
+      }, {
+        "title": "Verkko-osoite",
+        "type": "text",
+        "name": "url",
+        "placeholder": "Kirjoita tarkka verkko-osoite, aloita osoite http:// tai https://"
+      }]
+    }, {
+      "name": "edit-additional-details",
+      "type": "html",
+      "html":"<p><a class=\"btn btn-sm btn-success edit-additional-details\">Muokkaa lisätietoja</a></p>"
+    }]
+  }]
+}

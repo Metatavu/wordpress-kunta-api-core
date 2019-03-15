@@ -68,19 +68,21 @@ class Organization implements ArrayAccess
       */
     protected static $swaggerTypes = array(
         'id' => 'string',
-        'municipality' => '\KuntaAPI\Model\Municipality',
+        'parentOrganization' => 'string',
         'organizationType' => 'string',
+        'municipality' => '\KuntaAPI\Model\Municipality',
         'businessCode' => 'string',
         'businessName' => 'string',
         'names' => '\KuntaAPI\Model\LocalizedValue[]',
-        'displayNameType' => 'string',
+        'displayNameType' => '\KuntaAPI\Model\NameTypeByLanguage[]',
+        'areaType' => 'string',
+        'areas' => '\KuntaAPI\Model\Area[]',
         'descriptions' => '\KuntaAPI\Model\LocalizedValue[]',
         'emailAddresses' => '\KuntaAPI\Model\Email[]',
         'phoneNumbers' => '\KuntaAPI\Model\Phone[]',
         'webPages' => '\KuntaAPI\Model\WebPage[]',
         'addresses' => '\KuntaAPI\Model\Address[]',
         'publishingStatus' => 'string',
-        'parentOrganization' => 'string',
         'services' => '\KuntaAPI\Model\OrganizationService[]'
     );
 
@@ -95,19 +97,21 @@ class Organization implements ArrayAccess
      */
     protected static $attributeMap = array(
         'id' => 'id',
-        'municipality' => 'municipality',
+        'parentOrganization' => 'parentOrganization',
         'organizationType' => 'organizationType',
+        'municipality' => 'municipality',
         'businessCode' => 'businessCode',
         'businessName' => 'businessName',
         'names' => 'names',
         'displayNameType' => 'displayNameType',
+        'areaType' => 'areaType',
+        'areas' => 'areas',
         'descriptions' => 'descriptions',
         'emailAddresses' => 'emailAddresses',
         'phoneNumbers' => 'phoneNumbers',
         'webPages' => 'webPages',
         'addresses' => 'addresses',
         'publishingStatus' => 'publishingStatus',
-        'parentOrganization' => 'parentOrganization',
         'services' => 'services'
     );
 
@@ -122,19 +126,21 @@ class Organization implements ArrayAccess
      */
     protected static $setters = array(
         'id' => 'setId',
-        'municipality' => 'setMunicipality',
+        'parentOrganization' => 'setParentOrganization',
         'organizationType' => 'setOrganizationType',
+        'municipality' => 'setMunicipality',
         'businessCode' => 'setBusinessCode',
         'businessName' => 'setBusinessName',
         'names' => 'setNames',
         'displayNameType' => 'setDisplayNameType',
+        'areaType' => 'setAreaType',
+        'areas' => 'setAreas',
         'descriptions' => 'setDescriptions',
         'emailAddresses' => 'setEmailAddresses',
         'phoneNumbers' => 'setPhoneNumbers',
         'webPages' => 'setWebPages',
         'addresses' => 'setAddresses',
         'publishingStatus' => 'setPublishingStatus',
-        'parentOrganization' => 'setParentOrganization',
         'services' => 'setServices'
     );
 
@@ -149,19 +155,21 @@ class Organization implements ArrayAccess
      */
     protected static $getters = array(
         'id' => 'getId',
-        'municipality' => 'getMunicipality',
+        'parentOrganization' => 'getParentOrganization',
         'organizationType' => 'getOrganizationType',
+        'municipality' => 'getMunicipality',
         'businessCode' => 'getBusinessCode',
         'businessName' => 'getBusinessName',
         'names' => 'getNames',
         'displayNameType' => 'getDisplayNameType',
+        'areaType' => 'getAreaType',
+        'areas' => 'getAreas',
         'descriptions' => 'getDescriptions',
         'emailAddresses' => 'getEmailAddresses',
         'phoneNumbers' => 'getPhoneNumbers',
         'webPages' => 'getWebPages',
         'addresses' => 'getAddresses',
         'publishingStatus' => 'getPublishingStatus',
-        'parentOrganization' => 'getParentOrganization',
         'services' => 'getServices'
     );
 
@@ -187,19 +195,21 @@ class Organization implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
-        $this->container['municipality'] = isset($data['municipality']) ? $data['municipality'] : null;
+        $this->container['parentOrganization'] = isset($data['parentOrganization']) ? $data['parentOrganization'] : null;
         $this->container['organizationType'] = isset($data['organizationType']) ? $data['organizationType'] : null;
+        $this->container['municipality'] = isset($data['municipality']) ? $data['municipality'] : null;
         $this->container['businessCode'] = isset($data['businessCode']) ? $data['businessCode'] : null;
         $this->container['businessName'] = isset($data['businessName']) ? $data['businessName'] : null;
         $this->container['names'] = isset($data['names']) ? $data['names'] : null;
         $this->container['displayNameType'] = isset($data['displayNameType']) ? $data['displayNameType'] : null;
+        $this->container['areaType'] = isset($data['areaType']) ? $data['areaType'] : null;
+        $this->container['areas'] = isset($data['areas']) ? $data['areas'] : null;
         $this->container['descriptions'] = isset($data['descriptions']) ? $data['descriptions'] : null;
         $this->container['emailAddresses'] = isset($data['emailAddresses']) ? $data['emailAddresses'] : null;
         $this->container['phoneNumbers'] = isset($data['phoneNumbers']) ? $data['phoneNumbers'] : null;
         $this->container['webPages'] = isset($data['webPages']) ? $data['webPages'] : null;
         $this->container['addresses'] = isset($data['addresses']) ? $data['addresses'] : null;
         $this->container['publishingStatus'] = isset($data['publishingStatus']) ? $data['publishingStatus'] : null;
-        $this->container['parentOrganization'] = isset($data['parentOrganization']) ? $data['parentOrganization'] : null;
         $this->container['services'] = isset($data['services']) ? $data['services'] : null;
     }
 
@@ -248,22 +258,22 @@ class Organization implements ArrayAccess
     }
 
     /**
-     * Gets municipality
-     * @return \KuntaAPI\Model\Municipality
+     * Gets parentOrganization
+     * @return string
      */
-    public function getMunicipality()
+    public function getParentOrganization()
     {
-        return $this->container['municipality'];
+        return $this->container['parentOrganization'];
     }
 
     /**
-     * Sets municipality
-     * @param \KuntaAPI\Model\Municipality $municipality Municipality including municipality code and a localized list of municipality names.
+     * Sets parentOrganization
+     * @param string $parentOrganization Organizations parent organization identifier if exists.
      * @return $this
      */
-    public function setMunicipality($municipality)
+    public function setParentOrganization($parentOrganization)
     {
-        $this->container['municipality'] = $municipality;
+        $this->container['parentOrganization'] = $parentOrganization;
 
         return $this;
     }
@@ -285,6 +295,27 @@ class Organization implements ArrayAccess
     public function setOrganizationType($organizationType)
     {
         $this->container['organizationType'] = $organizationType;
+
+        return $this;
+    }
+
+    /**
+     * Gets municipality
+     * @return \KuntaAPI\Model\Municipality
+     */
+    public function getMunicipality()
+    {
+        return $this->container['municipality'];
+    }
+
+    /**
+     * Sets municipality
+     * @param \KuntaAPI\Model\Municipality $municipality Municipality including municipality code and a localized list of municipality names.
+     * @return $this
+     */
+    public function setMunicipality($municipality)
+    {
+        $this->container['municipality'] = $municipality;
 
         return $this;
     }
@@ -354,7 +385,7 @@ class Organization implements ArrayAccess
 
     /**
      * Gets displayNameType
-     * @return string
+     * @return \KuntaAPI\Model\NameTypeByLanguage[]
      */
     public function getDisplayNameType()
     {
@@ -363,12 +394,54 @@ class Organization implements ArrayAccess
 
     /**
      * Sets displayNameType
-     * @param string $displayNameType Display name type (Name or AlternateName). Which name type should be used as the display name for the organization (OrganizationNames list).
+     * @param \KuntaAPI\Model\NameTypeByLanguage[] $displayNameType List of Display name types (Name or AlternateName) for each language version of OrganizationNames.
      * @return $this
      */
     public function setDisplayNameType($displayNameType)
     {
         $this->container['displayNameType'] = $displayNameType;
+
+        return $this;
+    }
+
+    /**
+     * Gets areaType
+     * @return string
+     */
+    public function getAreaType()
+    {
+        return $this->container['areaType'];
+    }
+
+    /**
+     * Sets areaType
+     * @param string $areaType Area type (WholeCountry, WholeCountryExceptAlandIslands, AreaType).
+     * @return $this
+     */
+    public function setAreaType($areaType)
+    {
+        $this->container['areaType'] = $areaType;
+
+        return $this;
+    }
+
+    /**
+     * Gets areas
+     * @return \KuntaAPI\Model\Area[]
+     */
+    public function getAreas()
+    {
+        return $this->container['areas'];
+    }
+
+    /**
+     * Sets areas
+     * @param \KuntaAPI\Model\Area[] $areas List of organization areas.
+     * @return $this
+     */
+    public function setAreas($areas)
+    {
+        $this->container['areas'] = $areas;
 
         return $this;
     }
@@ -495,27 +568,6 @@ class Organization implements ArrayAccess
     public function setPublishingStatus($publishingStatus)
     {
         $this->container['publishingStatus'] = $publishingStatus;
-
-        return $this;
-    }
-
-    /**
-     * Gets parentOrganization
-     * @return string
-     */
-    public function getParentOrganization()
-    {
-        return $this->container['parentOrganization'];
-    }
-
-    /**
-     * Sets parentOrganization
-     * @param string $parentOrganization Organizations parent organization identifier if exists.
-     * @return $this
-     */
-    public function setParentOrganization($parentOrganization)
-    {
-        $this->container['parentOrganization'] = $parentOrganization;
 
         return $this;
     }

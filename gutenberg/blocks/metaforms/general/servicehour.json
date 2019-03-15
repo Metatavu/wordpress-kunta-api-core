@@ -1,0 +1,331 @@
+{
+  "title": "Palveluaika",
+  "sections": [{
+    "title": "Palvelunajan tyyppi",
+    "fields": [{
+      "title": "Valitse",
+      "name": "type",
+      "type": "radio",
+      "required": true,
+      "options":  [{
+        "name": "DaysOfTheWeek",
+        "text": "Normaalit palveluajat: viikonpäivät",
+        "checked": true
+      }, {
+        "name": "OverMidnight",
+        "text": "Normaalit palveluajat: vuorokauden yli (päivystys)"
+      }, {
+          "name": "Exceptional",
+          "text": "Poikkeavat palveluajat"
+      }],
+      "contexts": ["FORM"],
+      "editable": true
+    }]
+  }, {
+    "visible-if": {
+      "field": "type",
+      "equals": "DaysOfTheWeek"
+    },  
+    "title": "Normaalit palveluajat: viikonpäivät",
+    "fields": [{
+      "title": "Toistaiseksi voimassa oleva",
+      "name": "Standard-validForNow",
+      "type": "radio",
+      "required": true,
+      "options":  [{
+        "name": "true",
+        "text": "Toistaiseksi voimassa oleva",
+        "checked": true
+      }, {
+        "name": "false",
+        "text": "Voimassa ajanjaksolla"
+      }],
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "visible-if": {
+        "field": "Standard-validForNow",
+        "equals": "false"
+      },
+      "title": "Voimassaolo alkaa",
+      "name": "Standard-validFrom",
+      "type": "date",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "visible-if": {
+        "field": "Standard-validForNow",
+        "equals": "false"
+      },
+      "title": "Voimassaolo päättyy",
+      "name": "Standard-validTo",
+      "type": "date",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }, {  
+      "title": "Aina avoinna (24/7).",
+      "name": "Standard-open24h",
+      "type": "boolean",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "visible-if": {
+        "field": "Standard-open24h",
+        "not-equals": true
+      },
+      "name": "Standard-openinghours",
+      "type": "table",
+      "title": "Palveluajat",
+      "required": true,
+      "contexts": "FORM",
+      "addRows": true,
+      "columns": [{
+        "type": "enum",
+        "title": "Viikonpäivä",
+        "name": "day",
+        "values": [{
+          "value": "1",
+          "text": "Maanantai"
+        }, {
+          "value": "2",
+          "text": "Tiistai"
+        }, {
+          "value": "3",
+          "text": "Keskiviikko"
+        }, {
+          "value": "4",
+          "text": "Torstai"
+        }, {
+          "value": "5",
+          "text": "Perjantai"
+        }, {
+          "value": "6",
+          "text": "Lauantai"
+        }, {
+          "value": "0",
+          "text": "Sunnuntai"
+        }]
+      }, {
+        "type": "time",
+        "title": "Avautuu",
+        "name": "from"
+      }, {
+        "type": "time",
+        "title": "Sulkeutuu",
+        "name": "to"
+      }]
+    }]
+  }, {
+    "visible-if": {
+      "field": "type",
+      "equals": "OverMidnight"
+    },  
+    "title": "Normaalit palveluajat: vuorokauden yli (päivystys)",
+    "fields": [{
+      "title": "Toistaiseksi voimassa oleva",
+      "name": "Special-validForNow",
+      "type": "radio",
+      "required": true,
+      "options":  [{
+        "name": "true",
+        "text": "Toistaiseksi voimassa oleva",
+        "checked": true
+      }, {
+        "name": "false",
+        "text": "Voimassa ajanjaksolla"
+      }],
+      "contexts": ["FORM"],
+      "editable": true
+    }]
+  }, {
+    "visible-if": {
+      "field": "type",
+      "equals": "OverMidnight"
+    },  
+    "fields": [{
+      "visible-if": {
+        "field": "Special-validForNow",
+        "not-equals": "true"
+      },
+      "title": "Voimassaolo alkaa",
+      "name": "Special-validFrom",
+      "type": "date-time",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "visible-if": {
+        "field": "Special-validForNow",
+        "not-equals": "true"
+      },
+      "title": "Voimassaolo päättyy",
+      "name": "Special-validTo",
+      "type": "date-time",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "title": "Alkupäivä",
+      "name": "Special-from-date",
+      "type": "select",
+      "options": [{
+        "name": "1",
+        "text": "Maanantai"
+      }, {
+        "name": "2",
+        "text": "Tiistai"
+      }, {
+        "name": "3",
+        "text": "Keskiviikko"
+      }, {
+        "name": "4",
+        "text": "Torstai"
+      }, {
+        "name": "5",
+        "text": "Perjantai"
+      }, {
+        "name": "6",
+        "text": "Lauantai"
+      }, {
+        "name": "0",
+        "text": "Sunnuntai"
+      }]
+    }, {
+      "title": "Alkuaika",
+      "name": "Special-from-time",
+      "type": "time",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "title": "Päättysmispäivä",
+      "name": "Special-to-date",
+      "type": "select",
+      "options": [{
+        "name": "1",
+        "text": "Maanantai"
+      }, {
+        "name": "2",
+        "text": "Tiistai"
+      }, {
+        "name": "3",
+        "text": "Keskiviikko"
+      }, {
+        "name": "4",
+        "text": "Torstai"
+      }, {
+        "name": "5",
+        "text": "Perjantai"
+      }, {
+        "name": "6",
+        "text": "Lauantai"
+      }, {
+        "name": "0",
+        "text": "Sunnuntai"
+      }]
+    }, {
+      "title": "Päättymisaika",
+      "name": "Special-to-time",
+      "type": "time",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }]
+  }, {
+    "visible-if": {
+      "field": "type",
+      "equals": "Exceptional"
+    },  
+    "title": "Poikkeavat palveluajat",
+    "fields": [{
+      "title": "Lisätieto (fi)",
+      "name": "Exception-additional-information-fi",
+      "type": "text",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "title": "Lisätieto (sv)",
+      "name": "Exception-additional-information-sv",
+      "type": "text",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "title": "Lisätieto (en)",
+      "name": "Exception-additional-information-en",
+      "type": "text",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "name": "Exception-type",
+      "type": "radio",
+      "required": true,
+      "options":  [{
+        "name": "single",
+        "text": "Päivä"
+      }, {
+        "name": "range",
+        "text": "Ajanjakso"
+      }, {
+        "name": "closed-all-day",
+        "text": "Suljettu koko päivän",
+        "checked": true
+      }],
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "title": "Alkupäivä",
+      "name": "Exception-from-date",
+      "type": "date",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "visible-if": {
+        "field": "Exception-type",
+        "equals": "range"
+      },
+      "title": "Päättymispäivä",
+      "name": "Exception-to-date",
+      "type": "date",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "visible-if": {
+        "field": "Exception-type",
+        "equals": "single",
+        "or": [{
+          "field": "Exception-type",
+          "equals": "range"
+        }]
+      },
+      "title": "Alkamisaika",
+      "name": "Exception-from-time",
+      "type": "time",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "visible-if": {
+        "field": "Exception-type",
+        "equals": "single",
+        "or": [{
+          "field": "Exception-type",
+          "equals": "range"
+        }]
+      },
+      "title": "Päättymisaika",
+      "name": "Exception-to-time",
+      "type": "time",
+      "required": true,
+      "contexts": ["FORM"],
+      "editable": true
+    }]
+  }]
+}

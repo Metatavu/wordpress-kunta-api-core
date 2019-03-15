@@ -1,0 +1,314 @@
+{
+  "translation-revision-date": "2019-01-05 00:00:00+0000",
+  "domain": "kunta_api_core",
+  "locale_data": {
+    "messages": {
+      "": {
+        "domain": "kunta_api_core",
+        "plural-forms": "nplurals=2; plural=n != 1;",
+        "lang": "fi"
+      },
+      
+      "Kunta API Service": [
+        "Kunta API palvelu"
+      ],
+
+      "Change service": [
+        "Vaihda palvelua"
+      ],
+
+      "Edit service": [
+        "Muokkaa palvelua"
+      ],
+
+      "Current service:": [
+        "Valittu palvelu:"
+      ],
+      
+      "Search Services": [
+        "Hae palveluita"
+      ],
+      
+      "Enter some text to search services": [
+        "Hae palveluita syöttämällä tekstiä"
+      ],
+
+      "Kunta API Service Location": [
+        "Kunta API palvelupaikka"
+      ],
+
+      "Change service location": [
+        "Vaihda palvelupaikkaa"
+      ],
+
+      "Edit service location": [
+        "Muokkaa palvelupaikkaa"
+      ],
+      
+      "Current service location:": [
+        "Valittu palvelupaikka:"
+      ],
+
+      "Search Services Locations": [
+        "Hae palvelupaikkoja"
+      ],
+
+      "Service location page": [
+        "Sivu toimii palvelukanavan sivuna"
+      ],
+
+      "Enter some text to search service locations": [
+        "Hae palvelupaikkoja syöttämällä tekstiä"
+      ],
+      
+      "Component": [
+        "Komponentti"
+      ],
+
+      "Language": [
+        "Kieli"
+      ],
+
+      "servicecomponent.description": [
+        "Kuvaus"
+      ],
+
+      "servicecomponent.userInstruction": [
+        "Toimintaohjeet"
+      ],
+
+      "servicecomponent.languages": [
+        "Kielet, joilla palvelu on saatavilla"
+      ],
+
+      "servicecomponent.electronicServiceChannelIds": [
+        "Verkkoasiointikanavat"
+      ],
+
+      "servicecomponent.phoneServiceChannelIds": [
+        "Puhelinnumerot"
+      ],
+
+      "servicecomponent.printableFormServiceChannelIds": [
+        "Lomakkeet"
+      ],
+
+      "servicecomponent.serviceLocationServiceChannelIds": [
+        "Toimipisteet"
+      ],
+
+      "servicecomponent.webPageServiceChannelIds": [
+        "Hyödylliset linkit"
+      ],
+
+      "language.fi": [
+        "Suomi"
+      ],
+
+      "language.sv": [
+        "Ruotsi"
+      ],
+
+      "language.en": [
+        "Englanti"
+      ],
+
+      "servicelocationservicechannel.addresses": [
+        "Osoiteet"
+      ],
+
+      "servicelocationservicechannel.description": [
+        "Kuvaus"
+      ],
+      
+      "servicelocationservicechannel.email": [
+        "Sähköposti"
+      ],
+      
+      "servicelocationservicechannel.fax": [
+        "Faxi"
+      ],
+      
+      "servicelocationservicechannel.name": [
+        "Nimi"
+      ],
+      
+      "servicelocationservicechannel.phone": [
+        "Puhelin"
+      ],
+      
+      "Sunday": [
+        "Sunnuntai"
+      ],
+      
+      "Monday": [
+        "Maanantai"
+      ],
+      
+      "Tuesday": [
+        "Tiistai"
+      ],
+      
+      "Wednesday": [
+        "Keskiviikko"
+      ],
+      
+      "Thursday": [
+        "Torstai"
+      ],
+      
+      "Friday": [
+        "Perjantai"
+      ],
+      
+      "Saturday": [
+        "Lauantai"
+      ],
+      
+      "Sun.": [
+        "Sunnuntai"
+      ],
+      
+      "Mon.": [
+        "ma"
+      ],
+      
+      "Tue.": [
+        "ti"
+      ],
+      
+      "Wed.": [
+        "ke"
+      ],
+      
+      "Thu.": [
+        "to"
+      ],
+      
+      "Fri.": [
+        "pe"
+      ],
+
+      "Sat.": [
+        "la"
+      ],
+      
+      "servicelocationservicechannel.phone-charge-info": [
+        "Puhelun hintatiedot"
+      ],
+      
+      "servicelocationservicechannel.servicehours": [
+        "Palveluajat"
+      ],
+      
+      "servicelocationservicechannel.webpages": [
+        "Verkkosivut"
+      ],      
+      
+      "Edit service (%s)": [
+        "Muokkaa palvelua (%s)"
+      ],
+
+      "Edit service channel (%s)": [
+        "Muokkaa palvelukanavaa (%s)"
+      ],
+
+      "Service channels": [
+        "Palvelukanavat"
+      ],
+
+      "Service Channels": [
+        "Palvelukanavat"
+      ],
+
+      "Electronic Service Channels": [
+        "Verkkoasiointi"
+      ],
+
+      "Phone Service Channels": [
+        "Puhelinasiointi"
+      ],
+
+      "Printable form Service Channels": [
+        "Tulostettava lomake"
+      ],
+
+      "Web page Service Channels": [
+        "Verkkosivu"
+      ],
+      
+      "Service Location Service Channels": [
+        "Palvelupaikka"
+      ],
+
+      "Service hour": [
+        "Palveluaika"
+      ],
+
+      "Closed": [
+        "Suljettu"
+      ],
+
+      "Add channel": [
+        "Lisää kanava"
+      ],
+
+      "Save": [
+        "Tallenna"
+      ],
+
+      "Apply changes": [
+        "Käytä"
+      ],
+
+      "Apply": [
+        "Käytä"
+      ],
+
+      "Cancel": [
+        "Peruuta"
+      ],
+
+      "Add": [
+        "Lisää"
+      ],
+
+      "Remove": [
+        "Poista"
+      ],
+
+      "Edit": [
+        "Muokkaa"
+      ],
+
+      "codetype.Municipality": [
+        "kunta"
+      ],
+
+      "codetype.Province": [
+        "maakunta"
+      ],
+
+      "codetype.HospitalRegions": [
+        "sairaanhoitopiiri"
+      ],
+
+      "codetype.BusinessRegions": [
+        "yrityspalvelujen seutualue"
+      ],
+
+      "codetype.Country": [
+        "maa"
+      ],
+
+      "codetype.Language": [
+        "kieli"
+      ],
+
+      "codetype.Postal": [
+        "postinumero"
+      ]
+      
+    }
+  }
+}

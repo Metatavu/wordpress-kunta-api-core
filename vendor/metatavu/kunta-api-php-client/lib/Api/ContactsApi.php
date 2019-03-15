@@ -223,12 +223,17 @@ class ContactsApi
      * Lists organizations contacts
      *
      * @param string $organizationId Organization id (required)
+     * @param string $search Search contacts by free-text query (optional)
+     * @param string $sortBy define order (NATURAL, DISPLAY_NAME or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
+     * @param int $firstResult First result (optional)
+     * @param int $maxResults Max results (optional)
      * @return \KuntaAPI\Model\Contact[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listOrganizationContacts($organizationId)
+    public function listOrganizationContacts($organizationId, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
-        list($response) = $this->listOrganizationContactsWithHttpInfo($organizationId);
+        list($response) = $this->listOrganizationContactsWithHttpInfo($organizationId, $search, $sortBy, $sortDir, $firstResult, $maxResults);
         return $response;
     }
 
@@ -238,10 +243,15 @@ class ContactsApi
      * Lists organizations contacts
      *
      * @param string $organizationId Organization id (required)
+     * @param string $search Search contacts by free-text query (optional)
+     * @param string $sortBy define order (NATURAL, DISPLAY_NAME or SCORE). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
+     * @param int $firstResult First result (optional)
+     * @param int $maxResults Max results (optional)
      * @return Array of \KuntaAPI\Model\Contact[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listOrganizationContactsWithHttpInfo($organizationId)
+    public function listOrganizationContactsWithHttpInfo($organizationId, $search = null, $sortBy = null, $sortDir = null, $firstResult = null, $maxResults = null)
     {
         // verify the required parameter 'organizationId' is set
         if ($organizationId === null) {
@@ -259,6 +269,26 @@ class ContactsApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json;charset=utf-8'));
 
+        // query params
+        if ($search !== null) {
+            $queryParams['search'] = $this->apiClient->getSerializer()->toQueryValue($search);
+        }
+        // query params
+        if ($sortBy !== null) {
+            $queryParams['sortBy'] = $this->apiClient->getSerializer()->toQueryValue($sortBy);
+        }
+        // query params
+        if ($sortDir !== null) {
+            $queryParams['sortDir'] = $this->apiClient->getSerializer()->toQueryValue($sortDir);
+        }
+        // query params
+        if ($firstResult !== null) {
+            $queryParams['firstResult'] = $this->apiClient->getSerializer()->toQueryValue($firstResult);
+        }
+        // query params
+        if ($maxResults !== null) {
+            $queryParams['maxResults'] = $this->apiClient->getSerializer()->toQueryValue($maxResults);
+        }
         // path params
         if ($organizationId !== null) {
             $resourcePath = str_replace(

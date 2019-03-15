@@ -1,0 +1,611 @@
+# Copyright (C) 2017 Kunta API Core
+# This file is distributed under the same license as the Kunta API Core package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Kunta API Core 0.7.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-kunta-"
+"api-core\n"
+"POT-Creation-Date: 2019-01-16T14:07:14+02:00\n"
+"PO-Revision-Date: 2019-01-16 14:07+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1.1\n"
+
+#. Plugin Name of the plugin
+msgid "Kunta API Core"
+msgstr "Kunta API ydin"
+
+#. Description of the plugin
+msgid "Core functionalities for Kunta API integrations"
+msgstr "Ydintoiminnot Kunta API integraatioita varten"
+
+#. Author of the plugin
+msgid "Metatavu Oy"
+msgstr "Metatavu Oy"
+
+#: announcements/announcements-settings.php:13
+msgid "Announcements enabled"
+msgstr "Kuulutukset käytössä"
+
+#: announcements/announcements-type.php:7
+msgid "Header Announcements"
+msgstr "Kuulutukset"
+
+#: announcements/announcements-type.php:8
+msgid "Header Announcement"
+msgstr "Kuulutus"
+
+#: announcements/announcements-type.php:9
+msgid "Add Announcement"
+msgstr "Lisää kuulutus"
+
+#: announcements/announcements-type.php:10
+msgid "Add New Announcement"
+msgstr "Lisää uusi kuulutus"
+
+#: announcements/announcements-type.php:11
+msgid "Edit Announcement"
+msgstr "Muokkaa kuulutusta"
+
+#: announcements/announcements-type.php:12
+msgid "New Announcement"
+msgstr "Uusi Kuulutus"
+
+#: announcements/announcements-type.php:13
+msgid "View Announcement"
+msgstr "Näytä kuulutus"
+
+#: announcements/announcements-type.php:14
+msgid "Search Announcements"
+msgstr "Etsi kuulutuksia"
+
+#: announcements/announcements-type.php:15
+msgid "No Announcements found"
+msgstr "Kuulutuksia ei löytynyt"
+
+#: announcements/announcements-type.php:16
+msgid "No Announcements in trash"
+msgstr "Ei kuulutuksia roskakorissa"
+
+#: announcements/announcements-type.php:17
+#: announcements/announcements-type.php:18
+msgid "Announcements"
+msgstr "Kuulutukset"
+
+#: fragments/fragments-settings.php:13
+msgid "Fragments enabled"
+msgstr "Palat käytössä"
+
+#: fragments/fragments-type.php:8 fragments/fragments-type.php:18
+#: fragments/fragments-type.php:19
+msgid "Fragments"
+msgstr "Palat"
+
+#: fragments/fragments-type.php:9
+msgid "Fragment"
+msgstr "Pala"
+
+#: fragments/fragments-type.php:10
+msgid "Add Fragment"
+msgstr "Lisää pala"
+
+#: fragments/fragments-type.php:11
+msgid "Add New Fragment"
+msgstr "Lisää uusi pala"
+
+#: fragments/fragments-type.php:12
+msgid "Edit Fragment"
+msgstr "Muokkaa palaa"
+
+#: fragments/fragments-type.php:13
+msgid "New Fragment"
+msgstr "Uusi pala"
+
+#: fragments/fragments-type.php:14
+msgid "View Fragment"
+msgstr "Näytä pala"
+
+#: fragments/fragments-type.php:15
+msgid "Search Fragments"
+msgstr "Etsi paloja"
+
+#: fragments/fragments-type.php:16
+msgid "No Fragments found"
+msgstr "Paloja ei löytynyt"
+
+#: fragments/fragments-type.php:17
+msgid "No Fragments in trash"
+msgstr "Ei paloja roskakorissa"
+
+#: services/service-component-renderer.php:52
+#: services/service-locations/service-location-component-renderer.php:29
+msgid "Placeholder for description (Currently empty, not visible on webpage)"
+msgstr ""
+"Paikanpitäjä upotetulle kuvaukselle (tällä hetkellä tyhjä, tämä teksti ei "
+"näy verkkosivulla)"
+
+#: services/service-component-renderer.php:55
+msgid ""
+"Placeholder for user instruction (Currently empty, not visible on webpage)"
+msgstr ""
+"Paikanpitäjä upotetulle toimintaohjeelle (tällä hetkellä tyhjä, tämä teksti "
+"ei näy verkkosivulla)"
+
+#: services/service-component-renderer.php:58
+msgid "Placeholder for languages (Currently empty, not visible on webpage)"
+msgstr ""
+"Paikanpitäjä upotetuille kielille (tällä hetkellä tyhjä, tämä teksti ei näy "
+"verkkosivulla)"
+
+#: services/service-component-renderer.php:61
+msgid ""
+"Placeholder for electronic service channels (Currently empty, not visible on "
+"webpage)"
+msgstr ""
+"Paikanpitäjä upotetuille sähköisille palvelukanaville (tällä hetkellä tyhjä, "
+"tämä teksti ei näy verkkosivulla)"
+
+#: services/service-component-renderer.php:64
+msgid ""
+"Placeholder for phone service channels (Currently empty, not visible on "
+"webpage)"
+msgstr ""
+"Paikanpitäjä upotetuille puhelin palvelukanaville (tällä hetkellä tyhjä, "
+"tämä teksti ei näy verkkosivulla)"
+
+#: services/service-component-renderer.php:67
+msgid ""
+"Placeholder for printable form service channels (Currently empty, not "
+"visible on webpage)"
+msgstr ""
+"Paikanpitäjä upotetuille lomake palvelukanaville (tällä hetkellä tyhjä, tämä "
+"teksti ei näy verkkosivulla)"
+
+#: services/service-component-renderer.php:70
+msgid ""
+"Placeholder for service location channels (Currently empty, not visible on "
+"webpage)"
+msgstr ""
+"Paikanpitäjä upotetuille palvelupisteille (tällä hetkellä tyhjä, tämä teksti "
+"ei näy verkkosivulla)"
+
+#: services/service-component-renderer.php:73
+msgid ""
+"Placeholder for webpage service channels (Currently empty, not visible on "
+"webpage)"
+msgstr ""
+"Paikanpitäjä upotetuille verkkosivu palvelukanaville (tällä hetkellä tyhjä, "
+"tämä teksti ei näy verkkosivulla)"
+
+#: services/service-locations/service-location-component-renderer.php:26
+msgid "Placeholder for adresses (Currently empty, not visible on webpage)"
+msgstr ""
+"Paikanpitäjä upotetuille osoitteille (tällä hetkellä tyhjä, tämä teksti ei "
+"näy verkkosivulla)"
+
+#: services/service-locations/service-location-component-renderer.php:32
+msgid "Placeholder for email (Currently empty, not visible on webpage)"
+msgstr ""
+"Paikanpitäjä upotetuille sähköpostiosoitteelle (tällä hetkellä tyhjä, tämä "
+"teksti ei näy verkkosivulla)"
+
+#: services/service-locations/service-location-component-renderer.php:35
+msgid "Placeholder for fax (Currently empty, not visible on webpage)"
+msgstr ""
+"Paikanpitäjä upotetuille faksille (tällä hetkellä tyhjä, tämä teksti ei näy "
+"verkkosivulla)"
+
+#: services/service-locations/service-location-component-renderer.php:38
+msgid ""
+"Placeholder for service location name (Currently empty, not visible on "
+"webpage)"
+msgstr ""
+"Paikanpitäjä upotetulle palvelukanavan nimelle (tällä hetkellä tyhjä, tämä "
+"teksti ei näy verkkosivulla)"
+
+#: services/service-locations/service-location-component-renderer.php:41
+msgid "Placeholder for phonenumbers (Currently empty, not visible on webpage)"
+msgstr ""
+"Paikanpitäjä upotetuille puhelinnumeroille (tällä hetkellä tyhjä, tämä "
+"teksti ei näy verkkosivulla)"
+
+#: services/service-locations/service-location-component-renderer.php:44
+msgid ""
+"Placeholder for phone charge info (Currently empty, not visible on webpage)"
+msgstr ""
+"Paikanpitäjä upotetuille puhelujen maksutiedoille (tällä hetkellä tyhjä, "
+"tämä teksti ei näy verkkosivulla)"
+
+#: services/service-locations/service-location-component-renderer.php:47
+msgid "Placeholder for servicehours (Currently empty, not visible on webpage)"
+msgstr ""
+"Paikanpitäjä upotetuille palveluajoille (tällä hetkellä tyhjä, tämä teksti "
+"ei näy verkkosivulla)"
+
+#: services/service-locations/service-location-component-renderer.php:50
+msgid ""
+"Placeholder for service location webpages (Currently empty, not visible on "
+"webpage)"
+msgstr ""
+"Paikanpitäjä upotetuille verkkosivuille (tällä hetkellä tyhjä, tämä teksti "
+"ei näy verkkosivulla)"
+
+#: services/tinymce-settings.php:23
+msgid "Use sidebar plugin"
+msgstr "Käytä sivupalkki lisäosaa"
+
+#: services/tinymce-settings.php:30 gutenberg/settings.php:23
+msgid "Use embed plugin"
+msgstr "Käytä upotuslisäosaa"
+
+#: banners/banners-settings.php:13
+msgid "Banners enabled"
+msgstr "Bannerit käytössä"
+
+#: banners/banners-widgets.php:22
+msgid "Banner"
+msgstr "Banneri"
+
+#: incidents/incidents-settings.php:14
+msgid "Incidents enabled"
+msgstr "Hätätiedotteet käytössä"
+
+#: gutenberg/settings.php:30
+msgid "Allow service and service channel edit"
+msgstr "Salli palveluiden ja palvelupisteiden muokkaus"
+
+#: gutenberg/blocks/blocks.php:132
+msgid "No service selected"
+msgstr "Ei valittua palvelua"
+
+#: gutenberg/blocks/blocks.php:140
+msgid "[Failed to load service]"
+msgstr "[Palvelun lataaminen epäonnistui]"
+
+#: gutenberg/blocks/blocks.php:147
+msgid "[Service does not have data for given component]"
+msgstr "[Palvelulla ei ole saatavilla tietoja pyydetylle komponentille]"
+
+#: gutenberg/blocks/blocks.php:176
+msgid "No service location selected"
+msgstr "Ei valittua palvelupistettä"
+
+#: gutenberg/blocks/blocks.php:187
+msgid "[Service location does not have data for given component]"
+msgstr "[Palvelupisteelle ei ole saatavilla tietoja pyydetylle komponentille]"
+
+#: gutenberg/blocks/blocks.php:203
+msgid "Kunta API"
+msgstr "Kunta API"
+
+#: shortlinks/shortlinks-settings.php:14
+msgid "Shortlinks enabled"
+msgstr "Lyhytosoitteet käytössä"
+
+#: tiles/tiles-type.php:11
+msgid "Header Tiles"
+msgstr "Laatikot"
+
+#: tiles/tiles-type.php:12
+msgid "Header Tile"
+msgstr "Laatikko"
+
+#: tiles/tiles-type.php:13
+msgid "Add Tile"
+msgstr "Lisää laatikko"
+
+#: tiles/tiles-type.php:14
+msgid "Add New Tile"
+msgstr "Lisää uusi laatikko"
+
+#: tiles/tiles-type.php:15
+msgid "Edit Tile"
+msgstr "Muokkaa laatikkoa"
+
+#: tiles/tiles-type.php:16
+msgid "New Tile"
+msgstr "Uusi laatikko"
+
+#: tiles/tiles-type.php:17
+msgid "View Tile"
+msgstr "Näytä laatikko"
+
+#: tiles/tiles-type.php:18
+msgid "Search Tiles"
+msgstr "Etsi laatikoita"
+
+#: tiles/tiles-type.php:19
+msgid "No Tiles found"
+msgstr "laatikkoja ei löytynyt"
+
+#: tiles/tiles-type.php:20
+msgid "No Tiles in trash"
+msgstr "Ei laatikoita roskakorissa"
+
+#: tiles/tiles-type.php:21 tiles/tiles-type.php:22
+msgid "Tiles"
+msgstr "Laatikot"
+
+#: tiles/tiles-type.php:44
+msgid "Tile Link"
+msgstr "Laatikon linkki"
+
+#: tiles/tiles-settings.php:15
+msgid "Tiles enabled"
+msgstr "Laatikot käytössä"
+
+#: pages/page-templates.php:52
+msgid "Yes"
+msgstr "Kyllä"
+
+#: pages/page-templates.php:53
+msgid "Cancel"
+msgstr "Peruuta"
+
+#: pages/page-templates.php:54
+msgid "Are you sure?"
+msgstr "Oletko varma?"
+
+#: pages/page-templates.php:55
+msgid ""
+"Are you sure that you wish to replace page contents with contents from "
+"original template?"
+msgstr ""
+"Oletko varma, että haluat korvata sivun nykyisen sisällön alkuperäisen "
+"sivupohjan tiedoilla?"
+
+#: pages/page-templates.php:56
+msgid "Loading..."
+msgstr "Ladataan..."
+
+#: pages/page-templates.php:57
+msgid "Loading please wait..."
+msgstr "Ladataan, odota hetki..."
+
+#: pages/page-templates.php:64
+msgid "Regenerate from template"
+msgstr "Luo sivu uudelleen"
+
+#: pages/page-settings.php:27
+msgid "Page settings"
+msgstr "Sivuasetukset"
+
+#: pages/page-settings.php:41
+msgid "Use content processors (CKEditor only)"
+msgstr "Käytä sisällön prosessoijia (vain CKEditor)"
+
+#: pages/page-settings.php:48
+msgid "Use page regenerate from template plugin (CKEditor only)"
+msgstr "Käytä sivun uudelleen generointi lisäosaa (vain CKEditor)"
+
+#: pages/page-settings.php:55
+msgid "Use sidebar plugin (CKEditor only)"
+msgstr "Käytä sivupalkki lisäosaa (vain CKEditor)"
+
+#: pages/page-sidebars.php:26
+msgid "Sidebar"
+msgstr "Sivupalkki"
+
+#~ msgid "[Data not available for service]"
+#~ msgstr "[Pyydettyä dataa ei löynyt palvelulle]"
+
+#~ msgid "[Data not available for service location service channel]"
+#~ msgstr "[Pyydettyä dataa ei löytynyt palvelupisteelle]"
+
+#~ msgid "Header Banners"
+#~ msgstr "Bannerit"
+
+#~ msgid "Header Banner"
+#~ msgstr "Banneri"
+
+#~ msgid "Add Banner"
+#~ msgstr "Lisää banneri"
+
+#~ msgid "Add New Banner"
+#~ msgstr "Lisää uusi banneri"
+
+#~ msgid "Edit Banner"
+#~ msgstr "Muokkaa banneria"
+
+#~ msgid "New Banner"
+#~ msgstr "Uusi banneri"
+
+#~ msgid "View Banner"
+#~ msgstr "Näytä banneri"
+
+#~ msgid "Search Banners"
+#~ msgstr "Etsi bannereita"
+
+#~ msgid "No Banners found"
+#~ msgstr "Bannereita ei löytynyt"
+
+#~ msgid "No Banners in trash"
+#~ msgstr "Ei bannereita roskakorissa"
+
+#~ msgid "Banners"
+#~ msgstr "Bannerit"
+
+#~ msgid "Hide Banner Title"
+#~ msgstr "Piilota bannerin otsikko"
+
+#~ msgid "Banner Link"
+#~ msgstr "Bannerin linkki"
+
+#~ msgid "Banner Text Color"
+#~ msgstr "Bannerin tekstin väri"
+
+#~ msgid "Banner Background"
+#~ msgstr "Bannerin tausta"
+
+#~ msgid "Once in a minute"
+#~ msgstr "Kerran minuutissa"
+
+#~ msgid "API Settings"
+#~ msgstr "API asetukset"
+
+#~ msgid "Enabled types"
+#~ msgstr "Käytössä olevat tyypit"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid "Username"
+#~ msgstr "Käyttäjätunnus"
+
+#~ msgid "Password"
+#~ msgstr "Salasana"
+
+#~ msgid "Organizations"
+#~ msgstr "Organisaatiot"
+
+#~ msgid "Name"
+#~ msgstr "Nimi"
+
+#~ msgid "Id"
+#~ msgstr "Tunniste"
+
+#~ msgid "Location service channels path"
+#~ msgstr "Palvelupisteiden polku"
+
+#~ msgid "Synchronize services"
+#~ msgstr "Synkronoi palvelutiedot"
+
+#~ msgid "Webhooks"
+#~ msgstr "Webhookit"
+
+#~ msgid "Kunta API Settings"
+#~ msgstr "Kunta API asetukset"
+
+#~ msgid "You do not have sufficient permissions to access this page."
+#~ msgstr "Sinulle ei ole tarvittavia pääsyoikeuksia."
+
+#~ msgid "Add new"
+#~ msgstr "Lisää uusi"
+
+#~ msgid "Tools"
+#~ msgstr "Työkalut"
+
+#~ msgid "Incident Areas"
+#~ msgstr "Hätätiedote alueet"
+
+#~ msgid "Incidents"
+#~ msgstr "Hätätiedotteet"
+
+#~ msgid "Incident"
+#~ msgstr "Hätätiedote"
+
+#~ msgid "Add Incident"
+#~ msgstr "Lisää hätätiedote"
+
+#~ msgid "Add New Incident"
+#~ msgstr "Lisää uusi hätätiedote"
+
+#~ msgid "Edit Incident"
+#~ msgstr "Muokkaa hätätiedotetta"
+
+#~ msgid "New Incident"
+#~ msgstr "Uusi hätätiedote"
+
+#~ msgid "View Incident"
+#~ msgstr "Näytä hätätiedote"
+
+#~ msgid "Search Incidents"
+#~ msgstr "Etsi hätätiedotteita"
+
+#~ msgid "No Incidents found"
+#~ msgstr "Hätätiedotteita ei löytynyt"
+
+#~ msgid "No Incidents in trash"
+#~ msgstr "Ei hätätiedotteita roskakorissa"
+
+#~ msgid "Banner Image"
+#~ msgstr "Banneri kuva"
+
+#~ msgid "Remove Banner Image"
+#~ msgstr "Poista banneri kuva"
+
+#~ msgid "Choose an Banner Image"
+#~ msgstr "Valitse banneri kuva"
+
+#~ msgid "Set Banner Image"
+#~ msgstr "Aseta banneri kuva"
+
+#~ msgid "Tinymce settings"
+#~ msgstr "Tinymce asetukset"
+
+#~ msgid "Regenerate service pages"
+#~ msgstr "Uudelleen generoi palvelusivut"
+
+#~ msgid "Regenerate service location pages"
+#~ msgstr "Uudelleen generoi palvelukanavasivut"
+
+#~ msgid "Fix service pages without title"
+#~ msgstr "Korjaa palvelusivut joissa ei ole otsikkoa"
+
+#~ msgid "Path"
+#~ msgstr "Polku"
+
+#~ msgid "Path of shortlink (e.g. /path)"
+#~ msgstr "Lyhytosoitteen polku"
+
+#~ msgid ""
+#~ "Address where shortlink points to (e.g. https://www.example.com/some/page)"
+#~ msgstr "Osoite johon lyhytosoite viittaa"
+
+#~ msgid "Header Shortlinks"
+#~ msgstr "Lyhytosoitteet"
+
+#~ msgid "Header Shortlink"
+#~ msgstr "Lyhytosoite"
+
+#~ msgid "Add Shortlink"
+#~ msgstr "Lisää lyhytosoite"
+
+#~ msgid "Add New Shortlink"
+#~ msgstr "Lisää uusi lyhytosoite"
+
+#~ msgid "Edit Shortlink"
+#~ msgstr "Muokkaa lyhytosoitetta"
+
+#~ msgid "New Shortlink"
+#~ msgstr "Uusi lyhytosoite"
+
+#~ msgid "View Shortlink"
+#~ msgstr "Näytä lyhytosoite"
+
+#~ msgid "Search Shortlinks"
+#~ msgstr "Etsi lyhytosoitteita"
+
+#~ msgid "No Shortlinks found"
+#~ msgstr "Lyhytosoitteita ei löytynyt"
+
+#~ msgid "No Shortlinks in trash"
+#~ msgstr "Ei lyhytosoitteita roskakorissa"
+
+#~ msgid "Shortlinks"
+#~ msgstr "Lyhytosoitteet"
+
+#~ msgid "Kunta API Service"
+#~ msgstr "Kunta API palvelu"
+
+#~ msgid "Organization identifier"
+#~ msgstr "Organisaation tunniste"
+
+#~ msgid "Service settings"
+#~ msgstr "Palveluiden asetukset"
+
+#~ msgid "Synchronize services as pages"
+#~ msgstr "Synkronoi palveluista sivuja"
+
+#~ msgid "Synchronize service location channels as pages"
+#~ msgstr "Synkronoi palvelukanavista sivuja"
+
+#~ msgid "Location channels path"
+#~ msgstr "Palvelukanavien polku"
+
+#~ msgid "Webhooks enabled"
+#~ msgstr "Webhookit käytössä"

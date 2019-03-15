@@ -16,12 +16,31 @@
         $this->baseUrl = "$apiUrl/webhooks/management";
         add_action('edit_post', [$this, "onEditPost"]);
         add_action('edit_post_related', [$this, "onEditPostRelated"]);
+        add_action('reorder_post', [$this, "onReorderPost"]);
+      }
+
+      /**
+       * Action handler for reorder_post action
+       * 
+       * @param int $id post id
+       * @param int $orderIndex new order index
+       */
+      public function onReorderPost($id) {
+        $post = get_post($id);
+        $status = $post->post_status;
+        $type = $post->post_type;
+        $this->doPostRequest("ID=$id&post_status=$status&post_type=$type&hook=edit_post");
       }
       
       public function onEditPost($id) {
         $post = get_post($id);
         $status = $post->post_status;
         $type = $post->post_type;
+        
+        if ("inherit" == $status) {
+          return;
+        }
+
         $orderIndex = $status === 'publish' ? $this->resolveOrderIndex($type, $id) : '';
         $this->doPostRequest("ID=$id&post_status=$status&post_type=$type&hook=edit_post&order_index=$orderIndex");
       }
@@ -30,6 +49,11 @@
         $post = get_post($id);
         $status = $post->post_status;
         $type = $post->post_type;
+        
+        if ("inherit" == $status) {
+          return;
+        }
+
         $orderIndex = $status === 'publish' ? $this->resolveOrderIndex($type, $id) : '';
         $this->doPostRequest("ID=$id&post_status=$status&post_type=$type&hook=edit_post&order_index=$orderIndex");
       }
@@ -62,7 +86,7 @@
         foreach (\KuntaAPI\Core\CoreSettings::getOrganizationIdsWithWebhooks() as $organizationId) {
           $url = "$this->baseUrl?organizationId=$organizationId";
           $bg = " > /dev/null 2>&1 &";
-          $command = "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' '$url' -d '$body'$bg"; 
+          $command = "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' --retry 10 --retry-delay 1 '$url' -d '$body'$bg";
           exec($command);  
         }
       }

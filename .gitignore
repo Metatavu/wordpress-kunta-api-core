@@ -3,3 +3,8 @@
 /.project
 /.DS_Store
 /nbproject/
+/.sass-cache/
+node_modules
+/tinymce-plugins/src/kunta-api-service-embed/build/
+.env
+metaform

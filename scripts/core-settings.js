@@ -25,9 +25,26 @@
   $(document).on('click', '.add-settings-table-row', function (event) {
     var tableId = $(event.target).attr('data-table-name');
     var table = $('table[data-table-name="' + tableId + '"');
-    var newRow = table.find('tbody tr:last-of-type').clone();
-    newRow.find('input[type="checkbox"]').prop('checked', false);
-    newRow.find('input[type="text"]').val('');
+    var settings = JSON.parse(table.attr('data-table-settings'));
+    var newRow = $("<tr>");
+    var fieldNames = Object.keys(settings.fields);
+
+    for (var i = 0; i < fieldNames.length; i++) {
+      var fieldName = fieldNames[i];
+      var fieldSettings = settings.fields[fieldName];
+      var cell = $("<td>").appendTo(newRow);
+      var input = $("<input>").attr({ "type": fieldSettings.type, "data-column": fieldName }).appendTo(cell);
+
+      switch (fieldSettings.type) {
+        case "checkbox":
+          input.attr("value", "1");
+        break;
+        case "text":
+          input.attr("style", "width: 100%");
+        break;
+      }
+    } 
+
     table.find('tbody').append(newRow);
     updateValue();
   });

@@ -1,0 +1,39 @@
+{
+  "title": "Lisätiedot",
+  "sections": [{
+    "title": "Lisätiedot",
+    "fields": [{
+      "name": "languages",
+      "type": "autocomplete-multiple",
+      "title": "Kielet, joilla puhelinpalvelu palvelee",
+      "required": true
+    }, {
+      "title": "Alue, jolla puhelinpalvelu palvelee",
+      "name": "areaType",
+      "type": "radio",
+      "required": true,
+      "options":  [{
+        "name": "Nationwide",
+        "text": "Koko maa"
+      }, {
+        "name": "NationwideExceptAlandIslands",
+        "text": "Koko maa paitsi ei Ahvenanmaa",
+        "checked": true
+      }, {
+        "name": "LimitedType",
+        "text": "Rajattu alue"
+      }],
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "visible-if": {
+        "field": "areaType",
+        "equals": "LimitedType"
+      },
+      "name": "areas",
+      "type": "autocomplete-multiple",
+      "title": "Valitse yksi tai useampi alue",
+      "required": true
+    }]
+  }]
+}

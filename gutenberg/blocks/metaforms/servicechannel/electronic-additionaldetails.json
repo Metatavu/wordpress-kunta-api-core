@@ -1,0 +1,50 @@
+{
+  "title": "Lisätiedot",
+  "sections": [{
+    "title": "Lisätiedot",
+    "fields": [{  
+      "title": "Verkkoasiointi vaatii sähköisen tunnistautumisen",
+      "name": "requiresAuthentication",
+      "type": "boolean"
+    }, {  
+      "title": "Verkkoasiointi vaatii sähköisen allekirjoituksen",
+      "name": "requiresSignature",
+      "type": "boolean"
+    }, { 
+      "visible-if": {
+        "field": "requiresSignature",
+        "equals": true
+      },  
+      "title": "Allekirjoitusten lukumäärä?",
+      "name": "signatureQuantity",
+      "type": "number"
+    }, {
+      "title": "Alue, jolla palvelupaikka palvelee",
+      "name": "areaType",
+      "type": "radio",
+      "required": true,
+      "options":  [{
+        "name": "Nationwide",
+        "text": "Koko maa"
+      }, {
+        "name": "NationwideExceptAlandIslands",
+        "text": "Koko maa paitsi ei Ahvenanmaa",
+        "checked": true
+      }, {
+        "name": "LimitedType",
+        "text": "Rajattu alue"
+      }],
+      "contexts": ["FORM"],
+      "editable": true
+    }, {
+      "visible-if": {
+        "field": "areaType",
+        "equals": "LimitedType"
+      },
+      "name": "areas",
+      "type": "autocomplete-multiple",
+      "title": "Valitse yksi tai useampi alue",
+      "required": true
+    }]
+  }]
+}

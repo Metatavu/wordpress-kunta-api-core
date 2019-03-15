@@ -19,7 +19,7 @@
       public static function listOrganizationServices($organizationId, $firstResult, $maxResults) {
         $result = [];
         
-        foreach (\KuntaAPI\Core\Api::getServicesApi()->listServices($organizationId, null, $firstResult, $maxResults) as $service) {
+        foreach (\KuntaAPI\Core\Api::getServicesApi(true)->listServices($organizationId, null, null, null, $firstResult, $maxResults) as $service) {
           $result[] = static::findService($service->getId());
         }
         
@@ -29,7 +29,7 @@
       public static function findElectronicServiceChannel($serviceId, $id) {
         if(!isset(static::$electronicChannels[$id])) {
           try {
-            static::$electronicChannels[$id] = \KuntaAPI\Core\Api::getElectronicServiceChannelsApi()->findElectronicServiceChannel($id);
+            static::$electronicChannels[$id] = \KuntaAPI\Core\Api::getElectronicServiceChannelsApi(true)->findElectronicServiceChannel($id);
           } catch (\KuntaAPI\ApiException $e) {
             error_log("findElectronicServiceChannel failed with following message: " . $e->getMessage());
           }
@@ -41,7 +41,7 @@
       public static function findPhoneServiceChannel($serviceId, $id) {
         if(!isset(static::$phoneChannels[$id])) {
           try {
-            static::$phoneChannels[$id] = \KuntaAPI\Core\Api::getPhoneServiceChannelsApi()->findPhoneServiceChannel($id);
+            static::$phoneChannels[$id] = \KuntaAPI\Core\Api::getPhoneServiceChannelsApi(true)->findPhoneServiceChannel($id);
           } catch (\KuntaAPI\ApiException $e) {
         	error_log("findPhoneServiceChannel failed with following message: " . $e->getMessage());
           }
@@ -52,7 +52,7 @@
       public static function findPrintableFormServiceChannel($serviceId, $id) {
         if(!isset(static::$printableFormChannels[$id])) {
           try {
-            static::$printableFormChannels[$id] = \KuntaAPI\Core\Api::getPrintableFormServiceChannelsApi()->findPrintableFormServiceChannel($id);
+            static::$printableFormChannels[$id] = \KuntaAPI\Core\Api::getPrintableFormServiceChannelsApi(true)->findPrintableFormServiceChannel($id);
           } catch (\KuntaAPI\ApiException $e) {
             error_log("findPrintableFormServiceChannel failed with following message: " . $e->getMessage());
           }	
@@ -61,10 +61,16 @@
         return static::$printableFormChannels[$id];
       }
       
+      /**
+       * Finds service location service channel by id
+       * 
+       * @param \String $id
+       * @return type
+       */
       public static function findServiceLocationServiceChannel($id) {
         if(!isset(static::$serviceLocationChannels[$id])) {
           try {
-            static::$serviceLocationChannels[$id] = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi()->findServiceLocationServiceChannel($id);
+            static::$serviceLocationChannels[$id] = \KuntaAPI\Core\Api::getServiceLocationServiceChannelsApi(true)->findServiceLocationServiceChannel($id);
           } catch (\KuntaAPI\ApiException $e) {
         	error_log("findServiceLocationServiceChannel failed with following message: " . $e->getMessage());
           }
@@ -76,7 +82,7 @@
       public static function findWebPageServiceChannel($serviceId, $id) {
         if(!isset(static::$webPageChannels[$id])) {
           try {
-            static::$webPageChannels[$id] = \KuntaAPI\Core\Api::getWebPageServiceChannelsApi()->findWebPageServiceChannel($id);
+            static::$webPageChannels[$id] = \KuntaAPI\Core\Api::getWebPageServiceChannelsApi(true)->findWebPageServiceChannel($id);
           } catch (\KuntaAPI\ApiException $e) {
         	error_log("findWebPageServiceChannel failed with following message: " . $e->getMessage());
           }
@@ -87,7 +93,7 @@
       
       public static function listServiceLocationServiceChannels($serviceId) {
       	try {
-          $service = \KuntaAPI\Core\Api::getServicesApi()->findService($serviceId);
+          $service = \KuntaAPI\Core\Api::getServicesApi(true)->findService($serviceId);
           $result = [];
           
           if (!empty($service)) {
@@ -109,7 +115,7 @@
       
       public static function listElectronicServiceChannels($serviceId) {
       	try {
-          $service = \KuntaAPI\Core\Api::getServicesApi()->findService($serviceId);
+          $service = \KuntaAPI\Core\Api::getServicesApi(true)->findService($serviceId);
           $result = [];
           
           if (!empty($service)) {
@@ -131,7 +137,7 @@
       
       public static function listPhoneServiceChannels($serviceId) {
       	try {
-          $service = \KuntaAPI\Core\Api::getServicesApi()->findService($serviceId);
+          $service = \KuntaAPI\Core\Api::getServicesApi(true)->findService($serviceId);
           $result = [];
           
           if (!empty($service)) {
@@ -153,7 +159,7 @@
       
       public static function listPrintableFormServiceChannels($serviceId) {
       	try {
-          $service = \KuntaAPI\Core\Api::getServicesApi()->findService($serviceId);
+          $service = \KuntaAPI\Core\Api::getServicesApi(true)->findService($serviceId);
           $result = [];
           
           if (!empty($service)) {
@@ -175,7 +181,7 @@
       
       public static function listWebPageServiceChannels($serviceId) {
       	try {
-          $service = \KuntaAPI\Core\Api::getServicesApi()->findService($serviceId);
+          $service = \KuntaAPI\Core\Api::getServicesApi(true)->findService($serviceId);
           $result = [];
           
           if (!empty($service)) {
@@ -198,7 +204,7 @@
       public static function findService($id) {
         if (!isset(static::$services[$id])) {
           try {
-            static::$services[$id] = \KuntaAPI\Core\Api::getServicesApi()->findService($id);      
+            static::$services[$id] = \KuntaAPI\Core\Api::getServicesApi(true)->findService($id);      
           } catch (\KuntaAPI\ApiException $e) {
         	  error_log("findService failed with following message: " . $e->getMessage());
           }

@@ -3,7 +3,7 @@
  * Created on Oct 21, 2016
  * Plugin Name: Kunta API Core
  * Description: Core functionalities for Kunta API integrations
- * Version: 0.7.9
+ * Version: 0.9.10
  * Author: Metatavu Oy
  * Text Domain: kunta_api_core
  */
@@ -15,7 +15,7 @@
   }
   
   if (!defined('KUNTA_API_CORE_PLUGIN_VERSION')) {
-    define('KUNTA_API_CORE_PLUGIN_VERSION', '0.7.6');
+    define('KUNTA_API_CORE_PLUGIN_VERSION', '0.9.9');
   }
   
   require_once( __DIR__ . '/updates.php');
@@ -27,9 +27,9 @@
   require_once( __DIR__ . '/core/api.php');
   require_once( __DIR__ . '/core/kses.php');
   require_once( __DIR__ . '/core/tinymce.php');
-  require_once( __DIR__ . '/core/ckeditor.php');
   require_once( __DIR__ . '/core/abstract-content-processor.php');
   require_once( __DIR__ . '/core/page-processor.php');
+  require_once( __DIR__ . '/core/ajax.php');
   require_once( __DIR__ . '/services/services.php');
   require_once( __DIR__ . '/fragments/fragments.php');
   require_once( __DIR__ . '/announcements/announcements.php');
@@ -41,8 +41,12 @@
   require_once( __DIR__ . '/id-mappings/pages/page-mappings-rest.php');
   require_once( __DIR__ . '/incidents/incidents.php');
   require_once( __DIR__ . '/contacts/contacts.php');
+  require_once( __DIR__ . '/jobs/jobs.php');
   require_once( __DIR__ . '/patches/patches.php');
   require_once( __DIR__ . '/webhooks/webhooks.php');
+  require_once( __DIR__ . '/reorder/reorder.php');
+  require_once( __DIR__ . '/news/news.php');
+  require_once( __DIR__ . '/gutenberg/gutenberg.php');
 
   add_action('init', function () {
     do_action('kunta_api_init');

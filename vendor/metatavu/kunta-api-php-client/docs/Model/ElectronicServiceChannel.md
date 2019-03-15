@@ -18,6 +18,8 @@ Name | Type | Description | Notes
 **webPages** | [**\KuntaAPI\Model\WebPage[]**](WebPage.md) |  | [optional] 
 **serviceHours** | [**\KuntaAPI\Model\ServiceHour[]**](ServiceHour.md) |  | [optional] 
 **publishingStatus** | **string** |  | [optional] 
+**areaType** | **string** | Area type (WholeCountry, WholeCountryExceptAlandIslands, AreaType). | [optional] 
+**areas** | [**\KuntaAPI\Model\Area[]**](Area.md) | List of service channel areas. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
