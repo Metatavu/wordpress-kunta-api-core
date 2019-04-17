@@ -111,4 +111,18 @@ class ServiceLocationServiceChannelsApiTest extends \PHPUnit_Framework_TestCase
 
     }
 
+<<<<<<< HEAD
+    /**
+     * Test case for updateServiceLocationServiceChannel
+     *
+     * Updates a service location channel.
+     *
+     */
+    public function testUpdateServiceLocationServiceChannel()
+    {
+
+    }
+
+=======
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
 }

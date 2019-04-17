@@ -101,10 +101,16 @@ class CoordinatesTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyEpsg3067()
 =======
+<<<<<<< HEAD
+     * Test attribute "epsg3067"
+     */
+    public function testPropertyEpsg3067()
+=======
      * Test attribute "ePSG3067"
      */
     public function testPropertyEPSG3067()
 >>>>>>> 6baac0cfd5a6f3180cc2f6abd306d30d6087caf8
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
@@ -115,10 +121,16 @@ class CoordinatesTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyEpsg4326()
 =======
+<<<<<<< HEAD
+     * Test attribute "epsg4326"
+     */
+    public function testPropertyEpsg4326()
+=======
      * Test attribute "ePSG4326"
      */
     public function testPropertyEPSG4326()
 >>>>>>> 6baac0cfd5a6f3180cc2f6abd306d30d6087caf8
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }

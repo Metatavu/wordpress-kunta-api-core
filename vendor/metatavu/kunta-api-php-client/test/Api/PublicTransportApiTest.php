@@ -113,6 +113,9 @@ class PublicTransportApiTest extends \PHPUnit_Framework_TestCase
 
     /**
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
      * Test case for findOrganizationPublicTransportSchedule
      *
      * Finds organizations public transport schedule.
@@ -125,9 +128,12 @@ class PublicTransportApiTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test case for findOrganizationPublicTransportStop
+<<<<<<< HEAD
+=======
 =======
      * Test case for findOrganizationPublicTransportRouteStop
 >>>>>>> ba21ff813759009af1563b019ea5fcca06518c94
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
      *
      * Finds a stop of organizations public transport route.
      *
@@ -135,20 +141,29 @@ class PublicTransportApiTest extends \PHPUnit_Framework_TestCase
 <<<<<<< HEAD
     public function testFindOrganizationPublicTransportStop()
 =======
+<<<<<<< HEAD
+    public function testFindOrganizationPublicTransportStop()
+=======
     public function testFindOrganizationPublicTransportRouteStop()
 >>>>>>> ba21ff813759009af1563b019ea5fcca06518c94
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
      * Test case for findOrganizationPublicTransportStopTime
      *
      * Finds organizations public transport stopTime.
      *
      */
     public function testFindOrganizationPublicTransportStopTime()
+<<<<<<< HEAD
+=======
 =======
      * Test case for findOrganizationPublicTransportSchedule
      *
@@ -157,18 +172,24 @@ class PublicTransportApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testFindOrganizationPublicTransportSchedule()
 >>>>>>> ba21ff813759009af1563b019ea5fcca06518c94
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
      * Test case for findOrganizationPublicTransportTrip
      *
      * Finds organizations public transport trip.
      *
      */
     public function testFindOrganizationPublicTransportTrip()
+<<<<<<< HEAD
+=======
 =======
      * Test case for listOrganizationPublicTransportAgencies
      *
@@ -177,18 +198,24 @@ class PublicTransportApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testListOrganizationPublicTransportAgencies()
 >>>>>>> ba21ff813759009af1563b019ea5fcca06518c94
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
      * Test case for listOrganizationPublicTransportAgencies
      *
      * Lists organizations public transport agencies.
      *
      */
     public function testListOrganizationPublicTransportAgencies()
+<<<<<<< HEAD
+=======
 =======
      * Test case for listOrganizationPublicTransportRouteStops
      *
@@ -197,6 +224,7 @@ class PublicTransportApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testListOrganizationPublicTransportRouteStops()
 >>>>>>> ba21ff813759009af1563b019ea5fcca06518c94
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
@@ -224,6 +252,9 @@ class PublicTransportApiTest extends \PHPUnit_Framework_TestCase
     }
 
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     /**
      * Test case for listOrganizationPublicTransportStopTimes
      *
@@ -257,6 +288,9 @@ class PublicTransportApiTest extends \PHPUnit_Framework_TestCase
 
     }
 
+<<<<<<< HEAD
+=======
 =======
 >>>>>>> ba21ff813759009af1563b019ea5fcca06518c94
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
 }

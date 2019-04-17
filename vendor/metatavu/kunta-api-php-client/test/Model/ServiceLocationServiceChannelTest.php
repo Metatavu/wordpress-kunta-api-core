@@ -104,6 +104,8 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+<<<<<<< HEAD
+=======
      * Test attribute "type"
      */
     public function testPropertyType()
@@ -112,6 +114,7 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
      * Test attribute "organizationId"
      */
     public function testPropertyOrganizationId()
@@ -136,6 +139,11 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+<<<<<<< HEAD
+     * Test attribute "phoneNumbers"
+     */
+    public function testPropertyPhoneNumbers()
+=======
      * Test attribute "serviceAreaRestricted"
      */
     public function testPropertyServiceAreaRestricted()
@@ -147,11 +155,17 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
      * Test attribute "supportContacts"
      */
     public function testPropertySupportContacts()
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
+<<<<<<< HEAD
+     * Test attribute "emails"
+     */
+    public function testPropertyEmails()
+=======
      * Test attribute "email"
      */
     public function testPropertyEmail()
@@ -163,6 +177,7 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
      * Test attribute "phone"
      */
     public function testPropertyPhone()
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
@@ -176,6 +191,8 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+<<<<<<< HEAD
+=======
      * Test attribute "fax"
      */
     public function testPropertyFax()
@@ -216,6 +233,7 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
      * Test attribute "phoneServiceCharge"
      */
     public function testPropertyPhoneServiceCharge()
@@ -232,17 +250,29 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+<<<<<<< HEAD
+     * Test attribute "areaType"
+     */
+    public function testPropertyAreaType()
+=======
      * Test attribute "serviceAreas"
      */
     public function testPropertyServiceAreas()
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
+<<<<<<< HEAD
+     * Test attribute "areas"
+     */
+    public function testPropertyAreas()
+=======
      * Test attribute "phoneChargeDescriptions"
      */
     public function testPropertyPhoneChargeDescriptions()
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
@@ -256,6 +286,8 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+<<<<<<< HEAD
+=======
      * Test attribute "chargeTypes"
      */
     public function testPropertyChargeTypes()
@@ -264,6 +296,7 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
      * Test attribute "serviceHours"
      */
     public function testPropertyServiceHours()

@@ -111,4 +111,18 @@ class PhoneServiceChannelsApiTest extends \PHPUnit_Framework_TestCase
 
     }
 
+<<<<<<< HEAD
+    /**
+     * Test case for updatePhoneServiceChannel
+     *
+     * Updates a channel.
+     *
+     */
+    public function testUpdatePhoneServiceChannel()
+    {
+
+    }
+
+=======
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
 }

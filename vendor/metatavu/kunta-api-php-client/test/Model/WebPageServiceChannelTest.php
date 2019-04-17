@@ -104,6 +104,8 @@ class WebPageServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+<<<<<<< HEAD
+=======
      * Test attribute "type"
      */
     public function testPropertyType()
@@ -112,6 +114,7 @@ class WebPageServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
      * Test attribute "organizationId"
      */
     public function testPropertyOrganizationId()
@@ -144,17 +147,29 @@ class WebPageServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+<<<<<<< HEAD
+     * Test attribute "supportPhones"
+     */
+    public function testPropertySupportPhones()
+=======
      * Test attribute "attachments"
      */
     public function testPropertyAttachments()
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
+<<<<<<< HEAD
+     * Test attribute "supportEmails"
+     */
+    public function testPropertySupportEmails()
+=======
      * Test attribute "supportContacts"
      */
     public function testPropertySupportContacts()
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }

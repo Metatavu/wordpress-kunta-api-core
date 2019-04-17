@@ -129,6 +129,8 @@ class RouteTest extends \PHPUnit_Framework_TestCase
 
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
     /**
      * Test attribute "schedules"
      */
@@ -138,4 +140,5 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
 >>>>>>> ba21ff813759009af1563b019ea5fcca06518c94
+>>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
 }
