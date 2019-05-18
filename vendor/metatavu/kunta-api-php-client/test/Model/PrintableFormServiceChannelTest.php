@@ -104,17 +104,6 @@ class PrintableFormServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-<<<<<<< HEAD
-=======
-     * Test attribute "type"
-     */
-    public function testPropertyType()
-    {
-
-    }
-
-    /**
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
      * Test attribute "organizationId"
      */
     public function testPropertyOrganizationId()
@@ -155,85 +144,49 @@ class PrintableFormServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-<<<<<<< HEAD
      * Test attribute "deliveryAddress"
      */
     public function testPropertyDeliveryAddress()
-=======
-     * Test attribute "supportContacts"
-     */
-    public function testPropertySupportContacts()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
-<<<<<<< HEAD
      * Test attribute "channelUrls"
      */
     public function testPropertyChannelUrls()
-=======
-     * Test attribute "deliveryAddress"
-     */
-    public function testPropertyDeliveryAddress()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
-<<<<<<< HEAD
      * Test attribute "attachments"
      */
     public function testPropertyAttachments()
-=======
-     * Test attribute "channelUrls"
-     */
-    public function testPropertyChannelUrls()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
-<<<<<<< HEAD
      * Test attribute "supportPhones"
      */
     public function testPropertySupportPhones()
-=======
-     * Test attribute "languages"
-     */
-    public function testPropertyLanguages()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
-<<<<<<< HEAD
      * Test attribute "supportEmails"
      */
     public function testPropertySupportEmails()
-=======
-     * Test attribute "deliveryAddressDescriptions"
-     */
-    public function testPropertyDeliveryAddressDescriptions()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
-<<<<<<< HEAD
      * Test attribute "languages"
      */
     public function testPropertyLanguages()
-=======
-     * Test attribute "attachments"
-     */
-    public function testPropertyAttachments()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
@@ -262,7 +215,6 @@ class PrintableFormServiceChannelTest extends \PHPUnit_Framework_TestCase
 
     }
 
-<<<<<<< HEAD
     /**
      * Test attribute "areaType"
      */
@@ -279,6 +231,4 @@ class PrintableFormServiceChannelTest extends \PHPUnit_Framework_TestCase
 
     }
 
-=======
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
 }

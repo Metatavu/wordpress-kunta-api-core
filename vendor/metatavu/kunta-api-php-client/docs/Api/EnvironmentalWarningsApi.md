@@ -60,7 +60,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **listOrganizationEnvironmentalWarnings**
-> \KuntaAPI\Model\EnvironmentalWarning[] listOrganizationEnvironmentalWarnings($organizationId, $firstResult, $contexts, $before, $after, $maxResults, $orderBy, $orderDir)
+> \KuntaAPI\Model\EnvironmentalWarning[] listOrganizationEnvironmentalWarnings($organizationId, $firstResult, $contexts, $startBefore, $startAfter, $maxResults, $sortBy, $sortDir)
 
 Lists organizations environmentalWarnings
 
@@ -79,14 +79,14 @@ $api_instance = new KuntaAPI\Api\EnvironmentalWarningsApi();
 $organizationId = "organizationId_example"; // string | Organization id
 $firstResult = 56; // int | First index of results
 $contexts = "contexts_example"; // string | Return environmental warnings by contexts.
-$before = "before_example"; // string | Return environmental warnings before specified time
-$after = "after_example"; // string | Return environmental warnings after specified time
+$startBefore = "startBefore_example"; // string | Return environmental warnings starting before specified time
+$startAfter = "startAfter_example"; // string | Return environmental warnings starting after specified time
 $maxResults = 56; // int | Maximum number of results
-$orderBy = "orderBy_example"; // string | Define order (NATURAL, START)
-$orderDir = "orderDir_example"; // string | Order direction (ASC, DESC). Default is ASC
+$sortBy = "sortBy_example"; // string | define order (NATURAL, START). Default is NATURAL
+$sortDir = "sortDir_example"; // string | ASC or DESC. Default is ASC
 
 try {
-    $result = $api_instance->listOrganizationEnvironmentalWarnings($organizationId, $firstResult, $contexts, $before, $after, $maxResults, $orderBy, $orderDir);
+    $result = $api_instance->listOrganizationEnvironmentalWarnings($organizationId, $firstResult, $contexts, $startBefore, $startAfter, $maxResults, $sortBy, $sortDir);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling EnvironmentalWarningsApi->listOrganizationEnvironmentalWarnings: ', $e->getMessage(), PHP_EOL;
@@ -101,11 +101,11 @@ Name | Type | Description  | Notes
  **organizationId** | **string**| Organization id |
  **firstResult** | **int**| First index of results | [optional]
  **contexts** | **string**| Return environmental warnings by contexts. | [optional]
- **before** | **string**| Return environmental warnings before specified time | [optional]
- **after** | **string**| Return environmental warnings after specified time | [optional]
+ **startBefore** | **string**| Return environmental warnings starting before specified time | [optional]
+ **startAfter** | **string**| Return environmental warnings starting after specified time | [optional]
  **maxResults** | **int**| Maximum number of results | [optional]
- **orderBy** | **string**| Define order (NATURAL, START) | [optional]
- **orderDir** | **string**| Order direction (ASC, DESC). Default is ASC | [optional]
+ **sortBy** | **string**| define order (NATURAL, START). Default is NATURAL | [optional]
+ **sortDir** | **string**| ASC or DESC. Default is ASC | [optional]
 
 ### Return type
 

@@ -225,17 +225,17 @@ class EnvironmentalWarningsApi
      * @param string $organizationId Organization id (required)
      * @param int $firstResult First index of results (optional)
      * @param string $contexts Return environmental warnings by contexts. (optional)
-     * @param string $before Return environmental warnings before specified time (optional)
-     * @param string $after Return environmental warnings after specified time (optional)
+     * @param string $startBefore Return environmental warnings starting before specified time (optional)
+     * @param string $startAfter Return environmental warnings starting after specified time (optional)
      * @param int $maxResults Maximum number of results (optional)
-     * @param string $orderBy Define order (NATURAL, START) (optional)
-     * @param string $orderDir Order direction (ASC, DESC). Default is ASC (optional)
+     * @param string $sortBy define order (NATURAL, START). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @return \KuntaAPI\Model\EnvironmentalWarning[]
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listOrganizationEnvironmentalWarnings($organizationId, $firstResult = null, $contexts = null, $before = null, $after = null, $maxResults = null, $orderBy = null, $orderDir = null)
+    public function listOrganizationEnvironmentalWarnings($organizationId, $firstResult = null, $contexts = null, $startBefore = null, $startAfter = null, $maxResults = null, $sortBy = null, $sortDir = null)
     {
-        list($response) = $this->listOrganizationEnvironmentalWarningsWithHttpInfo($organizationId, $firstResult, $contexts, $before, $after, $maxResults, $orderBy, $orderDir);
+        list($response) = $this->listOrganizationEnvironmentalWarningsWithHttpInfo($organizationId, $firstResult, $contexts, $startBefore, $startAfter, $maxResults, $sortBy, $sortDir);
         return $response;
     }
 
@@ -247,15 +247,15 @@ class EnvironmentalWarningsApi
      * @param string $organizationId Organization id (required)
      * @param int $firstResult First index of results (optional)
      * @param string $contexts Return environmental warnings by contexts. (optional)
-     * @param string $before Return environmental warnings before specified time (optional)
-     * @param string $after Return environmental warnings after specified time (optional)
+     * @param string $startBefore Return environmental warnings starting before specified time (optional)
+     * @param string $startAfter Return environmental warnings starting after specified time (optional)
      * @param int $maxResults Maximum number of results (optional)
-     * @param string $orderBy Define order (NATURAL, START) (optional)
-     * @param string $orderDir Order direction (ASC, DESC). Default is ASC (optional)
+     * @param string $sortBy define order (NATURAL, START). Default is NATURAL (optional)
+     * @param string $sortDir ASC or DESC. Default is ASC (optional)
      * @return Array of \KuntaAPI\Model\EnvironmentalWarning[], HTTP status code, HTTP response headers (array of strings)
      * @throws \KuntaAPI\ApiException on non-2xx response
      */
-    public function listOrganizationEnvironmentalWarningsWithHttpInfo($organizationId, $firstResult = null, $contexts = null, $before = null, $after = null, $maxResults = null, $orderBy = null, $orderDir = null)
+    public function listOrganizationEnvironmentalWarningsWithHttpInfo($organizationId, $firstResult = null, $contexts = null, $startBefore = null, $startAfter = null, $maxResults = null, $sortBy = null, $sortDir = null)
     {
         // verify the required parameter 'organizationId' is set
         if ($organizationId === null) {
@@ -282,24 +282,24 @@ class EnvironmentalWarningsApi
             $queryParams['contexts'] = $this->apiClient->getSerializer()->toQueryValue($contexts);
         }
         // query params
-        if ($before !== null) {
-            $queryParams['before'] = $this->apiClient->getSerializer()->toQueryValue($before);
+        if ($startBefore !== null) {
+            $queryParams['startBefore'] = $this->apiClient->getSerializer()->toQueryValue($startBefore);
         }
         // query params
-        if ($after !== null) {
-            $queryParams['after'] = $this->apiClient->getSerializer()->toQueryValue($after);
+        if ($startAfter !== null) {
+            $queryParams['startAfter'] = $this->apiClient->getSerializer()->toQueryValue($startAfter);
         }
         // query params
         if ($maxResults !== null) {
             $queryParams['maxResults'] = $this->apiClient->getSerializer()->toQueryValue($maxResults);
         }
         // query params
-        if ($orderBy !== null) {
-            $queryParams['orderBy'] = $this->apiClient->getSerializer()->toQueryValue($orderBy);
+        if ($sortBy !== null) {
+            $queryParams['sortBy'] = $this->apiClient->getSerializer()->toQueryValue($sortBy);
         }
         // query params
-        if ($orderDir !== null) {
-            $queryParams['orderDir'] = $this->apiClient->getSerializer()->toQueryValue($orderDir);
+        if ($sortDir !== null) {
+            $queryParams['sortDir'] = $this->apiClient->getSerializer()->toQueryValue($sortDir);
         }
         // path params
         if ($organizationId !== null) {

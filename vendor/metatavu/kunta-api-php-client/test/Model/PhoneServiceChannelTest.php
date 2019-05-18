@@ -104,17 +104,6 @@ class PhoneServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-<<<<<<< HEAD
-=======
-     * Test attribute "type"
-     */
-    public function testPropertyType()
-    {
-
-    }
-
-    /**
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
      * Test attribute "organizationId"
      */
     public function testPropertyOrganizationId()
@@ -139,121 +128,65 @@ class PhoneServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-<<<<<<< HEAD
      * Test attribute "phoneNumbers"
      */
     public function testPropertyPhoneNumbers()
-=======
-     * Test attribute "phoneType"
-     */
-    public function testPropertyPhoneType()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
-<<<<<<< HEAD
      * Test attribute "supportEmails"
      */
     public function testPropertySupportEmails()
-=======
-     * Test attribute "chargeTypes"
-     */
-    public function testPropertyChargeTypes()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
-<<<<<<< HEAD
      * Test attribute "languages"
      */
     public function testPropertyLanguages()
-=======
-     * Test attribute "supportContacts"
-     */
-    public function testPropertySupportContacts()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
-<<<<<<< HEAD
      * Test attribute "webPages"
      */
     public function testPropertyWebPages()
-=======
-     * Test attribute "phoneNumbers"
-     */
-    public function testPropertyPhoneNumbers()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
-<<<<<<< HEAD
      * Test attribute "serviceHours"
      */
     public function testPropertyServiceHours()
-=======
-     * Test attribute "languages"
-     */
-    public function testPropertyLanguages()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
-<<<<<<< HEAD
      * Test attribute "publishingStatus"
      */
     public function testPropertyPublishingStatus()
-=======
-     * Test attribute "phoneChargeDescriptions"
-     */
-    public function testPropertyPhoneChargeDescriptions()
     {
 
     }
 
     /**
-     * Test attribute "webPages"
-     */
-    public function testPropertyWebPages()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
-    {
-
-    }
-
-    /**
-<<<<<<< HEAD
      * Test attribute "areaType"
      */
     public function testPropertyAreaType()
-=======
-     * Test attribute "serviceHours"
-     */
-    public function testPropertyServiceHours()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }
 
     /**
-<<<<<<< HEAD
      * Test attribute "areas"
      */
     public function testPropertyAreas()
-=======
-     * Test attribute "publishingStatus"
-     */
-    public function testPropertyPublishingStatus()
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
     {
 
     }

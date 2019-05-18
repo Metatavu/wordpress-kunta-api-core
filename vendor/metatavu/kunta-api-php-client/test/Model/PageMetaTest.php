@@ -103,7 +103,6 @@ class PageMetaTest extends \PHPUnit_Framework_TestCase
 
     }
 
-<<<<<<< HEAD
     /**
      * Test attribute "unmappedParentId"
      */
@@ -112,6 +111,12 @@ class PageMetaTest extends \PHPUnit_Framework_TestCase
 
     }
 
-=======
->>>>>>> ca83b5055fa720c5800d086f12043606cbf380ca
+    /**
+     * Test attribute "siteRootPage"
+     */
+    public function testPropertySiteRootPage()
+    {
+
+    }
+
 }
