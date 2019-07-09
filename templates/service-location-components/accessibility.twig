@@ -14,12 +14,14 @@
             <h3>{{ entrance.name|localizedValue(lang) }}</h3>
           {% endif %}
 
-          <div class="accessibility-sentence">
+          <div class="accessibility-sentences">
             {% for accessibilitySentence in entrance.accessibilitySentences %}
-              <b>{{ accessibilitySentence.sentenceGroup|localizedValue(lang) }}</b>
-              {% for sentenceValue in accessibilitySentence.sentences %}
-                <p>{{ sentenceValue.sentence|localizedValue(lang) }}</p>
-              {% endfor %}
+              <div class="accessibility-sentence">
+                <b>{{ accessibilitySentence.sentenceGroup|localizedValue(lang) }}</b>
+                {% for sentenceValue in accessibilitySentence.sentences %}
+                  <p>{{ sentenceValue.sentence|localizedValue(lang) }}</p>
+                {% endfor %}
+              </div>
             {% endfor %}
           </div>
         {% endif %}
