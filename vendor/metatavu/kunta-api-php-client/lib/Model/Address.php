@@ -81,7 +81,8 @@ class Address implements ArrayAccess
         'country' => 'string',
         'locationAbroad' => '\KuntaAPI\Model\LocalizedValue[]',
         'multipointLocation' => '\KuntaAPI\Model\Address[]',
-        'additionalInformations' => '\KuntaAPI\Model\LocalizedValue[]'
+        'additionalInformations' => '\KuntaAPI\Model\LocalizedValue[]',
+        'entrances' => '\KuntaAPI\Model\AddressEntrance[]'
     );
 
     public static function swaggerTypes()
@@ -109,7 +110,8 @@ class Address implements ArrayAccess
         'country' => 'country',
         'locationAbroad' => 'locationAbroad',
         'multipointLocation' => 'multipointLocation',
-        'additionalInformations' => 'additionalInformations'
+        'additionalInformations' => 'additionalInformations',
+        'entrances' => 'entrances'
     );
 
     public static function attributeMap()
@@ -137,7 +139,8 @@ class Address implements ArrayAccess
         'country' => 'setCountry',
         'locationAbroad' => 'setLocationAbroad',
         'multipointLocation' => 'setMultipointLocation',
-        'additionalInformations' => 'setAdditionalInformations'
+        'additionalInformations' => 'setAdditionalInformations',
+        'entrances' => 'setEntrances'
     );
 
     public static function setters()
@@ -165,7 +168,8 @@ class Address implements ArrayAccess
         'country' => 'getCountry',
         'locationAbroad' => 'getLocationAbroad',
         'multipointLocation' => 'getMultipointLocation',
-        'additionalInformations' => 'getAdditionalInformations'
+        'additionalInformations' => 'getAdditionalInformations',
+        'entrances' => 'getEntrances'
     );
 
     public static function getters()
@@ -205,6 +209,7 @@ class Address implements ArrayAccess
         $this->container['locationAbroad'] = isset($data['locationAbroad']) ? $data['locationAbroad'] : null;
         $this->container['multipointLocation'] = isset($data['multipointLocation']) ? $data['multipointLocation'] : null;
         $this->container['additionalInformations'] = isset($data['additionalInformations']) ? $data['additionalInformations'] : null;
+        $this->container['entrances'] = isset($data['entrances']) ? $data['entrances'] : null;
     }
 
     /**
@@ -562,6 +567,27 @@ class Address implements ArrayAccess
     public function setAdditionalInformations($additionalInformations)
     {
         $this->container['additionalInformations'] = $additionalInformations;
+
+        return $this;
+    }
+
+    /**
+     * Gets entrances
+     * @return \KuntaAPI\Model\AddressEntrance[]
+     */
+    public function getEntrances()
+    {
+        return $this->container['entrances'];
+    }
+
+    /**
+     * Sets entrances
+     * @param \KuntaAPI\Model\AddressEntrance[] $entrances Entrances for an address. Includes accessibility sentences.
+     * @return $this
+     */
+    public function setEntrances($entrances)
+    {
+        $this->container['entrances'] = $entrances;
 
         return $this;
     }
