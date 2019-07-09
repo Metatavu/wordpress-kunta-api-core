@@ -1,0 +1,30 @@
+{% spaceless %}
+{% set accessibilityHeaderPrinted = false %}
+{% if serviceLocationChannel.addresses %}
+  {% for address in serviceLocationChannel.addresses %}
+    {% if address.entrances %}
+      {% for entrance in address.entrances %}
+        {% if entrance.accessibilitySentences %}
+          {% if not accessibilityHeaderPrinted %}
+            <h2>Esteettömyystiedot</h2>
+            {% set accessibilityHeaderPrinted = true %}
+          {% endif %}
+
+          {% if entrance.name %}
+            <h3>{{ entrance.name|localizedValue(lang) }}</h3>
+          {% endif %}
+
+          <div class="accessibility-sentence">
+            {% for accessibilitySentence in entrance.accessibilitySentences %}
+              <b>{{ accessibilitySentence.sentenceGroup|localizedValue(lang) }}</b>
+              {% for sentenceValue in accessibilitySentence.sentences %}
+                <p>{{ sentenceValue.sentence|localizedValue(lang) }}</p>
+              {% endfor %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% endspaceless %}
