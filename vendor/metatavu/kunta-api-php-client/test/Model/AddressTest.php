@@ -223,4 +223,15 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     }
 
+<<<<<<< HEAD
+    /**
+     * Test attribute "entrances"
+     */
+    public function testPropertyEntrances()
+    {
+
+    }
+
+=======
+>>>>>>> c09e9defe4cebfeb54e4500c809a2a392cb3442b
 }

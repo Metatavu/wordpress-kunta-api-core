@@ -19,6 +19,7 @@ Name | Type | Description | Notes
 **locationAbroad** | [**\KuntaAPI\Model\LocalizedValue[]**](LocalizedValue.md) | Localized list of foreign address information. | [optional] 
 **multipointLocation** | [**\KuntaAPI\Model\Address[]**](Address.md) | Moving address. Includes several street addresses. | [optional] 
 **additionalInformations** | [**\KuntaAPI\Model\LocalizedValue[]**](LocalizedValue.md) | Localized list of additional information about the address. | [optional] 
+**entrances** | [**\KuntaAPI\Model\AddressEntrance[]**](AddressEntrance.md) | Entrances for an address. Includes accessibility sentences. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

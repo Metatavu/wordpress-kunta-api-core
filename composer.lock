@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8230b468d36240654267b099df6f0398",
+    "content-hash": "3964ae6bc829986390c5b543261a1887",
     "packages": [
         {
             "name": "composer/installers",
@@ -128,16 +128,16 @@
         },
         {
             "name": "metatavu/kunta-api-php-client",
-            "version": "1.0.17",
+            "version": "1.0.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Metatavu/kunta-api-php-client.git",
-                "reference": "c09e9defe4cebfeb54e4500c809a2a392cb3442b"
+                "reference": "5e4d828bca8e83823eba982d63661b85b1f4db44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Metatavu/kunta-api-php-client/zipball/c09e9defe4cebfeb54e4500c809a2a392cb3442b",
-                "reference": "c09e9defe4cebfeb54e4500c809a2a392cb3442b",
+                "url": "https://api.github.com/repos/Metatavu/kunta-api-php-client/zipball/5e4d828bca8e83823eba982d63661b85b1f4db44",
+                "reference": "5e4d828bca8e83823eba982d63661b85b1f4db44",
                 "shasum": ""
             },
             "require": {
@@ -159,7 +159,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "Apache v2"
+                "AGPL-3.0-or-later"
             ],
             "authors": [
                 {
@@ -174,7 +174,7 @@
                 "sdk",
                 "swagger"
             ],
-            "time": "2019-05-02T11:46:41+00:00"
+            "time": "2019-07-09T08:12:09+00:00"
         },
         {
             "name": "sunra/php-simple-html-dom-parser",
@@ -279,16 +279,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.41.0",
+            "version": "v1.42.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "575cd5028362da591facde1ef5d7b94553c375c9"
+                "reference": "21707d6ebd05476854805e4f91b836531941bcd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/575cd5028362da591facde1ef5d7b94553c375c9",
-                "reference": "575cd5028362da591facde1ef5d7b94553c375c9",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/21707d6ebd05476854805e4f91b836531941bcd4",
+                "reference": "21707d6ebd05476854805e4f91b836531941bcd4",
                 "shasum": ""
             },
             "require": {
@@ -298,12 +298,12 @@
             "require-dev": {
                 "psr/container": "^1.0",
                 "symfony/debug": "^2.7",
-                "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
+                "symfony/phpunit-bridge": "^3.4.19|^4.1.8|^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.41-dev"
+                    "dev-master": "1.42-dev"
                 }
             },
             "autoload": {
@@ -341,7 +341,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-05-14T11:59:08+00:00"
+            "time": "2019-06-18T15:35:16+00:00"
         }
     ],
     "packages-dev": [],
