@@ -104,14 +104,6 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "type"
-     */
-    public function testPropertyType()
-    {
-
-    }
-
-    /**
      * Test attribute "organizationId"
      */
     public function testPropertyOrganizationId()
@@ -136,33 +128,17 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "serviceAreaRestricted"
+     * Test attribute "phoneNumbers"
      */
-    public function testPropertyServiceAreaRestricted()
+    public function testPropertyPhoneNumbers()
     {
 
     }
 
     /**
-     * Test attribute "supportContacts"
+     * Test attribute "emails"
      */
-    public function testPropertySupportContacts()
-    {
-
-    }
-
-    /**
-     * Test attribute "email"
-     */
-    public function testPropertyEmail()
-    {
-
-    }
-
-    /**
-     * Test attribute "phone"
-     */
-    public function testPropertyPhone()
+    public function testPropertyEmails()
     {
 
     }
@@ -171,46 +147,6 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
      * Test attribute "languages"
      */
     public function testPropertyLanguages()
-    {
-
-    }
-
-    /**
-     * Test attribute "fax"
-     */
-    public function testPropertyFax()
-    {
-
-    }
-
-    /**
-     * Test attribute "latitude"
-     */
-    public function testPropertyLatitude()
-    {
-
-    }
-
-    /**
-     * Test attribute "longitude"
-     */
-    public function testPropertyLongitude()
-    {
-
-    }
-
-    /**
-     * Test attribute "coordinateSystem"
-     */
-    public function testPropertyCoordinateSystem()
-    {
-
-    }
-
-    /**
-     * Test attribute "coordinatesSetManually"
-     */
-    public function testPropertyCoordinatesSetManually()
     {
 
     }
@@ -232,17 +168,17 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "serviceAreas"
+     * Test attribute "areaType"
      */
-    public function testPropertyServiceAreas()
+    public function testPropertyAreaType()
     {
 
     }
 
     /**
-     * Test attribute "phoneChargeDescriptions"
+     * Test attribute "areas"
      */
-    public function testPropertyPhoneChargeDescriptions()
+    public function testPropertyAreas()
     {
 
     }
@@ -251,14 +187,6 @@ class ServiceLocationServiceChannelTest extends \PHPUnit_Framework_TestCase
      * Test attribute "addresses"
      */
     public function testPropertyAddresses()
-    {
-
-    }
-
-    /**
-     * Test attribute "chargeTypes"
-     */
-    public function testPropertyChargeTypes()
     {
 
     }

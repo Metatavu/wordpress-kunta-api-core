@@ -90,6 +90,17 @@ class CodesApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for findCode
+     *
+     * Finds a code.
+     *
+     */
+    public function testFindCode()
+    {
+
+    }
+
+    /**
      * Test case for listCodes
      *
      * Lists codes.

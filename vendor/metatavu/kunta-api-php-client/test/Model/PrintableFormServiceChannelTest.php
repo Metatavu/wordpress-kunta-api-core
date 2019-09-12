@@ -104,14 +104,6 @@ class PrintableFormServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "type"
-     */
-    public function testPropertyType()
-    {
-
-    }
-
-    /**
      * Test attribute "organizationId"
      */
     public function testPropertyOrganizationId()
@@ -152,14 +144,6 @@ class PrintableFormServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "supportContacts"
-     */
-    public function testPropertySupportContacts()
-    {
-
-    }
-
-    /**
      * Test attribute "deliveryAddress"
      */
     public function testPropertyDeliveryAddress()
@@ -176,25 +160,33 @@ class PrintableFormServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "languages"
-     */
-    public function testPropertyLanguages()
-    {
-
-    }
-
-    /**
-     * Test attribute "deliveryAddressDescriptions"
-     */
-    public function testPropertyDeliveryAddressDescriptions()
-    {
-
-    }
-
-    /**
      * Test attribute "attachments"
      */
     public function testPropertyAttachments()
+    {
+
+    }
+
+    /**
+     * Test attribute "supportPhones"
+     */
+    public function testPropertySupportPhones()
+    {
+
+    }
+
+    /**
+     * Test attribute "supportEmails"
+     */
+    public function testPropertySupportEmails()
+    {
+
+    }
+
+    /**
+     * Test attribute "languages"
+     */
+    public function testPropertyLanguages()
     {
 
     }
@@ -219,6 +211,22 @@ class PrintableFormServiceChannelTest extends \PHPUnit_Framework_TestCase
      * Test attribute "publishingStatus"
      */
     public function testPropertyPublishingStatus()
+    {
+
+    }
+
+    /**
+     * Test attribute "areaType"
+     */
+    public function testPropertyAreaType()
+    {
+
+    }
+
+    /**
+     * Test attribute "areas"
+     */
+    public function testPropertyAreas()
     {
 
     }

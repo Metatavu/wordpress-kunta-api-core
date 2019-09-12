@@ -104,14 +104,6 @@ class WebPageServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "type"
-     */
-    public function testPropertyType()
-    {
-
-    }
-
-    /**
      * Test attribute "organizationId"
      */
     public function testPropertyOrganizationId()
@@ -144,17 +136,17 @@ class WebPageServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "attachments"
+     * Test attribute "supportPhones"
      */
-    public function testPropertyAttachments()
+    public function testPropertySupportPhones()
     {
 
     }
 
     /**
-     * Test attribute "supportContacts"
+     * Test attribute "supportEmails"
      */
-    public function testPropertySupportContacts()
+    public function testPropertySupportEmails()
     {
 
     }

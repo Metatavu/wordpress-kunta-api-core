@@ -104,6 +104,14 @@ class IncidentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "slug"
+     */
+    public function testPropertySlug()
+    {
+
+    }
+
+    /**
      * Test attribute "severity"
      */
     public function testPropertySeverity()
@@ -123,6 +131,22 @@ class IncidentTest extends \PHPUnit_Framework_TestCase
      * Test attribute "description"
      */
     public function testPropertyDescription()
+    {
+
+    }
+
+    /**
+     * Test attribute "detailsLink"
+     */
+    public function testPropertyDetailsLink()
+    {
+
+    }
+
+    /**
+     * Test attribute "detailsLinkText"
+     */
+    public function testPropertyDetailsLinkText()
     {
 
     }

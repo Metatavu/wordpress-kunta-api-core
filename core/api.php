@@ -255,6 +255,16 @@
       public static function getCodesApi($ptv7Compatibility = true) {
         return new \KuntaAPI\Api\CodesApi(self::getClient($ptv7Compatibility));
       }
+
+      /**
+       * Returns new instance of EnvironmentalWarningsApi
+       * 
+       * @param boolean $ptv7Compatibility whether to use PTV 7 compatibility mode
+       * @return \KuntaAPI\Api\EnvironmentalWarningsApi EnvironmentalWarningsApi
+       */
+      public static function getEnvironmentalWarningsApi($ptv7Compatibility = true) {
+        return new \KuntaAPI\Api\EnvironmentalWarningsApi(self::getClient($ptv7Compatibility));
+      }
       
       /**
        * Returns configuration

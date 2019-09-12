@@ -111,4 +111,15 @@ class ElectronicServiceChannelsApiTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * Test case for updateElectronicServiceChannel
+     *
+     * Updates a channel.
+     *
+     */
+    public function testUpdateElectronicServiceChannel()
+    {
+
+    }
+
 }

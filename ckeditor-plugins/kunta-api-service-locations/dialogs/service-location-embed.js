@@ -284,6 +284,7 @@
         serviceContainer.append(this._createCheckboxField(serviceLocationChannel.id, 'addresses', 'Osoitetiedot', 'Palvelupisteen osoitetiedot'));
         serviceContainer.append(this._createCheckboxField(serviceLocationChannel.id, 'servicehours', 'Palveluajat', 'Palvelupisteen palveluajat'));
         serviceContainer.append(this._createCheckboxField(serviceLocationChannel.id, 'webpages', 'Verkkosivustot', 'Palvelupisteen verkkosivut'));
+        serviceContainer.append(this._createCheckboxField(serviceLocationChannel.id, 'accessibility', 'Esteettömyystiedot', 'Palvelupisteen esteettömyystiedot'));
 
         return serviceContainer.getOuterHtml();
       },

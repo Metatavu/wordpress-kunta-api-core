@@ -1,5 +1,5 @@
 {
-  "name" : "Metatavu/wordpress-kunta-api-core",
+  "name" : "metatavu/wordpress-kunta-api-core",
   "description" : "Wordpress plugin core functionalities for Kunta API integrations",
   "keywords" : [
     "wordpress",
@@ -9,7 +9,7 @@
   "license" : "AGPL-3.0",
   "type" : "wordpress-plugin",
   "require" : {
-    "Metatavu/kunta-api-php-client" : "1.0.15",
+    "metatavu/kunta-api-php-client" : "1.0.19",
     "sunra/php-simple-html-dom-parser" : "1.5.1",
     "composer/installers" : "^1.2",
     "twig/twig" : "^1.26"

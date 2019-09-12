@@ -347,7 +347,7 @@ $organizationId = "organizationId_example"; // string | Organization id
 $parentId = "parentId_example"; // string | Filter results by parent id
 $path = "path_example"; // string | Filter results by page path
 $search = "search_example"; // string | Search pages by free-text query
-$sortBy = "sortBy_example"; // string | define order (NATURAL or SCORE). Default is NATURAL
+$sortBy = "sortBy_example"; // string | define order (NATURAL, SCORE or MENU). Default is NATURAL
 $sortDir = "sortDir_example"; // string | ASC or DESC. Default is ASC
 $firstResult = 789; // int | First result
 $maxResults = 789; // int | Max results
@@ -369,7 +369,7 @@ Name | Type | Description  | Notes
  **parentId** | **string**| Filter results by parent id | [optional]
  **path** | **string**| Filter results by page path | [optional]
  **search** | **string**| Search pages by free-text query | [optional]
- **sortBy** | **string**| define order (NATURAL or SCORE). Default is NATURAL | [optional]
+ **sortBy** | **string**| define order (NATURAL, SCORE or MENU). Default is NATURAL | [optional]
  **sortDir** | **string**| ASC or DESC. Default is ASC | [optional]
  **firstResult** | **int**| First result | [optional]
  **maxResults** | **int**| Max results | [optional]

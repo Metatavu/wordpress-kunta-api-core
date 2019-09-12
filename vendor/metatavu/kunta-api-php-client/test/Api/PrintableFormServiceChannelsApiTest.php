@@ -111,4 +111,15 @@ class PrintableFormServiceChannelsApiTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * Test case for updatePrintableFormServiceChannel
+     *
+     * Updates a channel.
+     *
+     */
+    public function testUpdatePrintableFormServiceChannel()
+    {
+
+    }
+
 }

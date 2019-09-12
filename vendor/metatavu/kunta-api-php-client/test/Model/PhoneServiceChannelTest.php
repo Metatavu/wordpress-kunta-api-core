@@ -104,14 +104,6 @@ class PhoneServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "type"
-     */
-    public function testPropertyType()
-    {
-
-    }
-
-    /**
      * Test attribute "organizationId"
      */
     public function testPropertyOrganizationId()
@@ -136,30 +128,6 @@ class PhoneServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "phoneType"
-     */
-    public function testPropertyPhoneType()
-    {
-
-    }
-
-    /**
-     * Test attribute "chargeTypes"
-     */
-    public function testPropertyChargeTypes()
-    {
-
-    }
-
-    /**
-     * Test attribute "supportContacts"
-     */
-    public function testPropertySupportContacts()
-    {
-
-    }
-
-    /**
      * Test attribute "phoneNumbers"
      */
     public function testPropertyPhoneNumbers()
@@ -168,17 +136,17 @@ class PhoneServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "languages"
+     * Test attribute "supportEmails"
      */
-    public function testPropertyLanguages()
+    public function testPropertySupportEmails()
     {
 
     }
 
     /**
-     * Test attribute "phoneChargeDescriptions"
+     * Test attribute "languages"
      */
-    public function testPropertyPhoneChargeDescriptions()
+    public function testPropertyLanguages()
     {
 
     }
@@ -203,6 +171,22 @@ class PhoneServiceChannelTest extends \PHPUnit_Framework_TestCase
      * Test attribute "publishingStatus"
      */
     public function testPropertyPublishingStatus()
+    {
+
+    }
+
+    /**
+     * Test attribute "areaType"
+     */
+    public function testPropertyAreaType()
+    {
+
+    }
+
+    /**
+     * Test attribute "areas"
+     */
+    public function testPropertyAreas()
     {
 
     }

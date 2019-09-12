@@ -6,10 +6,18 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitc7a584e8870075c37b9494a8c0a22248
 {
+    public static $files = array (
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'T' => 
         array (
             'Twig\\' => 5,
+        ),
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Ctype\\' => 23,
         ),
         'K' => 
         array (
@@ -25,6 +33,10 @@ class ComposerStaticInitc7a584e8870075c37b9494a8c0a22248
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
         'KuntaAPI\\' => 
         array (

@@ -104,14 +104,6 @@ class ElectronicServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "type"
-     */
-    public function testPropertyType()
-    {
-
-    }
-
-    /**
      * Test attribute "organizationId"
      */
     public function testPropertyOrganizationId()
@@ -152,9 +144,17 @@ class ElectronicServiceChannelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "supportContacts"
+     * Test attribute "supportPhones"
      */
-    public function testPropertySupportContacts()
+    public function testPropertySupportPhones()
+    {
+
+    }
+
+    /**
+     * Test attribute "supportEmails"
+     */
+    public function testPropertySupportEmails()
     {
 
     }
@@ -211,6 +211,22 @@ class ElectronicServiceChannelTest extends \PHPUnit_Framework_TestCase
      * Test attribute "publishingStatus"
      */
     public function testPropertyPublishingStatus()
+    {
+
+    }
+
+    /**
+     * Test attribute "areaType"
+     */
+    public function testPropertyAreaType()
+    {
+
+    }
+
+    /**
+     * Test attribute "areas"
+     */
+    public function testPropertyAreas()
     {
 
     }

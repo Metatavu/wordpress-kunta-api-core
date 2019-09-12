@@ -128,6 +128,14 @@ class ContactTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "privateContact"
+     */
+    public function testPropertyPrivateContact()
+    {
+
+    }
+
+    /**
      * Test attribute "title"
      */
     public function testPropertyTitle()

@@ -67,7 +67,8 @@ class PageMeta implements ArrayAccess
       */
     protected static $swaggerTypes = array(
         'hideMenuChildren' => 'bool',
-        'unmappedParentId' => 'string'
+        'unmappedParentId' => 'string',
+        'siteRootPage' => 'bool'
     );
 
     public static function swaggerTypes()
@@ -81,7 +82,8 @@ class PageMeta implements ArrayAccess
      */
     protected static $attributeMap = array(
         'hideMenuChildren' => 'hideMenuChildren',
-        'unmappedParentId' => 'unmappedParentId'
+        'unmappedParentId' => 'unmappedParentId',
+        'siteRootPage' => 'siteRootPage'
     );
 
     public static function attributeMap()
@@ -95,7 +97,8 @@ class PageMeta implements ArrayAccess
      */
     protected static $setters = array(
         'hideMenuChildren' => 'setHideMenuChildren',
-        'unmappedParentId' => 'setUnmappedParentId'
+        'unmappedParentId' => 'setUnmappedParentId',
+        'siteRootPage' => 'setSiteRootPage'
     );
 
     public static function setters()
@@ -109,7 +112,8 @@ class PageMeta implements ArrayAccess
      */
     protected static $getters = array(
         'hideMenuChildren' => 'getHideMenuChildren',
-        'unmappedParentId' => 'getUnmappedParentId'
+        'unmappedParentId' => 'getUnmappedParentId',
+        'siteRootPage' => 'getSiteRootPage'
     );
 
     public static function getters()
@@ -135,6 +139,7 @@ class PageMeta implements ArrayAccess
     {
         $this->container['hideMenuChildren'] = isset($data['hideMenuChildren']) ? $data['hideMenuChildren'] : null;
         $this->container['unmappedParentId'] = isset($data['unmappedParentId']) ? $data['unmappedParentId'] : null;
+        $this->container['siteRootPage'] = isset($data['siteRootPage']) ? $data['siteRootPage'] : null;
     }
 
     /**
@@ -198,6 +203,27 @@ class PageMeta implements ArrayAccess
     public function setUnmappedParentId($unmappedParentId)
     {
         $this->container['unmappedParentId'] = $unmappedParentId;
+
+        return $this;
+    }
+
+    /**
+     * Gets siteRootPage
+     * @return bool
+     */
+    public function getSiteRootPage()
+    {
+        return $this->container['siteRootPage'];
+    }
+
+    /**
+     * Sets siteRootPage
+     * @param bool $siteRootPage
+     * @return $this
+     */
+    public function setSiteRootPage($siteRootPage)
+    {
+        $this->container['siteRootPage'] = $siteRootPage;
 
         return $this;
     }
