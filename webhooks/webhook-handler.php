@@ -85,11 +85,26 @@
       private function doPostRequest($body) {
         foreach (\KuntaAPI\Core\CoreSettings::getOrganizationIdsWithWebhooks() as $organizationId) {
           $url = "$this->baseUrl?organizationId=$organizationId";
-          $bg = " > /dev/null 2>&1 &";
-          $command = "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' --retry 10 --retry-delay 1 '$url' -d '$body'$bg";
-          exec($command);  
+          $this->curlPost($url, $body);
         }
       }
+
+      private function curlPost($url, $body) {
+          $defaults = array(
+              CURLOPT_POST => 1,
+              CURLOPT_HEADER => 0,
+              CURLOPT_URL => $url,
+              CURLOPT_FRESH_CONNECT => 1,
+              CURLOPT_RETURNTRANSFER => 1,
+              CURLOPT_FORBID_REUSE => 1,
+              CURLOPT_TIMEOUT => 3,
+              CURLOPT_POSTFIELDS => $body
+          );
+          $ch = curl_init();
+          curl_setopt_array($ch, ($defaults));
+          curl_exec($ch);
+          curl_close($ch);
+      } 
       
     }
   
