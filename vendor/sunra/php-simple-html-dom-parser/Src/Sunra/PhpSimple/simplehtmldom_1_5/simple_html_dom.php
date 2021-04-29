@@ -131,7 +131,7 @@ class simple_html_dom_node
     public $tag_start = 0;
     private $dom = null;
 
-    function __construct($dom)
+    function __construct(simple_html_dom $dom)
     {
         $this->dom = $dom;
         $dom->nodes[] = $this;
@@ -504,8 +504,14 @@ class simple_html_dom_node
         return $ret . $this->_[HDOM_INFO_ENDSPACE] . '>';
     }
 
-    // find elements by css selector
-    //PaperG - added ability for find to lowercase the value of the selector.
+    /**
+     * find elements by css selector
+     * PaperG - added ability for find to lowercase the value of the selector.
+     * @param string   $selector
+     * @param int|null $idx
+     * @param bool     $lowercase
+     * @return simple_html_dom_node[]|simple_html_dom_node|null
+     */
     function find($selector, $idx=null, $lowercase=false)
     {
         $selectors = $this->parse_selector($selector);
@@ -687,7 +693,7 @@ class simple_html_dom_node
 // This implies that an html attribute specifier may start with an @ sign that is NOT captured by the expression.
 // farther study is required to determine of this should be documented or removed.
 //        $pattern = "/([\w-:\*]*)(?:\#([\w-]+)|\.([\w-]+))?(?:\[@?(!?[\w-]+)(?:([!*^$]?=)[\"']?(.*?)[\"']?)?\])?([\/, ]+)/is";
-        $pattern = "/([\w-:\*]*)(?:\#([\w-]+)|\.([\w-]+))?(?:\[@?(!?[\w-:]+)(?:([!*^$]?=)[\"']?(.*?)[\"']?)?\])?([\/, ]+)/is";
+        $pattern = "/([\w\-:\*]*)(?:\#([\w\-]+)|\.([\w\-]+))?(?:\[@?(!?[\w\-:]+)(?:([!*^$]?=)[\"']?(.*?)[\"']?)?\])?([\/, ]+)/is";
         preg_match_all($pattern, trim($selector_string).' ', $matches, PREG_SET_ORDER);
         if (is_object($debugObject)) {$debugObject->debugLog(2, "Matches Array: ", $matches);}
 
@@ -977,6 +983,7 @@ class simple_html_dom_node
  */
 class simple_html_dom
 {
+    /** @var simple_html_dom_node $root */
     public $root = null;
     public $nodes = array();
     public $callback = null;
@@ -1368,7 +1375,7 @@ class simple_html_dom
             return true;
         }
 
-        if (!preg_match("/^[\w-:]+$/", $tag)) {
+        if (!preg_match("/^[\w\-:]+$/", $tag)) {
             $node->_[HDOM_INFO_TEXT] = '<' . $tag . $this->copy_until('<>');
             if ($this->char==='<') {
                 $this->link_nodes($node, false);
@@ -1724,5 +1731,3 @@ class simple_html_dom
     function getElementsByTagName($name, $idx=-1) {return $this->find($name, $idx);}
     function loadFile() {$args = func_get_args();$this->load_file($args);}
 }
-
-?>
