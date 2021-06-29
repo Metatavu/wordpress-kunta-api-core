@@ -30,12 +30,17 @@
        * @param int $postId post id 
        */
       public function saveAjaxOrderFilter($data, $key, $postId) {
+        error_log("kunta-api-core: saveAjaxOrderFilter for post $postId");
+        
         $post = get_post($postId);
         if ($post) {
           $newOrder = $data["menu_order"];
           if ($newOrder !== $post->menu_order) {
             $this->pendingIds[] = $postId;
+            error_log("kunta-api-core: saveAjaxOrderFilter added $postId to update queue");
           }
+        } else {
+          error_log("kunta-api-core: saveAjaxOrderFilter could not find post $postId");
         }
 
         return $data;
@@ -49,7 +54,10 @@
        * @param $data action data
        */
       public function orderUpdateCompleteAction($data) {
+        error_log("kunta-api-core: orderUpdateCompleteAction called");
+        
         foreach ($this->pendingIds as $pendingId) {
+          error_log("kunta-api-core: orderUpdateCompleteAction dispatching event reorder_post for $pendingId");
           do_action("reorder_post", $pendingId);
         }
 
