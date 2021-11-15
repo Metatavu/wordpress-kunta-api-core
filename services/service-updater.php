@@ -36,6 +36,8 @@
       
       private function synchronizeOrganization($organizationId) {
         $offsetOption = 'kunta-api-sync-offset-services-' . $organizationId;
+
+        error_log("synchronizeOrganization $organizationId start");
           
         $locationChannelsPath = \KuntaAPI\Core\CoreSettings::getOrganizationServiceLocationChannnelsPath($organizationId);
         $locationChanneldParentPageId = $this->resolveLocationChannelParentPageId($locationChannelsPath);
@@ -46,6 +48,8 @@
         if (empty($offset)) {
           $offset = 0;
         }
+
+        error_log("synchronizeOrganization from offset $offset");
 
         $services = Loader::listOrganizationServices($organizationId, $offset, 10);
         foreach ($services as $service) {
@@ -58,7 +62,11 @@
           $offset += 10;
         }
 
+        error_log("synchronizeOrganization setting next offset to $offset");
+        
         update_option($offsetOption, $offset);
+
+        error_log("synchronizeOrganization $organizationId end");
       }
       
       private function synchronizeService($synchronizeServiceLocations, $synchronizeServices, $locationChanneldParentPageId, $service) {
