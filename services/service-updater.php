@@ -18,8 +18,29 @@
       public function __construct() {
       	$this->renderer = new \KuntaAPI\Services\PageRenderer();
       	$this->mapper = new \KuntaAPI\Services\Mapper();
+        $this->offsets = [];
       	
       	add_action('kunta_api_synchronization', array($this, 'synchronize'));
+      }
+
+      private function getOffset($organizationId) {
+        if (!array_key_exists($organizationId, $this->offsets)) {
+          $offsetOption = 'kunta-api-sync-offset-services-' . $organizationId;
+          $this->offsets[$organizationId] = get_option($offsetOption);
+        }
+
+        $offset = $this->offsets[$organizationId];
+        if (empty($offset)) {
+          $offset = 0;
+        }
+
+        return $offset;
+      }
+
+      private function setOffset($organizationId, $offset) {
+        $offsetOption = 'kunta-api-sync-offset-services-' . $organizationId;
+        update_option($offsetOption, $offset);
+        $this->offsets[$organizationId] = $offset;
       }
       
       public function startPolling() {
@@ -35,8 +56,6 @@
       }
       
       private function synchronizeOrganization($organizationId) {
-        $offsetOption = 'kunta-api-sync-offset-services-' . $organizationId;
-
         error_log("synchronizeOrganization $organizationId start");
           
         $locationChannelsPath = \KuntaAPI\Core\CoreSettings::getOrganizationServiceLocationChannnelsPath($organizationId);
@@ -44,11 +63,8 @@
         $synchronizeServices = \KuntaAPI\Core\CoreSettings::getOrganizationSynchronizeServices($organizationId);
         $synchronizeServiceLocations = \KuntaAPI\Core\CoreSettings::getOrganizationSynchronizeServiceLocationServiceChannels($organizationId);
 
-        $offset = get_option($offsetOption);
-        if (empty($offset)) {
-          $offset = 0;
-        }
-
+        $offset = $this->getOffset($organizationId);
+        
         error_log("synchronizeOrganization from offset $offset");
 
         $services = Loader::listOrganizationServices($organizationId, $offset, 10);
@@ -64,7 +80,7 @@
 
         error_log("synchronizeOrganization setting next offset to $offset");
         
-        update_option($offsetOption, $offset);
+        $this->setOffset($organizationId, $offset);
 
         error_log("synchronizeOrganization $organizationId end");
       }
