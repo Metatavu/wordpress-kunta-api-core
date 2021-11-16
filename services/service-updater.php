@@ -39,7 +39,7 @@
 
       private function setOffset($organizationId, $offset) {
         $offsetOption = 'kunta-api-sync-offset-services-' . $organizationId;
-        update_option($offsetOption, $offset);
+        update_option($offsetOption, $offset, false);
         $this->offsets[$organizationId] = $offset;
       }
       
