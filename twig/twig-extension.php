@@ -57,7 +57,20 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
     }
     
     public function serviceHourSortFilter($serviceHours) {
+      usort($serviceHours, function($a, $b) {
+        if (!$a['validFrom']) {
+          return 1;
+        }
+
+        if (!$b['validFrom']) {
+          return -1;
+        }
+
+        return $a['validFrom'] < $b['validFrom'] ? -1 : 1;
+      });
+
       usort($serviceHours, function($a, $b) { 
+        /**
         if ($a['serviceHourType'] == 'Standard' && $b['serviceHourType'] == 'Special') {
           return -1;
         } else if ($a['serviceHourType'] == 'Special' && $b['serviceHourType'] == 'Exception') {
@@ -75,6 +88,8 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
         } else {
           return 1;
         }
+         */
+        return 0;
       });
       
       return $serviceHours;
@@ -134,7 +149,7 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
      * @param type $table whether to render output as table row
      * @return string formatted time
      */
-    public function openingHoursFormatFilter($dailyOpeningTime, $table = false) {
+    public function openingHoursFormatFilter($dailyOpeningTime, $table = false, $exception = false) {
       $days = isset($dailyOpeningTime['dayFrom']) ? $this->dayMap[$dailyOpeningTime['dayFrom']] : '';
       $from = "";
       $to = "";
@@ -154,6 +169,10 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
       if ($table) {
         return "<tr><td>${days}</td><td>${from}</td><td>${to}</td>";
       } else {
+        if ($exception) {
+          $days = "";
+        }
+
         if (!empty($from) || !empty($to)) {
           return "${days} ${from} - ${to}";
         } else {

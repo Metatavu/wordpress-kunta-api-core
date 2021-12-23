@@ -6,7 +6,7 @@
   {% if serviceHour.openingHour %}
     {% if serviceHour.serviceHourType == 'Exception' %}
       {% for openingHour in serviceHour.openingHour|mergeOpeningHours %}
-        <div class="opening-hour">{{ openingHour|openingHoursFormat }}</div>
+        <div class="opening-hour">{{ openingHour|openingHoursFormat(false, true) }}</div>
       {% endfor %}
     {% else %}
       <table class="opening-hours-table">
