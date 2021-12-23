@@ -59,11 +59,11 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
     public function serviceHourSortFilter($serviceHours) {
       usort($serviceHours, function($a, $b) {
         if (!$a['validFrom']) {
-          return 1;
+          return -1;
         }
 
         if (!$b['validFrom']) {
-          return -1;
+          return 1;
         }
 
         return $a['validFrom'] < $b['validFrom'] ? -1 : 1;
